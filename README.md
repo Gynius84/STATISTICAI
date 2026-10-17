@@ -94,26 +94,66 @@ Ogni agente dispone di una barra di energia HP (0-100) calibrata su:
 
 ---
 
+## 🤖 Integrazione Skill Nativa Hermes Agent
+
+STATISTICHEAI v2.0 include una **Skill ufficiale per Hermes Agent** compatibile con lo standard aperto `agentskills.io`.
+
+### Installazione Skill (1-Click per utenti Hermes)
+Se hai clonato questa repository:
+1. Esegui con doppio clic:
+   ```cmd
+   install_skill.bat
+   ```
+2. Oppure lancia Hermes direttamente dentro la cartella del progetto (`Project-Local Skill`):
+   ```bash
+   hermes skills trust
+   ```
+
+### Come usarla in Hermes:
+- **In chat con qualsiasi Agente**: Scrivi *"Apri il monitoraggio"*, *"Mostra dashboard"* o *"Apri statistiche"*.
+- **Tramite Slash Command**: Digita `/statistiche` oppure `/monitor` nel terminale o nella chat.
+- **Da riga di comando rapida**: Digita `statistiche` in qualsiasi prompt dei comandi.
+
+---
+
+## 🖥 Modalità Finestra "App Nativa" Standalone
+
+Oltre alla visualizzazione da browser, puoi avviare la dashboard come **applicazione desktop nativa**:
+```cmd
+python open_monitor.py
+```
+- **Zero barre o schede del browser**: finestra frameless dedicata con rapporto 1480x920.
+- **Icona Arcade retrogame**: visualizza l'icona pixel-art di GynBot1 nella taskbar di Windows.
+- **Titolo Adattivo Dinamico**: la barra del titolo riporta in tempo reale gli agenti collegati e il tipo di workflow.
+- **Auto-Daemon Silente**: se il server non è attivo, viene avviato automaticamente in background a priorità minima (`BelowNormal`).
+
+---
+
 ## 🔒 Regola Zero & Sicurezza
 
 - **Isolamento Totale**: Il monitor opera in sola lettura verso i processi LLM esterni, garantendo la totale integrità dei tuoi modelli.
 - **CSRF Protection**: Tutte le chiamate di mutazione (aggiunta, cura, riallineamento guardiano) sono protette da token crittografici CSRF a ciclo univoco.
-- **Backup Automatico**: Ogni azione correttiva esegue preventivamente un backup locale di sicurezza in `data/archive/`.
+- **Backup Automatico**: Ogni azione correttiva esegue preventivamente un backup locale di sicurezza in `data/archive/` con retention policy di 3 giorni.
 
 ---
 
 ## 📁 Struttura del Progetto
 
 ```
-STATISTICHEAI/
+VERSIONE2.0/
 ├── dashboard_AI.html    # Frontend responsive HTML5 Canvas Retro Arcade (16-bit)
-├── run_server.py        # Server HTTP multi-thread ultra-leggero zero-dependency
+├── run_server.py        # Server HTTP multi-thread ultra-leggero zero-dependency (<1ms)
+├── open_monitor.py      # Launcher desktop App Nativa e daemon controller
 ├── config.json          # Registro JSON centralizzato configurazioni e agenti
 ├── agent_doctor.py      # Motore di auto-diagnosi, cura e resurrezione
 ├── guard_engine.py      # Guardiano di integrità con baseline hashing SHA-256
-├── start.bat            # Script di avvio rapido Windows (porta 8888)
+├── cleanup_backups.py   # Modulo di pulizia e rotazione automatica snapshot (3 giorni)
+├── install_skill.bat    # Script di installazione automatica della Skill in Hermes
+├── start.bat            # Script di avvio rapido Windows (porta 8888 / App Nativa)
 ├── stop.bat             # Script di arresto pulito tramite PID
-├── sprites_agents/      # Asset grafici pixel art originali (PNG ad alta leggibilità)
+├── skills/              # Definizione ufficiale della skill Hermes per il catalogo
+├── .hermes/             # Configurazione project-local per rilevamento automatico
+├── sprites_agents/      # Asset grafici pixel art originali e Hermes Petdex (44+ sprite)
 ├── docs/                # Documentazione architetturale e baseline
 └── LICENSE              # Licenza MIT Open Source
 ```
@@ -122,5 +162,6 @@ STATISTICHEAI/
 
 ## 📜 Licenza
 
-Distribuito sotto licenza **MIT**. Consulta il file [LICENSE](LICENSE) per ulteriori dettagli.
+Distribuito sotto licenza **MIT**. Consulta il file [LICENSE](LICENSE) per ulteriori dettagli.  
+Autore: **[Gynius84](https://github.com/Gynius84)** & Community.  
 Creato con passione per la community AI e per tutti i costruttori di agenti autonomi.
