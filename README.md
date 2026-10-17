@@ -10,6 +10,17 @@
 
 ---
 
+## ✨ Novità della Versione 2.0.1 (Update di Rilevamento Istantaneo)
+
+- 🔄 **Auto-Discovery Hermes in Tempo Reale**: Rilevamento automatico e persistente di ogni nuovo profilo o agente creato su Hermes (`~/.hermes/profiles`), con mappatura automatica dei modelli Ollama, contesti e sprite.
+- ⚡ **Pulsante `[ 🔄 RILEVA / SINCRONIZZA ]`**: Sincronizzazione manuale immediata a un click integrata nella barra dei filtri della dashboard.
+- 🖼 **Nuovi Avatar Ufficiali Integrati**:
+  - `OCOLUS.png` per l'agente Visual Audit & UI Analyst.
+  - `Chief Architect.png` per l'agente Deep Reasoning & Mentor Architecture.
+- 🛠 **Passerella Universale Perfezionata**: Correzione del feedback di salvataggio e gestione atomica dell'aggiunta/rimozione agenti senza ricaricare la pagina.
+
+---
+
 ## ✨ Novità della Versione 2.0
 
 - 🔌 **Pulsante Universale 1-Click `[ + COLLEGA NUOVO AGENTE ]`**: Collega qualsiasi agente AI direttamente dall'interfaccia senza toccare codice.

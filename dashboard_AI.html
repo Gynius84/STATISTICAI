@@ -667,6 +667,30 @@
             transform: translateY(-1px);
         }
 
+        .btn-sync-agent {
+            background: linear-gradient(135deg, #1e1b4b, #312e81) !important;
+            color: #c7d2fe !important;
+            border: 2px solid #818cf8 !important;
+            font-family: inherit;
+            font-weight: bold;
+            font-size: 11px;
+            padding: 6px 14px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(129, 140, 248, 0.4), inset 0 0 0 1px rgba(255,255,255,0.2);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-sync-agent:hover {
+            background: linear-gradient(135deg, #3730a3, #4f46e5) !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 16px rgba(129, 140, 248, 0.8);
+            transform: translateY(-1px);
+        }
+
         .btn-provider-tab {
             background: #111422;
             color: #94a3b8;
@@ -1133,6 +1157,13 @@
             <button class="btn-filter btn-filter-sviluppo" onclick="setFilter('TEAM SVILUPPO')">⚒ TEAM SVILUPPO</button>
             <button class="btn-filter btn-filter-marketing" onclick="setFilter('TEAM MARKETING')">📢 TEAM MARKETING</button>
             <button class="btn-filter btn-filter-security" onclick="setFilter('SICUREZZA')">🛡 SICUREZZA</button>
+            <button class="btn-filter" style="color: #38bdf8; border-color: #0284c7;" onclick="setFilter('TEAM VISUAL AUDIT')">👁 VISUAL AUDIT</button>
+            <button class="btn-filter" style="color: #c084fc; border-color: #9333ea;" onclick="setFilter('TEAM ARCHITETTURA')">🏛 ARCHITETTURA</button>
+
+            <!-- PULSANTE RILEVA / SINCRONIZZA AGENTI (AUTO-DISCOVERY V2.0.1) -->
+            <button class="btn-sync-agent" id="btn-sync-agents" onclick="triggerAgentDiscovery()" title="Rileva e sincronizza istantaneamente profili Hermes ed endpoint">
+                <span>🔄</span> RILEVA / SINCRONIZZA
+            </button>
 
             <!-- PULSANTE UNIVERSALE 1-CLICK: COLLEGA QUALSIASI AGENTE (VERSIONE 2.0) -->
             <button class="btn-add-agent" onclick="openAddAgentModal()">
@@ -1397,10 +1428,10 @@
             <!-- Scelta Sprite Arcade & Petdex Gallery -->
             <div style="margin-top: 10px; background: #070912; padding: 8px; border: 1px solid #161c2d;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
-                    <label class="form-label" style="margin: 0;">GALLERIA AVATAR & NOUS HERMES PETDEX (44 AVATAR)</label>
+                    <label class="form-label" style="margin: 0;">GALLERIA AVATAR & NOUS HERMES PETDEX (46 AVATAR)</label>
                     <div style="display: flex; gap: 4px;">
-                        <button type="button" class="btn-provider-tab active" id="tab-sprite-all" onclick="setSpriteCategory('all')">🌐 TUTTI (44)</button>
-                        <button type="button" class="btn-provider-tab" id="tab-sprite-core" onclick="setSpriteCategory('core')">⭐ CORE (8)</button>
+                        <button type="button" class="btn-provider-tab active" id="tab-sprite-all" onclick="setSpriteCategory('all')">🌐 TUTTI (46)</button>
+                        <button type="button" class="btn-provider-tab" id="tab-sprite-core" onclick="setSpriteCategory('core')">⭐ CORE (10)</button>
                         <button type="button" class="btn-provider-tab" id="tab-sprite-hermes" onclick="setSpriteCategory('hermes')">🐾 PETS (36)</button>
                     </div>
                 </div>
@@ -1555,7 +1586,11 @@
         }
 
         setInterval(fetchTelemetry, 1500);
-        fetchTelemetry();
+        // Sincronizzazione iniziale automatica profili Hermes / Endpoint (v2.0.1)
+        fetch(API_BASE + '/api/v1/agents/sync_discovery')
+            .then(r => r.json())
+            .then(() => fetchTelemetry())
+            .catch(() => fetchTelemetry());
 
         // -------------------------------------------------------------
         // Aggiornamento HUD
@@ -2307,7 +2342,9 @@
                         { name: "Copywriter Creativo", path: "sprites_agents/Copywriter Creativo.png" },
                         { name: "Growt hacker", path: "sprites_agents/Growt hacker.png" },
                         { name: "CEH", path: "sprites_agents/CEH.png" },
-                        { name: "BEAM", path: "sprites_agents/BEAM.png" }
+                        { name: "BEAM", path: "sprites_agents/BEAM.png" },
+                        { name: "OCOLUS", path: "sprites_agents/OCOLUS.png" },
+                        { name: "Chief Architect", path: "sprites_agents/Chief Architect.png" }
                     ],
                     hermes_pets: []
                 };
@@ -2576,12 +2613,12 @@
                 });
 
                 const data = await res.json();
-                if (data.status === 'success') {
+                if (data.status === 'success' || data.ok) {
                     showToast(`✓ Agente "${name}" collegato con successo al monitoraggio!`);
                     closeAddAgentModal();
                     await fetchTelemetry();
                 } else {
-                    showToast(`✗ Errore salvataggio: ${data.message || 'Impossibile aggiungere'}`, true);
+                    showToast(`✗ Errore salvataggio: ${data.message || data.error || 'Impossibile aggiungere'}`, true);
                 }
             } catch (e) {
                 showToast('Errore di connessione: ' + e.message, true);
@@ -2609,14 +2646,46 @@
                     body: JSON.stringify({ agent_id: agentId })
                 });
                 const data = await res.json();
-                if (data.status === 'success') {
+                if (data.status === 'success' || data.ok) {
                     showToast(`✓ Agente "${agentName}" rimosso dal monitoraggio.`);
                     await fetchTelemetry();
                 } else {
-                    showToast(`✗ Errore rimozione: ${data.message || 'Impossibile rimuovere'}`, true);
+                    showToast(`✗ Errore rimozione: ${data.message || data.error || 'Impossibile rimuovere'}`, true);
                 }
             } catch (e) {
                 showToast('Errore di connessione: ' + e.message, true);
+            }
+        }
+
+        // -------------------------------------------------------------
+        // AUTO-DISCOVERY & SINCRONIZZAZIONE ISTANTANEA PROFILI & ENDPOINT
+        // -------------------------------------------------------------
+        async function triggerAgentDiscovery() {
+            const btn = document.getElementById('btn-sync-agents');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<span>⏳</span> RILEVAMENTO IN CORSO...';
+            }
+            try {
+                const res = await fetch(API_BASE + '/api/v1/agents/sync_discovery');
+                const data = await res.json();
+                if (data.status === 'success') {
+                    if (data.added_count > 0) {
+                        showToast(`✓ Sincronizzazione completata: ${data.added_count} nuovi agenti rilevati ed integrati!`);
+                    } else {
+                        showToast(`✓ Sincronizzazione completata: tutti gli agenti (${data.total_registered}) sono perfettamente allineati.`);
+                    }
+                    await fetchTelemetry();
+                } else {
+                    showToast('Errore sincronizzazione: ' + (data.message || 'Errore sconosciuto'), true);
+                }
+            } catch (e) {
+                showToast('Errore di connessione sincronizzazione: ' + e.message, true);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>🔄</span> RILEVA / SINCRONIZZA';
+                }
             }
         }
 

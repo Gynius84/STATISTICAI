@@ -348,12 +348,153 @@ def ollama_worker_loop():
             OLLAMA_CACHE["status"] = "offline_or_slow"
         time.sleep(2.5)
 
+def auto_discover_hermes_agents():
+    """
+    Scansiona autonomamente la cartella HERMES_ROOT/profiles e gli endpoint LLM.
+    Se rileva profili Hermes non ancora presenti in config.json, li registra automaticamente
+    e sincronizza config.json, aggiornando la dashboard in tempo reale.
+    """
+    global CONFIG, AGENTS_DEF
+    if not os.path.exists(HERMES_ROOT):
+        return []
+
+    prof_dir = os.path.join(HERMES_ROOT, "profiles")
+    if not os.path.exists(prof_dir):
+        return []
+
+    known_profiles = set()
+    for a in CONFIG.get("agents", []):
+        if a.get("profile"):
+            known_profiles.add(a.get("profile").lower())
+        if a.get("id"):
+            known_profiles.add(a.get("id").lower())
+
+    discovered = []
+    try:
+        items = os.listdir(prof_dir)
+    except Exception:
+        items = []
+
+    for item in items:
+        item_path = os.path.join(prof_dir, item)
+        if not os.path.isdir(item_path) or item.startswith("."):
+            continue
+        
+        prof_name = item.lower()
+        if prof_name in known_profiles:
+            continue
+
+        prof_title = item.replace("_", " ").title()
+        prof_desc = "Agente Hermes"
+        prof_yaml_path = os.path.join(item_path, "profile.yaml")
+        if os.path.exists(prof_yaml_path):
+            try:
+                with open(prof_yaml_path, "r", encoding="utf-8", errors="ignore") as f:
+                    for line in f:
+                        line_s = line.strip()
+                        if line_s.startswith("title:"):
+                            val = line_s.split("title:", 1)[1].strip()
+                            if val: prof_title = val
+                        elif line_s.startswith("description:"):
+                            val = line_s.split("description:", 1)[1].strip()
+                            if val: prof_desc = val
+            except Exception:
+                pass
+
+        # Rileva modello da config.yaml
+        model_name = "bonsai-9b:32k" if "oculus" in prof_name else ("bonsai-27b:16k" if "mentor" in prof_name else "qwen2.5:64k")
+        ctx_len = 32768
+        cfg_yaml_path = os.path.join(item_path, "config.yaml")
+        if os.path.exists(cfg_yaml_path):
+            try:
+                with open(cfg_yaml_path, "r", encoding="utf-8", errors="ignore") as f:
+                    content = f.read()
+                    import re
+                    m = re.findall(r'model:\s*([^\s\n\r]+)', content)
+                    real_models = [mod for mod in m if mod not in ["base", "whisper-1", "gpt-5.5", "deepseek/deepseek-v4-pro", "anthropic/claude-opus-4.8"]]
+                    if real_models:
+                        model_name = real_models[-1]
+                    m_ctx = re.search(r'context_length:\s*(\d+)', content)
+                    if m_ctx:
+                        ctx_len = int(m_ctx.group(1))
+            except Exception:
+                pass
+
+        # Assegna lo sprite
+        sprite_path = "sprites_agents/GynBot1.png"
+        candidates = [
+            f"sprites_agents/{prof_title}.png",
+            f"sprites_agents/{item}.png",
+            f"sprites_agents/{item.upper()}.png",
+            f"sprites_agents/{prof_title.upper()}.png"
+        ]
+        if "oculus" in prof_name or "ocolus" in prof_title.lower():
+            candidates.insert(0, "sprites_agents/OCOLUS.png")
+        if "mentor" in prof_name or "architect" in prof_title.lower():
+            candidates.insert(0, "sprites_agents/Chief Architect.png")
+
+        for cand in candidates:
+            if cand and os.path.exists(os.path.join(BASE_DIR, cand)):
+                sprite_path = cand
+                break
+
+        is_vision = "oculus" in prof_name or "vision" in prof_title.lower() or "ocolus" in prof_title.lower()
+        is_architect = "mentor" in prof_name or "architect" in prof_title.lower()
+        color = "#0ea5e9" if is_vision else ("#a855f7" if is_architect else "#10b981")
+        group = "TEAM ARCHITETTURA" if is_architect else ("TEAM VISUAL AUDIT" if is_vision else "TEAM SVILUPPO")
+
+        new_agent = {
+            "id": prof_name,
+            "profile": item,
+            "name": prof_title,
+            "title": prof_desc,
+            "group": group,
+            "color": color,
+            "provider": "hermes",
+            "model": model_name,
+            "base_model": model_name.split(":")[0],
+            "context_limit": ctx_len,
+            "compress_threshold": 0.85,
+            "sprite": sprite_path,
+            "is_cloud": False,
+            "parameters": "9.0B Vision Ternary" if "9b" in model_name else ("26.9B Reasoning Ternary" if "27b" in model_name else "Local LLM"),
+            "architecture": "Qwen3.5 Multimodal" if "bonsai" in model_name else "Qwen/Llama",
+            "modality": "Vision + Text + Tool Calling" if "bonsai" in model_name else "Text Only",
+            "thinking_level": "Extended Thinking" if "27b" in model_name else "Standard"
+        }
+
+        CONFIG.setdefault("agents", []).append(new_agent)
+        known_profiles.add(prof_name)
+        discovered.append(new_agent)
+        print(f"[Auto-Discovery] Rilevato e integrato nuovo agente Hermes: {prof_title} ({item}) -> {model_name}")
+
+    if discovered:
+        try:
+            with open(CONFIG_FILE, "w", encoding="utf-8") as f:
+                json.dump(CONFIG, f, indent=2)
+            AGENTS_DEF = CONFIG["agents"]
+        except Exception as e:
+            print(f"[Auto-Discovery] Errore salvataggio config: {e}")
+
+    return discovered
+
 # Worker 3: Hermes SQLite in background (ogni 2.5s)
 AGENTS_CACHE = []
+LAST_DISCOVERY_CHECK = 0
+
 def hermes_worker_loop():
-    global AGENTS_CACHE
+    global AGENTS_CACHE, LAST_DISCOVERY_CHECK
     while True:
         try:
+            now = time.time()
+            # Esegue auto-discovery periodica dei profili Hermes ogni 3 secondi
+            if now - LAST_DISCOVERY_CHECK > 3.0:
+                try:
+                    auto_discover_hermes_agents()
+                except Exception as e:
+                    pass
+                LAST_DISCOVERY_CHECK = now
+
             # Ricarica configurazione agenti dinamica
             try:
                 with open(CONFIG_FILE, "r", encoding="utf-8") as f:
@@ -910,6 +1051,24 @@ class FastStatHandler(http.server.BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(res).encode("utf-8"))
             return
 
+        # 9. Sync & Auto-Discovery Agenti Hermes & Endpoints
+        if path == "/api/v1/agents/sync_discovery":
+            discovered = auto_discover_hermes_agents()
+            self.send_response(200)
+            self.send_security_headers("application/json")
+            res = {
+                "ok": True,
+                "status": "success",
+                "added_count": len(discovered),
+                "discovered_count": len(discovered),
+                "total_registered": len(CONFIG.get("agents", [])),
+                "total_agents": len(CONFIG.get("agents", [])),
+                "agents": CONFIG.get("agents", []),
+                "message": f"Auto-discovery completata: {len(discovered)} nuovi agenti rilevati. Totale agenti: {len(CONFIG.get('agents', []))}"
+            }
+            self.wfile.write(json.dumps(res).encode("utf-8"))
+            return
+
         self.send_error(404, "Endpoint non trovato")
 
     def do_POST(self):
@@ -1196,11 +1355,11 @@ class FastStatHandler(http.server.BaseHTTPRequestHandler):
                 AGENTS_DEF = CONFIG["agents"]
                 self.send_response(200)
                 self.send_security_headers("application/json")
-                self.wfile.write(json.dumps({"ok": True, "agent_id": new_id, "message": f"Agente '{name}' aggiunto con successo!", "agent": new_agent}).encode("utf-8"))
+                self.wfile.write(json.dumps({"ok": True, "status": "success", "agent_id": new_id, "message": f"Agente '{name}' aggiunto con successo!", "agent": new_agent}).encode("utf-8"))
             except Exception as e:
                 self.send_response(500)
                 self.send_security_headers("application/json")
-                self.wfile.write(json.dumps({"error": f"Errore nel salvataggio della configurazione: {str(e)}"}).encode("utf-8"))
+                self.wfile.write(json.dumps({"error": f"Errore nel salvataggio della configurazione: {str(e)}", "status": "error"}).encode("utf-8"))
             return
 
         if path == "/api/v1/agents/delete":
@@ -1217,7 +1376,7 @@ class FastStatHandler(http.server.BaseHTTPRequestHandler):
             if not matched:
                 self.send_response(404)
                 self.send_security_headers("application/json")
-                self.wfile.write(json.dumps({"error": "Agente non trovato"}).encode("utf-8"))
+                self.wfile.write(json.dumps({"error": "Agente non trovato", "status": "error"}).encode("utf-8"))
                 return
 
             CONFIG["agents"] = [a for a in cur_agents if a["id"] != agent_id]
@@ -1229,11 +1388,11 @@ class FastStatHandler(http.server.BaseHTTPRequestHandler):
                     AGENTS_CACHE = [a for a in AGENTS_CACHE if a["id"] != agent_id]
                 self.send_response(200)
                 self.send_security_headers("application/json")
-                self.wfile.write(json.dumps({"ok": True, "message": f"Agente '{matched['name']}' rimosso con successo"}).encode("utf-8"))
+                self.wfile.write(json.dumps({"ok": True, "status": "success", "message": f"Agente '{matched['name']}' rimosso con successo"}).encode("utf-8"))
             except Exception as e:
                 self.send_response(500)
                 self.send_security_headers("application/json")
-                self.wfile.write(json.dumps({"error": str(e)}).encode("utf-8"))
+                self.wfile.write(json.dumps({"error": str(e), "status": "error"}).encode("utf-8"))
             return
 
         self.send_error(404, "Endpoint non trovato")

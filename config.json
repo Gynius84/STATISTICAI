@@ -124,6 +124,42 @@
       "architecture": "beam",
       "modality": "Text Only + Tool Calling",
       "thinking_level": "max"
+    },
+    {
+      "id": "oculus",
+      "profile": "oculus",
+      "name": "OCOLUS",
+      "title": "Visual Auditor & UI Analyst",
+      "group": "TEAM VISUAL AUDIT",
+      "color": "#0ea5e9",
+      "model": "bonsai-9b:32k",
+      "base_model": "bonsai-2:9b",
+      "context_limit": 32768,
+      "compress_threshold": 0.85,
+      "sprite": "sprites_agents/OCOLUS.png",
+      "is_cloud": false,
+      "parameters": "9.0B Vision Ternary",
+      "architecture": "Qwen3.5 Multimodal",
+      "modality": "Vision + Text + Tool Calling",
+      "thinking_level": "Fast / Standard"
+    },
+    {
+      "id": "mentor",
+      "profile": "mentor",
+      "name": "Chief Architect",
+      "title": "Deep Reasoning & Chief Architect",
+      "group": "TEAM ARCHITETTURA",
+      "color": "#a855f7",
+      "model": "bonsai-27b:16k",
+      "base_model": "bonsai-2:27b",
+      "context_limit": 16384,
+      "compress_threshold": 0.85,
+      "sprite": "sprites_agents/Chief Architect.png",
+      "is_cloud": false,
+      "parameters": "26.9B Reasoning Ternary",
+      "architecture": "Qwen3.5 Reasoning",
+      "modality": "Vision + Text + Tool Calling",
+      "thinking_level": "Extended Thinking (DeepSeek/o1)"
     }
   ]
 }

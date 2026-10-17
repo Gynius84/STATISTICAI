@@ -1,7 +1,7 @@
 ---
 name: statistiche
 description: Open native STATISTICHEAI 16-bit dashboard monitor.
-version: 2.0.0
+version: 2.0.1
 author: Gyniu, Hermes Agent
 license: MIT
 platforms: [windows]
