@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>RetroGame Engine Optimized | GynBot Team</title>
+    <style>
+        body { margin: 0; background: #1a1a2e; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        #game-container { background: #0f0f1a; border-radius: 12px; padding: 20px; max-width: 900px; width: 100%; }
+        #hud { display: flex; justify-content: space-between; color: #3b82f6; font-family: 'Courier New', monospace; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #ec4899; }
+        canvas { background: #ff0055; image-rendering: pixelated; width: 640px; height: 360px; }
+    </style>
+</head>
+<body>
+<div id="game-container">
+    <div id="hud">
+        <span>PLAYER | FPS | SPRITE CACHE HIT</span>
+        <span id="score">SCORE: 0</span>
+    </div>
+    <canvas id="retro-game-canvas" width="640" height="360"></canvas>
+</div>
+
+<script>
+// RETROGAME SPRITE OPTIMIZER - PIXEL PERFECT ENGINE
+const canvas = document.getElementById('retro-game-canvas');
+const ctx = canvas.getContext('2d', { alpha: false }); // Optimize for no transparency
+const W = 640, H = 360;
+
+// OPTIMIZED SPRITE PALETTE (matches base analysis)
+const SPRITES = {
+    // Agent sprites generated from 32x32 pixel art source
+    GYNBOT1:   '#3b82f6',      // Blue penguin
+    QUALITY:   '#ec4899',      // Pink panda  
+    PROGRAMMER:'#fbbf24',      // Yellow robot
+    MARKETER:  '#e51da8',      // Purple bunny
+    COPYWRITER:'#8b5cf6',      // Violet creature
+    CEH:       '#171717',      // Black cyber
+    GROWT:     '#f472b6'       // Pink cat
+};
+
+// SPRITE OBJECT (pixel-perfect rendering)
+const sprite = {
+  x: 50, y: 180, width: 32, height: 40, color: 'blue',
+  direction: 1, speed: 3.5, frameX: 0
+};
+
+// ENEMY SPRITES ARRAY (pixel art optimized)
+const enemies = {
+  items: [{ x: 600, y: 100, width: 32, height: 40, color: '#f472b6' }],
+  update: function(dt) {
+    const speed = 3.5 * dt;
+    this.items.forEach((e, i) => { e.x -= speed; if(e.x < 0) this.items.splice(i,1); });
+  },
+  draw: function(ctx, playerX) {
+    ctx.fillStyle = '#ff0055';
+    // Background stars/stars pattern
+    for(let x=0;x<640;x+=40) {
+      ctx.fillRect(x + (playerX % 40), 20, 3, 6);
+      ctx.fillRect((x+20)%640 - 80, 50, 2, 10);
+    }
+    
+    // Draw player sprite (pixel-art optimized)
+    let playerHsl = hslToRgb(sprite.color);
+    fillSprite(ctx, playerX, sprite.y - sprite.height + 20, 
+               {r:playerHsl[0],g:playerHsl[1],b:playerHsl[2]});
+    
+    // Draw enemy sprites (pixel-optimized)
+    this.items.forEach(e => {
+      fillSprite(ctx, e.x, e.y, {r:255,g:0,b:0.8});
+    });
+  }
+};
+
+// OPTIMIZED SPRITE DRAW FUNCTION - PIXEL ART ENGINE
+function drawSprite(ctx, spriteObj, x, y) {
+  ctx.fillStyle = spriteObj.color || '#fff'; // pixel-perfect fill
+  
+  // Base body (optimized circle)
+  ctx.beginPath();
+  ctx.arc(x + spriteObj.width/2, y + spriteObj.height/2, spriteObj.width/2 - 4, 0, Math.PI*2);
+  ctx.fill();
+  
+  // Face detail (eyes/pupils for pixel clarity)
+  const grad = ctx.createLinearGradient(x+8, y+15, x+16, y+13);
+  grad.addColorStop(0, '#fff');
+  grad.addColorStop(1, 'black');
+  ctx.globalCompositeOperation('source-over');
+  
+  // Eyes (white circles with dark pupils)
+  ctx.fillStyle = '#fff';
+  ctx.beginPath();
+  ctx.arc(x + 8, y + 14, 4, 0, Math.PI*2);
+  ctx.arc(x + 16, y + 14, 4, 0, Math.PI*2);
+  ctx.fill();
+  
+  // Pupils (black dots)
+  ctx.fillStyle = 'black';
+  ctx.fillRect(x + 8.5, y + 14, 3, 3);
+  ctx.fillRect(x + 16.5, y + 14, 3, 3);
+  
+  // Body color (agent-specific palette)
+  if(spriteObj.agentName) {
+    ctx.fillStyle = SPRITES[spriteObj.agentName] || spriteObj.color;
+    ctx.beginPath();
+    ctx.arc(x + spriteObj.width/2, y + spriteObj.height - 6, 8, 0, Math.PI*2);
+    ctx.fill();
+    
+    // Yellow accent belt/collar (consistent visual element)
+    ctx.fillStyle = 'yellow';
+    ctx.fillRect(x + 10, y + spriteObj.height - 4, spriteObj.width - 20, 3);
+  }
+}
+
+// OPTIMIZED ANIMATION LOOP - 60FPS TARGET
+let lastTime = Date.now(), score = 0, frameCount = 0;
+const FPS_COUNT = performance.now();
+setInterval(() => { 
+  frameCount++; 
+  document.getElementById('FPS').innerText = Math.round(1000/((Date.now()-lastTime)/64)).toString(); 
+});
+
+// SPRITE COLLISION DETECTION - AABB Bounding Box (pixel-perfect)
+function checkCollision(rect1, rect2) {
+  return (rect1.x < rect2.x + rect2.width &&
+          rect1.x + rect1.width > rect2.x &&
+          rect1.y < rect2.y + rect2.height &&
+          rect1.y + rect1.height > rect2.y);
+}
+
+let keys = {}; // Input tracking (optimized flag array)
+document.addEventListener('keydown', e => keys[e.code] = true);
+document.addEventListener('keyup', e => keys[e.code] = false);
+
+function update(dt) {
+  const speed = dt * sprite.speed;
+  if(keys['ArrowRight']) { 
+    sprite.x += speed; 
+    if(sprite.x > W - sprite.width) sprite.x = W - sprite.width; 
+  } else if (keys['ArrowLeft']) { 
+    sprite.x -= speed; 
+    if(sprite.x < 0) sprite.x = 0; 
+  }
+
+  enemies.update(dt);
+  
+  // Score counting (collision detection optimized)
+  let collisions = checkCollision(sprite, enemies.items[0]);
+  if(collisions) { score++; document.getElementById('score').innerText = `HIGHSCORE: ${score}`; }
+}
+
+function render() {
+  ctx.fillStyle = '#ff0055'; // Background color (optimized for no alpha)
+  ctx.fillRect(0, 0, W, H);
+  
+  enemies.draw(ctx, sprite.x);
+}
+
+// MAIN GAME LOOP - OPTIMIZED RENDER
+requestAnimationFrame(function loop(now) {
+  lastTime = now;
+  render();
+  update((now - lastTime)/1000);
+  requestAnimationFrame(loop);
+});
+
+console.log(`🎮 RETROGAME ENGINE READY | ${Object.keys(SPRITES).length} AGENTS SPRITE-READY`);
+</script>
+</body>
+</html>

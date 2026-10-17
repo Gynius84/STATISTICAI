@@ -1,0 +1,330 @@
+2026-10-16 10:47:00,873 [INFO] =======================================================
+2026-10-16 10:47:00,873 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-16 10:47:00,873 [INFO] =======================================================
+2026-10-16 10:47:03,058 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\Desktop\progetti ai\STATISTICHEAI\backups\guard_auto_backup_20261016_104700
+2026-10-16 10:47:03,059 [INFO] [ENGINE] Patch hermes-agent intatte (OK).
+2026-10-16 10:47:03,059 [INFO] --- 1. Verifica Modelli Ollama ---
+2026-10-16 10:47:03,231 [INFO] [OLLAMA] Modello ottimizzato 'qwen3.5:64k' -> PRESENTE (OK)
+2026-10-16 10:47:03,231 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5-coder:64k' -> PRESENTE (OK)
+2026-10-16 10:47:03,231 [INFO] [OLLAMA] Modello ottimizzato 'hermes3:64k' -> PRESENTE (OK)
+2026-10-16 10:47:03,232 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5:64k' -> PRESENTE (OK)
+2026-10-16 10:47:03,232 [INFO] [OLLAMA] Modello ottimizzato 'llama3.1:64k' -> PRESENTE (OK)
+2026-10-16 10:47:03,232 [INFO] [OLLAMA] Modello ottimizzato 'whiterabbit:16k' -> PRESENTE (OK)
+2026-10-16 10:47:03,232 [INFO] --- 2. Verifica Configurazioni 7 Agenti ---
+2026-10-16 10:47:03,232 [INFO] [HERMES] Profilo 'default': Config gia' ottimale al 100% (invariato)
+2026-10-16 10:47:03,233 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-16 10:47:03,233 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-16 10:47:03,234 [INFO] [HERMES] Profilo 'mark1': Config gia' ottimale al 100% (invariato)
+2026-10-16 10:47:03,235 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-16 10:47:03,235 [INFO] [HERMES] Profilo 'mark3': Config gia' ottimale al 100% (invariato)
+2026-10-16 10:47:03,236 [INFO] [HERMES] Profilo 'hacker': Config gia' ottimale al 100% (invariato)
+2026-10-16 10:47:03,236 [INFO] =======================================================
+2026-10-16 10:47:03,236 [INFO] ESITO: 7/7 Agenti Verificati | Modelli Ollama OK: 6 (Ricreati: 0)
+2026-10-16 10:47:03,236 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-16 10:47:03,236 [INFO] =======================================================
+2026-10-16 11:17:12,256 [INFO] =======================================================
+2026-10-16 11:17:12,256 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-16 11:17:12,257 [INFO] =======================================================
+2026-10-16 11:17:14,719 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\Desktop\progetti ai\STATISTICHEAI\backups\guard_auto_backup_20261016_111712
+2026-10-16 11:17:14,720 [INFO] [ENGINE] Patch hermes-agent intatte (OK).
+2026-10-16 11:17:14,720 [INFO] --- 1. Verifica Modelli Ollama ---
+2026-10-16 11:17:14,895 [INFO] [OLLAMA] Modello ottimizzato 'qwen3.5:64k' -> PRESENTE (OK)
+2026-10-16 11:17:14,895 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5-coder:64k' -> PRESENTE (OK)
+2026-10-16 11:17:14,895 [INFO] [OLLAMA] Modello ottimizzato 'hermes3:64k' -> PRESENTE (OK)
+2026-10-16 11:17:14,895 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5:64k' -> PRESENTE (OK)
+2026-10-16 11:17:14,895 [INFO] [OLLAMA] Modello ottimizzato 'llama3.1:64k' -> PRESENTE (OK)
+2026-10-16 11:17:14,895 [INFO] [OLLAMA] Modello ottimizzato 'whiterabbit:16k' -> PRESENTE (OK)
+2026-10-16 11:17:14,895 [INFO] --- 2. Verifica Configurazioni 7 Agenti ---
+2026-10-16 11:17:14,896 [INFO] [HERMES] Profilo 'default': Config gia' ottimale al 100% (invariato)
+2026-10-16 11:17:14,897 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-16 11:17:14,897 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-16 11:17:14,897 [INFO] [HERMES] Profilo 'mark1': Config gia' ottimale al 100% (invariato)
+2026-10-16 11:17:14,898 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-16 11:17:14,898 [INFO] [HERMES] Profilo 'mark3': Config gia' ottimale al 100% (invariato)
+2026-10-16 11:17:14,899 [INFO] [HERMES] Profilo 'hacker': Config gia' ottimale al 100% (invariato)
+2026-10-16 11:17:14,899 [INFO] =======================================================
+2026-10-16 11:17:14,899 [INFO] ESITO: 7/7 Agenti Verificati | Modelli Ollama OK: 6 (Ricreati: 0)
+2026-10-16 11:17:14,899 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-16 11:17:14,899 [INFO] =======================================================
+2026-10-16 12:06:27,656 [INFO] =======================================================
+2026-10-16 12:06:27,656 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-16 12:06:27,656 [INFO] =======================================================
+2026-10-16 12:06:30,984 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\Desktop\progetti ai\STATISTICHEAI\backups\guard_auto_backup_20261016_120627
+2026-10-16 12:06:30,985 [INFO] [ENGINE] Patch hermes-agent intatte (OK).
+2026-10-16 12:06:30,985 [INFO] --- 1. Verifica Modelli Ollama ---
+2026-10-16 12:06:31,158 [INFO] [OLLAMA] Modello ottimizzato 'qwen3.5:64k' -> PRESENTE (OK)
+2026-10-16 12:06:31,158 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5-coder:64k' -> PRESENTE (OK)
+2026-10-16 12:06:31,158 [INFO] [OLLAMA] Modello ottimizzato 'hermes3:64k' -> PRESENTE (OK)
+2026-10-16 12:06:31,158 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5:64k' -> PRESENTE (OK)
+2026-10-16 12:06:31,158 [INFO] [OLLAMA] Modello ottimizzato 'llama3.1:64k' -> PRESENTE (OK)
+2026-10-16 12:06:31,158 [INFO] [OLLAMA] Modello ottimizzato 'whiterabbit:16k' -> PRESENTE (OK)
+2026-10-16 12:06:31,159 [INFO] --- 2. Verifica Configurazioni 7 Agenti ---
+2026-10-16 12:06:31,159 [INFO] [HERMES] Profilo 'default': Config gia' ottimale al 100% (invariato)
+2026-10-16 12:06:31,159 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-16 12:06:31,160 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-16 12:06:31,160 [INFO] [HERMES] Profilo 'mark1': Config gia' ottimale al 100% (invariato)
+2026-10-16 12:06:31,161 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-16 12:06:31,161 [INFO] [HERMES] Profilo 'mark3': Config gia' ottimale al 100% (invariato)
+2026-10-16 12:06:31,161 [INFO] [HERMES] Profilo 'hacker': Config gia' ottimale al 100% (invariato)
+2026-10-16 12:06:31,162 [INFO] =======================================================
+2026-10-16 12:06:31,162 [INFO] ESITO: 7/7 Agenti Verificati | Modelli Ollama OK: 6 (Ricreati: 0)
+2026-10-16 12:06:31,162 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-16 12:06:31,162 [INFO] =======================================================
+2026-10-16 13:23:14,527 [INFO] =======================================================
+2026-10-16 13:23:14,527 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-16 13:23:14,528 [INFO] =======================================================
+2026-10-16 13:23:17,037 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\Desktop\progetti ai\STATISTICHEAI\backups\guard_auto_backup_20261016_132314
+2026-10-16 13:23:17,038 [WARNING] [ENGINE] Riapplicazione patch hermes-agent...
+2026-10-16 13:23:17,087 [WARNING] [ENGINE] Impossibile applicare patch: error: No valid patches in input (allow with "--allow-empty")
+
+2026-10-16 13:23:17,088 [INFO] --- 1. Verifica Modelli Ollama ---
+2026-10-16 13:23:17,271 [INFO] [OLLAMA] Modello ottimizzato 'qwen3.5:64k' -> PRESENTE (OK)
+2026-10-16 13:23:17,271 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5-coder:64k' -> PRESENTE (OK)
+2026-10-16 13:23:17,271 [INFO] [OLLAMA] Modello ottimizzato 'hermes3:64k' -> PRESENTE (OK)
+2026-10-16 13:23:17,271 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5:64k' -> PRESENTE (OK)
+2026-10-16 13:23:17,271 [INFO] [OLLAMA] Modello ottimizzato 'llama3.1:64k' -> PRESENTE (OK)
+2026-10-16 13:23:17,271 [INFO] [OLLAMA] Modello ottimizzato 'whiterabbit:16k' -> PRESENTE (OK)
+2026-10-16 13:23:17,271 [INFO] --- 2. Verifica Configurazioni 7 Agenti ---
+2026-10-16 13:23:17,272 [INFO] [HERMES] Profilo 'default': Config gia' ottimale al 100% (invariato)
+2026-10-16 13:23:17,272 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-16 13:23:17,273 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-16 13:23:17,274 [INFO] [HERMES] Profilo 'mark1': Config gia' ottimale al 100% (invariato)
+2026-10-16 13:23:17,274 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-16 13:23:17,275 [INFO] [HERMES] Profilo 'mark3': Config gia' ottimale al 100% (invariato)
+2026-10-16 13:23:17,276 [INFO] [HERMES] Profilo 'hacker': Config gia' ottimale al 100% (invariato)
+2026-10-16 13:23:17,276 [INFO] --- 3. Verifica Integrita' Gruppi Hermes ---
+2026-10-16 13:23:18,550 [INFO] [GROUPS] Integrita' gruppi e modalita' legacy verificata al 100%% (OK).
+2026-10-16 13:23:18,551 [INFO] =======================================================
+2026-10-16 13:23:18,551 [INFO] ESITO: 7/7 Agenti Verificati | Modelli Ollama OK: 6 (Ricreati: 0)
+2026-10-16 13:23:18,551 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-16 13:23:18,551 [INFO] =======================================================
+2026-10-16 13:35:06,480 [INFO] =======================================================
+2026-10-16 13:35:06,480 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-16 13:35:06,480 [INFO] =======================================================
+2026-10-16 13:35:08,680 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\Desktop\progetti ai\STATISTICHEAI\backups\guard_auto_backup_20261016_133506
+2026-10-16 13:35:08,681 [WARNING] [ENGINE] Riapplicazione patch hermes-agent...
+2026-10-16 13:35:08,728 [WARNING] [ENGINE] Impossibile applicare patch: error: No valid patches in input (allow with "--allow-empty")
+
+2026-10-16 13:35:08,728 [INFO] --- 1. Verifica Modelli Ollama ---
+2026-10-16 13:35:08,903 [INFO] [OLLAMA] Modello ottimizzato 'qwen3.5:64k' -> PRESENTE (OK)
+2026-10-16 13:35:08,903 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5-coder:64k' -> PRESENTE (OK)
+2026-10-16 13:35:08,903 [INFO] [OLLAMA] Modello ottimizzato 'hermes3:64k' -> PRESENTE (OK)
+2026-10-16 13:35:08,903 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5:64k' -> PRESENTE (OK)
+2026-10-16 13:35:08,903 [INFO] [OLLAMA] Modello ottimizzato 'llama3.1:64k' -> PRESENTE (OK)
+2026-10-16 13:35:08,903 [INFO] [OLLAMA] Modello ottimizzato 'whiterabbit:16k' -> PRESENTE (OK)
+2026-10-16 13:35:08,903 [INFO] --- 2. Verifica Configurazioni 7 Agenti ---
+2026-10-16 13:35:08,904 [INFO] [HERMES] Profilo 'default': Config gia' ottimale al 100% (invariato)
+2026-10-16 13:35:08,904 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-16 13:35:08,905 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-16 13:35:08,905 [INFO] [HERMES] Profilo 'mark1': Config gia' ottimale al 100% (invariato)
+2026-10-16 13:35:08,906 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-16 13:35:08,906 [INFO] [HERMES] Profilo 'mark3': Config gia' ottimale al 100% (invariato)
+2026-10-16 13:35:08,906 [INFO] [HERMES] Profilo 'hacker': Config gia' ottimale al 100% (invariato)
+2026-10-16 13:35:08,907 [INFO] --- 3. Verifica Integrita' Gruppi Hermes ---
+2026-10-16 13:35:10,272 [INFO] [GROUPS] Tabelle hosted_rooms in state.db ripulite da record orfani
+2026-10-16 13:35:10,274 [INFO] [GROUPS] Integrita' gruppi e modalita' legacy verificata al 100%% (OK).
+2026-10-16 13:35:10,275 [INFO] =======================================================
+2026-10-16 13:35:10,275 [INFO] ESITO: 7/7 Agenti Verificati | Modelli Ollama OK: 6 (Ricreati: 0)
+2026-10-16 13:35:10,276 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-16 13:35:10,276 [INFO] =======================================================
+2026-10-16 14:12:48,890 [INFO] =======================================================
+2026-10-16 14:12:48,890 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-16 14:12:48,891 [INFO] =======================================================
+2026-10-16 14:12:51,251 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\Desktop\progetti ai\STATISTICHEAI\backups\guard_auto_backup_20261016_141248
+2026-10-16 14:12:51,252 [WARNING] [ENGINE] Riapplicazione patch hermes-agent...
+2026-10-16 14:12:51,303 [WARNING] [ENGINE] Impossibile applicare patch: error: No valid patches in input (allow with "--allow-empty")
+
+2026-10-16 14:12:51,303 [INFO] --- 1. Verifica Modelli Ollama ---
+2026-10-16 14:12:51,479 [INFO] [OLLAMA] Modello ottimizzato 'qwen3.5:64k' -> PRESENTE (OK)
+2026-10-16 14:12:51,479 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5-coder:64k' -> PRESENTE (OK)
+2026-10-16 14:12:51,479 [INFO] [OLLAMA] Modello ottimizzato 'hermes3:64k' -> PRESENTE (OK)
+2026-10-16 14:12:51,479 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5:64k' -> PRESENTE (OK)
+2026-10-16 14:12:51,479 [INFO] [OLLAMA] Modello ottimizzato 'llama3.1:64k' -> PRESENTE (OK)
+2026-10-16 14:12:51,479 [INFO] [OLLAMA] Modello ottimizzato 'whiterabbit:16k' -> PRESENTE (OK)
+2026-10-16 14:12:51,479 [INFO] --- 2. Verifica Configurazioni 7 Agenti ---
+2026-10-16 14:12:51,480 [INFO] [HERMES] Profilo 'default': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:12:51,480 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:12:51,481 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:12:51,481 [INFO] [HERMES] Profilo 'mark1': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:12:51,482 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:12:51,482 [INFO] [HERMES] Profilo 'mark3': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:12:51,483 [INFO] [HERMES] Profilo 'hacker': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:12:51,483 [INFO] --- 3. Verifica Integrita' Gruppi Hermes ---
+2026-10-16 14:12:51,583 [INFO] [GROUPS] Tabelle hosted_rooms in state.db ripulite da record orfani
+2026-10-16 14:12:51,584 [INFO] [GROUPS] Integrita' gruppi e modalita' legacy verificata al 100%% (OK).
+2026-10-16 14:12:51,584 [INFO] =======================================================
+2026-10-16 14:12:51,584 [INFO] ESITO: 7/7 Agenti Verificati | Modelli Ollama OK: 6 (Ricreati: 0)
+2026-10-16 14:12:51,584 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-16 14:12:51,584 [INFO] =======================================================
+2026-10-16 14:27:08,814 [INFO] =======================================================
+2026-10-16 14:27:08,815 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-16 14:27:08,815 [INFO] =======================================================
+2026-10-16 14:27:11,092 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\Desktop\progetti ai\STATISTICHEAI\backups\guard_auto_backup_20261016_142708
+2026-10-16 14:27:11,093 [WARNING] [ENGINE] Riapplicazione patch hermes-agent...
+2026-10-16 14:27:11,141 [WARNING] [ENGINE] Impossibile applicare patch: error: No valid patches in input (allow with "--allow-empty")
+
+2026-10-16 14:27:11,141 [INFO] --- 1. Verifica Modelli Ollama ---
+2026-10-16 14:27:11,319 [INFO] [OLLAMA] Modello ottimizzato 'qwen3.5:64k' -> PRESENTE (OK)
+2026-10-16 14:27:11,319 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5-coder:64k' -> PRESENTE (OK)
+2026-10-16 14:27:11,319 [INFO] [OLLAMA] Modello ottimizzato 'hermes3:64k' -> PRESENTE (OK)
+2026-10-16 14:27:11,319 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5:64k' -> PRESENTE (OK)
+2026-10-16 14:27:11,319 [INFO] [OLLAMA] Modello ottimizzato 'llama3.1:64k' -> PRESENTE (OK)
+2026-10-16 14:27:11,319 [INFO] [OLLAMA] Modello ottimizzato 'whiterabbit:16k' -> PRESENTE (OK)
+2026-10-16 14:27:11,320 [INFO] --- 2. Verifica Configurazioni 7 Agenti ---
+2026-10-16 14:27:11,320 [INFO] [HERMES] Profilo 'default': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:27:11,321 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:27:11,321 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:27:11,322 [INFO] [HERMES] Profilo 'mark1': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:27:11,323 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:27:11,323 [INFO] [HERMES] Profilo 'mark3': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:27:11,324 [INFO] [HERMES] Profilo 'hacker': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:27:11,324 [INFO] --- 3. Verifica Integrita' Gruppi Hermes ---
+2026-10-16 14:27:11,392 [INFO] [GROUPS] Tabelle hosted_rooms in state.db ripulite da record orfani
+2026-10-16 14:27:11,393 [INFO] [GROUPS] Integrita' gruppi e modalita' legacy verificata al 100%% (OK).
+2026-10-16 14:27:11,394 [INFO] =======================================================
+2026-10-16 14:27:11,394 [INFO] ESITO: 7/7 Agenti Verificati | Modelli Ollama OK: 6 (Ricreati: 0)
+2026-10-16 14:27:11,394 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-16 14:27:11,394 [INFO] =======================================================
+2026-10-16 14:28:28,902 [INFO] =======================================================
+2026-10-16 14:28:28,902 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-16 14:28:28,902 [INFO] =======================================================
+2026-10-16 14:28:31,187 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\Desktop\progetti ai\STATISTICHEAI\backups\guard_auto_backup_20261016_142828
+2026-10-16 14:28:31,188 [WARNING] [ENGINE] Riapplicazione patch hermes-agent...
+2026-10-16 14:28:31,235 [WARNING] [ENGINE] Impossibile applicare patch: error: No valid patches in input (allow with "--allow-empty")
+
+2026-10-16 14:28:31,235 [INFO] --- 1. Verifica Modelli Ollama ---
+2026-10-16 14:28:31,412 [INFO] [OLLAMA] Modello ottimizzato 'qwen3.5:64k' -> PRESENTE (OK)
+2026-10-16 14:28:31,413 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5-coder:64k' -> PRESENTE (OK)
+2026-10-16 14:28:31,413 [INFO] [OLLAMA] Modello ottimizzato 'hermes3:64k' -> PRESENTE (OK)
+2026-10-16 14:28:31,413 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5:64k' -> PRESENTE (OK)
+2026-10-16 14:28:31,413 [INFO] [OLLAMA] Modello ottimizzato 'llama3.1:64k' -> PRESENTE (OK)
+2026-10-16 14:28:31,413 [INFO] [OLLAMA] Modello ottimizzato 'whiterabbit:16k' -> PRESENTE (OK)
+2026-10-16 14:28:31,413 [INFO] --- 2. Verifica Configurazioni 7 Agenti ---
+2026-10-16 14:28:31,413 [INFO] [HERMES] Profilo 'default': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:28:31,414 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:28:31,414 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:28:31,415 [INFO] [HERMES] Profilo 'mark1': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:28:31,415 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:28:31,415 [INFO] [HERMES] Profilo 'mark3': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:28:31,416 [INFO] [HERMES] Profilo 'hacker': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:28:31,416 [INFO] --- 3. Verifica Integrita' Gruppi Hermes ---
+2026-10-16 14:28:31,475 [INFO] [GROUPS] Tabelle hosted_rooms in state.db ripulite da record orfani
+2026-10-16 14:28:31,477 [INFO] [GROUPS] Integrita' gruppi e modalita' legacy verificata al 100%% (OK).
+2026-10-16 14:28:31,477 [INFO] =======================================================
+2026-10-16 14:28:31,477 [INFO] ESITO: 7/7 Agenti Verificati | Modelli Ollama OK: 6 (Ricreati: 0)
+2026-10-16 14:28:31,477 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-16 14:28:31,477 [INFO] =======================================================
+2026-10-16 14:47:38,306 [INFO] =======================================================
+2026-10-16 14:47:38,306 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-16 14:47:38,306 [INFO] =======================================================
+2026-10-16 14:47:40,600 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\Desktop\progetti ai\STATISTICHEAI\backups\guard_auto_backup_20261016_144738
+2026-10-16 14:47:40,601 [WARNING] [ENGINE] Riapplicazione patch hermes-agent...
+2026-10-16 14:47:40,648 [WARNING] [ENGINE] Impossibile applicare patch: error: No valid patches in input (allow with "--allow-empty")
+
+2026-10-16 14:47:40,649 [INFO] --- 1. Verifica Modelli Ollama ---
+2026-10-16 14:47:40,835 [INFO] [OLLAMA] Modello ottimizzato 'qwen3.5:64k' -> PRESENTE (OK)
+2026-10-16 14:47:40,835 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5-coder:64k' -> PRESENTE (OK)
+2026-10-16 14:47:40,835 [INFO] [OLLAMA] Modello ottimizzato 'hermes3:64k' -> PRESENTE (OK)
+2026-10-16 14:47:40,835 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5:64k' -> PRESENTE (OK)
+2026-10-16 14:47:40,835 [INFO] [OLLAMA] Modello ottimizzato 'llama3.1:64k' -> PRESENTE (OK)
+2026-10-16 14:47:40,835 [INFO] [OLLAMA] Modello ottimizzato 'whiterabbit:16k' -> PRESENTE (OK)
+2026-10-16 14:47:40,835 [INFO] --- 2. Verifica Configurazioni 7 Agenti ---
+2026-10-16 14:47:40,836 [INFO] [HERMES] Profilo 'default': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:47:40,836 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:47:40,837 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:47:40,838 [INFO] [HERMES] Profilo 'mark1': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:47:40,838 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:47:40,839 [INFO] [HERMES] Profilo 'mark3': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:47:40,839 [INFO] [HERMES] Profilo 'hacker': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:47:40,839 [INFO] --- 3. Verifica Integrita' Gruppi Hermes ---
+2026-10-16 14:47:41,274 [INFO] [GROUPS] Tabelle hosted_rooms in state.db ripulite da record orfani
+2026-10-16 14:47:41,276 [INFO] [GROUPS] Integrita' gruppi e modalita' legacy verificata al 100%% (OK).
+2026-10-16 14:47:41,277 [INFO] =======================================================
+2026-10-16 14:47:41,277 [INFO] ESITO: 7/7 Agenti Verificati | Modelli Ollama OK: 6 (Ricreati: 0)
+2026-10-16 14:47:41,277 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-16 14:47:41,277 [INFO] =======================================================
+2026-10-16 14:52:32,000 [INFO] =======================================================
+2026-10-16 14:52:32,000 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-16 14:52:32,001 [INFO] =======================================================
+2026-10-16 14:52:34,383 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\Desktop\progetti ai\STATISTICHEAI\backups\guard_auto_backup_20261016_145232
+2026-10-16 14:52:34,384 [WARNING] [ENGINE] Riapplicazione patch hermes-agent...
+2026-10-16 14:52:34,432 [WARNING] [ENGINE] Impossibile applicare patch: error: No valid patches in input (allow with "--allow-empty")
+
+2026-10-16 14:52:34,432 [INFO] --- 1. Verifica Modelli Ollama ---
+2026-10-16 14:52:34,605 [INFO] [OLLAMA] Modello ottimizzato 'qwen3.5:64k' -> PRESENTE (OK)
+2026-10-16 14:52:34,605 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5-coder:64k' -> PRESENTE (OK)
+2026-10-16 14:52:34,605 [INFO] [OLLAMA] Modello ottimizzato 'hermes3:64k' -> PRESENTE (OK)
+2026-10-16 14:52:34,605 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5:64k' -> PRESENTE (OK)
+2026-10-16 14:52:34,605 [INFO] [OLLAMA] Modello ottimizzato 'llama3.1:64k' -> PRESENTE (OK)
+2026-10-16 14:52:34,605 [INFO] [OLLAMA] Modello ottimizzato 'whiterabbit:16k' -> PRESENTE (OK)
+2026-10-16 14:52:34,605 [INFO] --- 2. Verifica Configurazioni 7 Agenti ---
+2026-10-16 14:52:34,606 [INFO] [HERMES] Profilo 'default': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:52:34,607 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:52:34,607 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:52:34,608 [INFO] [HERMES] Profilo 'mark1': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:52:34,608 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:52:34,609 [INFO] [HERMES] Profilo 'mark3': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:52:34,609 [INFO] [HERMES] Profilo 'hacker': Config gia' ottimale al 100% (invariato)
+2026-10-16 14:52:34,610 [INFO] --- 3. Verifica Integrita' Gruppi Hermes ---
+2026-10-16 14:52:34,687 [INFO] [GROUPS] Tabelle hosted_rooms in state.db ripulite da record orfani
+2026-10-16 14:52:34,688 [INFO] [GROUPS] Integrita' gruppi e modalita' legacy verificata al 100%% (OK).
+2026-10-16 14:52:34,689 [INFO] =======================================================
+2026-10-16 14:52:34,689 [INFO] ESITO: 7/7 Agenti Verificati | Modelli Ollama OK: 6 (Ricreati: 0)
+2026-10-16 14:52:34,689 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-16 14:52:34,689 [INFO] =======================================================
+2026-10-16 15:03:34,161 [INFO] =======================================================
+2026-10-16 15:03:34,161 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-16 15:03:34,161 [INFO] =======================================================
+2026-10-16 15:03:36,445 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\Desktop\progetti ai\STATISTICHEAI\backups\guard_auto_backup_20261016_150334
+2026-10-16 15:03:36,446 [WARNING] [ENGINE] Riapplicazione patch hermes-agent...
+2026-10-16 15:03:36,490 [WARNING] [ENGINE] Impossibile applicare patch: error: No valid patches in input (allow with "--allow-empty")
+
+2026-10-16 15:03:36,490 [INFO] --- 1. Verifica Modelli Ollama ---
+2026-10-16 15:03:36,675 [INFO] [OLLAMA] Modello ottimizzato 'qwen3.5:64k' -> PRESENTE (OK)
+2026-10-16 15:03:36,675 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5-coder:64k' -> PRESENTE (OK)
+2026-10-16 15:03:36,675 [INFO] [OLLAMA] Modello ottimizzato 'hermes3:64k' -> PRESENTE (OK)
+2026-10-16 15:03:36,675 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5:64k' -> PRESENTE (OK)
+2026-10-16 15:03:36,675 [INFO] [OLLAMA] Modello ottimizzato 'llama3.1:64k' -> PRESENTE (OK)
+2026-10-16 15:03:36,675 [INFO] [OLLAMA] Modello ottimizzato 'whiterabbit:16k' -> PRESENTE (OK)
+2026-10-16 15:03:36,675 [INFO] --- 2. Verifica Configurazioni 7 Agenti ---
+2026-10-16 15:03:36,675 [INFO] [HERMES] Profilo 'default': Config gia' ottimale al 100% (invariato)
+2026-10-16 15:03:36,676 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-16 15:03:36,676 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-16 15:03:36,677 [INFO] [HERMES] Profilo 'mark1': Config gia' ottimale al 100% (invariato)
+2026-10-16 15:03:36,677 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-16 15:03:36,678 [INFO] [HERMES] Profilo 'mark3': Config gia' ottimale al 100% (invariato)
+2026-10-16 15:03:36,678 [INFO] [HERMES] Profilo 'hacker': Config gia' ottimale al 100% (invariato)
+2026-10-16 15:03:36,679 [INFO] --- 3. Verifica Integrita' Gruppi Hermes ---
+2026-10-16 15:03:36,789 [INFO] [GROUPS] Tabelle hosted_rooms in state.db ripulite da record orfani
+2026-10-16 15:03:36,790 [INFO] [GROUPS] Integrita' gruppi e modalita' legacy verificata al 100%% (OK).
+2026-10-16 15:03:36,791 [INFO] =======================================================
+2026-10-16 15:03:36,791 [INFO] ESITO: 7/7 Agenti Verificati | Modelli Ollama OK: 6 (Ricreati: 0)
+2026-10-16 15:03:36,791 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-16 15:03:36,791 [INFO] =======================================================
+2026-10-16 15:25:11,189 [INFO] =======================================================
+2026-10-16 15:25:11,189 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-16 15:25:11,189 [INFO] =======================================================
+2026-10-16 15:25:13,407 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\Desktop\progetti ai\STATISTICHEAI\backups\guard_auto_backup_20261016_152511
+2026-10-16 15:25:13,411 [INFO] [ENGINE] Patch hermes-agent verificate al 100% (applicate o gia' intatte: 0 aggiornamenti eseguiti).
+2026-10-16 15:25:13,411 [INFO] --- 1. Verifica Modelli Ollama ---
+2026-10-16 15:25:13,588 [INFO] [OLLAMA] Modello ottimizzato 'qwen3.5:64k' -> PRESENTE (OK)
+2026-10-16 15:25:13,588 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5-coder:64k' -> PRESENTE (OK)
+2026-10-16 15:25:13,588 [INFO] [OLLAMA] Modello ottimizzato 'hermes3:64k' -> PRESENTE (OK)
+2026-10-16 15:25:13,588 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5:64k' -> PRESENTE (OK)
+2026-10-16 15:25:13,588 [INFO] [OLLAMA] Modello ottimizzato 'llama3.1:64k' -> PRESENTE (OK)
+2026-10-16 15:25:13,588 [INFO] [OLLAMA] Modello ottimizzato 'whiterabbit:16k' -> PRESENTE (OK)
+2026-10-16 15:25:13,588 [INFO] --- 2. Verifica Configurazioni 7 Agenti ---
+2026-10-16 15:25:13,588 [INFO] [HERMES] Profilo 'default': Config gia' ottimale al 100% (invariato)
+2026-10-16 15:25:13,589 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-16 15:25:13,589 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-16 15:25:13,590 [INFO] [HERMES] Profilo 'mark1': Config gia' ottimale al 100% (invariato)
+2026-10-16 15:25:13,590 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-16 15:25:13,591 [INFO] [HERMES] Profilo 'mark3': Config gia' ottimale al 100% (invariato)
+2026-10-16 15:25:13,591 [INFO] [HERMES] Profilo 'hacker': Config gia' ottimale al 100% (invariato)
+2026-10-16 15:25:13,591 [INFO] --- 3. Verifica Integrita' Gruppi Hermes ---
+2026-10-16 15:25:13,679 [INFO] [GROUPS] Tabelle hosted_rooms in state.db ripulite da record orfani
+2026-10-16 15:25:13,680 [INFO] [GROUPS] Integrita' gruppi e modalita' legacy verificata al 100%% (OK).
+2026-10-16 15:25:13,680 [INFO] =======================================================
+2026-10-16 15:25:13,680 [INFO] ESITO: 7/7 Agenti Verificati | Modelli Ollama OK: 6 (Ricreati: 0)
+2026-10-16 15:25:13,680 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-16 15:25:13,680 [INFO] =======================================================

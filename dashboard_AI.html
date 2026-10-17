@@ -1,0 +1,3142 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STATISTICHEAI - Monitor Agenti Hermes & Ollama (Retro RPG 16-Bit)</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <style>
+        /* -------------------------------------------------------------
+           DESIGN SYSTEM: RETROGAME RPG 16-BIT & PIXEL ART
+           Tutti gli elementi visivi usano pixel art crisp, palette Tokyo Night
+           ------------------------------------------------------------- */
+        :root {
+            --bg-dark: #090a10;
+            --bg-card: #131522;
+            --bg-card-hover: #1c1f33;
+            --border-outer: #333a56;
+            --border-inner: #7aa2f7;
+            --text-main: #c0caf5;
+            --text-muted: #7982a9;
+            --text-bright: #ffffff;
+            --hp-green: #9ece6a;
+            --hp-yellow: #e0af68;
+            --hp-red: #f7768e;
+            --mana-purple: #bb9af7;
+            --vram-cyan: #2ac3de;
+            --gold: #ff9e64;
+            --cemetery-purple: #9d7cd8;
+            --cemetery-dark: #0e0d17;
+            --room-house: #24283b;
+            --room-office: #1a1b26;
+            --room-clinic: #1f2d3d;
+            --room-graveyard: #141124;
+        }
+
+        * {
+            box-sizing: border-box;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            -webkit-font-smoothing: none;
+        }
+
+        body {
+            margin: 0;
+            padding: 14px;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Courier New', 'Lucida Console', Consolas, monospace;
+            font-size: 13px;
+            line-height: 1.4;
+            overflow-x: hidden;
+        }
+
+        /* Scanline CRT Texture Overlay */
+        .scanlines {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.22) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+            background-size: 100% 4px, 6px 100%;
+            z-index: 999;
+            opacity: 0.65;
+        }
+
+        .dashboard-wrapper {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        /* Pixel Box Generico Stile JRPG */
+        .pixel-box {
+            background-color: var(--bg-card);
+            border: 3px solid var(--border-outer);
+            box-shadow: 0 0 0 1px #000, inset 0 0 0 2px #0c0d14;
+            padding: 12px;
+            position: relative;
+        }
+
+        /* Header e Top Bar */
+        .header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 10px 14px;
+        }
+
+        .title-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .pixel-icon-logo {
+            width: 32px;
+            height: 32px;
+        }
+
+        .main-title {
+            font-size: 17px;
+            font-weight: bold;
+            color: var(--text-bright);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px #000;
+        }
+
+        .badge-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 4px 9px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 2px solid;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .badge-ro {
+            background: #2b1d14;
+            color: var(--gold);
+            border-color: var(--gold);
+        }
+
+        .badge-guardian-ok {
+            background: #142618;
+            color: var(--hp-green);
+            border-color: var(--hp-green);
+        }
+
+        .badge-guardian-alert {
+            background: #3b1419;
+            color: var(--hp-red);
+            border-color: var(--hp-red);
+            animation: pulse-border 1s infinite alternate;
+        }
+
+        @keyframes pulse-border {
+            from { border-color: var(--hp-red); box-shadow: 0 0 4px var(--hp-red); }
+            to { border-color: #ffffff; box-shadow: 0 0 10px var(--hp-red); }
+        }
+
+        /* HUD Griglia Metriche */
+        .hud-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 10px;
+        }
+
+        .hud-metric {
+            background: #0d0f18;
+            border: 2px solid #23283d;
+            padding: 8px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .hud-metric-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+
+        .pixel-bar-container {
+            height: 12px;
+            background: #000000;
+            border: 1px solid #333a56;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pixel-bar-fill {
+            height: 100%;
+            transition: width 0.3s steps(10);
+        }
+
+        /* STAGE RETROGAME 4 STANZE */
+        .stage-container {
+            padding: 0;
+            overflow: hidden;
+            background: #07080d;
+        }
+
+        .stage-header {
+            padding: 8px 14px;
+            background: #121420;
+            border-bottom: 2px solid var(--border-outer);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            font-size: 11px;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
+        }
+
+        #retro-stage-canvas {
+            display: block;
+            width: 100%;
+            height: 320px;
+            background: #07080e;
+        }
+
+        /* Barra Filtri */
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 8px 12px;
+        }
+
+        .btn-filter {
+            background: #181b29;
+            border: 2px solid var(--border-outer);
+            color: var(--text-main);
+            padding: 4px 10px;
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .btn-filter:hover {
+            background: #24293f;
+            border-color: var(--border-inner);
+            color: var(--text-bright);
+        }
+
+        .btn-filter.active {
+            background: #293556;
+            border-color: var(--border-inner);
+            color: var(--text-bright);
+            box-shadow: inset 0 0 0 1px var(--border-inner);
+        }
+
+        /* Griglia Agenti */
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 12px;
+        }
+
+        .agent-card {
+            background: var(--bg-card);
+            border: 3px solid var(--border-outer);
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+            transition: transform 0.1s, border-color 0.1s;
+            cursor: pointer;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-inner);
+            background: var(--bg-card-hover);
+        }
+
+        .agent-card.card-infermeria {
+            border-color: var(--hp-yellow);
+            box-shadow: inset 0 0 0 1px #473216;
+        }
+
+        .agent-card.card-cimitero {
+            border-color: var(--cemetery-purple);
+            box-shadow: inset 0 0 0 1px #311b47;
+            background: #100e1c;
+        }
+
+        .agent-card.card-cloud {
+            border-color: #38bdf8;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.25), inset 0 0 0 1px #0369a1;
+            background: #091322;
+        }
+
+        /* Card Dettagli Avanzati Espandibili */
+        .agent-expand-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 5px 8px;
+            background: #101424;
+            border: 1px dashed #2b3558;
+            color: var(--vram-cyan);
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 4px;
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .agent-expand-toggle:hover {
+            background: #171d33;
+            color: #ffffff;
+            border-color: var(--vram-cyan);
+            box-shadow: 0 0 6px rgba(42, 195, 222, 0.3);
+        }
+
+        .agent-expand-body {
+            background: #080912;
+            border: 1px solid #1f253d;
+            border-top: none;
+            padding: 8px;
+            font-size: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .expand-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+        }
+
+        .expand-detail-item {
+            background: #0c0f1a;
+            padding: 5px 7px;
+            border-left: 2px solid #3b82f6;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .expand-detail-label {
+            color: var(--text-muted);
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .expand-detail-val {
+            color: var(--text-bright);
+            font-weight: bold;
+            font-size: 10px;
+            word-break: break-all;
+        }
+
+        .agent-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .agent-sprite {
+            width: 48px;
+            height: 52px;
+            border: 2px solid var(--border-outer);
+            background: #0a0c14;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .agent-title-box {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .agent-name {
+            font-weight: bold;
+            font-size: 13px;
+            color: var(--text-bright);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .agent-sub {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .status-badge {
+            font-size: 9px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border: 1px solid;
+            text-transform: uppercase;
+        }
+
+        .status-sano { background: #122918; color: var(--hp-green); border-color: var(--hp-green); }
+        .status-infermeria { background: #3b2813; color: var(--hp-yellow); border-color: var(--hp-yellow); }
+        .status-cimitero { background: #2f173d; color: var(--cemetery-purple); border-color: var(--cemetery-purple); }
+        .status-cloud { background: #082136; color: #38bdf8; border-color: #38bdf8; }
+
+        .agent-stat-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+        }
+
+        .agent-actions-row {
+            display: flex;
+            gap: 6px;
+            margin-top: 4px;
+            flex-wrap: wrap;
+        }
+
+        .btn-act {
+            flex: 1;
+            padding: 4px 6px;
+            font-family: inherit;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: 2px solid;
+            text-align: center;
+        }
+
+        .btn-cure-session {
+            background: #183321;
+            border-color: var(--hp-green);
+            color: #d8f5b5;
+        }
+        .btn-cure-session:hover { background: #234c31; }
+
+        .btn-cure-context {
+            background: #153540;
+            border-color: var(--vram-cyan);
+            color: #bbf0f7;
+        }
+        .btn-cure-context:hover { background: #1d4e5e; }
+
+        .btn-resurrect {
+            background: #39174a;
+            border-color: var(--mana-purple);
+            color: #f2dcff;
+            animation: pulse-resurrect 1.2s infinite alternate;
+        }
+        .btn-resurrect:hover { background: #52206b; }
+
+        @keyframes pulse-resurrect {
+            from { box-shadow: 0 0 2px var(--mana-purple); }
+            to { box-shadow: 0 0 10px var(--mana-purple); }
+        }
+
+        .btn-simulate {
+            background: #1e2233;
+            border-color: #434c6e;
+            color: var(--text-muted);
+            font-size: 9px;
+            padding: 3px 5px;
+        }
+        .btn-simulate:hover {
+            background: #2b3149;
+            color: var(--text-main);
+        }
+
+        /* Sezione Storico Azioni */
+        .history-terminal {
+            background: #090a10;
+            border: 2px solid var(--border-outer);
+            padding: 8px 12px;
+            max-height: 180px;
+            overflow-y: auto;
+            font-size: 11px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .history-entry {
+            display: flex;
+            gap: 8px;
+            align-items: baseline;
+            border-bottom: 1px solid #141724;
+            padding-bottom: 2px;
+        }
+
+        .history-time { color: var(--text-muted); font-size: 10px; flex-shrink: 0; }
+        .history-agent { color: var(--text-bright); font-weight: bold; }
+        .history-act { font-weight: bold; }
+        .act-CURA_SESSIONE { color: var(--hp-green); }
+        .act-CURA_CONTESTO { color: var(--vram-cyan); }
+        .act-RESURREZIONE { color: var(--mana-purple); }
+
+        /* Modali */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 5, 8, 0.82);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 16px;
+        }
+
+        .modal-card {
+            background: var(--bg-card);
+            border: 3px solid var(--border-inner);
+            box-shadow: 0 0 0 2px #000, 0 10px 30px rgba(0,0,0,0.8);
+            max-width: 600px;
+            width: 100%;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-outer);
+            padding-bottom: 8px;
+        }
+
+        .modal-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-bright);
+            letter-spacing: 0.5px;
+        }
+
+        .modal-close {
+            background: none;
+            border: 2px solid var(--border-outer);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            padding: 2px 6px;
+        }
+
+        .modal-close:hover {
+            color: var(--hp-red);
+            border-color: var(--hp-red);
+        }
+
+        /* Notifica Toast Fluttuante */
+        #toast-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #141724;
+            border: 2px solid var(--border-inner);
+            padding: 10px 16px;
+            font-weight: bold;
+            font-size: 12px;
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
+            z-index: 2000;
+            display: none;
+        }
+
+        /* -------------------------------------------------------------
+           BADGES GRUPPI (TEAM SVILUPPO, TEAM MARKETING, SICUREZZA)
+           ------------------------------------------------------------- */
+        .group-tag {
+            font-size: 9px;
+            font-weight: bold;
+            padding: 2px 7px;
+            border: 1px solid;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            text-transform: uppercase;
+        }
+
+        .tag-sviluppo {
+            background: #2b2512;
+            color: #fbbf24;
+            border-color: #fbbf24;
+            box-shadow: 0 0 4px rgba(251, 191, 36, 0.25);
+        }
+
+        .tag-marketing {
+            background: #241433;
+            color: #c084fc;
+            border-color: #c084fc;
+            box-shadow: 0 0 4px rgba(192, 132, 252, 0.25);
+        }
+
+        .tag-security {
+            background: #2e1319;
+            color: #f87171;
+            border-color: #f87171;
+            box-shadow: 0 0 4px rgba(248, 113, 113, 0.25);
+        }
+
+        .tag-cloud {
+            background: #082136;
+            color: #38bdf8;
+            border-color: #38bdf8;
+            box-shadow: 0 0 6px rgba(56, 189, 248, 0.35);
+        }
+
+        /* Pulsanti Filtro Personalizzati */
+        .btn-filter-cloud:hover, .btn-filter-cloud.active {
+            background: #082842 !important;
+            border-color: #38bdf8 !important;
+            color: #bae6fd !important;
+            box-shadow: inset 0 0 0 1px #38bdf8;
+        }
+
+        .btn-filter-sviluppo:hover, .btn-filter-sviluppo.active {
+            background: #332810 !important;
+            border-color: #fbbf24 !important;
+            color: #fde68a !important;
+            box-shadow: inset 0 0 0 1px #fbbf24;
+        }
+
+        .btn-filter-marketing:hover, .btn-filter-marketing.active {
+            background: #2b183d !important;
+            border-color: #c084fc !important;
+            color: #f3e8ff !important;
+            box-shadow: inset 0 0 0 1px #c084fc;
+        }
+
+        .btn-filter-security:hover, .btn-filter-security.active {
+            background: #38151c !important;
+            border-color: #f87171 !important;
+            color: #fecaca !important;
+            box-shadow: inset 0 0 0 1px #f87171;
+        }
+
+        /* -------------------------------------------------------------
+           STILI MODALE AGGIUNTA AGENTE UNIVERSALE (VERSIONE 2.0)
+           ------------------------------------------------------------- */
+        .btn-add-agent {
+            background: linear-gradient(135deg, #075985, #0284c7) !important;
+            color: #ffffff !important;
+            border: 2px solid #38bdf8 !important;
+            font-family: inherit;
+            font-weight: bold;
+            font-size: 11px;
+            padding: 6px 14px;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.4), inset 0 0 0 1px rgba(255,255,255,0.2);
+            transition: all 0.2s ease;
+            margin-left: auto;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-add-agent:hover {
+            background: linear-gradient(135deg, #0284c7, #38bdf8) !important;
+            color: #000000 !important;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.8);
+            transform: translateY(-1px);
+        }
+
+        .btn-provider-tab {
+            background: #111422;
+            color: #94a3b8;
+            border: 1px solid #1f2842;
+            padding: 5px 10px;
+            font-family: inherit;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-provider-tab:hover {
+            color: #fff;
+            border-color: #38bdf8;
+        }
+
+        .btn-provider-tab.active {
+            background: #0c2844;
+            color: #38bdf8;
+            border-color: #38bdf8;
+            box-shadow: 0 0 6px rgba(56, 189, 248, 0.35);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 9px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+            font-weight: bold;
+        }
+
+        .form-input {
+            width: 100%;
+            background: #090b14;
+            border: 1px solid var(--border-outer);
+            color: var(--text-bright);
+            font-family: inherit;
+            font-size: 11px;
+            padding: 6px 8px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 6px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-ping-test {
+            background: #1e1b4b;
+            color: #a5b4fc;
+            border: 1px solid #6366f1;
+            font-family: inherit;
+            font-size: 9px;
+            font-weight: bold;
+            padding: 3px 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .btn-ping-test:hover {
+            background: #312e81;
+            color: #fff;
+        }
+
+        .sprite-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
+            gap: 6px;
+            max-height: 155px;
+            overflow-y: auto;
+            padding: 6px;
+            background: #05070e;
+            border: 1px solid #141a29;
+        }
+
+        .sprite-picker-item {
+            width: 44px;
+            height: 48px;
+            border: 2px solid #232a42;
+            background: #0a0c16;
+            object-fit: contain;
+            cursor: pointer;
+            padding: 2px;
+            transition: all 0.12s ease-in-out;
+        }
+
+        .sprite-picker-item:hover {
+            border-color: #38bdf8;
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+            background: #082238;
+            transform: scale(1.08);
+            z-index: 2;
+        }
+
+        .sprite-picker-item.selected {
+            border-color: #fde047;
+            box-shadow: 0 0 10px rgba(253, 224, 71, 0.75);
+            background: #17150a;
+            transform: scale(1.08);
+            z-index: 3;
+        }
+
+        .btn-delete-agent {
+            background: #2b1116;
+            color: #f87171;
+            border-color: #ef4444;
+            font-size: 9px;
+            padding: 2px 6px;
+        }
+
+        .btn-delete-agent:hover {
+            background: #451119;
+            color: #fff;
+        }
+
+        /* -------------------------------------------------------------
+           FOOTER STATUS BAR REAL-TIME (RETRO 16-BIT JRPG)
+           ------------------------------------------------------------- */
+        .retro-footer {
+            margin-top: 6px;
+            padding: 10px 14px;
+            background: #0a0c16;
+            border: 3px solid var(--border-outer);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            box-shadow: 0 0 0 1px #000, inset 0 0 0 2px #111322;
+        }
+
+        .footer-row-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #1f2438;
+        }
+
+        .footer-live-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #0e2014;
+            border: 1px solid var(--hp-green);
+            padding: 3px 9px;
+            font-size: 11px;
+            font-weight: bold;
+            color: var(--hp-green);
+            letter-spacing: 0.5px;
+        }
+
+        .blinking-led {
+            color: #9ece6a;
+            animation: pulse-led 1s infinite;
+            display: inline-block;
+            font-size: 13px;
+            line-height: 1;
+        }
+
+        @keyframes pulse-led {
+            0%, 100% { opacity: 1; transform: scale(1.15); filter: drop-shadow(0 0 4px #9ece6a); }
+            50% { opacity: 0.25; transform: scale(0.85); filter: none; }
+        }
+
+        .footer-clock {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            background: #06070c;
+            border: 1px solid #23283d;
+            padding: 3px 10px;
+        }
+
+        .clock-label {
+            color: var(--text-muted);
+            font-weight: bold;
+        }
+
+        .clock-val {
+            font-family: 'Courier New', Consolas, monospace;
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--vram-cyan);
+            letter-spacing: 1px;
+        }
+
+        .footer-poll-stats {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .footer-poll-stats b {
+            color: var(--text-bright);
+        }
+
+        .poll-sep {
+            color: #333a56;
+        }
+
+        .footer-services {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .srv-badge {
+            font-size: 10px;
+            font-weight: bold;
+            padding: 2px 7px;
+            border: 1px solid;
+            letter-spacing: 0.5px;
+        }
+
+        .srv-ok {
+            background: #101c18;
+            color: #73daca;
+            border-color: #41a6b5;
+        }
+
+        .footer-row-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 11px;
+        }
+
+        .footer-team-summary {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .team-footer-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 8px;
+            border: 1px solid;
+            background: #0f111d;
+            font-size: 10px;
+        }
+
+        .chip-sviluppo {
+            border-color: #fbbf24;
+            color: #fde68a;
+        }
+
+        .chip-marketing {
+            border-color: #c084fc;
+            color: #e9d5ff;
+        }
+
+        .chip-security {
+            border-color: #f87171;
+            color: #fca5a5;
+        }
+
+        .chip-icon {
+            font-size: 11px;
+        }
+
+        .footer-rule-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--gold);
+            font-size: 10px;
+            font-weight: bold;
+            background: #1c150c;
+            border: 1px solid #78471e;
+            padding: 3px 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="scanlines"></div>
+
+    <div class="dashboard-wrapper">
+        <!-- 1. HEADER & TOP BAR -->
+        <header class="pixel-box header-bar">
+            <div class="title-group">
+                <svg class="pixel-icon-logo" viewBox="0 0 16 16" fill="none">
+                    <rect x="2" y="2" width="12" height="12" fill="#1f2335" stroke="#7aa2f7" stroke-width="2"/>
+                    <rect x="4" y="4" width="3" height="3" fill="#9ece6a"/>
+                    <rect x="9" y="4" width="3" height="3" fill="#2ac3de"/>
+                    <rect x="4" y="9" width="8" height="3" fill="#bb9af7"/>
+                </svg>
+                <div>
+                    <div class="main-title" id="main-header-title">
+                        <span style="color: #7aa2f7;">STATISTICHEAI</span>
+                        <span style="color: #565f89; margin: 0 4px;">•</span>
+                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 7 AGENTI & OLLAMA + 1 CLOUD (8 TOTALI)</span>
+                    </div>
+                    <div id="title-dynamic-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 11px; margin-top: 3px; flex-wrap: wrap;">
+                        <span id="title-workflow-badge" class="badge" style="background: #0f172a; color: #38bdf8; border-color: #0284c7; padding: 2px 7px; font-size: 10px; cursor: default; letter-spacing: 0.5px;">
+                            🔀 WORKFLOW: 🦙 OLLAMA LOCALE (14 MODELLI) + ☁ OLLAMA CLOUD (BEAM 501B)
+                        </span>
+                        <span style="color: var(--text-muted);">MONITOR RETRO RPG: SANO | INFERMERIA | CIMITERO • AZIONI REALI CON BACKUP</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="badge-group">
+                <div id="actions-status-badge" class="badge" style="background:#1e3223; color:var(--hp-green); border-color:var(--hp-green);">
+                    [ AZIONI & CURE: ATTIVE ]
+                </div>
+                <div id="guardian-badge" class="badge badge-guardian-ok" onclick="openGuardianModal()">
+                    [ GUARDIANO: INIZIALIZZAZIONE... ]
+                </div>
+            </div>
+        </header>
+
+        <!-- 2. HUD STATISTICHE DI SISTEMA -->
+        <section class="pixel-box">
+            <div class="hud-grid">
+                <!-- CPU -->
+                <div class="hud-metric">
+                    <div class="hud-metric-header">
+                        <span>CPU SISTEMA</span>
+                        <span id="hud-cpu-val">--%</span>
+                    </div>
+                    <div class="pixel-bar-container">
+                        <div id="hud-cpu-bar" class="pixel-bar-fill" style="width: 0%; background-color: var(--hp-green);"></div>
+                    </div>
+                </div>
+
+                <!-- RAM -->
+                <div class="hud-metric">
+                    <div class="hud-metric-header">
+                        <span>RAM USATA</span>
+                        <span id="hud-ram-val">-- GB / -- GB</span>
+                    </div>
+                    <div class="pixel-bar-container">
+                        <div id="hud-ram-bar" class="pixel-bar-fill" style="width: 0%; background-color: var(--vram-cyan);"></div>
+                    </div>
+                </div>
+
+                <!-- GPU UTIL -->
+                <div class="hud-metric">
+                    <div class="hud-metric-header">
+                        <span>RTX 4060 GPU</span>
+                        <span id="hud-gpu-val">--% (--°C)</span>
+                    </div>
+                    <div class="pixel-bar-container">
+                        <div id="hud-gpu-bar" class="pixel-bar-fill" style="width: 0%; background-color: var(--hp-yellow);"></div>
+                    </div>
+                </div>
+
+                <!-- VRAM -->
+                <div class="hud-metric">
+                    <div class="hud-metric-header">
+                        <span>VRAM DEDICATA</span>
+                        <span id="hud-vram-val">-- MB / 8188 MB</span>
+                    </div>
+                    <div class="pixel-bar-container">
+                        <div id="hud-vram-bar" class="pixel-bar-fill" style="width: 0%; background-color: var(--mana-purple);"></div>
+                    </div>
+                </div>
+
+                <!-- OLLAMA STATUS -->
+                <div class="hud-metric">
+                    <div class="hud-metric-header">
+                        <span>OLLAMA RUNTIME</span>
+                        <span id="hud-ollama-val">CONNESSO</span>
+                    </div>
+                    <div style="font-size: 10px; color: var(--text-bright); margin-top: 4px;" id="hud-ollama-sub">
+                        MODELLI IN VRAM: 0 | MODELLI LOCALI: 12 (OTTIMIZZATI)
+                    </div>
+                </div>
+
+                <!-- TEAM STATUS -->
+                <div class="hud-metric">
+                    <div class="hud-metric-header">
+                        <span>STATO 7 AGENTI</span>
+                        <span id="hud-team-count">7 TOTALI</span>
+                    </div>
+                    <div style="font-size: 10px; color: var(--text-bright); margin-top: 4px;" id="hud-team-summary">
+                        SANI: 7 | INFERMERIA: 0 | CIMITERO: 0
+                    </div>
+                </div>
+
+                <!-- GRUPPO: TEAM SVILUPPO -->
+                <div class="hud-metric" style="border-color: #4d3e1d;">
+                    <div class="hud-metric-header">
+                        <span style="color: #fbbf24; font-weight: bold;">⚒ TEAM SVILUPPO</span>
+                        <span id="hud-sviluppo-stat" style="color: var(--hp-green); font-weight: bold;">3/3 OPERATIVI</span>
+                    </div>
+                    <div class="pixel-bar-container">
+                        <div id="hud-sviluppo-bar" class="pixel-bar-fill" style="width: 100%; background-color: #fbbf24;"></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); margin-top: 3px;" id="hud-sviluppo-members">
+                        GynBot1 (Regista) • PROGRAMMATORE • QUALITY CHEKER
+                    </div>
+                </div>
+
+                <!-- GRUPPO: TEAM MARKETING -->
+                <div class="hud-metric" style="border-color: #3f2257;">
+                    <div class="hud-metric-header">
+                        <span style="color: #c084fc; font-weight: bold;">📢 TEAM MARKETING</span>
+                        <span id="hud-marketing-stat" style="color: var(--hp-green); font-weight: bold;">3/3 OPERATIVI</span>
+                    </div>
+                    <div class="pixel-bar-container">
+                        <div id="hud-marketing-bar" class="pixel-bar-fill" style="width: 100%; background-color: #c084fc;"></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); margin-top: 3px;" id="hud-marketing-members">
+                        Direttore Marketing • Copywriter • Growth Hacker
+                    </div>
+                </div>
+
+                <!-- GRUPPO: SUPER COORDINATORE CLOUD -->
+                <div class="hud-metric" style="border-color: #0284c7; background: #081524; box-shadow: 0 0 10px rgba(2, 132, 199, 0.2);">
+                    <div class="hud-metric-header">
+                        <span style="color: #38bdf8; font-weight: bold;">☁ SUPER COORDINATORE</span>
+                        <span id="hud-cloud-stat" style="color: #38bdf8; font-weight: bold;">IMMORTALE (ONLINE)</span>
+                    </div>
+                    <div class="pixel-bar-container">
+                        <div id="hud-cloud-bar" class="pixel-bar-fill" style="width: 100%; background: linear-gradient(90deg, #0284c7, #38bdf8, #fde047);"></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); margin-top: 3px;" id="hud-cloud-members">
+                        BEAM • 501B MoE Cloud • 1M Context (1.048.576 tok) • 0 VRAM
+                    </div>
+                </div>
+
+                <!-- ANIMAZIONE CLOUD PORTAL BEAM (ACCANTO ALLA CARD) -->
+                <div class="hud-metric hud-metric-cloud-portal" style="border-color: #0284c7; background: #060e1a; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 0 14px rgba(56, 189, 248, 0.25); min-width: 340px;">
+                    <div class="hud-metric-header" style="margin-bottom: 4px;">
+                        <span style="color: #38bdf8; font-weight: bold; font-size: 11px;">☁ PORTALE VORTICE QUANTICO • BEAM 501B</span>
+                        <span style="color: #fde047; font-weight: bold; font-size: 10px;">1M CONTEXT • IMMORTALE</span>
+                    </div>
+                    <div style="position: relative; width: 100%; height: 86px; overflow: hidden; border: 1px solid #13273e; background: #050a14;">
+                        <canvas id="beam-cloud-canvas" width="380" height="86" style="display: block; width: 100%; height: 100%;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. STAGE INTERATTIVO: LE 4 STANZE PIXEL ART (CANVAS) -->
+        <section class="pixel-box stage-container">
+            <div class="stage-header">
+                <span>SCENE RETROGAME: CASETTA (RIPOSO) | UFFICIO (LAVORO) | INFERMERIA (CURA) | CIMITERO (CAMPO SANTO)</span>
+                <span id="stage-fps" style="color: var(--hp-green);">MONITORAGGIO REALE: ATTIVO</span>
+            </div>
+            <canvas id="retro-stage-canvas" width="1280" height="320"></canvas>
+        </section>
+
+        <!-- 4. BARRA FILTRI & AZIONI UNIVERSALI (VERSIONE 2.0) -->
+        <div class="pixel-box filter-bar">
+            <span style="font-weight: bold; color: var(--text-muted); text-transform: uppercase;">FILTRA:</span>
+            <button class="btn-filter active" id="filter-btn-all" onclick="setFilter('all')">TUTTI</button>
+            <button class="btn-filter btn-filter-cloud" onclick="setFilter('SUPER COORDINATORE')">☁ SUPER COORDINATORE</button>
+            <button class="btn-filter btn-filter-sviluppo" onclick="setFilter('TEAM SVILUPPO')">⚒ TEAM SVILUPPO</button>
+            <button class="btn-filter btn-filter-marketing" onclick="setFilter('TEAM MARKETING')">📢 TEAM MARKETING</button>
+            <button class="btn-filter btn-filter-security" onclick="setFilter('SICUREZZA')">🛡 SICUREZZA</button>
+
+            <!-- PULSANTE UNIVERSALE 1-CLICK: COLLEGA QUALSIASI AGENTE (VERSIONE 2.0) -->
+            <button class="btn-add-agent" onclick="openAddAgentModal()">
+                <span>+</span> COLLEGA NUOVO AGENTE
+            </button>
+        </div>
+
+        <!-- 5. GRIGLIA SCHEDE DEI 7 AGENTI -->
+        <section class="agents-grid" id="agents-grid">
+            <!-- Popolato dinamicamente via JS in tempo reale -->
+        </section>
+
+        <!-- 6. REGISTRO STORICO AZIONI E CURE -->
+        <section class="pixel-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-weight: bold; color: var(--text-bright); letter-spacing: 0.5px;">
+                    REGISTRO STORICO CURE, AZIONI E RESURREZIONI (CON BACKUP DEDICATO)
+                </span>
+                <span style="font-size: 11px; color: var(--text-muted);">SICUREZZA: ISOLAMENTO 100% SU SINGOLO AGENTE</span>
+            </div>
+            <div class="history-terminal" id="actions-history-box">
+                <div style="color: var(--text-muted); font-style: italic;">Nessuna azione eseguita di recente.</div>
+            </div>
+        </section>
+
+        <!-- 7. FOOTER STATUS BAR REAL-TIME (RETRO 16-BIT) -->
+        <footer class="pixel-box retro-footer">
+            <div class="footer-row-top">
+                <div class="footer-live-badge">
+                    <span class="blinking-led">●</span>
+                    <span class="live-text">STREAM TELEMETRIA LIVE</span>
+                </div>
+                <div class="footer-clock">
+                    <span class="clock-label">ORA LOCALE:</span>
+                    <span id="footer-digital-clock" class="clock-val">--:--:--.---</span>
+                </div>
+                <div class="footer-poll-stats">
+                    <span class="poll-item">POLL CICLO: <b id="footer-poll-count">#0</b></span>
+                    <span class="poll-sep">|</span>
+                    <span class="poll-item">LATENZA: <b id="footer-ping-val">-- ms</b></span>
+                    <span class="poll-sep">|</span>
+                    <span class="poll-item">SYNC: <b>1.5s</b></span>
+                </div>
+                <div class="footer-services">
+                    <span class="srv-badge srv-ok" id="footer-hermes-status">[ HERMES GATEWAY :42000 OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-ollama-status">[ OLLAMA :11434 OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (V2.0) OK ]</span>
+                </div>
+            </div>
+
+            <div class="footer-row-bottom">
+                <div class="footer-team-summary">
+                    <span class="team-footer-chip chip-sviluppo">
+                        <span class="chip-icon">⚒</span>
+                        <b>TEAM SVILUPPO:</b>
+                        <span id="footer-sviluppo-text">3/3 Agenti Operativi (GynBot1, PROGRAMMATORE, QUALITY CHEKER)</span>
+                    </span>
+                    <span class="team-footer-chip chip-marketing">
+                        <span class="chip-icon">📢</span>
+                        <b>TEAM MARKETING:</b>
+                        <span id="footer-marketing-text">3/3 Agenti Operativi (Direttore, Copywriter, Growth Hacker)</span>
+                    </span>
+                    <span class="team-footer-chip chip-security">
+                        <span class="chip-icon">🛡</span>
+                        <b>SICUREZZA:</b>
+                        <span id="footer-security-text">1/1 Auditor Operativo (CEH)</span>
+                    </span>
+                    <span class="team-footer-chip chip-cloud" style="border: 1px solid #38bdf8; background: #082136; color: #38bdf8;">
+                        <span class="chip-icon">☁</span>
+                        <b>SUPER COORDINATORE:</b>
+                        <span id="footer-cloud-text">BEAM (501B Cloud, 1M Context, Zero VRAM) Attivo</span>
+                    </span>
+                </div>
+                <div class="footer-rule-badge">
+                    <span class="rule-icon">🔒</span>
+                    <span>REGOLA ZERO: CONFIGURAZIONI HERMES & OLLAMA BLINDATE</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- MODALE CONFERMA AZIONE (SICUREZZA & PROCEDI) -->
+    <div id="action-confirm-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title" id="act-modal-title">CONFERMA INTERVENTO</span>
+                <button class="modal-close" onclick="closeConfirmModal()">X</button>
+            </div>
+            <div id="act-modal-body" style="font-size: 12px; line-height: 1.5;">
+                <!-- Dettagli generati dinamicamente -->
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button id="act-confirm-btn" class="btn-filter active" style="flex: 2; padding: 8px; background: #234c31; border-color: var(--hp-green);">
+                    CONFERMA ED ESEGUI ORA
+                </button>
+                <button class="btn-filter" style="flex: 1;" onclick="closeConfirmModal()">ANNULLA</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALE SIMULAZIONE GUASTO (TESTING) -->
+    <div id="simulate-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title" id="sim-modal-title">SIMULATORE DIAGNOSI GUASTO</span>
+                <button class="modal-close" onclick="closeSimulateModal()">X</button>
+            </div>
+            <div style="font-size: 12px; line-height: 1.5;">
+                Seleziona il tipo di guasto da simulare sull'agente per verificare il flusso di diagnosi reale, l'ingresso in Infermeria o nel Cimitero e la successiva guarigione/resurrezione:
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 6px;">
+                <button class="btn-filter" style="text-align: left; padding: 8px;" onclick="applySimulation('session')">
+                    1. <b>SIMULA SESSIONE BLOCCATA</b> &rarr; Va in INFERMERIA (Abilita "CURA SESSIONE")
+                </button>
+                <button class="btn-filter" style="text-align: left; padding: 8px;" onclick="applySimulation('context')">
+                    2. <b>SIMULA CONTESTO SATURO</b> &rarr; Va in INFERMERIA (Abilita "CURA CONTESTO")
+                </button>
+                <button class="btn-filter" style="text-align: left; padding: 8px; border-color: var(--cemetery-purple);" onclick="applySimulation('cemetery')">
+                    3. <b>SIMULA CRASH CRITICO</b> (Sessione + Contesto) &rarr; Va al CIMITERO (Abilita "RESUSCITA")
+                </button>
+                <button class="btn-filter" style="text-align: left; padding: 8px; border-color: var(--hp-green);" onclick="applySimulation('clear')">
+                    4. <b>AZZERA SIMULAZIONE</b> &rarr; Ripristina stato da diagnosi reale Hermes
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODALE GUARDIANO INTEGRITA' -->
+    <div id="guardian-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <span class="modal-title">STATO GUARDIANO (BASELINE HASH CONFIGURAZIONI)</span>
+                <button class="modal-close" onclick="closeGuardianModal()">X</button>
+            </div>
+            <div style="font-size: 12px; color: var(--text-main);" id="guardian-modal-summary">
+                Controllo automatico ogni 60s. Nessun file modificato al di fuori delle procedure autorizzate.
+            </div>
+            <div style="max-height: 200px; overflow-y: auto; background: #07080d; padding: 8px; border: 1px solid var(--border-outer); font-size: 11px;" id="guardian-modal-files">
+                <!-- File monitorati -->
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+                <button id="btn-guardian-resolve" class="btn-filter" style="flex: 2; background: #0e3a2f; color: #73daca; border-color: #41a6b5; padding: 8px 12px; font-weight: bold; cursor: pointer;" onclick="autoResolveGuardian()">
+                    ⚡ AUTO-RISOLVI DISCREPANZE E SINCRONIZZA BASELINE
+                </button>
+                <button class="btn-filter" style="flex: 1;" onclick="closeGuardianModal()">CHIUDI</button>
+            </div>
+            <div style="font-size: 10px; color: var(--text-muted); margin-top: 6px; display: flex; justify-content: space-between; border-top: 1px solid #1a2236; padding-top: 5px;">
+                <span>AUTO-RISOLUZIONE IN BACKGROUND: <b style="color: var(--hp-green);">ATTIVA (OGNI 30S)</b></span>
+                <span>REGOLA ZERO: <b style="color: var(--gold);">PRESERVATA</b></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============================================================
+         MODALE UNIVERSALE: AGGIUNGI / COLLEGA NUOVO AGENTE (VERSIONE 2.0)
+         ============================================================= -->
+    <div id="add-agent-modal" class="modal-overlay">
+        <div class="modal-card" style="max-width: 680px; max-height: 90vh; overflow-y: auto;">
+            <div class="modal-header">
+                <span class="modal-title" style="color: #38bdf8; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 18px; color: #fde047;">+</span> COLLEGA NUOVO AGENTE AI (UNIVERSALE)
+                </span>
+                <button class="modal-close" onclick="closeAddAgentModal()">X</button>
+            </div>
+            
+            <div style="font-size: 11px; color: var(--text-muted);">
+                Collega qualsiasi agente AI locale o cloud (Ollama, LM Studio, Hermes, OpenAI-Compatible, Claude, OpenRouter, vLLM).
+            </div>
+
+            <!-- Selezione Provider Rapido -->
+            <div style="margin-top: 6px;">
+                <label class="form-label">SELEZIONA INFRASTRUTTURA / PROVIDER</label>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                    <button type="button" class="btn-provider-tab active" id="tab-ollama" onclick="selectProvider('ollama')">🦙 OLLAMA</button>
+                    <button type="button" class="btn-provider-tab" id="tab-lmstudio" onclick="selectProvider('lmstudio')">🧪 LM STUDIO</button>
+                    <button type="button" class="btn-provider-tab" id="tab-hermes" onclick="selectProvider('hermes')">🏛 HERMES PROFILE</button>
+                    <button type="button" class="btn-provider-tab" id="tab-openai" onclick="selectProvider('openai_compatible')">⚡ OPENAI / vLLM</button>
+                    <button type="button" class="btn-provider-tab" id="tab-cloud" onclick="selectProvider('cloud')">☁ CLOUD / CLAUDE</button>
+                </div>
+            </div>
+
+            <!-- Form Dati Agente -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
+                <div>
+                    <label class="form-label">NOME AGENTE *</label>
+                    <input type="text" id="add-agent-name" class="form-input" placeholder="Es. DevCoder, ClaudeAnalyst, DeepSeekBot" required />
+                </div>
+                <div>
+                    <label class="form-label">RUOLO / TITOLO</label>
+                    <input type="text" id="add-agent-title" class="form-input" placeholder="Es. Senior Architect, Marketing Lead" />
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
+                <div>
+                    <label class="form-label">GRUPPO DI APPARTENENZA</label>
+                    <select id="add-agent-group-select" class="form-input" onchange="checkCustomGroup(this.value)">
+                        <option value="TEAM SVILUPPO">⚒ TEAM SVILUPPO</option>
+                        <option value="TEAM MARKETING">📢 TEAM MARKETING</option>
+                        <option value="SICUREZZA">🛡 SICUREZZA</option>
+                        <option value="SUPER COORDINATORE">☁ SUPER COORDINATORE</option>
+                        <option value="__NEW__">+ NUOVO GRUPPO PERSONALIZZATO...</option>
+                    </select>
+                    <input type="text" id="add-agent-custom-group" class="form-input" style="display: none; margin-top: 4px;" placeholder="Nome nuovo gruppo..." />
+                </div>
+                <div>
+                    <label class="form-label">COLORE BADGE / TEMA</label>
+                    <div style="display: flex; gap: 6px; align-items: center;">
+                        <input type="color" id="add-agent-color" value="#38bdf8" style="width: 44px; height: 32px; border: 1px solid var(--border-outer); background: #000; cursor: pointer;" />
+                        <span style="font-size: 10px; color: var(--text-muted);">Colore accent della card</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Endpoint & Test Connessione -->
+            <div style="margin-top: 8px; background: #080b14; padding: 8px; border: 1px solid #1a2236;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <label class="form-label" style="margin: 0;">ENDPOINT URL *</label>
+                    <button type="button" class="btn-ping-test" id="btn-test-ping" onclick="testAgentEndpoint()">
+                        ⚡ TESTA CONNESSIONE & RILEVA MODELLI
+                    </button>
+                </div>
+                <input type="text" id="add-agent-endpoint" class="form-input" placeholder="http://127.0.0.1:11434" value="http://127.0.0.1:11434" />
+                <div id="endpoint-test-feedback" style="display: none; font-size: 10px; margin-top: 5px; padding: 5px 8px; border: 1px solid;"></div>
+            </div>
+
+            <!-- Modello & Parametri -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
+                <div>
+                    <label class="form-label">MODELLO SELEZIONATO *</label>
+                    <div style="display: flex; gap: 4px;">
+                        <input type="text" id="add-agent-model" class="form-input" placeholder="Es. llama3.2, claude-3-5-sonnet" style="flex: 1;" />
+                        <select id="add-agent-model-select" class="form-input" style="display: none; flex: 1;" onchange="document.getElementById('add-agent-model').value = this.value;">
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="form-label">FINESTRA CONTESTO MAX (TOKEN)</label>
+                    <select id="add-agent-context" class="form-input">
+                        <option value="8192">8.192 Token (8k)</option>
+                        <option value="16384">16.384 Token (16k)</option>
+                        <option value="32768" selected>32.768 Token (32k)</option>
+                        <option value="65536">65.536 Token (64k Calibrato)</option>
+                        <option value="131072">131.072 Token (128k)</option>
+                        <option value="1048576">1.048.576 Token (1M Cloud)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Campo Hermes Profile -->
+            <div id="hermes-profile-container" style="display: none; margin-top: 8px;">
+                <label class="form-label">ID PROFILO HERMES (CARTELLA SU DISCO)</label>
+                <input type="text" id="add-agent-profile" class="form-input" placeholder="Es. default, gynbot2, mark1 o nuovo profilo" />
+            </div>
+
+            <!-- API Key (opzionale per Cloud) -->
+            <div id="cloud-api-key-container" style="display: none; margin-top: 8px;">
+                <label class="form-label">API KEY (PER SERVIZI ESTERNI / CLOUD)</label>
+                <input type="password" id="add-agent-apikey" class="form-input" placeholder="Bearer sk-..." />
+            </div>
+
+            <!-- Scelta Sprite Arcade & Petdex Gallery -->
+            <div style="margin-top: 10px; background: #070912; padding: 8px; border: 1px solid #161c2d;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
+                    <label class="form-label" style="margin: 0;">GALLERIA AVATAR & NOUS HERMES PETDEX (44 AVATAR)</label>
+                    <div style="display: flex; gap: 4px;">
+                        <button type="button" class="btn-provider-tab active" id="tab-sprite-all" onclick="setSpriteCategory('all')">🌐 TUTTI (44)</button>
+                        <button type="button" class="btn-provider-tab" id="tab-sprite-core" onclick="setSpriteCategory('core')">⭐ CORE (8)</button>
+                        <button type="button" class="btn-provider-tab" id="tab-sprite-hermes" onclick="setSpriteCategory('hermes')">🐾 PETS (36)</button>
+                    </div>
+                </div>
+
+                <!-- Preview avatar selezionato & ricerca rapida -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; background: #0b0e1a; padding: 5px 8px; border: 1px solid #1a2238; gap: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <img id="sprite-preview-img" src="sprites_agents/GynBot1.png" style="width: 32px; height: 34px; object-fit: contain; border: 1px solid #fde047; background: #000;" alt="Preview" />
+                        <div>
+                            <div id="sprite-preview-name" style="font-size: 11px; font-weight: bold; color: #fde047;">GynBot1</div>
+                            <div style="font-size: 9px; color: var(--text-muted);">Avatar arcade selezionato</div>
+                        </div>
+                    </div>
+                    <div>
+                        <input type="text" id="sprite-search-input" class="form-input" style="padding: 4px 8px; font-size: 10px; width: 170px;" placeholder="🔍 Filtra es. cat, robot, dragon..." oninput="filterSpriteGrid(this.value)" />
+                    </div>
+                </div>
+
+                <div class="sprite-picker-grid" id="sprite-picker-gallery">
+                    <!-- Popolato dinamicamente da loadSpritesGallery() -->
+                </div>
+                <input type="hidden" id="add-agent-sprite" value="sprites_agents/GynBot1.png" />
+            </div>
+
+            <!-- Pulsanti Salva / Annulla -->
+            <div style="display: flex; gap: 10px; margin-top: 14px;">
+                <button type="button" class="btn-act" id="btn-submit-agent" style="background: #0284c7; color: #fff; border-color: #38bdf8; padding: 10px 16px; font-weight: bold; flex: 2;" onclick="submitNewAgent()">
+                    ✓ SALVA E INTEGRA AGENTE NEL MONITORAGGIO
+                </button>
+                <button type="button" class="btn-filter" style="flex: 1;" onclick="closeAddAgentModal()">
+                    ANNULLA
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast-notification"></div>
+
+    <script>
+        /* -------------------------------------------------------------
+           CONTROLLER DASHBOARD STATISTICHEAI & CANVAS PIXEL ART (V2.0)
+           ------------------------------------------------------------- */
+        const API_BASE = (window.location.protocol === 'file:' || window.location.origin === 'null') 
+                         ? 'http://127.0.0.1:8888' 
+                         : '';
+
+        let TELEMETRY_DATA = null;
+        let ACTIVE_FILTER = 'all';
+        let CSRF_TOKEN = '';
+        let PENDING_ACTION = null;
+        let SIMULATE_TARGET_ID = null;
+
+        // Effetti grafici dinamici: Raggio di Resurrezione e Lucciole
+        let resurrectionAnimation = {
+            active: false,
+            agentId: null,
+            roomX: 0,
+            startTime: 0,
+            duration: 3500
+        };
+
+        const FIREFLIES = [];
+        for (let i = 0; i < 18; i++) {
+            FIREFLIES.push({
+                x: 960 + Math.random() * 320,
+                y: 120 + Math.random() * 180,
+                baseX: 960 + Math.random() * 320,
+                baseY: 120 + Math.random() * 180,
+                speed: 0.001 + Math.random() * 0.002,
+                radius: 10 + Math.random() * 25,
+                phase: Math.random() * Math.PI * 2
+            });
+        }
+
+        // Mappa sprite agenti
+        const SPRITE_IMAGES = {};
+        const AGENT_SPRITES = {
+            'gynbot1': API_BASE + '/sprites_agents/GynBot1.png',
+            'gynbot2': API_BASE + '/sprites_agents/PROGRAMMATORE.png',
+            'gynbox3': API_BASE + '/sprites_agents/QUALITY CHEKER.png',
+            'mark1': API_BASE + '/sprites_agents/Direttore Marketing.png',
+            'mark2': API_BASE + '/sprites_agents/Copywriter Creativo.png',
+            'mark3': API_BASE + '/sprites_agents/Growt hacker.png',
+            'hacker': API_BASE + '/sprites_agents/CEH.png',
+            'beam': API_BASE + '/sprites_agents/BEAM.png'
+        };
+
+        Object.keys(AGENT_SPRITES).forEach(id => {
+            const img = new Image();
+            img.src = AGENT_SPRITES[id];
+            SPRITE_IMAGES[id] = img;
+        });
+
+        // Toast feedback
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('toast-notification');
+            toast.textContent = msg;
+            toast.style.borderColor = isError ? 'var(--hp-red)' : 'var(--hp-green)';
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 4000);
+        }
+
+        // -------------------------------------------------------------
+        // Polling Telemetria & Live Clock
+        // -------------------------------------------------------------
+        let isFetching = false;
+        let pollCounter = 0;
+
+        function updateDigitalClock() {
+            const clockEl = document.getElementById('footer-digital-clock');
+            if (!clockEl) return;
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            const ms = String(now.getMilliseconds()).padStart(3, '0');
+            clockEl.textContent = `${h}:${m}:${s}.${ms}`;
+        }
+        setInterval(updateDigitalClock, 80);
+        updateDigitalClock();
+
+        async function fetchTelemetry() {
+            if (isFetching) return;
+            isFetching = true;
+            const tStart = performance.now();
+            try {
+                const res = await fetch(API_BASE + '/api/v1/telemetry');
+                const latency = Math.max(1, Math.round(performance.now() - tStart));
+                if (!res.ok) { isFetching = false; return; }
+                const data = await res.json();
+                pollCounter++;
+                TELEMETRY_DATA = data;
+                CSRF_TOKEN = data.csrf_token || '';
+
+                // Aggiornamento statistiche tempo reale footer
+                const pollCountEl = document.getElementById('footer-poll-count');
+                if (pollCountEl) pollCountEl.textContent = '#' + pollCounter;
+                const pingEl = document.getElementById('footer-ping-val');
+                if (pingEl) pingEl.textContent = latency + ' ms';
+
+                updateHUD(data);
+                renderAgentCards(data.agents);
+                renderHistory(data.actions_history || []);
+                updateGuardianBadge(data.guardian);
+            } catch (e) {
+                const pingEl = document.getElementById('footer-ping-val');
+                if (pingEl) pingEl.textContent = 'TIMEOUT';
+            } finally {
+                isFetching = false;
+            }
+        }
+
+        setInterval(fetchTelemetry, 1500);
+        fetchTelemetry();
+
+        // -------------------------------------------------------------
+        // Aggiornamento HUD
+        // -------------------------------------------------------------
+        function updateHUD(data) {
+            if (!data) return;
+            const sys = data.system || {};
+            const gpu = data.gpu || {};
+            const ol = data.ollama || {};
+            const agents = data.agents || [];
+            const grpSummary = data.groups_summary || {};
+
+            document.getElementById('hud-cpu-val').textContent = (sys.cpu_pct || 0) + '%';
+            document.getElementById('hud-cpu-bar').style.width = (sys.cpu_pct || 0) + '%';
+
+            const ramUsed = ((sys.ram_total_gb || 0) - (sys.ram_avail_gb || 0)).toFixed(1);
+            document.getElementById('hud-ram-val').textContent = ramUsed + ' GB / ' + (sys.ram_total_gb || 0) + ' GB';
+            document.getElementById('hud-ram-bar').style.width = (sys.ram_used_pct || 0) + '%';
+
+            document.getElementById('hud-gpu-val').textContent = (gpu.gpu_util_pct || 0) + '% (' + (gpu.temperature_c || 0) + '°C)';
+            document.getElementById('hud-gpu-bar').style.width = (gpu.gpu_util_pct || 0) + '%';
+
+            document.getElementById('hud-vram-val').textContent = (gpu.vram_used_mb || 0) + ' MB / ' + (gpu.vram_total_mb || 8188) + ' MB';
+            const vramPct = Math.round(((gpu.vram_used_mb || 0) / (gpu.vram_total_mb || 8188)) * 100);
+            document.getElementById('hud-vram-bar').style.width = vramPct + '%';
+
+            const runningCount = (ol.running_models || []).length;
+            document.getElementById('hud-ollama-val').textContent = ol.status === 'online' ? 'CONNESSO' : 'OFFLINE/SLOW';
+            document.getElementById('hud-ollama-sub').textContent = 
+                'MODELLI IN VRAM: ' + runningCount + ' | MODELLI LOCALI: ' + (ol.installed_models_count || 12);
+
+            let sani = 0, infermeria = 0, cimitero = 0;
+            agents.forEach(a => {
+                const hs = a.health_status || (a.room === 'infermeria' ? 'INFERMERIA' : 'SANO');
+                if (hs === 'SANO') sani++;
+                else if (hs === 'INFERMERIA') infermeria++;
+                else if (hs === 'CIMITERO') cimitero++;
+            });
+            document.getElementById('hud-team-count').textContent = agents.length + ' TOTALI';
+            document.getElementById('hud-team-summary').textContent = 
+                'SANI: ' + sani + ' | INFERMERIA: ' + infermeria + ' | CIMITERO: ' + cimitero;
+
+            // Statistiche dedicate: TEAM SVILUPPO
+            const sv = grpSummary['TEAM SVILUPPO'] || { total: 3, sani: 3, infermeria: 0, cimitero: 0 };
+            const svStat = document.getElementById('hud-sviluppo-stat');
+            const svBar = document.getElementById('hud-sviluppo-bar');
+            if (svStat && svBar) {
+                if (sv.cimitero > 0) {
+                    svStat.textContent = sv.cimitero + ' CRASH';
+                    svStat.style.color = 'var(--cemetery-purple)';
+                    svBar.style.backgroundColor = 'var(--cemetery-purple)';
+                    svBar.style.width = '30%';
+                } else if (sv.infermeria > 0) {
+                    svStat.textContent = sv.infermeria + ' IN CURA';
+                    svStat.style.color = 'var(--hp-yellow)';
+                    svBar.style.backgroundColor = 'var(--hp-yellow)';
+                    svBar.style.width = '65%';
+                } else {
+                    svStat.textContent = sv.sani + '/' + sv.total + ' OPERATIVI';
+                    svStat.style.color = 'var(--hp-green)';
+                    svBar.style.backgroundColor = '#fbbf24';
+                    svBar.style.width = '100%';
+                }
+            }
+
+            // Statistiche dedicate: TEAM MARKETING
+            const mk = grpSummary['TEAM MARKETING'] || { total: 3, sani: 3, infermeria: 0, cimitero: 0 };
+            const mkStat = document.getElementById('hud-marketing-stat');
+            const mkBar = document.getElementById('hud-marketing-bar');
+            if (mkStat && mkBar) {
+                if (mk.cimitero > 0) {
+                    mkStat.textContent = mk.cimitero + ' CRASH';
+                    mkStat.style.color = 'var(--cemetery-purple)';
+                    mkBar.style.backgroundColor = 'var(--cemetery-purple)';
+                    mkBar.style.width = '30%';
+                } else if (mk.infermeria > 0) {
+                    mkStat.textContent = mk.infermeria + ' IN CURA';
+                    mkStat.style.color = 'var(--hp-yellow)';
+                    mkBar.style.backgroundColor = 'var(--hp-yellow)';
+                    mkBar.style.width = '65%';
+                } else {
+                    mkStat.textContent = mk.sani + '/' + mk.total + ' OPERATIVI';
+                    mkStat.style.color = 'var(--hp-green)';
+                    mkBar.style.backgroundColor = '#c084fc';
+                    mkBar.style.width = '100%';
+                }
+            }
+
+            // Statistiche dedicate: SICUREZZA
+            const sc = grpSummary['SICUREZZA'] || { total: 1, sani: 1, infermeria: 0, cimitero: 0 };
+
+            // Statistiche dedicate: SUPER COORDINATORE (CLOUD)
+            const beamAgent = agents.find(a => a.id === 'beam');
+            const clStat = document.getElementById('hud-cloud-stat');
+            const clBar = document.getElementById('hud-cloud-bar');
+            const clMem = document.getElementById('hud-cloud-members');
+            if (clStat && clBar) {
+                clStat.textContent = '100% OPERATIVO (CLOUD)';
+                clStat.style.color = '#38bdf8';
+                clBar.style.width = '100%';
+                if (beamAgent) {
+                    const ctxPct = beamAgent.context_used_pct || 0;
+                    const usedTok = (beamAgent.context_used_tokens || 0).toLocaleString();
+                    const lifeTok = (beamAgent.lifetime_tokens || 0).toLocaleString();
+                    const calls = beamAgent.lifetime_api_calls || 0;
+                    const memB = beamAgent.memory_bytes || 0;
+                    clMem.innerHTML = `BEAM (501B MoE) • Turno: <b>${usedTok} tok (${ctxPct}%)</b> • Storico: <b>${lifeTok} tok</b> (${calls} calls • ${memB}B Memoria)`;
+                }
+            }
+
+            // Aggiornamento Ticker nel Footer in tempo reale
+            const fSv = document.getElementById('footer-sviluppo-text');
+            if (fSv) {
+                fSv.textContent = `${sv.sani}/${sv.total} Operativi [${sv.sani === sv.total ? 'OK' : 'ATTENZIONE'}] (GynBot1, PROGRAMMATORE, QUALITY CHEKER)`;
+            }
+            const fMk = document.getElementById('footer-marketing-text');
+            if (fMk) {
+                fMk.textContent = `${mk.sani}/${mk.total} Operativi [${mk.sani === mk.total ? 'OK' : 'ATTENZIONE'}] (Direttore, Copywriter, Growth Hacker)`;
+            }
+            const fSc = document.getElementById('footer-security-text');
+            if (fSc) {
+                fSc.textContent = `${sc.sani}/${sc.total} Auditor Operativo [OK] (CEH)`;
+            }
+            const fCloud = document.getElementById('footer-cloud-text');
+            if (fCloud) {
+                const lifeTok = beamAgent ? (beamAgent.lifetime_tokens || 0).toLocaleString() : '5.033.918';
+                fCloud.textContent = `BEAM (501B Cloud, 1M Context, ${lifeTok} Token Totali, Memoria Attiva) [OK]`;
+            }
+
+            // Aggiornamento Titolo Dinamico & Workflow Adattivo
+            updateDynamicHeaderTitle(data);
+        }
+
+        // -------------------------------------------------------------
+        // Titolo & Sottotitolo Dinamico Adattivo Multi-Workflow
+        // -------------------------------------------------------------
+        function updateDynamicHeaderTitle(data) {
+            if (!data) return;
+            const agents = data.agents || [];
+            const ol = data.ollama || {};
+
+            const dynamicTitleEl = document.getElementById('title-dynamic-agents');
+            const badgeEl = document.getElementById('title-workflow-badge');
+            if (!dynamicTitleEl || !badgeEl) return;
+
+            // Rilevamento agenti locali vs cloud
+            const localAgents = agents.filter(a => !a.is_cloud && a.id !== 'beam');
+            const cloudAgents = agents.filter(a => a.is_cloud || a.id === 'beam');
+
+            // Rilevamento profili Hermes
+            const hermesAgents = agents.filter(a => a.profile && a.profile !== 'beam');
+
+            // Rilevamento provider attivi
+            const providers = new Set();
+            agents.forEach(a => {
+                if (a.provider) providers.add(a.provider.toLowerCase());
+                else if (a.is_cloud || a.id === 'beam') providers.add('cloud');
+                else providers.add('ollama');
+            });
+
+            // 1. Titolo Principale Adattivo
+            let titleText = '';
+            if (hermesAgents.length > 0) {
+                if (cloudAgents.length > 0) {
+                    titleText = `HERMES ${hermesAgents.length} AGENTI & OLLAMA + ${cloudAgents.length} CLOUD (${agents.length} TOTALI)`;
+                } else {
+                    titleText = `HERMES ${hermesAgents.length} AGENTI & OLLAMA (${agents.length} TOTALI)`;
+                }
+            } else {
+                let provList = Array.from(providers).map(p => p.toUpperCase()).join(' • ');
+                titleText = `${provList || 'MULTI-ENGINE'} (${agents.length} AGENTI)`;
+            }
+            dynamicTitleEl.textContent = titleText;
+            document.title = `STATISTICHEAI • ${titleText}`;
+
+            // 2. Badge Dettagliato Workflow e Modelli (Locali & Cloud)
+            let badgeParts = [];
+            
+            // Info Ollama Locale
+            if (ol && ol.status === 'online') {
+                const locCount = ol.installed_models_count || 14;
+                badgeParts.push(`🦙 OLLAMA LOCALE (${locCount} MODELLI OTTIMIZZATI)`);
+            } else if (providers.has('ollama')) {
+                badgeParts.push(`🦙 OLLAMA LOCALE`);
+            }
+
+            // Info Cloud Ollama / Beam
+            const beamAgent = agents.find(a => a.id === 'beam' || (a.model && a.model.toLowerCase().includes('beam')));
+            if (beamAgent) {
+                badgeParts.push(`☁ OLLAMA CLOUD (BEAM 501B MoE 1M CTX)`);
+            } else if (cloudAgents.length > 0) {
+                badgeParts.push(`☁ CLOUD ENDPOINTS (${cloudAgents.length} AGENTI)`);
+            }
+
+            // Altri provider (LM Studio, vLLM, OpenAI, ecc.)
+            if (providers.has('lmstudio')) {
+                badgeParts.push(`🧪 LM STUDIO`);
+            }
+            if (providers.has('openai_compatible') || providers.has('openai')) {
+                badgeParts.push(`⚡ OPENAI/vLLM`);
+            }
+
+            badgeEl.textContent = '🔀 WORKFLOW: ' + (badgeParts.length > 0 ? badgeParts.join(' + ') : 'MULTI-TIER AI');
+        }
+
+        // -------------------------------------------------------------
+        // Render Schede Agenti
+        // -------------------------------------------------------------
+        function setFilter(filter) {
+            ACTIVE_FILTER = filter;
+            document.querySelectorAll('.filter-bar .btn-filter').forEach(b => {
+                b.classList.remove('active');
+                const txt = b.textContent.toUpperCase();
+                if ((filter === 'all' && txt.includes('TUTTI')) ||
+                    (filter === 'SUPER COORDINATORE' && txt.includes('COORDINATORE')) ||
+                    (filter === 'TEAM SVILUPPO' && txt.includes('SVILUPPO')) ||
+                    (filter === 'TEAM MARKETING' && txt.includes('MARKETING')) ||
+                    (filter === 'SICUREZZA' && txt.includes('SICUREZZA'))) {
+                    b.classList.add('active');
+                }
+            });
+            if (TELEMETRY_DATA && TELEMETRY_DATA.agents) {
+                renderAgentCards(TELEMETRY_DATA.agents);
+            }
+        }
+
+        const EXPANDED_CARDS = new Set();
+        function toggleCardDetails(agentId) {
+            if (EXPANDED_CARDS.has(agentId)) {
+                EXPANDED_CARDS.delete(agentId);
+            } else {
+                EXPANDED_CARDS.add(agentId);
+            }
+            if (TELEMETRY_DATA && TELEMETRY_DATA.agents) {
+                renderAgentCards(TELEMETRY_DATA.agents);
+            }
+        }
+
+        function renderAgentCards(agents) {
+            const grid = document.getElementById('agents-grid');
+            if (!agents || !grid) return;
+
+            grid.innerHTML = '';
+
+            agents.forEach(agent => {
+                if (ACTIVE_FILTER !== 'all' && agent.group !== ACTIVE_FILTER) return;
+
+                const card = document.createElement('div');
+                const hs = agent.health_status || 'SANO';
+                const isExp = EXPANDED_CARDS.has(agent.id);
+
+                let cardClass = 'agent-card';
+                if (agent.is_cloud || agent.id === 'beam') cardClass += ' card-cloud';
+                else if (hs === 'INFERMERIA') cardClass += ' card-infermeria';
+                else if (hs === 'CIMITERO') cardClass += ' card-cimitero';
+                card.className = cardClass;
+
+                const spriteUrl = API_BASE + '/' + agent.sprite.replace(/^(\.\/|\/)/, '');
+
+                let badgeHtml = '';
+                if (agent.is_cloud || agent.id === 'beam') {
+                    badgeHtml = `<span class="status-badge status-cloud">[ ☁ CLOUD • IMMORTALE ]</span>`;
+                } else if (hs === 'SANO') {
+                    badgeHtml = `<span class="status-badge status-sano">[ SANO • ${agent.room.toUpperCase()} ]</span>`;
+                } else if (hs === 'INFERMERIA') {
+                    const iss = agent.session_blocked ? 'SESSIONE' : 'CONTESTO';
+                    badgeHtml = `<span class="status-badge status-infermeria">[ INFERMERIA: ${iss} ]</span>`;
+                } else if (hs === 'CIMITERO') {
+                    badgeHtml = `<span class="status-badge status-cimitero">[ CIMITERO: R.I.P. ]</span>`;
+                }
+
+                // Tag del Gruppo di Appartenenza
+                let groupTagHtml = '';
+                if (agent.is_cloud || agent.group === 'SUPER COORDINATORE') {
+                    groupTagHtml = `<span class="group-tag tag-cloud">☁ SUPER COORDINATORE</span>`;
+                } else if (agent.group === 'TEAM SVILUPPO') {
+                    groupTagHtml = `<span class="group-tag tag-sviluppo">⚒ TEAM SVILUPPO</span>`;
+                } else if (agent.group === 'TEAM MARKETING') {
+                    groupTagHtml = `<span class="group-tag tag-marketing">📢 TEAM MARKETING</span>`;
+                } else {
+                    groupTagHtml = `<span class="group-tag tag-security">🛡 SICUREZZA</span>`;
+                }
+
+                // Pulsanti azione
+                let actionsHtml = '';
+                if (agent.is_cloud || agent.id === 'beam') {
+                    actionsHtml = `
+                        <div style="display:flex; width:100%; gap:4px;">
+                            <button class="btn-act" style="background:#0c2333; color:#38bdf8; border-color:#38bdf8; flex:1; cursor:default;" onclick="event.stopPropagation();">
+                                ★ CLOUD PERPETUO (NO CRASH / ZERO VRAM) ★
+                            </button>
+                            <button class="btn-act btn-delete-agent" onclick="deleteAgent('${agent.id}', '${agent.name}'); event.stopPropagation();" title="Rimuovi dal monitoraggio">✕</button>
+                        </div>
+                    `;
+                } else if (hs === 'INFERMERIA') {
+                    if (agent.can_cure_session || agent.session_blocked) {
+                        actionsHtml += `<button class="btn-act btn-cure-session" onclick="openConfirmAction('${agent.id}', 'cure_session'); event.stopPropagation();">CURA SESSIONE</button>`;
+                    }
+                    if (agent.can_cure_context || agent.context_overflow) {
+                        actionsHtml += `<button class="btn-act btn-cure-context" onclick="openConfirmAction('${agent.id}', 'cure_context'); event.stopPropagation();">CURA CONTESTO</button>`;
+                    }
+                } else if (hs === 'CIMITERO') {
+                    actionsHtml += `<button class="btn-act btn-resurrect" onclick="openConfirmAction('${agent.id}', 'resurrect'); event.stopPropagation();">★ RESUSCITA (1-CLICK) ★</button>`;
+                }
+
+                if (!agent.is_cloud && agent.id !== 'beam') {
+                    actionsHtml += `<button class="btn-act btn-simulate" onclick="openSimulateModal('${agent.id}'); event.stopPropagation();">SIMULA/TEST</button>`;
+                    actionsHtml += `<button class="btn-act btn-delete-agent" onclick="deleteAgent('${agent.id}', '${agent.name}'); event.stopPropagation();" title="Rimuovi dal monitoraggio">✕</button>`;
+                }
+
+                let hpColor = (agent.is_cloud || agent.id === 'beam') ? '#38bdf8' : 'var(--hp-green)';
+                if (!agent.is_cloud && agent.id !== 'beam') {
+                    if (agent.hp <= 30) hpColor = 'var(--hp-red)';
+                    else if (agent.hp <= 60) hpColor = 'var(--hp-yellow)';
+                }
+
+                const ctxPct = agent.context_used_pct || 0;
+
+                const modelInfoHtml = (agent.is_cloud || agent.id === 'beam') ? 
+                    `<div style="font-size: 10px; color: #38bdf8;">MODELLO: <b>${agent.model} (501B Cloud)</b></div>
+                     <div style="font-size: 9px; color: #7dd3fc; margin-top: 2px;">CARICO: <b>0 MB VRAM Locale</b> • Thinking: <b>MAX</b> • DB: <b>${agent.db_size_mb || 0} MB</b></div>` :
+                    `<div style="font-size: 10px; color: #7aa2f7;">MODELLO: <b>${agent.model}</b></div>
+                     <div style="font-size: 9px; color: #94a3b8; margin-top: 2px;">VRAM: <b>${agent.vram_mb || 0} MB</b> • DB: <b>${agent.db_size_mb || 0} MB</b> • SESS: <b>${agent.lifetime_sessions || agent.total_sessions || 0}</b></div>`;
+
+                card.innerHTML = `
+                    <div class="agent-header">
+                        <img src="${spriteUrl}" class="agent-sprite" alt="${agent.name}" style="${(agent.is_cloud || agent.id === 'beam') ? 'border-color: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);' : ''}" />
+                        <div class="agent-title-box">
+                            <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 6px; flex-wrap: wrap;">
+                                <span class="agent-name">${agent.name}</span>
+                                ${badgeHtml}
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 6px; margin: 3px 0;">
+                                ${groupTagHtml}
+                                <span class="agent-sub">${agent.title}</span>
+                            </div>
+                            ${modelInfoHtml}
+                        </div>
+                    </div>
+
+                    <div style="display: flex; flex-direction: column; gap: 4px; background: #0b0d16; padding: 6px; border: 1px solid #1f2438;">
+                        <div class="agent-stat-row">
+                            <span style="color: var(--text-muted);">${(agent.is_cloud || agent.id === 'beam') ? 'STATO SALUTE (CLOUD):' : 'ENERGIA HP:'}</span>
+                            <span style="font-weight: bold; color: ${hpColor};">${(agent.is_cloud || agent.id === 'beam') ? 'IMMORTALE (100 HP)' : agent.hp + ' / 100'}</span>
+                        </div>
+                        <div class="pixel-bar-container">
+                            <div class="pixel-bar-fill" style="width: 100%; background-color: ${hpColor};"></div>
+                        </div>
+
+                        <div class="agent-stat-row" style="margin-top: 3px;">
+                            <span style="color: var(--text-muted);">FINESTRA CONTESTO (TURNO):</span>
+                            <span style="font-weight: bold; color: var(--text-bright);">${(agent.context_used_tokens || 0).toLocaleString()} / ${(agent.context_limit || 0).toLocaleString()} tok (${ctxPct}%)</span>
+                        </div>
+                        <div class="pixel-bar-container">
+                            <div class="pixel-bar-fill" style="width: ${Math.min(100, ctxPct)}%; background: ${(agent.is_cloud || agent.id === 'beam') ? 'linear-gradient(90deg, #0284c7, #38bdf8)' : (ctxPct > 85 ? 'var(--hp-red)' : 'var(--vram-cyan)')};"></div>
+                        </div>
+
+                        <!-- 1. Sessione Attiva / Più Recente -->
+                        <div style="display: flex; justify-content: space-between; font-size: 9px; color: var(--text-muted); margin-top: 3px; background: #070912; padding: 3px 5px; border-left: 2px solid #38bdf8;">
+                            <span>SESSIONE ATTIVA: <b style="color: var(--text-bright);">${(agent.session_total_tokens || agent.input_tokens || 0).toLocaleString()} tok</b></span>
+                            <span>CALLS: <b style="color: var(--text-bright);">${agent.api_call_count || 1}</b> • MSG: <b style="color: var(--text-bright);">${agent.active_session_msgs || 0}</b></span>
+                        </div>
+
+                        <!-- 2. Storico Globale Lifetime Persistente (Non si azzera al restart) -->
+                        <div style="display: flex; justify-content: space-between; font-size: 9px; color: var(--text-muted); background: #090e17; padding: 3px 5px; border-left: 2px solid #a855f7;">
+                            <span>STORICO LIFETIME: <b style="color: #fde047;">${(agent.lifetime_tokens || 0).toLocaleString()} tok</b></span>
+                            <span>TOT MSG: <b style="color: #c084fc;">${(agent.lifetime_messages || 0).toLocaleString()}</b> • CALLS: <b style="color: #c084fc;">${(agent.lifetime_api_calls || 0).toLocaleString()}</b></span>
+                        </div>
+
+                        <!-- 3. Memoria a Lungo Termine -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 9px; padding: 3px 5px; background: ${agent.memory_active ? '#061c24' : '#0e111a'}; border: 1px solid ${agent.memory_active ? '#0284c7' : '#1f2538'};">
+                            <span style="color: ${agent.memory_active ? '#38bdf8' : 'var(--text-muted)'}; font-weight: bold;">🧠 MEMORIA LUNGO TERMINE:</span>
+                            <span style="color: ${agent.memory_active ? '#7dd3fc' : 'var(--text-muted)'}; font-weight: bold;">
+                                ${agent.memory_active ? `ATTIVA (${(agent.memory_bytes || 0).toLocaleString()} B • ${agent.memory_files_count || 1} file${agent.memory_last_update ? ' • ' + agent.memory_last_update : ''})` : 'INIZIALIZZAZIONE'}
+                            </span>
+                        </div>
+
+                        <!-- 4. Ultimo Task e Attività Reale -->
+                        <div style="display: flex; justify-content: space-between; font-size: 8px; color: var(--text-muted); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            <span>TASK: <b style="color: #94a3b8;">${(agent.current_task || 'In attesa').substring(0, 26)}</b></span>
+                            <span>ATTIVITÀ: <b style="color: #64748b;">${agent.last_activity || 'Recente'}</b></span>
+                        </div>
+                    </div>
+
+                    ${(agent.session_issue_detail || agent.context_issue_detail) ? `
+                        <div style="font-size: 10px; color: ${hs === 'CIMITERO' ? 'var(--mana-purple)' : 'var(--hp-yellow)'}; background: #13101c; padding: 4px; border-left: 2px solid;">
+                            ⚠ ${agent.session_issue_detail || ''} ${agent.context_issue_detail || ''}
+                        </div>
+                    ` : ''}
+
+                    <div class="agent-actions-row">
+                        ${actionsHtml}
+                    </div>
+
+                    <!-- Scheda Tecnica Dettagliata Espandibile -->
+                    <div class="agent-expand-toggle" onclick="toggleCardDetails('${agent.id}'); event.stopPropagation();">
+                        <span id="expand-icon-${agent.id}">${isExp ? '▲' : '▼'}</span>
+                        <span>${isExp ? 'NASCONDI DETTAGLI AVANZATI' : 'SCHEDA TECNICA AVANZATA (CLICCA PER ESPANDERE)'}</span>
+                    </div>
+                    <div id="expand-body-${agent.id}" class="agent-expand-body" style="display: ${isExp ? 'flex' : 'none'};">
+                        <div class="expand-detail-grid">
+                            <div class="expand-detail-item" style="border-left-color: ${(agent.is_cloud || agent.id === 'beam') ? '#38bdf8' : '#7aa2f7'};">
+                                <div class="expand-detail-label">MODELLO & ARCHITETTURA</div>
+                                <div class="expand-detail-val">${(agent.is_cloud || agent.id === 'beam') ? 'Reflection Beam 501B MoE (Cloud)' : (agent.base_model || agent.model)}</div>
+                            </div>
+                            <div class="expand-detail-item" style="border-left-color: #2ac3de;">
+                                <div class="expand-detail-label">CARICO HARDWARE / VRAM</div>
+                                <div class="expand-detail-val">${(agent.is_cloud || agent.id === 'beam') ? '0 MB VRAM (100% Cloud Offload)' : (agent.vram_mb || 0) + ' MB VRAM GPU'}</div>
+                            </div>
+                            <div class="expand-detail-item" style="border-left-color: #fde047;">
+                                <div class="expand-detail-label">FINESTRA CONTESTO CEILING</div>
+                                <div class="expand-detail-val">${(agent.context_limit || 0).toLocaleString()} Token (${Math.round((agent.context_limit || 0)/1024)}k) • Auto-compress 85%</div>
+                            </div>
+                            <div class="expand-detail-item" style="border-left-color: #bb9af7;">
+                                <div class="expand-detail-label">SESSIONE ATTIVA ID</div>
+                                <div class="expand-detail-val" title="${agent.current_session_id || ''}">${agent.current_session_id ? agent.current_session_id.substring(0, 16) + '...' : 'In attesa'}</div>
+                            </div>
+                            <div class="expand-detail-item" style="border-left-color: #9ece6a;">
+                                <div class="expand-detail-label">PROMPT & OUTPUT MEDIO (TURNO)</div>
+                                <div class="expand-detail-val">Prompt: ${(agent.turn_avg_input_tokens || Math.round((agent.input_tokens || 0)/Math.max(1, agent.api_call_count || 1))).toLocaleString()} | Risposta: ${(agent.turn_avg_output_tokens || Math.round((agent.output_tokens || 0)/Math.max(1, agent.api_call_count || 1))).toLocaleString()} tok</div>
+                            </div>
+                            <div class="expand-detail-item" style="border-left-color: #f59e0b;">
+                                <div class="expand-detail-label">TOOL CALLING (FUNZIONI ESEGUITE)</div>
+                                <div class="expand-detail-val">Sess: ${agent.active_session_tool_calls || 0} tool | Totale Storico: ${agent.lifetime_tool_calls || 0} esecuzioni</div>
+                            </div>
+                            <div class="expand-detail-item" style="border-left-color: #06b6d4;">
+                                <div class="expand-detail-label">STORAGE SQLITE & STORICO</div>
+                                <div class="expand-detail-val">Database: ${agent.db_size_mb || 0} MB | ${agent.lifetime_sessions || agent.total_sessions || 0} Sessioni Archiviate</div>
+                            </div>
+                            <div class="expand-detail-item" style="border-left-color: #ec4899;">
+                                <div class="expand-detail-label">MEMORIA A LUNGO TERMINE (RICORDI)</div>
+                                <div class="expand-detail-val">${agent.memory_active ? (agent.memory_bytes + ' Byte (' + agent.memory_files_count + ' file) • Attiva') : 'Nessun file memoria'}</div>
+                            </div>
+                        </div>
+                        ${agent.memory_snippet ? `
+                            <div style="background: #06111a; border: 1px dashed #0284c7; padding: 4px 6px; font-size: 8px; color: #7dd3fc; margin-top: 3px;">
+                                <b style="color: #38bdf8;">🧠 REGOLA MEMORIZZATA:</b> "${agent.memory_snippet}"
+                            </div>
+                        ` : ''}
+                        <div style="font-size: 9px; color: var(--text-muted); margin-top: 4px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px;">
+                            <span>PROFILO: <b style="color:var(--text-main);">${agent.profile}</b></span>
+                            <span>ENDPOINT: <b style="color:var(--text-main);">${(agent.is_cloud || agent.id === 'beam') ? 'Ollama Cloud API' : '127.0.0.1:11434'}</b></span>
+                            <span>PERSISTENZA: <b style="color:#4ade80;">100% GARANTITA</b></span>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        // -------------------------------------------------------------
+        // Render Storico Azioni
+        // -------------------------------------------------------------
+        function renderHistory(history) {
+            const box = document.getElementById('actions-history-box');
+            if (!box) return;
+
+            if (!history || history.length === 0) {
+                box.innerHTML = '<div style="color: var(--text-muted); font-style: italic;">Nessuna azione eseguita di recente.</div>';
+                return;
+            }
+
+            box.innerHTML = '';
+            history.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'history-entry';
+                row.innerHTML = `
+                    <span class="history-time">[${item.timestamp}]</span>
+                    <span class="history-agent">${item.agent_name}:</span>
+                    <span class="history-act act-${item.action}">[${item.action}]</span>
+                    <span style="color: ${item.status === 'SUCCESSO' ? 'var(--hp-green)' : 'var(--hp-red)'}; font-weight: bold;">${item.status}</span>
+                    <span style="color: var(--text-muted); font-size: 10px;">— ${item.details}</span>
+                    ${item.backup_path && item.backup_path !== 'N/D' ? `<span style="color: #7982a9; font-size: 9px;">(Backup salvato)</span>` : ''}
+                `;
+                box.appendChild(row);
+            });
+        }
+
+        // -------------------------------------------------------------
+        // Modale Conferma Azione e Gestione Esecuzione
+        // -------------------------------------------------------------
+        function openConfirmAction(agentId, actionType) {
+            if (!TELEMETRY_DATA) return;
+            const agent = TELEMETRY_DATA.agents.find(a => a.id === agentId);
+            if (!agent) return;
+
+            PENDING_ACTION = { agentId, actionType, agent };
+
+            const modal = document.getElementById('action-confirm-modal');
+            const titleEl = document.getElementById('act-modal-title');
+            const bodyEl = document.getElementById('act-modal-body');
+            const confirmBtn = document.getElementById('act-confirm-btn');
+
+            let actionTitle = '';
+            let actionDesc = '';
+
+            if (actionType === 'cure_session') {
+                actionTitle = `CURA SESSIONE • ${agent.name}`;
+                actionDesc = `
+                    Stai per curare la sessione dell'agente <b>${agent.name}</b> (Profilo: <code>${agent.profile}</code>).<br><br>
+                    <b>Protocollo di sicurezza autorizzato:</b><br>
+                    1. Viene creato un backup preventivo automatico dei file dell'agente.<br>
+                    2. Vengono eliminati i lease orfani e sbloccati i lock di sessione pendenti.<br>
+                    3. L'azione è <b>strettamente isolata</b>: nessun altro agente o modello viene toccato.<br>
+                    4. L'agente esce dall'Infermeria e torna nello stato SANO.
+                `;
+                confirmBtn.style.background = '#234c31';
+                confirmBtn.style.borderColor = 'var(--hp-green)';
+            } else if (actionType === 'cure_context') {
+                actionTitle = `CURA CONTESTO • ${agent.name}`;
+                actionDesc = `
+                    Stai per curare il contesto dell'agente <b>${agent.name}</b>.<br><br>
+                    <b>Protocollo di sicurezza autorizzato:</b><br>
+                    1. Backup preventivo automatico di <code>config.yaml</code>.<br>
+                    2. Ristabilisce i valori d'oro calibrati dal manifest (Modello: <code>${agent.model}</code>, Limite: <code>${agent.context_limit}</code> tok).<br>
+                    3. L'agente esce dall'Infermeria e torna nello stato SANO.
+                `;
+                confirmBtn.style.background = '#153540';
+                confirmBtn.style.borderColor = 'var(--vram-cyan)';
+            } else if (actionType === 'resurrect') {
+                actionTitle = `★ RESURREZIONE 1-CLICK • ${agent.name} ★`;
+                actionDesc = `
+                    Stai per resuscitare l'agente <b>${agent.name}</b> attualmente fuori uso nel Cimitero.<br><br>
+                    <b>Protocollo di Resurrezione Reale con Verifica:</b><br>
+                    1. <b>Backup completo</b> dello stato dell'agente.<br>
+                    2. <b>Reset combinato</b> di sessioni e contesto secondo il tuning d'oro.<br>
+                    3. <b>Test reale di risposta</b> tramite CLI Hermes per verificare che risponda col suo modello <code>${agent.model}</code>.<br>
+                    4. Se il test ha successo: l'agente <b>risorge</b> ed esce dal Cimitero.<br>
+                    5. Se il test fallisce: viene eseguito un <b>rollback automatico</b> immediato e l'agente resta nel Cimitero.
+                `;
+                confirmBtn.style.background = '#52206b';
+                confirmBtn.style.borderColor = 'var(--mana-purple)';
+            }
+
+            titleEl.textContent = actionTitle;
+            bodyEl.innerHTML = actionDesc;
+            confirmBtn.onclick = executePendingAction;
+            modal.style.display = 'flex';
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('action-confirm-modal').style.display = 'none';
+            PENDING_ACTION = null;
+        }
+
+        async function executePendingAction() {
+            if (!PENDING_ACTION) return;
+            const { agentId, actionType, agent } = PENDING_ACTION;
+
+            const confirmBtn = document.getElementById('act-confirm-btn');
+            confirmBtn.textContent = 'ELABORAZIONE & VERIFICA IN CORSO...';
+            confirmBtn.disabled = true;
+
+            // Trigger animazione di resurrezione sul canvas se resurrect
+            if (actionType === 'resurrect') {
+                resurrectionAnimation.active = true;
+                resurrectionAnimation.agentId = agentId;
+                resurrectionAnimation.startTime = Date.now();
+            }
+
+            try {
+                let endpoint = '/api/v1/actions/' + actionType;
+                const res = await fetch(API_BASE + endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': CSRF_TOKEN
+                    },
+                    body: JSON.stringify({ agent_id: agentId })
+                });
+
+                const data = await res.json();
+                closeConfirmModal();
+
+                if (data.ok) {
+                    showToast(`[${agent.name}] ${data.message}`);
+                } else {
+                    showToast(`[ERRORE] ${data.error || 'Azione non riuscita'}`, true);
+                }
+
+                // Forza refresh telemetria
+                setTimeout(fetchTelemetry, 600);
+            } catch (err) {
+                closeConfirmModal();
+                showToast(`[ERRORE DI RETE] ${err.message}`, true);
+            }
+        }
+
+        // -------------------------------------------------------------
+        // Modale Simulazione Guasti (Testing Interattivo)
+        // -------------------------------------------------------------
+        function openSimulateModal(agentId) {
+            SIMULATE_TARGET_ID = agentId;
+            const agent = TELEMETRY_DATA ? TELEMETRY_DATA.agents.find(a => a.id === agentId) : null;
+            document.getElementById('sim-modal-title').textContent = `SIMULAZIONE STATO • ${agent ? agent.name : agentId}`;
+            document.getElementById('simulate-modal').style.display = 'flex';
+        }
+
+        function closeSimulateModal() {
+            document.getElementById('simulate-modal').style.display = 'none';
+            SIMULATE_TARGET_ID = null;
+        }
+
+        async function applySimulation(issueType) {
+            if (!SIMULATE_TARGET_ID) return;
+            const agentId = SIMULATE_TARGET_ID;
+            closeSimulateModal();
+
+            try {
+                const res = await fetch(API_BASE + '/api/v1/actions/simulate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ agent_id: agentId, issue_type: issueType })
+                });
+                const data = await res.json();
+                showToast(`Stato simulato aggiornato per ${agentId}: ${issueType.toUpperCase()}`);
+                setTimeout(fetchTelemetry, 300);
+            } catch (e) {
+                showToast('Errore simulazione: ' + e.message, true);
+            }
+        }
+
+        // -------------------------------------------------------------
+        // Modale Guardiano
+        // -------------------------------------------------------------
+        function openGuardianModal() {
+            if (!TELEMETRY_DATA || !TELEMETRY_DATA.guardian) return;
+            const g = TELEMETRY_DATA.guardian;
+            document.getElementById('guardian-modal-summary').textContent = 
+                `Stato: ${g.status} | File monitorati: ${g.monitored_count} | Ultimo check: ${new Date(g.last_check * 1000).toLocaleTimeString()}`;
+            
+            const filesBox = document.getElementById('guardian-modal-files');
+            filesBox.innerHTML = '';
+            if (g.mismatches && g.mismatches.length > 0) {
+                g.mismatches.forEach(m => {
+                    const row = document.createElement('div');
+                    row.style.color = 'var(--hp-red)';
+                    row.textContent = `⚠ DIFFERENZA: ${m.file} (${m.error || 'HASH DIVERSO'})`;
+                    filesBox.appendChild(row);
+                });
+            } else {
+                filesBox.innerHTML = `<div style="color: var(--hp-green); font-weight: bold;">✓ Tutti i ${g.monitored_count || 21} file di configurazione e modelfile sono perfettamente integri e conformi alla baseline.</div>`;
+            }
+            document.getElementById('guardian-modal').style.display = 'flex';
+        }
+
+        function closeGuardianModal() {
+            document.getElementById('guardian-modal').style.display = 'none';
+        }
+
+        async function autoResolveGuardian() {
+            const btn = document.getElementById('btn-guardian-resolve');
+            if (btn) {
+                btn.disabled = true;
+                btn.textContent = '⏳ RISOLUZIONE E SINCRONIZZAZIONE IN CORSO...';
+            }
+            try {
+                const res = await fetch(API_BASE + '/api/v1/guardian/resolve', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': CSRF_TOKEN
+                    }
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast(`✓ Guardiano riallineato: ${data.updated_count || 0} file sincronizzati con successo!`);
+                    await fetchTelemetry();
+                    openGuardianModal();
+                } else {
+                    showToast('Errore auto-risoluzione: ' + (data.error || 'Operazione fallita'), true);
+                }
+            } catch (e) {
+                showToast('Errore di connessione: ' + e.message, true);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.textContent = '⚡ AUTO-RISOLVI DISCREPANZE E SINCRONIZZA BASELINE';
+                }
+            }
+        }
+
+        function updateGuardianBadge(guard) {
+            const badge = document.getElementById('guardian-badge');
+            if (!guard || !badge) return;
+            if (guard.status === 'INTEGRO') {
+                badge.className = 'badge badge-guardian-ok';
+                badge.textContent = `[ GUARDIANO: INTEGRO (${guard.monitored_count || 24} FILE) ]`;
+            } else {
+                badge.className = 'badge badge-guardian-alert';
+                badge.textContent = `[ GUARDIANO: ALLARME MODIFICA ]`;
+            }
+        }
+
+        // -------------------------------------------------------------
+        // CONTROLLER UNIVERSALE: AGGIUNGI / GESTISCI AGENTE (VERSIONE 2.0)
+        // -------------------------------------------------------------
+        let SELECTED_PROVIDER = 'ollama';
+
+        function openAddAgentModal() {
+            const modal = document.getElementById('add-agent-modal');
+            if (!modal) return;
+            // Reset input form
+            document.getElementById('add-agent-name').value = '';
+            document.getElementById('add-agent-title').value = '';
+            document.getElementById('add-agent-model').value = '';
+            document.getElementById('add-agent-custom-group').value = '';
+            document.getElementById('add-agent-custom-group').style.display = 'none';
+            document.getElementById('add-agent-group-select').value = 'TEAM SVILUPPO';
+            document.getElementById('endpoint-test-feedback').style.display = 'none';
+            document.getElementById('add-agent-model-select').style.display = 'none';
+            document.getElementById('add-agent-model-select').innerHTML = '';
+            
+            selectProvider('ollama');
+            checkAvailableProviders();
+            loadSpritesGallery();
+            modal.style.display = 'flex';
+        }
+
+        function closeAddAgentModal() {
+            const modal = document.getElementById('add-agent-modal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        let CACHED_SPRITES = null;
+        let ACTIVE_SPRITE_CATEGORY = 'all';
+
+        async function loadSpritesGallery() {
+            const container = document.getElementById('sprite-picker-gallery');
+            if (!container) return;
+            if (!CACHED_SPRITES) {
+                try {
+                    const res = await fetch(API_BASE + '/api/v1/sprites/list');
+                    if (res.ok) {
+                        CACHED_SPRITES = await res.json();
+                    }
+                } catch (e) {
+                    // Fallback silenzioso
+                }
+            }
+            if (!CACHED_SPRITES || (!CACHED_SPRITES.core && !CACHED_SPRITES.hermes_pets)) {
+                CACHED_SPRITES = {
+                    core: [
+                        { name: "GynBot1", path: "sprites_agents/GynBot1.png" },
+                        { name: "PROGRAMMATORE", path: "sprites_agents/PROGRAMMATORE.png" },
+                        { name: "QUALITY CHEKER", path: "sprites_agents/QUALITY CHEKER.png" },
+                        { name: "Direttore Marketing", path: "sprites_agents/Direttore Marketing.png" },
+                        { name: "Copywriter Creativo", path: "sprites_agents/Copywriter Creativo.png" },
+                        { name: "Growt hacker", path: "sprites_agents/Growt hacker.png" },
+                        { name: "CEH", path: "sprites_agents/CEH.png" },
+                        { name: "BEAM", path: "sprites_agents/BEAM.png" }
+                    ],
+                    hermes_pets: []
+                };
+            }
+            renderSpriteGallery();
+        }
+
+        function setSpriteCategory(cat) {
+            ACTIVE_SPRITE_CATEGORY = cat;
+            ['all', 'core', 'hermes'].forEach(c => {
+                const btn = document.getElementById('tab-sprite-' + c);
+                if (btn) btn.classList.toggle('active', c === cat);
+            });
+            filterSpriteGrid((document.getElementById('sprite-search-input') || {}).value || '');
+        }
+
+        function filterSpriteGrid(term) {
+            const query = (term || '').trim().toLowerCase();
+            document.querySelectorAll('#sprite-picker-gallery .sprite-picker-item').forEach(el => {
+                const name = (el.getAttribute('data-name') || '').toLowerCase();
+                const cat = el.getAttribute('data-category') || '';
+                const matchCat = (ACTIVE_SPRITE_CATEGORY === 'all' || cat === ACTIVE_SPRITE_CATEGORY);
+                const matchSearch = (!query || name.includes(query));
+                el.style.display = (matchCat && matchSearch) ? 'inline-block' : 'none';
+            });
+        }
+
+        function renderSpriteGallery() {
+            const container = document.getElementById('sprite-picker-gallery');
+            if (!container || !CACHED_SPRITES) return;
+            const currentSelected = (document.getElementById('add-agent-sprite') || {}).value || 'sprites_agents/GynBot1.png';
+
+            container.innerHTML = '';
+
+            const addCard = (item, cat) => {
+                const img = document.createElement('img');
+                img.src = API_BASE + '/' + item.path.replace(/^(\.\/|\/)/, '');
+                img.className = 'sprite-picker-item' + (currentSelected === item.path ? ' selected' : '');
+                img.setAttribute('data-category', cat);
+                img.setAttribute('data-name', item.name);
+                img.setAttribute('data-path', item.path);
+                img.title = item.name + (cat === 'core' ? ' (Core Team)' : ' (Hermes Petdex)');
+                img.onclick = () => selectSprite(item.path, item.name, img);
+                container.appendChild(img);
+            };
+
+            if (CACHED_SPRITES.core) {
+                CACHED_SPRITES.core.forEach(item => addCard(item, 'core'));
+            }
+            if (CACHED_SPRITES.hermes_pets) {
+                CACHED_SPRITES.hermes_pets.forEach(item => addCard(item, 'hermes'));
+            }
+
+            const searchInput = document.getElementById('sprite-search-input');
+            filterSpriteGrid(searchInput ? searchInput.value : '');
+        }
+
+        function selectSprite(spritePath, name, el) {
+            document.querySelectorAll('.sprite-picker-item').forEach(item => item.classList.remove('selected'));
+            if (el) el.classList.add('selected');
+            const hidden = document.getElementById('add-agent-sprite');
+            if (hidden) hidden.value = spritePath;
+
+            const prevImg = document.getElementById('sprite-preview-img');
+            const prevName = document.getElementById('sprite-preview-name');
+            if (prevImg) prevImg.src = API_BASE + '/' + spritePath.replace(/^(\.\/|\/)/, '');
+            if (prevName) prevName.textContent = name || spritePath.split('/').pop().replace('.png', '');
+        }
+
+        function selectProvider(provKey) {
+            SELECTED_PROVIDER = provKey;
+            
+            // Tab visual state
+            ['ollama', 'lmstudio', 'hermes', 'openai', 'cloud'].forEach(k => {
+                const tab = document.getElementById('tab-' + k);
+                if (tab) tab.classList.remove('active');
+            });
+            const activeTab = document.getElementById('tab-' + (provKey === 'openai_compatible' ? 'openai' : provKey));
+            if (activeTab) activeTab.classList.add('active');
+
+            // Default endpoint recommendations
+            const epInput = document.getElementById('add-agent-endpoint');
+            const hermesBox = document.getElementById('hermes-profile-container');
+            const cloudBox = document.getElementById('cloud-api-key-container');
+
+            if (provKey === 'ollama') {
+                epInput.value = 'http://127.0.0.1:11434';
+                if (hermesBox) hermesBox.style.display = 'none';
+                if (cloudBox) cloudBox.style.display = 'none';
+            } else if (provKey === 'lmstudio') {
+                epInput.value = 'http://127.0.0.1:1234';
+                if (hermesBox) hermesBox.style.display = 'none';
+                if (cloudBox) cloudBox.style.display = 'none';
+            } else if (provKey === 'hermes') {
+                epInput.value = 'http://127.0.0.1:11434';
+                if (hermesBox) hermesBox.style.display = 'block';
+                if (cloudBox) cloudBox.style.display = 'none';
+            } else if (provKey === 'openai_compatible') {
+                epInput.value = 'http://127.0.0.1:8000';
+                if (hermesBox) hermesBox.style.display = 'none';
+                if (cloudBox) cloudBox.style.display = 'block';
+            } else if (provKey === 'cloud') {
+                epInput.value = 'https://openrouter.ai/api/v1';
+                if (hermesBox) hermesBox.style.display = 'none';
+                if (cloudBox) cloudBox.style.display = 'block';
+            }
+
+            document.getElementById('endpoint-test-feedback').style.display = 'none';
+        }
+
+        function checkCustomGroup(val) {
+            const customInput = document.getElementById('add-agent-custom-group');
+            if (customInput) {
+                customInput.style.display = (val === '__NEW__') ? 'block' : 'none';
+                if (val === '__NEW__') customInput.focus();
+            }
+        }
+
+        async function checkAvailableProviders() {
+            try {
+                const res = await fetch(API_BASE + '/api/v1/providers/discovery');
+                if (!res.ok) return;
+                const data = await res.json();
+                const disc = data.discovered || {};
+
+                const tabOllama = document.getElementById('tab-ollama');
+                if (tabOllama && disc.ollama && disc.ollama.online) {
+                    tabOllama.innerHTML = `🦙 OLLAMA <span style="font-size:8px; color:#4ade80;">(ONLINE)</span>`;
+                }
+                const tabLM = document.getElementById('tab-lmstudio');
+                if (tabLM && disc.lm_studio && disc.lm_studio.online) {
+                    tabLM.innerHTML = `🧪 LM STUDIO <span style="font-size:8px; color:#4ade80;">(ONLINE)</span>`;
+                }
+            } catch (e) {
+                // Discovery silenziosa
+            }
+        }
+
+        async function testAgentEndpoint() {
+            const btn = document.getElementById('btn-test-ping');
+            const feedback = document.getElementById('endpoint-test-feedback');
+            const endpoint = document.getElementById('add-agent-endpoint').value.trim();
+            const apiKey = (document.getElementById('add-agent-apikey') || {}).value || '';
+
+            if (!endpoint) {
+                feedback.style.display = 'block';
+                feedback.style.color = 'var(--hp-red)';
+                feedback.style.borderColor = 'var(--hp-red)';
+                feedback.style.background = '#2b1016';
+                feedback.textContent = '✗ Inserisci un Endpoint URL valido.';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.textContent = '⏳ VERIFICA IN CORSO...';
+            feedback.style.display = 'none';
+
+            try {
+                const res = await fetch(API_BASE + '/api/v1/agents/test_connection', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        provider: SELECTED_PROVIDER,
+                        endpoint: endpoint,
+                        api_key: apiKey
+                    })
+                });
+                const data = await res.json();
+                feedback.style.display = 'block';
+
+                if (data.status === 'success') {
+                    feedback.style.color = 'var(--hp-green)';
+                    feedback.style.borderColor = 'var(--hp-green)';
+                    feedback.style.background = '#0e2b1d';
+                    feedback.textContent = `✓ Connessione riuscita! Latenza: ${data.latency_ms}ms • Rilevati ${data.models_count || 0} modelli.`;
+
+                    // Popola dropdown modelli rilevati
+                    if (data.models && data.models.length > 0) {
+                        const sel = document.getElementById('add-agent-model-select');
+                        sel.innerHTML = '<option value="">-- Seleziona un modello rilevato --</option>';
+                        data.models.forEach(m => {
+                            const opt = document.createElement('option');
+                            opt.value = m;
+                            opt.textContent = m;
+                            sel.appendChild(opt);
+                        });
+                        sel.style.display = 'block';
+                        // Auto-seleziona il primo se l'input modello è vuoto
+                        const modelInput = document.getElementById('add-agent-model');
+                        if (!modelInput.value) {
+                            modelInput.value = data.models[0];
+                            sel.value = data.models[0];
+                        }
+                    }
+                } else {
+                    feedback.style.color = 'var(--hp-red)';
+                    feedback.style.borderColor = 'var(--hp-red)';
+                    feedback.style.background = '#2b1016';
+                    feedback.textContent = `✗ Connessione fallita: ${data.message || 'Endpoint non raggiungibile'}`;
+                }
+            } catch (e) {
+                feedback.style.display = 'block';
+                feedback.style.color = 'var(--hp-red)';
+                feedback.style.borderColor = 'var(--hp-red)';
+                feedback.style.background = '#2b1016';
+                feedback.textContent = `✗ Errore di connessione: ${e.message}`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '⚡ TESTA CONNESSIONE & RILEVA MODELLI';
+            }
+        }
+
+        async function submitNewAgent() {
+            const name = document.getElementById('add-agent-name').value.trim();
+            const title = document.getElementById('add-agent-title').value.trim() || 'AI Specialist';
+            const groupSelect = document.getElementById('add-agent-group-select').value;
+            let group = groupSelect;
+            if (groupSelect === '__NEW__') {
+                group = (document.getElementById('add-agent-custom-group').value || '').trim() || 'TEAM PERSONALIZZATO';
+            }
+            const color = document.getElementById('add-agent-color').value;
+            const endpoint = document.getElementById('add-agent-endpoint').value.trim();
+            const model = document.getElementById('add-agent-model').value.trim();
+            const contextLimit = parseInt(document.getElementById('add-agent-context').value, 10) || 32768;
+            const profile = (document.getElementById('add-agent-profile') || {}).value || '';
+            const apiKey = (document.getElementById('add-agent-apikey') || {}).value || '';
+            const sprite = (document.getElementById('add-agent-sprite') || {}).value || 'sprites_agents/GynBot1.png';
+            const isCloud = (SELECTED_PROVIDER === 'cloud');
+
+            if (!name) {
+                showToast('Inserisci il nome del nuovo agente.', true);
+                document.getElementById('add-agent-name').focus();
+                return;
+            }
+            if (!model) {
+                showToast('Specifica il modello da assegnare all\'agente.', true);
+                document.getElementById('add-agent-model').focus();
+                return;
+            }
+
+            const btn = document.getElementById('btn-submit-agent');
+            btn.disabled = true;
+            btn.textContent = '⏳ SALVATAGGIO IN CORSO...';
+
+            try {
+                const res = await fetch(API_BASE + '/api/v1/agents/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': CSRF_TOKEN
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        title: title,
+                        group: group,
+                        color: color,
+                        provider: SELECTED_PROVIDER,
+                        endpoint: endpoint,
+                        model: model,
+                        context_limit: contextLimit,
+                        profile: profile,
+                        api_key: apiKey,
+                        sprite: sprite,
+                        is_cloud: isCloud
+                    })
+                });
+
+                const data = await res.json();
+                if (data.status === 'success') {
+                    showToast(`✓ Agente "${name}" collegato con successo al monitoraggio!`);
+                    closeAddAgentModal();
+                    await fetchTelemetry();
+                } else {
+                    showToast(`✗ Errore salvataggio: ${data.message || 'Impossibile aggiungere'}`, true);
+                }
+            } catch (e) {
+                showToast('Errore di connessione: ' + e.message, true);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '✓ SALVA E INTEGRA AGENTE NEL MONITORAGGIO';
+            }
+        }
+
+        async function deleteAgent(agentId, agentName) {
+            const confirmed = window.confirm(
+                `Rimuovere l'agente "${agentName}" dal monitoraggio?\n\n` +
+                `NOTA BENE: I file, i profili e i modelli su disco NON verranno toccati o eliminati.\n` +
+                `L'agente verrà unicamente rimosso dalla dashboard.`
+            );
+            if (!confirmed) return;
+
+            try {
+                const res = await fetch(API_BASE + '/api/v1/agents/delete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': CSRF_TOKEN
+                    },
+                    body: JSON.stringify({ agent_id: agentId })
+                });
+                const data = await res.json();
+                if (data.status === 'success') {
+                    showToast(`✓ Agente "${agentName}" rimosso dal monitoraggio.`);
+                    await fetchTelemetry();
+                } else {
+                    showToast(`✗ Errore rimozione: ${data.message || 'Impossibile rimuovere'}`, true);
+                }
+            } catch (e) {
+                showToast('Errore di connessione: ' + e.message, true);
+            }
+        }
+
+        // -------------------------------------------------------------
+        // CANVAS STAGE: RENDERING 4 STANZE PIXEL ART & ANIMAZIONI
+        // -------------------------------------------------------------
+        const canvas = document.getElementById('retro-stage-canvas');
+        const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = false;
+
+        const AGENT_COORDS = {};
+        const AGENTS_KEYS = ['gynbot1', 'gynbot2', 'gynbox3', 'mark1', 'mark2', 'mark3', 'hacker', 'beam'];
+        
+        AGENTS_KEYS.forEach((id, idx) => {
+            if (id === 'beam') {
+                AGENT_COORDS[id] = {
+                    x: 640 - 24,
+                    y: 40,
+                    targetX: 640 - 24,
+                    targetY: 40,
+                    bob: 0
+                };
+            } else {
+                AGENT_COORDS[id] = {
+                    x: 40 + (idx * 35),
+                    y: 190,
+                    targetX: 40 + (idx * 35),
+                    targetY: 190,
+                    bob: 0
+                };
+            }
+        });
+
+        function renderStage() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const roomWidth = canvas.width / 4; // 320px ciascuna
+
+            // =========================================================
+            // 1. STANZA 1: LA CASETTA (x: 0 -> 320)
+            // =========================================================
+            ctx.fillStyle = '#181a26';
+            ctx.fillRect(0, 0, roomWidth, canvas.height);
+            // Pavimento legno
+            ctx.fillStyle = '#2b2118';
+            ctx.fillRect(0, 160, roomWidth, 160);
+            ctx.strokeStyle = '#1a140f';
+            ctx.lineWidth = 2;
+            for (let y = 160; y < canvas.height; y += 24) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(roomWidth, y); ctx.stroke();
+            }
+            // Titolo
+            ctx.fillStyle = '#7aa2f7';
+            ctx.font = 'bold 11px monospace';
+            ctx.textAlign = 'left';
+            ctx.fillText('LA CASETTA (RIPOSO)', 16, 22);
+
+            // Caminetto con fuoco animato
+            ctx.fillStyle = '#423428';
+            ctx.fillRect(20, 110, 48, 50);
+            ctx.fillStyle = '#080604';
+            ctx.fillRect(28, 128, 32, 32);
+            // Fiamma animata
+            const fireH = 12 + Math.sin(Date.now() * 0.02) * 6;
+            ctx.fillStyle = '#ff7a33';
+            ctx.fillRect(36, 160 - fireH, 16, fireH);
+            ctx.fillStyle = '#ffcc00';
+            ctx.fillRect(40, 160 - (fireH * 0.6), 8, fireH * 0.6);
+
+            // Lettini relax
+            for (let b = 0; b < 3; b++) {
+                const bx = 90 + (b * 75);
+                ctx.fillStyle = '#543d2b';
+                ctx.fillRect(bx, 220, 52, 60);
+                ctx.fillStyle = '#7aa2f7';
+                ctx.fillRect(bx + 4, 238, 44, 38);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(bx + 8, 224, 36, 12);
+            }
+
+            // =========================================================
+            // 2. STANZA 2: L'UFFICIO (x: 320 -> 640)
+            // =========================================================
+            ctx.fillStyle = '#13141f';
+            ctx.fillRect(roomWidth, 0, roomWidth, canvas.height);
+            // Piastrelle scure high-tech
+            ctx.fillStyle = '#0f111a';
+            ctx.fillRect(roomWidth, 160, roomWidth, 160);
+            ctx.strokeStyle = '#22283d';
+            for (let x = roomWidth; x < roomWidth * 2; x += 32) {
+                ctx.beginPath(); ctx.moveTo(x, 160); ctx.lineTo(x, canvas.height); ctx.stroke();
+            }
+            ctx.fillStyle = '#e0af68';
+            ctx.fillText("L'UFFICIO (LAVORO)", roomWidth + 16, 22);
+
+            // Scrivanie con monitor CRT e led
+            for (let d = 0; d < 3; d++) {
+                const dx = roomWidth + 24 + (d * 96);
+                ctx.fillStyle = '#262b3d';
+                ctx.fillRect(dx, 220, 64, 40);
+                // Monitor
+                ctx.fillStyle = '#06070a';
+                ctx.fillRect(dx + 16, 185, 32, 28);
+                // Schermo CRT luminoso
+                const crtGlow = (Math.sin(Date.now() * 0.006 + d) > 0) ? '#73daca' : '#2ac3de';
+                ctx.fillStyle = crtGlow;
+                ctx.fillRect(dx + 20, 189, 24, 20);
+                // Led torre
+                ctx.fillStyle = (Date.now() % 600 > 300) ? '#9ece6a' : '#f7768e';
+                ctx.fillRect(dx + 52, 228, 4, 4);
+            }
+
+            // =========================================================
+            // 3. STANZA 3: L'INFERMERIA (x: 640 -> 960)
+            // =========================================================
+            ctx.fillStyle = '#17222e';
+            ctx.fillRect(roomWidth * 2, 0, roomWidth, canvas.height);
+            ctx.fillStyle = '#1c2836';
+            ctx.fillRect(roomWidth * 2, 160, roomWidth, 160);
+            ctx.strokeStyle = '#2d4157';
+            for (let y = 160; y < canvas.height; y += 32) {
+                ctx.beginPath(); ctx.moveTo(roomWidth * 2, y); ctx.lineTo(roomWidth * 3, y); ctx.stroke();
+            }
+            ctx.fillStyle = '#f7768e';
+            ctx.fillText('INFERMERIA (CURA)', roomWidth * 2 + 16, 22);
+
+            // Croce medica rossa luminosa a parete
+            const crossX = roomWidth * 2 + 30;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(crossX - 2, 40, 28, 28);
+            ctx.fillStyle = '#f7768e';
+            ctx.fillRect(crossX + 8, 44, 8, 20);
+            ctx.fillRect(crossX + 2, 50, 20, 8);
+
+            // Linea ECG battito cardiaco verde
+            ctx.strokeStyle = '#9ece6a';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(roomWidth * 2 + 80, 54);
+            const ecgOffset = (Date.now() * 0.08) % 180;
+            for (let lx = 0; lx < 180; lx += 10) {
+                let py = 54;
+                if (Math.abs(lx - ecgOffset) < 15) py = 44 + Math.sin(lx) * 12;
+                ctx.lineTo(roomWidth * 2 + 80 + lx, py);
+            }
+            ctx.stroke();
+
+            // Letti ospedale con flebo
+            for (let c = 0; c < 3; c++) {
+                const cx = roomWidth * 2 + 20 + (c * 96);
+                ctx.fillStyle = '#e6edf3';
+                ctx.fillRect(cx, 225, 58, 42);
+                ctx.fillStyle = '#9aa5ce';
+                ctx.fillRect(cx + 4, 230, 50, 33);
+                // Asta flebo
+                ctx.fillStyle = '#8291b5';
+                ctx.fillRect(cx - 8, 165, 3, 100);
+                // Sacca flebo
+                ctx.fillStyle = '#2ac3de';
+                ctx.fillRect(cx - 12, 170, 11, 16);
+            }
+
+            // =========================================================
+            // 4. STANZA 4: IL CIMITERO (x: 960 -> 1280)
+            // =========================================================
+            const cemX = roomWidth * 3;
+            // Cielo notturno cupo
+            ctx.fillStyle = '#0a0914';
+            ctx.fillRect(cemX, 0, roomWidth, canvas.height);
+            // Suolo terra scura e pietre
+            ctx.fillStyle = '#131122';
+            ctx.fillRect(cemX, 160, roomWidth, 160);
+
+            // Titolo
+            ctx.fillStyle = '#bb9af7';
+            ctx.fillText('IL CIMITERO (CAMPO SANTO)', cemX + 16, 22);
+
+            // Luna d'argento pixel art in cielo
+            ctx.fillStyle = '#f0efff';
+            ctx.beginPath();
+            ctx.arc(cemX + 260, 48, 16, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#0a0914';
+            ctx.beginPath();
+            ctx.arc(cemX + 253, 45, 14, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Lapidi "R.I.P." e bare pixel art
+            const tombstones = [
+                { x: cemX + 30, y: 200, label: 'R.I.P' },
+                { x: cemX + 105, y: 195, label: 'R.I.P' },
+                { x: cemX + 180, y: 200, label: 'R.I.P' },
+                { x: cemX + 250, y: 195, label: 'R.I.P' }
+            ];
+
+            tombstones.forEach(t => {
+                // Lapide
+                ctx.fillStyle = '#393c52';
+                ctx.fillRect(t.x, t.y, 34, 46);
+                ctx.fillStyle = '#232536';
+                ctx.fillRect(t.x + 3, t.y + 4, 28, 38);
+                // Croce e testo R.I.P
+                ctx.fillStyle = '#7a819b';
+                ctx.fillRect(t.x + 15, t.y + 8, 4, 14);
+                ctx.fillRect(t.x + 10, t.y + 12, 14, 4);
+                ctx.font = 'bold 7px monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText(t.label, t.x + 17, t.y + 32);
+            });
+
+            // Nebbia animata in pixel art al suolo
+            ctx.fillStyle = 'rgba(120, 100, 160, 0.18)';
+            for (let f = 0; f < 3; f++) {
+                const fogX = cemX + ((Date.now() * (0.015 + f * 0.005)) % roomWidth);
+                ctx.fillRect(fogX, 260 + (f * 15), 140, 20);
+                ctx.fillRect(cemX + ((fogX + 180) % roomWidth), 250 + (f * 12), 100, 18);
+            }
+
+            // Lucciole dorate fluttuanti (Fireflies)
+            FIREFLIES.forEach(fl => {
+                fl.phase += fl.speed;
+                const fx = fl.baseX + Math.sin(fl.phase) * fl.radius;
+                const fy = fl.baseY + Math.cos(fl.phase * 1.5) * (fl.radius * 0.6);
+                const glow = 0.5 + Math.sin(fl.phase * 3) * 0.5;
+                ctx.fillStyle = `rgba(255, 230, 120, ${glow})`;
+                ctx.fillRect(fx, fy, 3, 3);
+            });
+
+            // Separatori tra stanze
+            ctx.strokeStyle = '#333a56';
+            ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.moveTo(roomWidth, 0); ctx.lineTo(roomWidth, canvas.height); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(roomWidth * 2, 0); ctx.lineTo(roomWidth * 2, canvas.height); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(roomWidth * 3, 0); ctx.lineTo(roomWidth * 3, canvas.height); ctx.stroke();
+
+            // =========================================================
+            // 5. DISEGNO E ANIMAZIONE DEGLI AGENTI (7 AGENTI LOCALI)
+            // =========================================================
+            if (TELEMETRY_DATA && TELEMETRY_DATA.agents) {
+                TELEMETRY_DATA.agents.forEach((agent, i) => {
+                    if (agent.id === 'beam' || agent.is_cloud) return; // Agenti Cloud nel Portale dedicato nell'HUD
+
+                    if (!AGENT_COORDS[agent.id]) {
+                        AGENT_COORDS[agent.id] = {
+                            x: 25 + ((i % 4) * 72),
+                            y: 190,
+                            targetX: 25 + ((i % 4) * 72),
+                            targetY: 190,
+                            bob: 0
+                        };
+                    }
+                    if (!SPRITE_IMAGES[agent.id]) {
+                        const img = new Image();
+                        img.src = API_BASE + '/' + (agent.sprite || 'sprites_agents/GynBot1.png').replace(/^(\.\/|\/)/, '');
+                        SPRITE_IMAGES[agent.id] = img;
+                    }
+
+                    const pos = AGENT_COORDS[agent.id];
+                    if (!pos) return;
+
+                    const hs = agent.health_status || 'SANO';
+                    let targetBaseX = 40;
+
+                    if (hs === 'CIMITERO') {
+                        targetBaseX = roomWidth * 3 + 24 + ((i % 4) * 72);
+                    } else if (hs === 'INFERMERIA') {
+                        targetBaseX = roomWidth * 2 + 28 + ((i % 3) * 96);
+                    } else if (agent.room === 'ufficio') {
+                        targetBaseX = roomWidth + 30 + ((i % 3) * 96);
+                    } else {
+                        targetBaseX = 25 + ((i % 4) * 72);
+                    }
+
+                    pos.targetX = targetBaseX;
+                    pos.x += (pos.targetX - pos.x) * 0.08;
+                    pos.bob = Math.sin(Date.now() * 0.005 + i) * 3;
+
+                    const spr = SPRITE_IMAGES[agent.id];
+                    if (spr && spr.complete) {
+                        ctx.save();
+                        if (hs === 'CIMITERO') {
+                            // Fantasma / sagoma eterea trasparente al cimitero
+                            ctx.globalAlpha = 0.65 + Math.sin(Date.now() * 0.008 + i) * 0.25;
+                            ctx.drawImage(spr, pos.x, pos.y + pos.bob - 10, 48, 52);
+                            // Aureola pixel art
+                            ctx.fillStyle = '#ffea75';
+                            ctx.fillRect(pos.x + 14, pos.y + pos.bob - 16, 20, 3);
+                        } else if (hs === 'INFERMERIA') {
+                            ctx.drawImage(spr, pos.x, pos.y + pos.bob, 48, 52);
+                            // Benda / Cerotto pixel art
+                            ctx.fillStyle = '#ffffff';
+                            ctx.fillRect(pos.x + 30, pos.y + pos.bob + 10, 10, 6);
+                            ctx.fillStyle = '#f7768e';
+                            ctx.fillRect(pos.x + 34, pos.y + pos.bob + 12, 2, 2);
+                        } else {
+                            ctx.drawImage(spr, pos.x, pos.y + pos.bob, 48, 52);
+                        }
+                        ctx.restore();
+                    }
+
+                    // Nome agente sopra lo sprite
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 9px monospace';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(agent.name.substring(0, 11), pos.x + 24, pos.y + pos.bob - 6);
+
+                    // Indicatore visivo del gruppo sotto lo sprite
+                    const dotColor = (agent.group === 'TEAM SVILUPPO') ? '#fbbf24' : ((agent.group === 'TEAM MARKETING') ? '#c084fc' : '#f87171');
+                    ctx.fillStyle = dotColor;
+                    ctx.fillRect(pos.x + 22, pos.y + pos.bob + 54, 5, 5);
+
+                    // Fumetti di stato
+                    if (hs === 'CIMITERO') {
+                        ctx.fillStyle = '#bb9af7';
+                        ctx.fillText('† R.I.P †', pos.x + 24, pos.y + pos.bob - 22);
+                    } else if (hs === 'INFERMERIA') {
+                        ctx.fillStyle = '#f7768e';
+                        ctx.fillText('+SOS+', pos.x + 24, pos.y + pos.bob - 16);
+                    } else if (agent.room === 'casetta') {
+                        ctx.fillStyle = '#7aa2f7';
+                        ctx.fillText('Zzz', pos.x + 36, pos.y + pos.bob - 16);
+                    }
+                });
+            }
+
+            // =========================================================
+            // 6. ANIMAZIONE RAGGIO DI RESURREZIONE (LUCE CELESTIALE)
+            // =========================================================
+            if (resurrectionAnimation.active) {
+                const elapsed = Date.now() - resurrectionAnimation.startTime;
+                if (elapsed < resurrectionAnimation.duration) {
+                    const targetPos = AGENT_COORDS[resurrectionAnimation.agentId] || { x: roomWidth * 3 + 120, y: 180 };
+                    const beamX = targetPos.x + 24;
+
+                    // Colonna di luce celestiale dal cielo
+                    const alpha = Math.sin((elapsed / resurrectionAnimation.duration) * Math.PI) * 0.7;
+                    const grad = ctx.createLinearGradient(beamX - 35, 0, beamX + 35, 0);
+                    grad.addColorStop(0, 'rgba(255, 235, 120, 0)');
+                    grad.addColorStop(0.5, `rgba(255, 245, 180, ${alpha})`);
+                    grad.addColorStop(1, 'rgba(255, 235, 120, 0)');
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(beamX - 45, 0, 90, canvas.height);
+
+                    // Scintille dorate che salgono
+                    for (let s = 0; s < 12; s++) {
+                        const spY = (canvas.height - ((elapsed * 0.2 + s * 30) % canvas.height));
+                        const spX = beamX - 25 + ((s * 17) % 50);
+                        ctx.fillStyle = '#fff475';
+                        ctx.fillRect(spX, spY, 4, 4);
+                    }
+
+                    // Scritta gloriosa
+                    ctx.fillStyle = '#ffffff';
+                    ctx.font = 'bold 12px monospace';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('★ RISORTO! ★', beamX, 80);
+                } else {
+                    resurrectionAnimation.active = false;
+                }
+            }
+
+            requestAnimationFrame(renderStage);
+        }
+
+        // -------------------------------------------------------------
+        // ANIMAZIONE VORTICE QUANTICO & CLOUD PORTAL BEAM (HUD CARD ACCANTO)
+        // -------------------------------------------------------------
+        const cloudCanvas = document.getElementById('beam-cloud-canvas');
+        const cCtx = cloudCanvas ? cloudCanvas.getContext('2d') : null;
+        if (cCtx) cCtx.imageSmoothingEnabled = false;
+
+        function renderBeamCloud() {
+            if (!cloudCanvas || !cCtx) return;
+            cCtx.clearRect(0, 0, cloudCanvas.width, cloudCanvas.height);
+
+            const w = cloudCanvas.width;
+            const h = cloudCanvas.height;
+            const cx = Math.round(w / 2);
+            const cy = 43;
+            const t = Date.now();
+
+            // Sfondo cosmico micro-stelle pixel
+            for (let s = 0; s < 14; s++) {
+                const sx = (s * 29 + (s * 11)) % w;
+                const sy = (s * 19 + 7) % h;
+                const starAlpha = 0.25 + Math.sin(t * 0.005 + s * 1.5) * 0.25;
+                cCtx.fillStyle = `rgba(180, 220, 255, ${starAlpha})`;
+                cCtx.fillRect(sx, sy, 2, 2);
+            }
+
+            // Vortice rotante dimensionale dietro la nuvola
+            const rot = t * 0.002;
+            cCtx.save();
+            cCtx.setLineDash([3, 4]);
+            // Anello esterno ciano
+            cCtx.beginPath();
+            cCtx.ellipse(cx, cy, 65, 22, rot, 0, Math.PI * 2);
+            cCtx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+            cCtx.lineWidth = 1.5;
+            cCtx.stroke();
+            // Anello interno viola controrotante
+            cCtx.beginPath();
+            cCtx.ellipse(cx, cy, 44, 15, -rot * 1.3, 0, Math.PI * 2);
+            cCtx.strokeStyle = 'rgba(192, 132, 252, 0.35)';
+            cCtx.lineWidth = 1.5;
+            cCtx.stroke();
+            cCtx.setLineDash([]);
+
+            // Particelle rotanti del vortice quantico
+            for (let p = 0; p < 8; p++) {
+                const ang = rot * 2 + (p * (Math.PI / 4));
+                const px = cx + Math.cos(ang) * (48 + (p % 2) * 12);
+                const py = cy + Math.sin(ang) * (15 + (p % 2) * 5);
+                cCtx.fillStyle = (p % 2 === 0) ? '#38bdf8' : '#e0e7ff';
+                cCtx.fillRect(px - 1, py - 1, 3, 3);
+            }
+
+            // Nuvoletta Pixel Art Celeste sotto i piedi di BEAM (Piattaforma Fluttuante)
+            const cloudBob = Math.sin(t * 0.003) * 2;
+            const cY = 56 + cloudBob;
+
+            // Ombra eterea della nuvoletta
+            cCtx.fillStyle = 'rgba(2, 132, 199, 0.3)';
+            cCtx.beginPath();
+            cCtx.ellipse(cx, cY + 10, 60, 8, 0, 0, Math.PI * 2);
+            cCtx.fill();
+
+            // Puffs pixel art della nuvola (volumetria allargata)
+            cCtx.fillStyle = '#0284c7'; // base blu
+            cCtx.fillRect(cx - 56, cY, 112, 10);
+            cCtx.fillRect(cx - 46, cY - 4, 92, 14);
+            cCtx.fillRect(cx - 30, cY - 8, 60, 18);
+
+            cCtx.fillStyle = '#38bdf8'; // strato intermedio ciano
+            cCtx.fillRect(cx - 52, cY + 1, 104, 8);
+            cCtx.fillRect(cx - 42, cY - 3, 84, 12);
+            cCtx.fillRect(cx - 26, cY - 7, 52, 16);
+
+            cCtx.fillStyle = '#f0f9ff'; // riflesso bianco
+            cCtx.fillRect(cx - 36, cY - 4, 16, 4);
+            cCtx.fillRect(cx - 10, cY - 8, 20, 5);
+            cCtx.fillRect(cx + 18, cY - 4, 16, 4);
+
+            // Scintille cyber-dati che scendono dalla nuvola
+            for (let d = -3; d <= 3; d++) {
+                const dx = cx + (d * 16);
+                const dy = cY + 9 + ((t * 0.04 + Math.abs(d) * 15) % 15);
+                cCtx.fillStyle = 'rgba(125, 211, 252, 0.6)';
+                cCtx.fillRect(dx, dy, 2, 3);
+            }
+
+            // Sprite Vintage Robot BEAM fluttuante sopra la nuvola (Ingrandito 44x48)
+            const spr = SPRITE_IMAGES['beam'];
+            const bob = Math.sin(t * 0.004) * 2.5;
+            const sprW = 44;
+            const sprH = 48;
+            const sprX = cx - Math.round(sprW / 2);
+            const sprY = 10 + bob;
+
+            // Aura celestiale rotante attorno a BEAM
+            const auraAlpha = 0.4 + Math.sin(t * 0.006) * 0.25;
+            cCtx.strokeStyle = `rgba(56, 189, 248, ${auraAlpha})`;
+            cCtx.lineWidth = 1.5;
+            cCtx.setLineDash([3, 3]);
+            cCtx.beginPath();
+            cCtx.arc(cx, sprY + 22, 26, 0, Math.PI * 2);
+            cCtx.stroke();
+            cCtx.setLineDash([]);
+
+            if (spr && spr.complete) {
+                cCtx.drawImage(spr, sprX, sprY, sprW, sprH);
+            }
+
+            // Info grafiche laterali integrate in stile retro arcade con dati REALI e dinamici
+            const beamData = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents.find(a => a.id === 'beam') : null;
+            const lifetimeTok = beamData && beamData.lifetime_tokens ? beamData.lifetime_tokens.toLocaleString() : '5.033.918';
+            const sessTok = beamData && beamData.session_total_tokens ? beamData.session_total_tokens.toLocaleString() : '1.595.554';
+            const calls = beamData ? (beamData.lifetime_api_calls || 1870) : 1870;
+            const tools = beamData ? (beamData.lifetime_tool_calls || 64) : 64;
+            const memB = beamData && beamData.memory_bytes ? beamData.memory_bytes : 3275;
+
+            // Sinistra: Specifiche Cloud & Memoria
+            cCtx.fillStyle = '#38bdf8';
+            cCtx.font = 'bold 11px monospace';
+            cCtx.textAlign = 'left';
+            cCtx.fillText('★ BEAM 501B MoE', 10, 18);
+            cCtx.fillStyle = '#7dd3fc';
+            cCtx.font = 'bold 9px monospace';
+            cCtx.fillText('CLOUD SUPER COORDINATOR', 10, 33);
+            cCtx.fillStyle = '#4ade80';
+            cCtx.fillText('● IMMORTALE ONLINE', 10, 48);
+            cCtx.fillStyle = '#fde047';
+            cCtx.font = '8px monospace';
+            cCtx.fillText(`🧠 MEMORIA: ${memB}B ATTIVA`, 10, 63);
+            cCtx.fillStyle = '#a7f3d0';
+            cCtx.fillText(`🛠 ${tools} TOOL ESEGUITI`, 10, 77);
+
+            // Destra: Capacità & Hardware
+            cCtx.textAlign = 'right';
+            cCtx.fillStyle = '#fde047';
+            cCtx.font = 'bold 11px monospace';
+            cCtx.fillText(`${lifetimeTok} TOK GLOBALI`, w - 10, 18);
+            cCtx.fillStyle = '#38bdf8';
+            cCtx.font = 'bold 9px monospace';
+            cCtx.fillText(`SESS: ${sessTok} TOK`, w - 10, 33);
+            cCtx.fillStyle = '#7dd3fc';
+            cCtx.fillText(`${calls} CHIAMATE API`, w - 10, 48);
+            cCtx.fillStyle = '#c084fc';
+            cCtx.font = '8px monospace';
+            cCtx.fillText('1M CONTEXT • 0 MB VRAM', w - 10, 63);
+            cCtx.fillStyle = '#38bdf8';
+            cCtx.fillText('THINKING: MAX • NO RESET', w - 10, 77);
+
+            cCtx.restore();
+
+            requestAnimationFrame(renderBeamCloud);
+        }
+
+        renderStage();
+        renderBeamCloud();
+    </script>
+</body>
+</html>

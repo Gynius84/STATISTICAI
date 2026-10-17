@@ -1,0 +1,290 @@
+[
+  {
+    "timestamp": "2026-10-16 16:02:08",
+    "agent_id": "gynbot2",
+    "agent_name": "PROGRAMMATORE",
+    "action": "RESURREZIONE",
+    "status": "SUCCESSO",
+    "details": "Resurrezione completata con SUCCESSO! L'agente ha risposto al test di verifica reale: 'OK RESUSCITATO'.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbot2_resurrect_20261016_160203"
+  },
+  {
+    "timestamp": "2026-10-16 16:02:03",
+    "agent_id": "gynbot2",
+    "agent_name": "PROGRAMMATORE",
+    "action": "CURA_CONTESTO",
+    "status": "SUCCESSO",
+    "details": "Contesto curato con successo: ripristinata configurazione golden calibrata per PROGRAMMATORE.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbot2_cure_context_20261016_160203"
+  },
+  {
+    "timestamp": "2026-10-16 16:02:03",
+    "agent_id": "gynbot2",
+    "agent_name": "PROGRAMMATORE",
+    "action": "CURA_SESSIONE",
+    "status": "SUCCESSO",
+    "details": "Sessione curata con successo: ripuliti lease attivi e rimossi eventuali lock orfani.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbot2_cure_session_20261016_160203"
+  },
+  {
+    "timestamp": "2026-10-16 16:02:03",
+    "agent_id": "gynbot2",
+    "agent_name": "PROGRAMMATORE",
+    "action": "CURA_CONTESTO",
+    "status": "SUCCESSO",
+    "details": "Contesto curato con successo: ripristinata configurazione golden calibrata per PROGRAMMATORE.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbot2_cure_context_20261016_160203"
+  },
+  {
+    "timestamp": "2026-10-16 16:02:03",
+    "agent_id": "gynbot2",
+    "agent_name": "PROGRAMMATORE",
+    "action": "CURA_SESSIONE",
+    "status": "SUCCESSO",
+    "details": "Sessione curata con successo: ripuliti lease attivi e rimossi eventuali lock orfani.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbot2_cure_session_20261016_160203"
+  },
+  {
+    "timestamp": "2026-10-16 11:15:47",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "RESURREZIONE",
+    "status": "SUCCESSO",
+    "details": "Resurrezione completata con SUCCESSO! L'agente ha risposto al test di verifica reale: 'OK, sono stato riportato in vita. Sono pronto per assistere e interagire con te nuovamente. Non esitare a porre domande o chiedermi qualsiasi aiuto di cui potresti avere bisogno.'.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_resurrect_20261016_111539"
+  },
+  {
+    "timestamp": "2026-10-16 11:15:39",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "CURA_CONTESTO",
+    "status": "SUCCESSO",
+    "details": "Contesto curato con successo: ripristinata configurazione golden calibrata per QUALITY CHEKER.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_cure_context_20261016_111539"
+  },
+  {
+    "timestamp": "2026-10-16 11:15:39",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "CURA_SESSIONE",
+    "status": "SUCCESSO",
+    "details": "Sessione curata con successo: ripuliti lease attivi e rimossi eventuali lock orfani.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_cure_session_20261016_111539"
+  },
+  {
+    "timestamp": "2026-10-16 11:15:39",
+    "agent_id": "mark1",
+    "agent_name": "Direttore Marketing",
+    "action": "CURA_SESSIONE",
+    "status": "SUCCESSO",
+    "details": "Sessione curata con successo: ripuliti lease attivi e rimossi eventuali lock orfani.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_mark1_cure_session_20261016_111539"
+  },
+  {
+    "timestamp": "2026-10-16 11:15:22",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "RESURREZIONE",
+    "status": "SUCCESSO",
+    "details": "Resurrezione completata con SUCCESSO! L'agente ha risposto al test di verifica reale: 'OK, sono risuscitato! Sono pronto per assistere e aiutare il cliente come richiesto. La ringrazio per l'attenzione e spero di poter essere d'aiuto in futuro.'.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_resurrect_20261016_111502"
+  },
+  {
+    "timestamp": "2026-10-16 11:15:02",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "CURA_CONTESTO",
+    "status": "SUCCESSO",
+    "details": "Contesto curato con successo: ripristinata configurazione golden calibrata per QUALITY CHEKER.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_cure_context_20261016_111502"
+  },
+  {
+    "timestamp": "2026-10-16 11:15:02",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "CURA_SESSIONE",
+    "status": "SUCCESSO",
+    "details": "Sessione curata con successo: ripuliti lease attivi e rimossi eventuali lock orfani.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_cure_session_20261016_111502"
+  },
+  {
+    "timestamp": "2026-10-16 11:07:35",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "RESURREZIONE",
+    "status": "FALLITO",
+    "details": "Resurrezione FALLITA: Il test di verifica ha restituito codice 2 o output non valido. Err: Error: Hermes stopped because your settings file (C:\\Users\\Gyniu\\AppData\\Local\\hermes\\profiles\\gynbox3\\config.yaml) has a formatting error at line 238. Fix it with `hermes config edit` and check with `hermes config check`, or add --ignore-user-config to run once with default settings. Details: mapping values are not allowed here\n. Rollback completato. L'agente resta nel Cimitero.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_resurrect_20261016_110732"
+  },
+  {
+    "timestamp": "2026-10-16 11:07:32",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "CURA_CONTESTO",
+    "status": "SUCCESSO",
+    "details": "Contesto curato con successo: ripristinata configurazione golden calibrata per QUALITY CHEKER.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_cure_context_20261016_110732"
+  },
+  {
+    "timestamp": "2026-10-16 11:07:32",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "CURA_SESSIONE",
+    "status": "SUCCESSO",
+    "details": "Sessione curata con successo: ripuliti lease attivi e rimossi eventuali lock orfani.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_cure_session_20261016_110732"
+  },
+  {
+    "timestamp": "2026-10-16 11:06:58",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "RESURREZIONE",
+    "status": "FALLITO",
+    "details": "Resurrezione FALLITA: Il test di verifica ha restituito codice 2 o output non valido. Err: Error: Hermes stopped because your settings file (C:\\Users\\Gyniu\\AppData\\Local\\hermes\\profiles\\gynbox3\\config.yaml) has a formatting error at line 238. Fix it with `hermes config edit` and check with `hermes config check`, or add --ignore-user-config to run once with default settings. Details: mapping values are not allowed here\n. Rollback completato. L'agente resta nel Cimitero.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_resurrect_20261016_110655"
+  },
+  {
+    "timestamp": "2026-10-16 11:06:55",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "CURA_CONTESTO",
+    "status": "SUCCESSO",
+    "details": "Contesto curato con successo: ripristinata configurazione golden calibrata per QUALITY CHEKER.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_cure_context_20261016_110655"
+  },
+  {
+    "timestamp": "2026-10-16 11:06:55",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "CURA_SESSIONE",
+    "status": "SUCCESSO",
+    "details": "Sessione curata con successo: ripuliti lease attivi e rimossi eventuali lock orfani.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_cure_session_20261016_110655"
+  },
+  {
+    "timestamp": "2026-10-16 11:04:55",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "RESURREZIONE",
+    "status": "FALLITO",
+    "details": "Resurrezione FALLITA: Il test di verifica ha restituito codice 2 o output non valido. Err: Skipping broken secondary profile C:\\Users\\Gyniu\\AppData\\Local\\hermes\\profiles\\gynbox3 during dependency verification: could not parse plugin selection: C:\\Users\\Gyniu\\AppData\\Local\\hermes\\profiles\\gynbox3\\config.yaml\nYour settings file (C:\\Users\\Gyniu\\AppData\\Local\\hermes\\profiles\\gynbox3\\config.yaml) has a formatting error at line 238. Hermes is running on your last good settings until it is fixed, so recent changes are not applied. Open it with `hermes config edit`, fix line 238, then run `hermes config check`. Details: mapping values are not allowed here\n⚠️  hermes config: Your settings file (C:\\Users\\Gyniu\\AppData\\Local\\hermes\\profiles\\gynbox3\\config.yaml) has a formatting error at line 238. Hermes is running on your last good settings until it is fixed, so recent changes are not applied. Open it with `hermes config edit`, fix line 238, then run `hermes config check`.\n    Details: mapping values are not allowed here\nError: Hermes stopped because your settings file (C:\\Users\\Gyniu\\AppData\\Local\\hermes\\profiles\\gynbox3\\config.yaml) has a formatting error at line 238. Fix it with `hermes config edit` and check with `hermes config check`, or add --ignore-user-config to run once with default settings. Details: mapping values are not allowed here\n. Rollback completato. L'agente resta nel Cimitero.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_resurrect_20261016_110452"
+  },
+  {
+    "timestamp": "2026-10-16 11:04:52",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "CURA_CONTESTO",
+    "status": "SUCCESSO",
+    "details": "Contesto curato con successo: ripristinati 20480 token e modello hermes3:64k.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_cure_context_20261016_110452"
+  },
+  {
+    "timestamp": "2026-10-16 11:04:52",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "CURA_SESSIONE",
+    "status": "SUCCESSO",
+    "details": "Sessione curata con successo: ripuliti lease attivi e rimossi eventuali lock orfani.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_cure_session_20261016_110452"
+  },
+  {
+    "timestamp": "2026-10-16 11:03:39",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "RESURREZIONE",
+    "status": "FALLITO",
+    "details": "Resurrezione FALLITA: Il test di verifica ha restituito codice 2 o output non valido. Err: None. Rollback completato. L'agente resta nel Cimitero.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_resurrect_20261016_110336"
+  },
+  {
+    "timestamp": "2026-10-16 11:03:36",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "CURA_CONTESTO",
+    "status": "SUCCESSO",
+    "details": "Contesto curato con successo: ripristinati 20480 token e modello hermes3:64k.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_cure_context_20261016_110336"
+  },
+  {
+    "timestamp": "2026-10-16 11:03:36",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "CURA_SESSIONE",
+    "status": "SUCCESSO",
+    "details": "Sessione curata con successo: ripuliti lease attivi e rimossi eventuali lock orfani.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_cure_session_20261016_110336"
+  },
+  {
+    "timestamp": "2026-10-16 11:02:42",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "RESURREZIONE",
+    "status": "FALLITO",
+    "details": "Resurrezione FALLITA: Il test di verifica ha restituito codice 2 o output non valido. Err: None. Rollback completato. L'agente resta nel Cimitero.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_resurrect_20261016_110239"
+  },
+  {
+    "timestamp": "2026-10-16 11:02:39",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "CURA_CONTESTO",
+    "status": "SUCCESSO",
+    "details": "Contesto curato con successo: ripristinati 20480 token e modello hermes3:64k.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_cure_context_20261016_110239"
+  },
+  {
+    "timestamp": "2026-10-16 11:02:39",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "CURA_SESSIONE",
+    "status": "SUCCESSO",
+    "details": "Sessione curata con successo: ripuliti lease attivi e rimossi eventuali lock orfani.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_cure_session_20261016_110239"
+  },
+  {
+    "timestamp": "2026-10-16 11:02:39",
+    "agent_id": "mark1",
+    "agent_name": "Direttore Marketing",
+    "action": "CURA_SESSIONE",
+    "status": "SUCCESSO",
+    "details": "Sessione curata con successo: ripuliti lease attivi e rimossi eventuali lock orfani.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_mark1_cure_session_20261016_110239"
+  },
+  {
+    "timestamp": "2026-10-16 11:00:16",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "RESURREZIONE",
+    "status": "FALLITO",
+    "details": "Resurrezione FALLITA: Il test di verifica ha restituito codice 2 o output non valido. Err: None. Rollback completato. L'agente resta nel Cimitero.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_resurrect_20261016_110013"
+  },
+  {
+    "timestamp": "2026-10-16 11:00:13",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "CURA_CONTESTO",
+    "status": "SUCCESSO",
+    "details": "Contesto curato con successo: ripristinati 20480 token e modello hermes3:64k.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_cure_context_20261016_110013"
+  },
+  {
+    "timestamp": "2026-10-16 11:00:13",
+    "agent_id": "gynbox3",
+    "agent_name": "QUALITY CHEKER",
+    "action": "CURA_SESSIONE",
+    "status": "SUCCESSO",
+    "details": "Sessione curata con successo: ripuliti lease attivi e rimossi eventuali lock orfani.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_gynbox3_cure_session_20261016_110013"
+  },
+  {
+    "timestamp": "2026-10-16 11:00:13",
+    "agent_id": "mark1",
+    "agent_name": "Direttore Marketing",
+    "action": "CURA_SESSIONE",
+    "status": "SUCCESSO",
+    "details": "Sessione curata con successo: ripuliti lease attivi e rimossi eventuali lock orfani.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICHEAI\\backups\\agent_mark1_cure_session_20261016_110013"
+  }
+]

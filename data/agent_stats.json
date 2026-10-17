@@ -1,0 +1,58 @@
+{
+  "gynbot1": {
+    "name": "GynBot1 | Leadership",
+    "role": "Direttore & Coordinatore",
+    "group": "management",
+    "model": "qwen3.5:64k",
+    "pet": "👤",
+    "status": "working",
+    "sessions_today": 24,
+    "context_used": 0,
+    "context_capacity": 64000,
+    "current_task": "Gestione progetto STATISTICHEAI",
+    "last_activity": 1792049975.1651576,
+    "cpu_active": true
+  },
+  "gynbot2": {
+    "name": "GynBot2 | Terminale",
+    "role": "Esecuzione Comandi & Script",
+    "group": "executor",
+    "model": "qwen3.5:64k",
+    "pet": "💻",
+    "status": "working",
+    "sessions_today": 18,
+    "context_used": 0,
+    "context_capacity": 64000,
+    "current_task": "Script & Automation tasks",
+    "last_activity": 1792049975.165159,
+    "cpu_active": true
+  },
+  "hermes": {
+    "name": "Hermes (Core)",
+    "role": "Orchestrazione Agenti",
+    "group": "core",
+    "model": "qwen3.5:64k",
+    "pet": "🦸",
+    "status": "working",
+    "sessions_today": 15,
+    "context_used": 0,
+    "context_capacity": 64000,
+    "current_task": "Coordination multi-agent tasks",
+    "last_activity": 1792049975.1651597,
+    "cpu_active": true
+  },
+  "user": {
+    "name": "User (Briefing)",
+    "role": "Direttivo & Input",
+    "group": "human",
+    "model": "N/A (Local Human)",
+    "pet": "👤",
+    "status": "online",
+    "sessions_today": 12,
+    "context_used": 0,
+    "context_capacity": 48000,
+    "current_task": "Direction & project oversight",
+    "last_activity": 1792049975.1651607,
+    "cpu_active": false
+  }
+}

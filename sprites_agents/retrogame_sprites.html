@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>RetroGame Sprite Optimizer - GynBot1 Team</title>
+    <style>
+        body { background: #0f0f0f; color: #fff; font-family: 'Consolas', monospace; margin: 0; padding: 20px; }
+        h1 { color: #3b82f6; text-shadow: 2px 0 #ec4899; }
+        .sprite-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 15px; margin-top: 20px; }
+        .sprite-card { background: rgba(59,130,246,0.2); border: 2px solid #3b82f6; border-radius: 8px; text-align: center; padding: 10px; transition: transform 0.2s; }
+        .sprite-card:hover { transform: scale(1.05); background: rgba(59,130,246,0.4); }
+        #sprite-canvas { width: 100px; height: 100px; image-rendering: pixelated; border-radius: 4px; }
+        .agent-name { font-size: 14px; color: #ec4899; margin-top: 5px; text-transform: uppercase; letter-spacing: 2px; }
+        .palette { font-size: 11px; color: #a5b4fc; margin: 5px 0; }
+        button { background: #333; border: 1px solid #ec4899; color: #ec4899; padding: 5px 15px; margin-top: 10px; cursor: pointer; font-family: inherit; }
+        button:hover { background: #ec4899; color: #fff; }
+    </style>
+</head>
+<body>
+    <h1>🎮 RETROGAME SPRITE ENGINE | GYNBOT1 TEAM</h1>
+    <p>Ottimizzazione di pixel art sprite per 7 modelli Ollama (32×32 grid)</p>
+    
+    <div class="sprite-grid">
+        <!-- Agent Sprites Generated from Base Canvas -->
+        <div class="sprite-card"><canvas id="sprite-canvas" width="100" height="100"></canvas><div class="agent-name">GynBot1</div></div>
+        <div class="sprite-card"><canvas id="sprite-canvas" width="100" height="100"></canvas><div class="agent-name">QualityCheker</div></div>
+        <div class="sprite-card"><canvas id="sprite-canvas" width="100" height="100"></canvas><div class="agent-name">Programmatore</div></div>
+        <div class="sprite-card"><canvas id="sprite-canvas" width="100" height="100"></canvas><div class="agent-name">DirettoreMarketing</div></div>
+        <div class="sprite-card"><canvas id="sprite-canvas" width="100" height="100"></canvas><div class="agent-name">CopywriterCreativo</div></div>
+        <div class="sprite-card"><canvas id="sprite-canvas" width="100" height="100"></canvas><div class="agent-name">CEH</div></div>
+        <div class="sprite-card"><canvas id="sprite-canvas" width="100" height="100"></canvas><div class="agent-name">GrowtHacker</div></div>
+    </div>
+
+<script>
+// SPRITE GENERATION ENGINE FOR RETROGAME - PIXEL OPTIMIZED
+const AGENTS = {
+    GYBOT1:   { name: "GynBot1", primary: "#3b82f6" },     // Blu scuro
+    QUALITY:  { name: "QualityCheker", primary: "#ec4899" }, // Rosa dominante
+    PROGRAMMER:{ name: "Programmatore", primary: "#fbbf24" }, // Giallo robotico
+    MARKETER: { name: "DirettoreMarketing", primary: "#e51da8" }, // Viola/rosa
+    COPYWRITER:{ name: "CopywriterCreativo", primary: "#8b5cf6" }, // Violetto verde
+    CEH:      { name: "CEH", primary: "#171717" },        // Nero cyber
+    GROWT:    { name: "GrowtHacker", primary: "#f472b6" }  // Rosa giallo
+};
+
+// Base sprite canvas (pixel art optimized for 32x32 grid)
+function createBaseSprite(ctx, color) {
+    ctx.fillStyle = "#0f0f0f";
+    ctx.fillRect(0, 0, 32, 32);
+    
+    // Character base shape
+    let bodyColor = color;
+    ctx.fillStyle = bodyColor;
+    ctx.beginPath();
+    ctx.arc(16, 18, 10, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Add eyes (white circles)
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(11, 14, 4, 4);
+    ctx.fillRect(17, 14, 4, 4);
+    
+    // Pupils (darker)
+    ctx.fillStyle = "#000";
+    ctx.fillRect(12, 15, 2, 2);
+    ctx.fillRect(18, 15, 2, 2);
+    
+    return { base: ctx, sprite: true };
+}
+
+// Generate optimized pixel sprite based on agent palette
+function generatePixelSprite(agentKey) {
+    if (agentKey === 'CEH') {
+        const ctx = document.createElement('canvas');
+        ctx.width = 32;
+        ctx.height = 32;
+        const c = ctx;
+        
+        // Black base with cyan accents (cyber palette)
+        c.fillStyle = "#171717";
+        c.fillRect(0, 0, 32, 32);
+        
+        c.strokeStyle = "#23f4d5";
+        c.lineWidth = 3;
+        c.beginPath();
+        c.arc(16, 18, 9, 0, Math.PI * 2);
+        c.stroke();
+        
+        // Glowing eyes
+        const grad = c.createLinearGradient(12, 14, 16, 14);
+        grad.addColorStop(0, "#23f4d5");
+        grad.addColorStop(1, "#7cfaff");
+        c.fillStyle = grad;
+        c.beginPath();
+        c.arc(13, 15, 3, 0, Math.PI * 2);
+        c.fill();
+        c.beginPath();
+        c.arc(16, 15, 3, 0, Math.PI * 2);
+        c.fill();
+        
+        // Yellow belt detail
+        ctx.fillStyle = "#fbbf24";
+        ctx.fillRect(8, 22, 16, 3);
+        return { canvas: ctx };
+    } else if (agentKey === 'PROGRAMMER') {
+        const ctx = document.createElement('canvas');
+        ctx.width = 32;
+        ctx.height = 32;
+        const c = ctx;
+        
+        // Geometric yellow robot shape
+        c.strokeStyle = "#3b82f6";
+        c.lineWidth = 4;
+        c.strokeRect(0, 12, 32, 20);
+        
+        c.fillStyle = "#fbbf24";
+        c.fillRect(6, 10, 20, 8); // yellow top
+        c.fillStyle = "#fff";
+        c.fillRect(13, 14, 6, 8); // inner detail
+        
+        return { canvas: ctx };
+    } else {
+        const ctx = document.createElement('canvas');
+        ctx.width = 32;
+        ctx.height = 32;
+        const c = ctx;
+        
+        // Default pixel art shape
+        c.fillStyle = "#0f0f0f";
+        c.fillRect(8, 10, 16, 4); // head
+        c.fillRect(8, 14, 16, 4); // body
+        
+        c.fillStyle = AGENTS[agentKey].primary;
+        c.beginPath();
+        c.arc(16, 13, 5, 0, Math.PI * 2);
+        c.fill();
+        
+        // Accent dots
+        c.fillStyle = "#ec4899";
+        c.fillRect(12, 14, 3, 3);
+        c.fillRect(17, 14, 3, 3);
+        
+        return { canvas: ctx };
+    }
+}
+
+// Render all sprites to canvas elements
+const canvases = document.querySelectorAll('canvas');
+canvases.forEach(canvas => {
+    const agentKey = [...Object.keys(AGENTS)].find(k => k.length > 0 && !/^\d+$/.test(k)) || 'GYBOT1';
+    
+    if (agentKey === 'CEH') generatePixelSprite(agentKey);
+    else generatePixelSprite(agentKey);
+    
+    // Create pixel-scaled version for display
+    const originalCanvas = document.getElementById(`sprite-${agentKey}`) || canvas;
+    const scaledCanvas = document.createElement('canvas');
+    scaledCanvas.width = 100;
+    scaledCanvas.height = 100;
+    const sc = scaledCanvas.getContext('2d');
+    
+    let srcCanvas = originalCanvas;
+    if (srcCanvas instanceof HTMLCanvasElement) {
+        sc.drawImage(srcCanvas, 0, 0, 100, 100);
+    }
+});
+
+console.log(`🎮 SPRITE ENGINE READY | ${Object.keys(AGENTS).length} AGENTS OPTIMIZED`);
+</script>
+</body>
+</html>

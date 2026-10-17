@@ -1,0 +1,129 @@
+{
+  "server": {
+    "host": "127.0.0.1",
+    "port": 8888,
+    "actions_enabled": true,
+    "cache_ttl_seconds": 2
+  },
+  "guardian": {
+    "check_interval_seconds": 30,
+    "enabled": true,
+    "auto_resolve": true
+  },
+  "thresholds": {
+    "context_warning_pct": 75,
+    "context_alert_pct": 90,
+    "vram_warning_pct": 85
+  },
+  "agents": [
+    {
+      "id": "gynbot1",
+      "profile": "default",
+      "name": "GynBot1",
+      "title": "Regista & Esperto PC",
+      "group": "TEAM SVILUPPO",
+      "color": "#3b82f6",
+      "model": "qwen3.5:64k",
+      "base_model": "qwen3.5:4b",
+      "context_limit": 65536,
+      "compress_threshold": 0.85,
+      "sprite": "sprites_agents/GynBot1.png"
+    },
+    {
+      "id": "gynbot2",
+      "profile": "gynbot2",
+      "name": "PROGRAMMATORE",
+      "title": "Sviluppatore & Coder",
+      "group": "TEAM SVILUPPO",
+      "color": "#fbbf24",
+      "model": "qwen2.5-coder:64k",
+      "base_model": "qwen2.5-coder:7b",
+      "context_limit": 32768,
+      "compress_threshold": 0.85,
+      "sprite": "sprites_agents/PROGRAMMATORE.png"
+    },
+    {
+      "id": "gynbox3",
+      "profile": "gynbox3",
+      "name": "QUALITY CHEKER",
+      "title": "QA & Tester",
+      "group": "TEAM SVILUPPO",
+      "color": "#ec4899",
+      "model": "hermes3:64k",
+      "base_model": "hermes3:8b",
+      "context_limit": 20480,
+      "compress_threshold": 0.85,
+      "sprite": "sprites_agents/QUALITY CHEKER.png"
+    },
+    {
+      "id": "mark1",
+      "profile": "mark1",
+      "name": "Direttore Marketing",
+      "title": "Brand Strategist",
+      "group": "TEAM MARKETING",
+      "color": "#8b5cf6",
+      "model": "qwen2.5:64k",
+      "base_model": "qwen2.5:7b",
+      "context_limit": 24576,
+      "compress_threshold": 0.85,
+      "sprite": "sprites_agents/Direttore Marketing.png"
+    },
+    {
+      "id": "mark2",
+      "profile": "mark2",
+      "name": "Copywriter Creativo",
+      "title": "Social Storyteller",
+      "group": "TEAM MARKETING",
+      "color": "#06b6d4",
+      "model": "llama3.1:64k",
+      "base_model": "llama3.1:8b",
+      "context_limit": 16384,
+      "compress_threshold": 0.85,
+      "sprite": "sprites_agents/Copywriter Creativo.png"
+    },
+    {
+      "id": "mark3",
+      "profile": "mark3",
+      "name": "Growth Hacker",
+      "title": "SEO & Data Analyst",
+      "group": "TEAM MARKETING",
+      "color": "#10b981",
+      "model": "hermes3:64k",
+      "base_model": "hermes3:8b",
+      "context_limit": 20480,
+      "compress_threshold": 0.85,
+      "sprite": "sprites_agents/Growt hacker.png"
+    },
+    {
+      "id": "hacker",
+      "profile": "hacker",
+      "name": "CEH",
+      "title": "Pentester & Auditor",
+      "group": "SICUREZZA",
+      "color": "#ef4444",
+      "model": "whiterabbit:16k",
+      "base_model": "Llama-3.1-WhiteRabbitNeo-2-8B",
+      "context_limit": 16384,
+      "compress_threshold": 0.85,
+      "sprite": "sprites_agents/CEH.png"
+    },
+    {
+      "id": "beam",
+      "profile": "beam",
+      "name": "BEAM",
+      "title": "Super Coordinatore Cloud",
+      "group": "SUPER COORDINATORE",
+      "color": "#38bdf8",
+      "model": "beam:cloud",
+      "base_model": "Reflection Beam (501B Cloud)",
+      "context_limit": 1048576,
+      "compress_threshold": 0.85,
+      "sprite": "sprites_agents/BEAM.png",
+      "is_cloud": true,
+      "parameters": "501B",
+      "architecture": "beam",
+      "modality": "Text Only + Tool Calling",
+      "thinking_level": "max"
+    }
+  ]
+}

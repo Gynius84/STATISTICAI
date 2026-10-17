@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.bak
+
+# Environment & Server state
+server.pid
+server.log
+server.txt
+*.sqlite3-journal
+data/archive/*
+!data/archive/.gitkeep
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
