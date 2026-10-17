@@ -1,4 +1,4 @@
-# STATISTICHEAI v2.0 🎮🤖
+# STATISTICHEAI v2.1 🎮🤖
 ### Dashboard Retro Arcade (16-Bit) per Telemetria, Diagnosi e Monitoraggio Agenti AI Multi-Provider
 
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Pure%20Python)-brightgreen.svg)]()
@@ -6,7 +6,20 @@
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-informational.svg)]()
 [![Multi-Provider](https://img.shields.io/badge/Providers-Ollama%20%7C%20LM%20Studio%20%7C%20Hermes%20%7C%20OpenAI%20%7C%20Cloud-orange.svg)]()
 
-> **STATISTICHEAI v2.0** trasforma la gestione dei tuoi agenti AI locali e cloud in un videogioco Arcade Pixel Art a 16-bit. Monitora hardware, VRAM, saturazione token, memoria a lungo termine e stato di salute con un sistema avanzato di auto-diagnosi medica (*Cura Sessione*, *Cura Contesto*, *Resurrezione 1-Click*).
+> **STATISTICHEAI v2.1** trasforma la gestione dei tuoi agenti AI locali e cloud in un videogioco Arcade Pixel Art a 16-bit. Monitora hardware, VRAM, saturazione token, memoria a lungo termine e stato di salute con un sistema avanzato di auto-diagnosi medica (*Cura Sessione*, *Cura Contesto*, *Resurrezione 1-Click*).
+
+---
+
+## ✨ Novità della Versione 2.1 (Layout Riconfigurabile & Drag-and-Drop)
+
+- 📌 **Header & Footer Blindati e Fissi**: Header fissato in alto con effetto sticky glass retro arcade per avere sempre a vista telemetria, orologio e controlli chiave; Footer fisso in basso con ping e indicatori live.
+- 📐 **Interfaccia e Box 100% Riconfigurabili a Drag-and-Drop**:
+  - **Tutti i Box di Sistema Riordinabili**: HUD Statistiche, Stage Interattivo Canvas, Barra Filtri & Azioni, Griglia Agenti e Registro Storico possono essere spostati nell'ordine verticale desiderato tramite drag-and-drop o pulsanti rapidi `▲` / `▼`.
+  - **Schede Agenti Riordinabili**: Ogni singola scheda agente nella griglia può essere riposizionata liberamente tramite maniglia `⠿ SPOSTA` o frecce `◀` / `▶`.
+  - **Metriche HUD Personalizzabili**: Anche i riquadri della barra HUD (CPU, RAM, GPU, VRAM, Ollama, Team, Beam Cloud...) possono essere riordinati a piacimento.
+- 💾 **Persistenza Automatica in LocalStorage**: Ogni spostamento viene salvato all'istante nel browser; riaprendo la dashboard da qualsiasi tab o browser la disposizione personalizzata è fedelmente conservata.
+- 🔄 **Pulsante `[ 🔄 RIPRISTINA PREDEFINITO ]`**: Ripristina il layout di fabbrica in un solo clic in qualunque momento.
+- 🎛 **Modalità `[ 📐 PERSONALIZZA LAYOUT ]`**: Attiva la visualizzazione guidata con banner dei comandi e bordi retro tratteggiati per un'esperienza di personalizzazione intuitiva e immediata.
 
 ---
 

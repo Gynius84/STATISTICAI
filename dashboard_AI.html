@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STATISTICHEAI - Monitor Agenti Hermes & Ollama (Retro RPG 16-Bit)</title>
+    <title>STATISTICHEAI v2.1 - Monitor Agenti Hermes & Ollama (Layout Riconfigurabile)</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
         /* -------------------------------------------------------------
@@ -640,7 +640,7 @@
         }
 
         /* -------------------------------------------------------------
-           STILI MODALE AGGIUNTA AGENTE UNIVERSALE (VERSIONE 2.0)
+           STILI MODALE AGGIUNTA AGENTE UNIVERSALE (VERSIONE 2.1)
            ------------------------------------------------------------- */
         .btn-add-agent {
             background: linear-gradient(135deg, #075985, #0284c7) !important;
@@ -976,6 +976,299 @@
             border: 1px solid #78471e;
             padding: 3px 8px;
         }
+
+        /* =============================================================
+           STATISTICHEAI v2.1: LAYOUT RICONFIGURABILE & DRAG-AND-DROP
+           ============================================================= */
+
+        /* Header fisso con effetto sticky glass retro */
+        .header-bar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            background: rgba(15, 17, 26, 0.96) !important;
+        }
+
+        .retro-footer {
+            position: relative;
+            z-index: 100;
+        }
+
+        /* Contenitore sezioni riconfigurabili */
+        .dashboard-sections {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        /* Banner modalità modifica layout */
+        .layout-editor-banner {
+            background: linear-gradient(90deg, #1e1b4b, #172554, #0f172a);
+            border: 2px dashed #fde047;
+            box-shadow: 0 0 16px rgba(253, 224, 71, 0.25);
+            padding: 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 2px;
+            animation: bannerPulse 2s infinite alternate;
+        }
+
+        @keyframes bannerPulse {
+            from { box-shadow: 0 0 8px rgba(253, 224, 71, 0.2); }
+            to { box-shadow: 0 0 20px rgba(253, 224, 71, 0.45); }
+        }
+
+        .banner-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .banner-icon {
+            font-size: 20px;
+        }
+        .banner-msg {
+            font-size: 11px;
+            color: var(--text-bright);
+            letter-spacing: 0.5px;
+        }
+        .banner-right {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .btn-layout-ctrl {
+            font-family: inherit;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 6px 12px;
+            cursor: pointer;
+            border: 2px solid;
+            text-transform: uppercase;
+            transition: all 0.15s ease;
+        }
+        .btn-layout-ctrl.btn-reset {
+            background: #2a1b1b;
+            color: #f87171;
+            border-color: #ef4444;
+        }
+        .btn-layout-ctrl.btn-reset:hover {
+            background: #451a1a;
+            color: #fca5a5;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+        }
+        .btn-layout-ctrl.btn-done {
+            background: #1e3a2b;
+            color: #86efac;
+            border-color: #22c55e;
+        }
+        .btn-layout-ctrl.btn-done:hover {
+            background: #14532d;
+            color: #bbf7d0;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+        }
+
+        /* Header riordino sezioni */
+        .box-reorder-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px dashed rgba(86, 95, 137, 0.4);
+        }
+        .box-reorder-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            font-size: 12px;
+            color: var(--text-bright);
+            letter-spacing: 0.5px;
+        }
+        .drag-handle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 20px;
+            background: #1f2335;
+            color: #fde047;
+            border: 1px solid #3b4261;
+            border-radius: 2px;
+            cursor: grab;
+            font-size: 13px;
+            user-select: none;
+            transition: all 0.15s ease;
+        }
+        .drag-handle:hover {
+            background: #2ac3de;
+            color: #000;
+            border-color: #7aa2f7;
+            box-shadow: 0 0 8px rgba(42, 195, 222, 0.5);
+        }
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+        .box-reorder-buttons {
+            display: flex;
+            gap: 4px;
+        }
+        .btn-box-reorder {
+            font-family: inherit;
+            font-size: 9px;
+            font-weight: bold;
+            background: #161a29;
+            color: var(--text-muted);
+            border: 1px solid #2e3440;
+            padding: 3px 7px;
+            cursor: pointer;
+            transition: all 0.12s ease;
+        }
+        .btn-box-reorder:hover {
+            background: #24283b;
+            color: #fde047;
+            border-color: #fde047;
+            box-shadow: 0 0 6px rgba(253, 224, 71, 0.3);
+        }
+
+        /* Feedback visivo Drag & Drop Box */
+        .draggable-box {
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .draggable-box.dragging-box {
+            opacity: 0.45;
+            border-color: #fde047 !important;
+            box-shadow: 0 0 20px rgba(253, 224, 71, 0.5) !important;
+        }
+        .draggable-box.drag-over-box {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.4) !important;
+            transform: translateY(-2px);
+        }
+
+        /* Schede Agenti Draggable */
+        .agent-card-reorder-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 17, 26, 0.7);
+            border: 1px dashed rgba(86, 95, 137, 0.4);
+            padding: 2px 6px;
+            margin-bottom: 4px;
+            border-radius: 2px;
+        }
+        .agent-drag-handle {
+            cursor: grab;
+            font-size: 10px;
+            font-weight: bold;
+            color: #fde047;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            user-select: none;
+        }
+        .agent-drag-handle:hover {
+            color: #38bdf8;
+            text-shadow: 0 0 6px rgba(56, 189, 248, 0.6);
+        }
+        .agent-drag-handle:active {
+            cursor: grabbing;
+        }
+        .agent-card-reorder-btns {
+            display: flex;
+            gap: 3px;
+        }
+        .btn-card-reorder {
+            font-family: inherit;
+            font-size: 8px;
+            background: #1a1b26;
+            color: var(--text-muted);
+            border: 1px solid #3b4261;
+            padding: 1px 5px;
+            cursor: pointer;
+        }
+        .btn-card-reorder:hover {
+            background: #38bdf8;
+            color: #000;
+            border-color: #38bdf8;
+        }
+
+        .agent-card.dragging-card {
+            opacity: 0.4;
+            border-color: #fde047 !important;
+            transform: scale(0.98);
+        }
+        .agent-card.drag-over-card {
+            border-color: #2ac3de !important;
+            box-shadow: 0 0 14px rgba(42, 195, 222, 0.5) !important;
+            transform: translateY(-3px);
+        }
+
+        /* Riquadri HUD Draggable */
+        .hud-metric {
+            position: relative;
+            transition: transform 0.15s ease, border-color 0.15s ease;
+        }
+        .hud-reorder-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3px;
+            padding-bottom: 2px;
+            border-bottom: 1px dotted rgba(86, 95, 137, 0.3);
+        }
+        .hud-drag-handle {
+            cursor: grab;
+            font-size: 9px;
+            color: #9ece6a;
+            user-select: none;
+            font-weight: bold;
+        }
+        .hud-drag-handle:hover {
+            color: #fde047;
+        }
+        .hud-drag-handle:active {
+            cursor: grabbing;
+        }
+        .btn-hud-reorder {
+            font-family: inherit;
+            font-size: 8px;
+            background: #10121a;
+            color: var(--text-muted);
+            border: 1px solid #23283b;
+            padding: 0 4px;
+            cursor: pointer;
+        }
+        .btn-hud-reorder:hover {
+            background: #9ece6a;
+            color: #000;
+        }
+        .hud-metric.dragging-hud {
+            opacity: 0.45;
+            border-color: #fde047 !important;
+        }
+        .hud-metric.drag-over-hud {
+            border-color: #9ece6a !important;
+            box-shadow: 0 0 12px rgba(158, 206, 106, 0.4) !important;
+        }
+
+        /* Modalità Edit Evidenziata */
+        body.layout-edit-mode .draggable-box {
+            border: 2px dashed #7aa2f7 !important;
+        }
+        body.layout-edit-mode .agent-card {
+            border: 2px dashed #bb9af7 !important;
+        }
+        body.layout-edit-mode .hud-metric {
+            border: 1px dashed #9ece6a !important;
+        }
+
     </style>
 </head>
 <body>
@@ -995,18 +1288,21 @@
                     <div class="main-title" id="main-header-title">
                         <span style="color: #7aa2f7;">STATISTICHEAI</span>
                         <span style="color: #565f89; margin: 0 4px;">•</span>
-                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 7 AGENTI & OLLAMA + 1 CLOUD (8 TOTALI)</span>
+                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES & OLLAMA (VERSIONE 2.1 • LAYOUT RICONFIGURABILE)</span>
                     </div>
                     <div id="title-dynamic-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 11px; margin-top: 3px; flex-wrap: wrap;">
                         <span id="title-workflow-badge" class="badge" style="background: #0f172a; color: #38bdf8; border-color: #0284c7; padding: 2px 7px; font-size: 10px; cursor: default; letter-spacing: 0.5px;">
                             🔀 WORKFLOW: 🦙 OLLAMA LOCALE (14 MODELLI) + ☁ OLLAMA CLOUD (BEAM 501B)
                         </span>
-                        <span style="color: var(--text-muted);">MONITOR RETRO RPG: SANO | INFERMERIA | CIMITERO • AZIONI REALI CON BACKUP</span>
+                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.1: HEADER/FOOTER FISSI & BOX RIPOSIZIONABILI • AZIONI REALI CON BACKUP</span>
                     </div>
                 </div>
             </div>
 
             <div class="badge-group">
+                <div id="layout-toggle-btn" class="badge" onclick="toggleLayoutEditor()" title="Personalizza e sposta i box e le schede" style="cursor: pointer; background: #1f2335; color: #fde047; border-color: #eab308; user-select: none;">
+                    [ 📐 PERSONALIZZA LAYOUT ]
+                </div>
                 <div id="actions-status-badge" class="badge" style="background:#1e3223; color:var(--hp-green); border-color:var(--hp-green);">
                     [ AZIONI & CURE: ATTIVE ]
                 </div>
@@ -1016,11 +1312,36 @@
             </div>
         </header>
 
-        <!-- 2. HUD STATISTICHE DI SISTEMA -->
-        <section class="pixel-box">
+        <!-- BANNER MODALITÀ PERSONALIZZAZIONE LAYOUT (VERSIONE 2.1) -->
+        <div id="layout-editor-banner" class="layout-editor-banner" style="display: none;">
+            <div class="banner-left">
+                <span class="banner-icon">📐</span>
+                <span class="banner-msg"><b>MODALITÀ PERSONALIZZAZIONE ATTIVA:</b> Trascina o usa le frecce per riposizionare qualsiasi box, scheda agente o riquadro HUD. Le posizioni sono salvate in automatico!</span>
+            </div>
+            <div class="banner-right">
+                <button type="button" class="btn-layout-ctrl btn-reset" onclick="resetLayout()" title="Ripristina layout predefinito">🔄 RIPRISTINA PREDEFINITO</button>
+                <button type="button" class="btn-layout-ctrl btn-done" onclick="toggleLayoutEditor(false)" title="Salva ordine e termina">💾 SALVA E CHIUDI</button>
+            </div>
+        </div>
+
+        <!-- CONTENITORE SEZIONI RICONFIGURABILI A DRAG-AND-DROP (VERSIONE 2.1) -->
+        <div id="dashboard-sections" class="dashboard-sections">
+<!-- 2. HUD STATISTICHE DI SISTEMA -->
+        <section class="pixel-box draggable-box" id="box-hud-metrics" data-box-id="box-hud-metrics">
+            <div class="box-reorder-header">
+                <span class="box-reorder-title">
+                    <span class="drag-handle" title="Trascina per riposizionare questo box">⠿</span>
+                    <span>HUD STATISTICHE DI SISTEMA & VRAM</span>
+                </span>
+                <div class="box-reorder-buttons">
+                    <button type="button" class="btn-box-reorder" onclick="moveSection('box-hud-metrics', -1)" title="Sposta box in alto">▲ SPOSTA SU</button>
+                    <button type="button" class="btn-box-reorder" onclick="moveSection('box-hud-metrics', 1)" title="Sposta box in basso">▼ SPOSTA GIÙ</button>
+                </div>
+            </div>
             <div class="hud-grid">
                 <!-- CPU -->
-                <div class="hud-metric">
+                <div class="hud-metric draggable-hud" data-hud-id="hud-cpu">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ CPU</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cpu', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cpu', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
                         <span>CPU SISTEMA</span>
                         <span id="hud-cpu-val">--%</span>
@@ -1031,7 +1352,8 @@
                 </div>
 
                 <!-- RAM -->
-                <div class="hud-metric">
+                <div class="hud-metric draggable-hud" data-hud-id="hud-ram">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ RAM</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-ram', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-ram', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
                         <span>RAM USATA</span>
                         <span id="hud-ram-val">-- GB / -- GB</span>
@@ -1042,7 +1364,8 @@
                 </div>
 
                 <!-- GPU UTIL -->
-                <div class="hud-metric">
+                <div class="hud-metric draggable-hud" data-hud-id="hud-gpu">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ GPU</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-gpu', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-gpu', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
                         <span>RTX 4060 GPU</span>
                         <span id="hud-gpu-val">--% (--°C)</span>
@@ -1053,7 +1376,8 @@
                 </div>
 
                 <!-- VRAM -->
-                <div class="hud-metric">
+                <div class="hud-metric draggable-hud" data-hud-id="hud-vram">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ VRAM</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-vram', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-vram', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
                         <span>VRAM DEDICATA</span>
                         <span id="hud-vram-val">-- MB / 8188 MB</span>
@@ -1064,7 +1388,8 @@
                 </div>
 
                 <!-- OLLAMA STATUS -->
-                <div class="hud-metric">
+                <div class="hud-metric draggable-hud" data-hud-id="hud-ollama">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ OLLAMA</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-ollama', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-ollama', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
                         <span>OLLAMA RUNTIME</span>
                         <span id="hud-ollama-val">CONNESSO</span>
@@ -1075,7 +1400,8 @@
                 </div>
 
                 <!-- TEAM STATUS -->
-                <div class="hud-metric">
+                <div class="hud-metric draggable-hud" data-hud-id="hud-team">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ TEAM</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-team', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-team', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
                         <span>STATO 7 AGENTI</span>
                         <span id="hud-team-count">7 TOTALI</span>
@@ -1086,7 +1412,8 @@
                 </div>
 
                 <!-- GRUPPO: TEAM SVILUPPO -->
-                <div class="hud-metric" style="border-color: #4d3e1d;">
+                <div class="hud-metric draggable-hud" data-hud-id="hud-sviluppo" style="border-color: #4d3e1d;">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ SVILUPPO</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-sviluppo', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-sviluppo', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
                         <span style="color: #fbbf24; font-weight: bold;">⚒ TEAM SVILUPPO</span>
                         <span id="hud-sviluppo-stat" style="color: var(--hp-green); font-weight: bold;">3/3 OPERATIVI</span>
@@ -1100,7 +1427,8 @@
                 </div>
 
                 <!-- GRUPPO: TEAM MARKETING -->
-                <div class="hud-metric" style="border-color: #3f2257;">
+                <div class="hud-metric draggable-hud" data-hud-id="hud-marketing" style="border-color: #3f2257;">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ MARKETING</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-marketing', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-marketing', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
                         <span style="color: #c084fc; font-weight: bold;">📢 TEAM MARKETING</span>
                         <span id="hud-marketing-stat" style="color: var(--hp-green); font-weight: bold;">3/3 OPERATIVI</span>
@@ -1114,7 +1442,8 @@
                 </div>
 
                 <!-- GRUPPO: SUPER COORDINATORE CLOUD -->
-                <div class="hud-metric" style="border-color: #0284c7; background: #081524; box-shadow: 0 0 10px rgba(2, 132, 199, 0.2);">
+                <div class="hud-metric draggable-hud" data-hud-id="hud-cloud" style="border-color: #0284c7; background: #081524; box-shadow: 0 0 10px rgba(2, 132, 199, 0.2);">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ BEAM CLOUD</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
                         <span style="color: #38bdf8; font-weight: bold;">☁ SUPER COORDINATORE</span>
                         <span id="hud-cloud-stat" style="color: #38bdf8; font-weight: bold;">IMMORTALE (ONLINE)</span>
@@ -1128,7 +1457,7 @@
                 </div>
 
                 <!-- ANIMAZIONE CLOUD PORTAL BEAM (ACCANTO ALLA CARD) -->
-                <div class="hud-metric hud-metric-cloud-portal" style="border-color: #0284c7; background: #060e1a; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 0 14px rgba(56, 189, 248, 0.25); min-width: 340px;">
+                <div class="hud-metric hud-metric-cloud-portal draggable-hud" data-hud-id="hud-portal" style="border-color: #0284c7; background: #060e1a; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 0 14px rgba(56, 189, 248, 0.25); min-width: 340px;">
                     <div class="hud-metric-header" style="margin-bottom: 4px;">
                         <span style="color: #38bdf8; font-weight: bold; font-size: 11px;">☁ PORTALE VORTICE QUANTICO • BEAM 501B</span>
                         <span style="color: #fde047; font-weight: bold; font-size: 10px;">1M CONTEXT • IMMORTALE</span>
@@ -1141,7 +1470,17 @@
         </section>
 
         <!-- 3. STAGE INTERATTIVO: LE 4 STANZE PIXEL ART (CANVAS) -->
-        <section class="pixel-box stage-container">
+        <section class="pixel-box stage-container draggable-box" id="box-stage" data-box-id="box-stage">
+            <div class="box-reorder-header" style="padding: 6px 12px; margin-bottom: 0; background: #0c0e18;">
+                <span class="box-reorder-title">
+                    <span class="drag-handle" title="Trascina per riposizionare questo box">⠿</span>
+                    <span>STAGE INTERATTIVO RETROGAME (CANVAS 16-BIT)</span>
+                </span>
+                <div class="box-reorder-buttons">
+                    <button type="button" class="btn-box-reorder" onclick="moveSection('box-stage', -1)" title="Sposta box in alto">▲ SPOSTA SU</button>
+                    <button type="button" class="btn-box-reorder" onclick="moveSection('box-stage', 1)" title="Sposta box in basso">▼ SPOSTA GIÙ</button>
+                </div>
+            </div>
             <div class="stage-header">
                 <span>SCENE RETROGAME: CASETTA (RIPOSO) | UFFICIO (LAVORO) | INFERMERIA (CURA) | CIMITERO (CAMPO SANTO)</span>
                 <span id="stage-fps" style="color: var(--hp-green);">MONITORAGGIO REALE: ATTIVO</span>
@@ -1149,8 +1488,18 @@
             <canvas id="retro-stage-canvas" width="1280" height="320"></canvas>
         </section>
 
-        <!-- 4. BARRA FILTRI & AZIONI UNIVERSALI (VERSIONE 2.0) -->
-        <div class="pixel-box filter-bar">
+        <!-- 4. BARRA FILTRI & AZIONI UNIVERSALI (VERSIONE 2.1) -->
+        <div class="pixel-box filter-bar draggable-box" id="box-filter-bar" data-box-id="box-filter-bar">
+            <div class="box-reorder-header" style="width: 100%; margin-bottom: 6px;">
+                <span class="box-reorder-title">
+                    <span class="drag-handle" title="Trascina per riposizionare questo box">⠿</span>
+                    <span>FILTRI SQUADRE & STRUMENTI AGENTI</span>
+                </span>
+                <div class="box-reorder-buttons">
+                    <button type="button" class="btn-box-reorder" onclick="moveSection('box-filter-bar', -1)" title="Sposta box in alto">▲ SPOSTA SU</button>
+                    <button type="button" class="btn-box-reorder" onclick="moveSection('box-filter-bar', 1)" title="Sposta box in basso">▼ SPOSTA GIÙ</button>
+                </div>
+            </div>
             <span style="font-weight: bold; color: var(--text-muted); text-transform: uppercase;">FILTRA:</span>
             <button class="btn-filter active" id="filter-btn-all" onclick="setFilter('all')">TUTTI</button>
             <button class="btn-filter btn-filter-cloud" onclick="setFilter('SUPER COORDINATORE')">☁ SUPER COORDINATORE</button>
@@ -1165,29 +1514,49 @@
                 <span>🔄</span> RILEVA / SINCRONIZZA
             </button>
 
-            <!-- PULSANTE UNIVERSALE 1-CLICK: COLLEGA QUALSIASI AGENTE (VERSIONE 2.0) -->
+            <!-- PULSANTE UNIVERSALE 1-CLICK: COLLEGA QUALSIASI AGENTE (VERSIONE 2.1) -->
             <button class="btn-add-agent" onclick="openAddAgentModal()">
                 <span>+</span> COLLEGA NUOVO AGENTE
             </button>
         </div>
 
-        <!-- 5. GRIGLIA SCHEDE DEI 7 AGENTI -->
-        <section class="agents-grid" id="agents-grid">
-            <!-- Popolato dinamicamente via JS in tempo reale -->
+        <!-- 5. GRIGLIA SCHEDE DEGLI AGENTI (VERSIONE 2.1) -->
+        <section class="pixel-box draggable-box" id="box-agents-grid" data-box-id="box-agents-grid" style="padding: 10px;">
+            <div class="box-reorder-header">
+                <span class="box-reorder-title">
+                    <span class="drag-handle" title="Trascina per riposizionare l'intera griglia agenti">⠿</span>
+                    <span id="agents-grid-header-title">GRIGLIA SCHEDE AGENTI HERMES & CLOUD (10 AGENTI OPERATIVI)</span>
+                </span>
+                <div class="box-reorder-buttons">
+                    <button type="button" class="btn-box-reorder" onclick="moveSection('box-agents-grid', -1)" title="Sposta box in alto">▲ SPOSTA SU</button>
+                    <button type="button" class="btn-box-reorder" onclick="moveSection('box-agents-grid', 1)" title="Sposta box in basso">▼ SPOSTA GIÙ</button>
+                </div>
+            </div>
+            <div class="agents-grid" id="agents-grid">
+                <!-- Popolato dinamicamente via JS in tempo reale con schede riposizionabili -->
+            </div>
         </section>
 
-        <!-- 6. REGISTRO STORICO AZIONI E CURE -->
-        <section class="pixel-box">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <span style="font-weight: bold; color: var(--text-bright); letter-spacing: 0.5px;">
-                    REGISTRO STORICO CURE, AZIONI E RESURREZIONI (CON BACKUP DEDICATO)
+        <!-- 6. REGISTRO STORICO AZIONI E CURE (VERSIONE 2.1) -->
+        <section class="pixel-box draggable-box" id="box-history" data-box-id="box-history">
+            <div class="box-reorder-header">
+                <span class="box-reorder-title">
+                    <span class="drag-handle" title="Trascina per riposizionare questo box">⠿</span>
+                    <span>REGISTRO STORICO CURE, AZIONI E RESURREZIONI</span>
                 </span>
-                <span style="font-size: 11px; color: var(--text-muted);">SICUREZZA: ISOLAMENTO 100% SU SINGOLO AGENTE</span>
+                <div class="box-reorder-buttons">
+                    <button type="button" class="btn-box-reorder" onclick="moveSection('box-history', -1)" title="Sposta box in alto">▲ SPOSTA SU</button>
+                    <button type="button" class="btn-box-reorder" onclick="moveSection('box-history', 1)" title="Sposta box in basso">▼ SPOSTA GIÙ</button>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 11px; color: var(--text-muted);">SICUREZZA: ISOLAMENTO 100% SU SINGOLO AGENTE • BACKUP ATOMICI</span>
             </div>
             <div class="history-terminal" id="actions-history-box">
                 <div style="color: var(--text-muted); font-style: italic;">Nessuna azione eseguita di recente.</div>
             </div>
         </section>
+        </div>
 
         <!-- 7. FOOTER STATUS BAR REAL-TIME (RETRO 16-BIT) -->
         <footer class="pixel-box retro-footer">
@@ -1318,7 +1687,7 @@
     </div>
 
     <!-- =============================================================
-         MODALE UNIVERSALE: AGGIUNGI / COLLEGA NUOVO AGENTE (VERSIONE 2.0)
+         MODALE UNIVERSALE: AGGIUNGI / COLLEGA NUOVO AGENTE (VERSIONE 2.1)
          ============================================================= -->
     <div id="add-agent-modal" class="modal-overlay">
         <div class="modal-card" style="max-width: 680px; max-height: 90vh; overflow-y: auto;">
@@ -1833,6 +2202,22 @@
             const grid = document.getElementById('agents-grid');
             if (!agents || !grid) return;
 
+            // Se l'utente sta trascinando una scheda, sospendi la riscrittura DOM per questo ciclo
+            if (window.isDraggingCard || window.isDraggingBox) return;
+
+            // Ordina gli agenti in base alla preferenza salvata dall'utente (v2.1)
+            const savedAgentOrder = JSON.parse(localStorage.getItem('statistiche_agents_order') || '[]');
+            if (savedAgentOrder && savedAgentOrder.length > 0) {
+                agents.sort((a, b) => {
+                    const idxA = savedAgentOrder.indexOf(a.id);
+                    const idxB = savedAgentOrder.indexOf(b.id);
+                    if (idxA === -1 && idxB === -1) return 0;
+                    if (idxA === -1) return 1;
+                    if (idxB === -1) return -1;
+                    return idxA - idxB;
+                });
+            }
+
             grid.innerHTML = '';
 
             agents.forEach(agent => {
@@ -1847,6 +2232,9 @@
                 else if (hs === 'INFERMERIA') cardClass += ' card-infermeria';
                 else if (hs === 'CIMITERO') cardClass += ' card-cimitero';
                 card.className = cardClass;
+                card.setAttribute('data-agent-id', agent.id);
+                card.setAttribute('draggable', 'true');
+                setupCardDragEvents(card);
 
                 const spriteUrl = API_BASE + '/' + agent.sprite.replace(/^(\.\/|\/)/, '');
 
@@ -2287,7 +2675,7 @@
         }
 
         // -------------------------------------------------------------
-        // CONTROLLER UNIVERSALE: AGGIUNGI / GESTISCI AGENTE (VERSIONE 2.0)
+        // CONTROLLER UNIVERSALE: AGGIUNGI / GESTISCI AGENTE (VERSIONE 2.1)
         // -------------------------------------------------------------
         let SELECTED_PROVIDER = 'ollama';
 
@@ -3206,6 +3594,375 @@
 
         renderStage();
         renderBeamCloud();
+
+        /* =============================================================
+           STATISTICHEAI v2.1: LAYOUT CONTROLLER (DRAG & DROP + STORAGE)
+           ============================================================= */
+        window.isDraggingBox = false;
+        window.isDraggingCard = false;
+        window.isDraggingHud = false;
+        window.layoutEditorActive = false;
+
+        function toggleLayoutEditor(forcedState) {
+            window.layoutEditorActive = (typeof forcedState === 'boolean') ? forcedState : !window.layoutEditorActive;
+            const banner = document.getElementById('layout-editor-banner');
+            const btn = document.getElementById('layout-toggle-btn');
+            
+            if (window.layoutEditorActive) {
+                document.body.classList.add('layout-edit-mode');
+                if (banner) banner.style.display = 'flex';
+                if (btn) {
+                    btn.style.background = '#2a1b54';
+                    btn.style.color = '#38bdf8';
+                    btn.style.borderColor = '#38bdf8';
+                    btn.textContent = '[ 📐 MODALITÀ SPOSTAMENTO ATTIVA ]';
+                }
+                showToast('Modalità personalizzazione attiva! Trascina o usa le frecce per riposizionare box e schede.');
+            } else {
+                document.body.classList.remove('layout-edit-mode');
+                if (banner) banner.style.display = 'none';
+                if (btn) {
+                    btn.style.background = '#1f2335';
+                    btn.style.color = '#fde047';
+                    btn.style.borderColor = '#eab308';
+                    btn.textContent = '[ 📐 PERSONALIZZA LAYOUT ]';
+                }
+                saveLayout();
+                showToast('✓ Layout salvato con successo!');
+            }
+        }
+
+        // --- Riordino Sezioni Principali (Box) ---
+        function moveSection(boxId, direction) {
+            const container = document.getElementById('dashboard-sections');
+            if (!container) return;
+            const el = container.querySelector(`[data-box-id="${boxId}"]`) || document.getElementById(boxId);
+            if (!el) return;
+
+            if (direction === -1) {
+                // Sposta su
+                const prev = el.previousElementSibling;
+                if (prev && prev.classList.contains('draggable-box')) {
+                    container.insertBefore(el, prev);
+                    saveLayout();
+                    showToast('✓ Box spostato in alto!');
+                }
+            } else if (direction === 1) {
+                // Sposta giù
+                const next = el.nextElementSibling;
+                if (next && next.classList.contains('draggable-box')) {
+                    container.insertBefore(next, el);
+                    saveLayout();
+                    showToast('✓ Box spostato in basso!');
+                }
+            }
+        }
+
+        // --- Riordino Schede Agenti ---
+        function moveAgentCard(agentId, direction) {
+            let currentOrder = [];
+            if (TELEMETRY_DATA && TELEMETRY_DATA.agents) {
+                const savedOrder = JSON.parse(localStorage.getItem('statistiche_agents_order') || '[]');
+                const agentsList = [...TELEMETRY_DATA.agents];
+                if (savedOrder.length > 0) {
+                    agentsList.sort((a, b) => {
+                        const idxA = savedOrder.indexOf(a.id);
+                        const idxB = savedOrder.indexOf(b.id);
+                        if (idxA === -1 && idxB === -1) return 0;
+                        if (idxA === -1) return 1;
+                        if (idxB === -1) return -1;
+                        return idxA - idxB;
+                    });
+                }
+                currentOrder = agentsList.map(a => a.id);
+            } else {
+                const grid = document.getElementById('agents-grid');
+                if (grid) {
+                    currentOrder = Array.from(grid.querySelectorAll('.agent-card')).map(c => c.getAttribute('data-agent-id')).filter(Boolean);
+                }
+            }
+
+            const currIdx = currentOrder.indexOf(agentId);
+            if (currIdx === -1) return;
+
+            const targetIdx = currIdx + direction;
+            if (targetIdx >= 0 && targetIdx < currentOrder.length) {
+                const temp = currentOrder[currIdx];
+                currentOrder[currIdx] = currentOrder[targetIdx];
+                currentOrder[targetIdx] = temp;
+
+                localStorage.setItem('statistiche_agents_order', JSON.stringify(currentOrder));
+                if (TELEMETRY_DATA && TELEMETRY_DATA.agents) {
+                    renderAgentCards(TELEMETRY_DATA.agents);
+                }
+                showToast('✓ Scheda agente riposizionata!');
+            }
+        }
+
+        // --- Riordino Metriche HUD ---
+        function moveHud(hudId, direction) {
+            const hudGrid = document.querySelector('.hud-grid');
+            if (!hudGrid) return;
+            const el = hudGrid.querySelector(`[data-hud-id="${hudId}"]`);
+            if (!el) return;
+
+            if (direction === -1) {
+                const prev = el.previousElementSibling;
+                if (prev && prev.classList.contains('draggable-hud')) {
+                    hudGrid.insertBefore(el, prev);
+                    saveLayout();
+                    showToast('✓ Riquadro HUD spostato prima!');
+                }
+            } else if (direction === 1) {
+                const next = el.nextElementSibling;
+                if (next && next.classList.contains('draggable-hud')) {
+                    hudGrid.insertBefore(next, el);
+                    saveLayout();
+                    showToast('✓ Riquadro HUD spostato dopo!');
+                }
+            }
+        }
+
+        // --- Salvataggio e Ripristino Layout (LocalStorage) ---
+        function saveLayout() {
+            try {
+                // 1. Ordine Box Sezioni
+                const container = document.getElementById('dashboard-sections');
+                if (container) {
+                    const boxes = Array.from(container.children).filter(el => el.classList.contains('draggable-box'));
+                    const boxIds = boxes.map(el => el.getAttribute('data-box-id') || el.id);
+                    localStorage.setItem('statistiche_sections_order', JSON.stringify(boxIds));
+                }
+
+                // 2. Ordine Schede Agenti
+                const grid = document.getElementById('agents-grid');
+                if (grid) {
+                    const cards = Array.from(grid.querySelectorAll('.agent-card'));
+                    const agentIds = cards.map(c => c.getAttribute('data-agent-id')).filter(Boolean);
+                    if (agentIds.length > 0) {
+                        localStorage.setItem('statistiche_agents_order', JSON.stringify(agentIds));
+                    }
+                }
+
+                // 3. Ordine Metriche HUD
+                const hudGrid = document.querySelector('.hud-grid');
+                if (hudGrid) {
+                    const huds = Array.from(hudGrid.querySelectorAll('.draggable-hud'));
+                    const hudIds = huds.map(h => h.getAttribute('data-hud-id')).filter(Boolean);
+                    if (hudIds.length > 0) {
+                        localStorage.setItem('statistiche_hud_order', JSON.stringify(hudIds));
+                    }
+                }
+            } catch (e) {
+                console.error("Errore salvataggio layout:", e);
+            }
+        }
+
+        function loadLayout() {
+            try {
+                // 1. Ripristina Ordine Box
+                const savedBoxOrder = JSON.parse(localStorage.getItem('statistiche_sections_order') || '[]');
+                const container = document.getElementById('dashboard-sections');
+                if (container && savedBoxOrder.length > 0) {
+                    savedBoxOrder.forEach(id => {
+                        const el = container.querySelector(`[data-box-id="${id}"]`) || document.getElementById(id);
+                        if (el) container.appendChild(el);
+                    });
+                }
+
+                // 2. Ripristina Ordine Metriche HUD
+                const savedHudOrder = JSON.parse(localStorage.getItem('statistiche_hud_order') || '[]');
+                const hudGrid = document.querySelector('.hud-grid');
+                if (hudGrid && savedHudOrder.length > 0) {
+                    savedHudOrder.forEach(id => {
+                        const el = hudGrid.querySelector(`[data-hud-id="${id}"]`);
+                        if (el) hudGrid.appendChild(el);
+                    });
+                }
+            } catch (e) {
+                console.error("Errore caricamento layout:", e);
+            }
+        }
+
+        function resetLayout() {
+            localStorage.removeItem('statistiche_sections_order');
+            localStorage.removeItem('statistiche_agents_order');
+            localStorage.removeItem('statistiche_hud_order');
+
+            // Ripristina ordine sezioni default
+            const defaultBoxIds = ['box-hud-metrics', 'box-stage', 'box-filter-bar', 'box-agents-grid', 'box-history'];
+            const container = document.getElementById('dashboard-sections');
+            if (container) {
+                defaultBoxIds.forEach(id => {
+                    const el = container.querySelector(`[data-box-id="${id}"]`) || document.getElementById(id);
+                    if (el) container.appendChild(el);
+                });
+            }
+
+            // Ripristina HUD default
+            const defaultHudIds = ['hud-cpu', 'hud-ram', 'hud-gpu', 'hud-vram', 'hud-ollama', 'hud-team', 'hud-sviluppo', 'hud-marketing', 'hud-cloud', 'hud-portal'];
+            const hudGrid = document.querySelector('.hud-grid');
+            if (hudGrid) {
+                defaultHudIds.forEach(id => {
+                    const el = hudGrid.querySelector(`[data-hud-id="${id}"]`);
+                    if (el) hudGrid.appendChild(el);
+                });
+            }
+
+            // Re-render schede agenti
+            if (TELEMETRY_DATA && TELEMETRY_DATA.agents) {
+                renderAgentCards(TELEMETRY_DATA.agents);
+            }
+
+            showToast('✓ Layout ripristinato alla configurazione predefinita!');
+        }
+
+        // --- Drag and Drop Listeners ---
+        function initSectionsDragAndDrop() {
+            const container = document.getElementById('dashboard-sections');
+            if (!container) return;
+
+            const boxes = container.querySelectorAll('.draggable-box');
+            boxes.forEach(box => {
+                box.setAttribute('draggable', 'true');
+
+                box.addEventListener('dragstart', (e) => {
+                    window.isDraggingBox = true;
+                    box.classList.add('dragging-box');
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', box.getAttribute('data-box-id') || box.id);
+                });
+
+                box.addEventListener('dragend', () => {
+                    window.isDraggingBox = false;
+                    box.classList.remove('dragging-box');
+                    boxes.forEach(b => b.classList.remove('drag-over-box'));
+                    saveLayout();
+                    showToast('✓ Posizione box salvata!');
+                });
+
+                box.addEventListener('dragover', (e) => {
+                    if (!window.isDraggingBox) return;
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    box.classList.add('drag-over-box');
+
+                    const dragging = container.querySelector('.dragging-box');
+                    if (!dragging || dragging === box) return;
+
+                    const rect = box.getBoundingClientRect();
+                    const midY = rect.top + rect.height / 2;
+                    if (e.clientY < midY) {
+                        container.insertBefore(dragging, box);
+                    } else {
+                        container.insertBefore(dragging, box.nextElementSibling);
+                    }
+                });
+
+                box.addEventListener('dragleave', () => {
+                    box.classList.remove('drag-over-box');
+                });
+            });
+        }
+
+        function setupCardDragEvents(card) {
+            card.addEventListener('dragstart', (e) => {
+                window.isDraggingCard = true;
+                card.classList.add('dragging-card');
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', card.getAttribute('data-agent-id'));
+            });
+
+            card.addEventListener('dragend', () => {
+                window.isDraggingCard = false;
+                card.classList.remove('dragging-card');
+                const grid = document.getElementById('agents-grid');
+                if (grid) {
+                    grid.querySelectorAll('.agent-card').forEach(c => c.classList.remove('drag-over-card'));
+                }
+                saveLayout();
+                showToast('✓ Ordine schede agenti salvato!');
+            });
+
+            card.addEventListener('dragover', (e) => {
+                if (!window.isDraggingCard) return;
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                card.classList.add('drag-over-card');
+
+                const grid = document.getElementById('agents-grid');
+                if (!grid) return;
+                const dragging = grid.querySelector('.dragging-card');
+                if (!dragging || dragging === card) return;
+
+                const rect = card.getBoundingClientRect();
+                const midX = rect.left + rect.width / 2;
+                if (e.clientX < midX) {
+                    grid.insertBefore(dragging, card);
+                } else {
+                    grid.insertBefore(dragging, card.nextElementSibling);
+                }
+            });
+
+            card.addEventListener('dragleave', () => {
+                card.classList.remove('drag-over-card');
+            });
+        }
+
+        function initHudDragAndDrop() {
+            const hudGrid = document.querySelector('.hud-grid');
+            if (!hudGrid) return;
+
+            const metrics = hudGrid.querySelectorAll('.draggable-hud');
+            metrics.forEach(metric => {
+                metric.setAttribute('draggable', 'true');
+
+                metric.addEventListener('dragstart', (e) => {
+                    window.isDraggingHud = true;
+                    metric.classList.add('dragging-hud');
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', metric.getAttribute('data-hud-id'));
+                });
+
+                metric.addEventListener('dragend', () => {
+                    window.isDraggingHud = false;
+                    metric.classList.remove('dragging-hud');
+                    metrics.forEach(m => m.classList.remove('drag-over-hud'));
+                    saveLayout();
+                    showToast('✓ Posizione metrica HUD salvata!');
+                });
+
+                metric.addEventListener('dragover', (e) => {
+                    if (!window.isDraggingHud) return;
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    metric.classList.add('drag-over-hud');
+
+                    const dragging = hudGrid.querySelector('.dragging-hud');
+                    if (!dragging || dragging === metric) return;
+
+                    const rect = metric.getBoundingClientRect();
+                    const midX = rect.left + rect.width / 2;
+                    if (e.clientX < midX) {
+                        hudGrid.insertBefore(dragging, metric);
+                    } else {
+                        hudGrid.insertBefore(dragging, metric.nextElementSibling);
+                    }
+                });
+
+                metric.addEventListener('dragleave', () => {
+                    metric.classList.remove('drag-over-hud');
+                });
+            });
+        }
+
+        // Inizializzazione Layout all'avvio
+        document.addEventListener('DOMContentLoaded', () => {
+            loadLayout();
+            initSectionsDragAndDrop();
+            initHudDragAndDrop();
+        });
+
     </script>
 </body>
 </html>
