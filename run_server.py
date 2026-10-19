@@ -287,9 +287,10 @@ def gpu_worker_loop():
         "--query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu,temperature.gpu,power.draw",
         "--format=csv,noheader,nounits"
     ]
+    flags = 0x08000000 if sys.platform == "win32" else 0
     while True:
         try:
-            proc = subprocess.run(cmd, capture_output=True, text=True, timeout=2.0)
+            proc = subprocess.run(cmd, capture_output=True, text=True, timeout=2.0, creationflags=flags)
             if proc.returncode == 0 and proc.stdout.strip():
                 p = [x.strip() for x in proc.stdout.strip().split(",")]
                 GPU_CACHE = {
@@ -1348,6 +1349,7 @@ def guardian_loop():
 # ---------------------------------------------------------------------------
 class ThreadedHTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
     daemon_threads = True
+    allow_reuse_address = True
 
 class FastStatHandler(http.server.BaseHTTPRequestHandler):
     # Sopprime il log su stderr per GET 200 ripetuti (evita spam e lag)
