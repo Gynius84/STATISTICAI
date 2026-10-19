@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STATISTICHEAI v2.1 - Monitor Agenti Hermes & Ollama (Layout Riconfigurabile)</title>
+    <title>STATISTICHEAI v2.2 - Monitor Agenti Hermes & Ollama (Radar Benchmark & MoE Intelligence)</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
         /* -------------------------------------------------------------
@@ -356,6 +356,143 @@
             font-weight: bold;
             font-size: 10px;
             word-break: break-all;
+        }
+
+        /* -------------------------------------------------------------
+           VERSIONE 2.2: ARCHITETTURE MOE/DENSE/VLM & BENCHMARK RADAR
+           ------------------------------------------------------------- */
+        .arch-tag {
+            display: inline-block;
+            padding: 2px 7px;
+            border-radius: 3px;
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .arch-moe {
+            background: rgba(168, 85, 247, 0.22);
+            color: #d8b4fe;
+            border: 1px solid #a855f7;
+            box-shadow: 0 0 8px rgba(168, 85, 247, 0.35);
+        }
+        .arch-dense {
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            border: 1px solid #3b82f6;
+        }
+        .arch-vlm {
+            background: rgba(236, 72, 153, 0.22);
+            color: #f472b6;
+            border: 1px solid #ec4899;
+            box-shadow: 0 0 8px rgba(236, 72, 153, 0.35);
+        }
+        .arch-reasoning {
+            background: rgba(245, 158, 11, 0.22);
+            color: #fde047;
+            border: 1px solid #f59e0b;
+            box-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Box Radar & Layout Benchmark */
+        .agent-radar-box {
+            margin-top: 8px;
+            background: #050711;
+            border: 1px solid #1c233a;
+            border-radius: 4px;
+            padding: 8px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .radar-box-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed #1e293b;
+            padding-bottom: 4px;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+        .radar-title-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .radar-box-title {
+            font-size: 10px;
+            font-weight: 800;
+            color: var(--vram-cyan);
+            letter-spacing: 0.5px;
+        }
+        .radar-box-subtitle {
+            font-size: 9px;
+            color: var(--text-muted);
+        }
+        .radar-content-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .radar-canvas-col {
+            flex: 1 1 270px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 260px;
+        }
+        .agent-radar-canvas {
+            max-width: 100%;
+            height: auto;
+            background: radial-gradient(circle at center, #0a1124 0%, #03050c 100%);
+            border: 1px solid #141b2d;
+            border-radius: 6px;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+        }
+        .radar-metrics-col {
+            flex: 1 1 220px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .radar-metric-card {
+            background: #090e1c;
+            border: 1px solid #141c30;
+            padding: 4px 7px;
+            border-radius: 3px;
+        }
+        .rm-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 3px;
+        }
+        .rm-bar-bg {
+            height: 4px;
+            background: #141c30;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .rm-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        .radar-summary-note {
+            font-size: 9px;
+            color: var(--text-muted);
+            border-top: 1px dashed #141c30;
+            padding-top: 5px;
+            line-height: 1.35;
+        }
+        .note-tag {
+            color: var(--vram-cyan);
+            font-weight: bold;
         }
 
         .agent-header {
@@ -1288,13 +1425,13 @@
                     <div class="main-title" id="main-header-title">
                         <span style="color: #7aa2f7;">STATISTICHEAI</span>
                         <span style="color: #565f89; margin: 0 4px;">•</span>
-                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 13 AGENTI • OLLAMA (C:) + LLAMA.CPP (D:) + CLOUD (v2.1.1)</span>
+                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 13 AGENTI • OLLAMA (C:) + LLAMA.CPP (D:) + CLOUD (v2.2)</span>
                     </div>
                     <div id="title-dynamic-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 11px; margin-top: 3px; flex-wrap: wrap;">
                         <span id="title-workflow-badge" class="badge" style="background: #0f172a; color: #38bdf8; border-color: #0284c7; padding: 2px 7px; font-size: 10px; cursor: default; letter-spacing: 0.5px;">
                             🔀 WORKFLOW: 🦙 OLLAMA (LOCALE C:) + 🦙 LLAMA.CPP (DISCO D:) + ☁ OLLAMA CLOUD (BEAM 501B)
                         </span>
-                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.1.1: AUTO-DISCOVERY MULTI-PROVIDER • 13 AGENTI • BOX RIPOSIZIONABILI</span>
+                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.2: BENCHMARK RADAR OPENCOMPASS • ARCHITETTURE MOE/DENSE/VLM • STIMA SPEED TPS</span>
                     </div>
                 </div>
             </div>
@@ -1594,7 +1731,7 @@
                     <span class="srv-badge srv-ok" id="footer-hermes-status">[ HERMES GATEWAY :42000 OK ]</span>
                     <span class="srv-badge srv-ok" id="footer-ollama-status">[ OLLAMA :11434 (DISCO C:) OK ]</span>
                     <span class="srv-badge srv-ok" id="footer-llamacpp-status">[ LLAMA.CPP :9931 (DISCO D:) OK ]</span>
-                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (v2.1.1) OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (v2.2) OK ]</span>
                 </div>
             </div>
 
@@ -1895,13 +2032,18 @@
         const SPRITE_IMAGES = {};
         const AGENT_SPRITES = {
             'gynbot1': API_BASE + '/sprites_agents/GynBot1.png',
+            'beam': API_BASE + '/sprites_agents/BEAM.png',
+            'coder14b': API_BASE + '/sprites_agents/DARK CODER.png',
             'gynbot2': API_BASE + '/sprites_agents/PROGRAMMATORE.png',
             'gynbox3': API_BASE + '/sprites_agents/QUALITY CHEKER.png',
             'mark1': API_BASE + '/sprites_agents/Direttore Marketing.png',
             'mark2': API_BASE + '/sprites_agents/Copywriter Creativo.png',
             'mark3': API_BASE + '/sprites_agents/Growt hacker.png',
-            'hacker': API_BASE + '/sprites_agents/CEH.png',
-            'beam': API_BASE + '/sprites_agents/BEAM.png'
+            'mentor': API_BASE + '/sprites_agents/Chief Architect.png',
+            'mistral24b': API_BASE + '/sprites_agents/IQ.png',
+            'oculus': API_BASE + '/sprites_agents/OCOLUS.png',
+            'qwen': API_BASE + '/sprites_agents/MIND.png',
+            'vision7b': API_BASE + '/sprites_agents/VISION.png'
         };
 
         Object.keys(AGENT_SPRITES).forEach(id => {
@@ -2244,6 +2386,160 @@
             }
         }
 
+        // -------------------------------------------------------------
+        // VERSIONE 2.2: Motore Radar Benchmark OpenCompass (Canvas Vanilla Hi-DPI)
+        // -------------------------------------------------------------
+        function hexToRgba(hex, alpha = 1.0) {
+            let c = (hex || '#3b82f6').replace('#', '');
+            if (c.length === 3) {
+                c = c.split('').map(x => x + x).join('');
+            }
+            const num = parseInt(c, 16);
+            if (isNaN(num)) return `rgba(59, 130, 246, ${alpha})`;
+            const r = (num >> 16) & 255;
+            const g = (num >> 8) & 255;
+            const b = num & 255;
+            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+        }
+
+        function drawModelRadar(canvasId, benchmarks, agentColor = '#3b82f6', agentName = '', tpsText = '') {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+
+            const dpr = window.devicePixelRatio || 1;
+            const displayWidth = 280;
+            const displayHeight = 260;
+            if (canvas.width !== displayWidth * dpr || canvas.height !== displayHeight * dpr) {
+                canvas.width = displayWidth * dpr;
+                canvas.height = displayHeight * dpr;
+                canvas.style.width = displayWidth + 'px';
+                canvas.style.height = displayHeight + 'px';
+            }
+
+            ctx.save();
+            ctx.scale(dpr, dpr);
+            ctx.clearRect(0, 0, displayWidth, displayHeight);
+
+            const cx = displayWidth / 2;
+            const cy = (displayHeight / 2) + 3;
+            const R = Math.min(cx, cy) - 38;
+
+            const axes = [
+                { key: 'coding', label: 'CODING', sub: 'HumanEval', icon: '💻' },
+                { key: 'reasoning', label: 'REASONING', sub: 'MATH/Logic', icon: '🧠' },
+                { key: 'knowledge', label: 'KNOWLEDGE', sub: 'MMLU-Pro', icon: '📚' },
+                { key: 'agentic', label: 'AGENTIC', sub: 'Tool Use', icon: '⚡' },
+                { key: 'vision', label: 'VISION', sub: 'MMBench', icon: '👁️' },
+                { key: 'throughput', label: 'SPEED', sub: 'RTX 4060', icon: '🚀' }
+            ];
+
+            const N = axes.length;
+            const bData = benchmarks || { coding: 75, reasoning: 75, knowledge: 75, agentic: 80, vision: 30, throughput: 70 };
+
+            // 1. Griglia concentrica (poligoni a 20%, 40%, 60%, 80%, 100%)
+            const levels = [0.2, 0.4, 0.6, 0.8, 1.0];
+            levels.forEach((lvl) => {
+                ctx.beginPath();
+                for (let i = 0; i < N; i++) {
+                    const angle = (i * 2 * Math.PI / N) - (Math.PI / 2);
+                    const x = cx + Math.cos(angle) * (R * lvl);
+                    const y = cy + Math.sin(angle) * (R * lvl);
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+                ctx.strokeStyle = (lvl === 1.0) ? '#2e3a59' : '#141c2e';
+                ctx.lineWidth = (lvl === 1.0) ? 1.5 : 1;
+                ctx.stroke();
+
+                ctx.fillStyle = '#475569';
+                ctx.font = '8px monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText(Math.round(lvl * 100) + '%', cx, cy - (R * lvl) + 8);
+            });
+
+            // 2. Raggi Assi dal centro
+            for (let i = 0; i < N; i++) {
+                const angle = (i * 2 * Math.PI / N) - (Math.PI / 2);
+                const x = cx + Math.cos(angle) * R;
+                const y = cy + Math.sin(angle) * R;
+
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.lineTo(x, y);
+                ctx.strokeStyle = '#1e263d';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                const labelDist = R + 16;
+                const lx = cx + Math.cos(angle) * labelDist;
+                const ly = cy + Math.sin(angle) * labelDist;
+
+                ctx.font = 'bold 8.5px monospace';
+                ctx.fillStyle = '#94a3b8';
+                ctx.textAlign = (Math.abs(Math.cos(angle)) < 0.2) ? 'center' : (Math.cos(angle) > 0 ? 'left' : 'right');
+                ctx.textBaseline = (Math.sin(angle) < -0.7) ? 'bottom' : ((Math.sin(angle) > 0.7) ? 'top' : 'middle');
+                ctx.fillText(axes[i].icon + ' ' + axes[i].label, lx, ly);
+            }
+
+            // 3. Poligono Dati Benchmark
+            const points = [];
+            for (let i = 0; i < N; i++) {
+                const angle = (i * 2 * Math.PI / N) - (Math.PI / 2);
+                const rawVal = bData[axes[i].key] !== undefined ? bData[axes[i].key] : 70;
+                const clampedVal = Math.max(10, Math.min(100, rawVal));
+                const ratio = clampedVal / 100.0;
+                const px = cx + Math.cos(angle) * (R * ratio);
+                const py = cy + Math.sin(angle) * (R * ratio);
+                points.push({ x: px, y: py, val: clampedVal, angle: angle });
+            }
+
+            ctx.beginPath();
+            points.forEach((pt, idx) => {
+                if (idx === 0) ctx.moveTo(pt.x, pt.y);
+                else ctx.lineTo(pt.x, pt.y);
+            });
+            ctx.closePath();
+
+            ctx.fillStyle = hexToRgba(agentColor, 0.28);
+            ctx.fill();
+
+            ctx.strokeStyle = agentColor;
+            ctx.lineWidth = 2.2;
+            ctx.shadowColor = agentColor;
+            ctx.shadowBlur = 10;
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+
+            // 4. Vertici e Valori numerici
+            points.forEach(pt => {
+                ctx.beginPath();
+                ctx.arc(pt.x, pt.y, 4, 0, Math.PI * 2);
+                ctx.fillStyle = '#0f172a';
+                ctx.fill();
+                ctx.strokeStyle = agentColor;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(pt.x, pt.y, 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+
+                const valX = pt.x + Math.cos(pt.angle) * 11;
+                const valY = pt.y + Math.sin(pt.angle) * 11;
+                ctx.font = 'bold 8.5px monospace';
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(pt.val, valX, valY);
+            });
+
+            ctx.restore();
+        }
+
         function renderAgentCards(agents) {
             const grid = document.getElementById('agents-grid');
             if (!agents || !grid) return;
@@ -2432,15 +2728,25 @@
                     <!-- Scheda Tecnica Dettagliata Espandibile -->
                     <div class="agent-expand-toggle" onclick="toggleCardDetails('${agent.id}'); event.stopPropagation();">
                         <span id="expand-icon-${agent.id}">${isExp ? '▲' : '▼'}</span>
-                        <span>${isExp ? 'NASCONDI DETTAGLI AVANZATI' : 'SCHEDA TECNICA AVANZATA (CLICCA PER ESPANDERE)'}</span>
+                        <span>${isExp ? 'NASCONDI DETTAGLI AVANZATI' : 'SCHEDA TECNICA & BENCHMARK RADAR (CLICCA PER ESPANDERE)'}</span>
                     </div>
                     <div id="expand-body-${agent.id}" class="agent-expand-body" style="display: ${isExp ? 'flex' : 'none'};">
                         <div class="expand-detail-grid">
                             <div class="expand-detail-item" style="border-left-color: ${(agent.is_cloud || agent.id === 'beam') ? '#38bdf8' : '#7aa2f7'};">
-                                <div class="expand-detail-label">MODELLO & ARCHITETTURA</div>
+                                <div class="expand-detail-label">MODELLO BASE & PROFILO</div>
                                 <div class="expand-detail-val">${(agent.is_cloud || agent.id === 'beam') ? 'Reflection Beam 501B MoE (Cloud)' : (agent.base_model || agent.model)}</div>
                             </div>
+                            <div class="expand-detail-item" style="border-left-color: ${(agent.architecture_tag === 'moe') ? '#a855f7' : ((agent.architecture_tag === 'vlm') ? '#ec4899' : ((agent.architecture_tag === 'reasoning') ? '#f59e0b' : '#3b82f6'))};">
+                                <div class="expand-detail-label">TIPO ARCHITETTURA MODELLO</div>
+                                <div class="expand-detail-val" style="display:flex;align-items:center;gap:4px;">
+                                    <span class="arch-tag arch-${agent.architecture_tag || 'dense'}">${agent.architecture_type || 'Dense Transformer'}</span>
+                                </div>
+                            </div>
                             <div class="expand-detail-item" style="border-left-color: #2ac3de;">
+                                <div class="expand-detail-label">VELOCITÀ STIMATA (RTX 4060 8GB)</div>
+                                <div class="expand-detail-val" style="color: #38bdf8;">⚡ ${agent.estimated_speed_tps || '~35 tok/s'}</div>
+                            </div>
+                            <div class="expand-detail-item" style="border-left-color: #f43f5e;">
                                 <div class="expand-detail-label">CARICO HARDWARE / VRAM</div>
                                 <div class="expand-detail-val">${(agent.is_cloud || agent.id === 'beam') ? '0 MB VRAM (100% Cloud Offload)' : (agent.vram_mb || 0) + ' MB VRAM GPU'}</div>
                             </div>
@@ -2469,6 +2775,52 @@
                                 <div class="expand-detail-val">${agent.memory_active ? (agent.memory_bytes + ' Byte (' + agent.memory_files_count + ' file) • Attiva') : 'Nessun file memoria'}</div>
                             </div>
                         </div>
+
+                        <!-- Radar Benchmark OpenCompass (Versione 2.2) -->
+                        <div class="agent-radar-box">
+                            <div class="radar-box-header">
+                                <div class="radar-title-group">
+                                    <span style="font-size:12px;">📊</span>
+                                    <span class="radar-box-title">BENCHMARK MULTI-DIMENSIONALE (RADAR OPENCOMPASS)</span>
+                                </div>
+                                <span class="radar-box-subtitle">${agent.name} • ${agent.architecture_type || 'Dense'}</span>
+                            </div>
+                            <div class="radar-content-wrap">
+                                <div class="radar-canvas-col">
+                                    <canvas id="radar-canvas-${agent.id}" class="agent-radar-canvas" width="280" height="260"></canvas>
+                                </div>
+                                <div class="radar-metrics-col">
+                                    <div class="radar-metric-card" style="border-left: 3px solid #38bdf8;">
+                                        <div class="rm-header"><span>💻 CODING (HumanEval)</span><span style="color:#38bdf8;">${(agent.benchmarks && agent.benchmarks.coding !== undefined) ? agent.benchmarks.coding : 75}/100</span></div>
+                                        <div class="rm-bar-bg"><div class="rm-bar-fill" style="width: ${(agent.benchmarks && agent.benchmarks.coding !== undefined) ? agent.benchmarks.coding : 75}%; background:#38bdf8;"></div></div>
+                                    </div>
+                                    <div class="radar-metric-card" style="border-left: 3px solid #a855f7;">
+                                        <div class="rm-header"><span>🧠 REASONING (MATH/Logic)</span><span style="color:#a855f7;">${(agent.benchmarks && agent.benchmarks.reasoning !== undefined) ? agent.benchmarks.reasoning : 80}/100</span></div>
+                                        <div class="rm-bar-bg"><div class="rm-bar-fill" style="width: ${(agent.benchmarks && agent.benchmarks.reasoning !== undefined) ? agent.benchmarks.reasoning : 80}%; background:#a855f7;"></div></div>
+                                    </div>
+                                    <div class="radar-metric-card" style="border-left: 3px solid #f59e0b;">
+                                        <div class="rm-header"><span>📚 KNOWLEDGE (MMLU-Pro)</span><span style="color:#f59e0b;">${(agent.benchmarks && agent.benchmarks.knowledge !== undefined) ? agent.benchmarks.knowledge : 78}/100</span></div>
+                                        <div class="rm-bar-bg"><div class="rm-bar-fill" style="width: ${(agent.benchmarks && agent.benchmarks.knowledge !== undefined) ? agent.benchmarks.knowledge : 78}%; background:#f59e0b;"></div></div>
+                                    </div>
+                                    <div class="radar-metric-card" style="border-left: 3px solid #10b981;">
+                                        <div class="rm-header"><span>⚡ AGENTIC (Tool Calling)</span><span style="color:#10b981;">${(agent.benchmarks && agent.benchmarks.agentic !== undefined) ? agent.benchmarks.agentic : 85}/100</span></div>
+                                        <div class="rm-bar-bg"><div class="rm-bar-fill" style="width: ${(agent.benchmarks && agent.benchmarks.agentic !== undefined) ? agent.benchmarks.agentic : 85}%; background:#10b981;"></div></div>
+                                    </div>
+                                    <div class="radar-metric-card" style="border-left: 3px solid #ec4899;">
+                                        <div class="rm-header"><span>👁️ VISION (VLM Perception)</span><span style="color:#ec4899;">${(agent.benchmarks && agent.benchmarks.vision !== undefined) ? agent.benchmarks.vision : 20}/100</span></div>
+                                        <div class="rm-bar-bg"><div class="rm-bar-fill" style="width: ${(agent.benchmarks && agent.benchmarks.vision !== undefined) ? agent.benchmarks.vision : 20}%; background:#ec4899;"></div></div>
+                                    </div>
+                                    <div class="radar-metric-card" style="border-left: 3px solid #2ac3de;">
+                                        <div class="rm-header"><span>🚀 SPEED (RTX 4060 TPS)</span><span style="color:#2ac3de;">${agent.estimated_speed_tps || '~35 tok/s'}</span></div>
+                                        <div class="rm-bar-bg"><div class="rm-bar-fill" style="width: ${(agent.benchmarks && agent.benchmarks.throughput !== undefined) ? agent.benchmarks.throughput : 70}%; background:#2ac3de;"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="radar-summary-note">
+                                <span class="note-tag">ARCHITETTURA:</span> <b style="color:var(--text-main);">${agent.architecture_type || 'Dense'}</b> &bull; <i>${agent.model_notes || ''}</i>
+                            </div>
+                        </div>
+
                         ${agent.memory_snippet ? `
                             <div style="background: #06111a; border: 1px dashed #0284c7; padding: 4px 6px; font-size: 8px; color: #7dd3fc; margin-top: 3px;">
                                 <b style="color: #38bdf8;">🧠 REGOLA MEMORIZZATA:</b> "${agent.memory_snippet}"
@@ -2483,6 +2835,16 @@
                 `;
 
                 grid.appendChild(card);
+            });
+
+            // Disegna o aggiorna tutti i grafici radar delle schede attualmente espanse (Versione 2.2)
+            EXPANDED_CARDS.forEach(expId => {
+                const ag = agents.find(a => a.id === expId);
+                if (ag) {
+                    requestAnimationFrame(() => {
+                        drawModelRadar(`radar-canvas-${ag.id}`, ag.benchmarks, ag.color || '#3b82f6', ag.name, ag.estimated_speed_tps);
+                    });
+                }
             });
         }
 

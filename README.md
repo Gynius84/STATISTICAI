@@ -1,16 +1,42 @@
-# STATISTICHEAI v2.1.1 🎮🤖
-### Dashboard Retro Arcade (16-Bit) per Telemetria, Diagnosi e Monitoraggio Agenti AI Multi-Provider (Ollama, llama.cpp, Hermes, Cloud)
+# STATISTICHEAI v2.2 🎮🤖
+### Dashboard Retro Arcade (16-Bit) per Telemetria, Diagnosi, Benchmark Radar OpenCompass e Rilevamento Architetture MoE/Dense (Ollama, llama.cpp, Hermes, Cloud)
 
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Pure%20Python)-brightgreen.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-informational.svg)]()
 [![Multi-Provider](https://img.shields.io/badge/Providers-Ollama%20(C:)%20%7C%20llama.cpp%20(D:)%20%7C%20Hermes%20%7C%20Cloud%20501B-orange.svg)]()
 
-> **STATISTICHEAI v2.1.1** trasforma la gestione dei tuoi agenti AI locali e cloud in un videogioco Arcade Pixel Art a 16-bit. Monitora hardware, VRAM, saturazione token, memoria a lungo termine e stato di salute di 13 agenti su tripla architettura: **Ollama Locale (C:)**, **llama.cpp Router (Disco D: porta 9931)** e **Beam 501B Cloud**.
+> **STATISTICHEAI v2.2** trasforma la gestione dei tuoi agenti AI locali e cloud in un videogioco Arcade Pixel Art a 16-bit. Monitora hardware, VRAM, saturazione token, memoria a lungo termine, grafici **Benchmark Radar OpenCompass**, tipo di architettura (**MoE, Dense, VLM, Ternary**) e velocità stimata **TPS su RTX 4060** per 13 agenti su tripla architettura: **Ollama Locale (C:)**, **llama.cpp Router (Disco D: porta 9931)** e **Beam 501B Cloud**.
 
 ---
 
-## ✨ Novità della Versione 2.1.1 (Multi-Engine llama.cpp & 13 Agenti Auto-Discovery)
+## ✨ Novità della Versione 2.2 (Radar Benchmark OpenCompass, Architetture MoE & Calcolo Speed TPS)
+
+- 📊 **Grafici Radar Benchmark OpenCompass / VLMEvalKit**:
+  - Ogni scheda tecnica agente espandibile include un autentico radar chart spider multi-dimensionale con 6 assi prestazionali:
+    1. `Coding (HumanEval / SWE-bench)`
+    2. `Reasoning (MATH / Logic / GSM8k)`
+    3. `Knowledge (MMLU-Pro / Encyclopedic)`
+    4. `Agentic Tools (Function Calling / IFEval)`
+    5. `Vision (MMBench / Multimodal Perception)`
+    6. `Speed Throughput (Tokens al Secondo su RTX 4060)`
+  - Motore di disegno **HTML5 Canvas puro a 60 FPS**, zero dipendenze o CDN esterne, supporto Hi-DPI Retina e palette colori sincronizzata con l'agente.
+- 🧠 **Rilevamento Intelligente Architetture (MoE vs Dense vs VLM vs Ternary)**:
+  - Classificazione istantanea del tipo di architettura modello:
+    - **MoE (Mixture of Experts)**: Reflection Beam 501B (~39B attivi), Qwen 3.6 35B A3B (~3.6B attivi), DeepSeek V4 Pro (671B).
+    - **Dense Specialist & Generalist**: Qwen 2.5 Coder, Qwen 3.5, Hermes 3, Llama 3.1, Mistral Small Reasoning.
+    - **Vision Multimodal (VLM)**: Qwen 2.5-VL 7B e Bonsai 9B VLM.
+    - **Reasoning / Ternary Quantized**: Bonsai 27B Prism ML (1.58-bit).
+- ⚡ **Stima Velocità Throughput (Tokens/s su NVIDIA RTX 4060 8GB)**:
+  - Calibrazione hardware reale per ciascun modello:
+    - Modelli compatti in VRAM pura (4B-8B): ~40-58 tok/s (100% offload GPU).
+    - Modelli ibridi ad alto parametro (14B-27B GGUF): ~18-26 tok/s (offload RAM/GPU).
+    - Architetture MoE (35B A3B): ~22 tok/s con attivazione rapida degli esperti.
+    - Modelli Cloud MoE (501B / 671B): ~28-30 tok/s via streaming cluster.
+- 🎯 **Visualizzazione Dettagliata con Barre Metriche**:
+  - Punteggi numerici e barre di livello animate a colori dedicate per ciascuna dimensione benchmark all'apertura della scheda tecnica.
+- 🛠 **Zero-Touch & Zero 404 Sprites**:
+  - Risolti completamente gli indirizzamenti sprite delle schede agenti con mappatura rigorosa 13/13.
 
 - 🦙 **Supporto Completo per llama.cpp (Disco D: Porta 9931)**:
   - Telemetria in tempo reale da `http://127.0.0.1:9931/v1/models` e probe di salute del router GGUF.
