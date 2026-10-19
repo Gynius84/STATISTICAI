@@ -2229,6 +2229,7 @@
             });
             if (TELEMETRY_DATA && TELEMETRY_DATA.agents) {
                 renderAgentCards(TELEMETRY_DATA.agents);
+            }
         }
 
         const EXPANDED_CARDS = new Set();
@@ -2303,8 +2304,18 @@
                     groupTagHtml = `<span class="group-tag tag-sviluppo">⚒ TEAM SVILUPPO</span>`;
                 } else if (agent.group === 'TEAM MARKETING') {
                     groupTagHtml = `<span class="group-tag tag-marketing">📢 TEAM MARKETING</span>`;
+                } else if (agent.group === 'TEAM SICUREZZA & CODING') {
+                    groupTagHtml = `<span class="group-tag tag-security" style="color:#ef4444; border-color:#dc2626;">🛡 SICUREZZA & CODING</span>`;
+                } else if (agent.group === 'TEAM RAGIONAMENTO') {
+                    groupTagHtml = `<span class="group-tag" style="background:#2d1b06; color:#f59e0b; border:1px solid #d97706; font-size:9px; padding:2px 5px;">🧠 RAGIONAMENTO</span>`;
+                } else if (agent.group === 'TEAM DEEP THINKING') {
+                    groupTagHtml = `<span class="group-tag" style="background:#07212b; color:#06b6d4; border:1px solid #0891b2; font-size:9px; padding:2px 5px;">🔮 DEEP THINKING</span>`;
+                } else if (agent.group === 'TEAM VISUAL AUDIT') {
+                    groupTagHtml = `<span class="group-tag" style="background:#081f33; color:#38bdf8; border:1px solid #0284c7; font-size:9px; padding:2px 5px;">👁 VISUAL AUDIT</span>`;
+                } else if (agent.group === 'TEAM ARCHITETTURA') {
+                    groupTagHtml = `<span class="group-tag" style="background:#24113b; color:#c084fc; border:1px solid #9333ea; font-size:9px; padding:2px 5px;">🏛 ARCHITETTURA</span>`;
                 } else {
-                    groupTagHtml = `<span class="group-tag tag-security">🛡 SICUREZZA</span>`;
+                    groupTagHtml = `<span class="group-tag tag-security">${agent.group || 'AGENTE'}</span>`;
                 }
 
                 // Pulsanti azione
@@ -2465,7 +2476,7 @@
                         ` : ''}
                         <div style="font-size: 9px; color: var(--text-muted); margin-top: 4px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px;">
                             <span>PROFILO: <b style="color:var(--text-main);">${agent.profile}</b></span>
-                            <span>ENDPOINT: <b style="color:var(--text-main);">${(agent.is_cloud || agent.id === 'beam') ? 'Ollama Cloud API' : '127.0.0.1:11434'}</b></span>
+                            <span>ENDPOINT: <b style="color:var(--text-main);">${(agent.is_cloud || agent.id === 'beam') ? 'Ollama Cloud API' : (agent.base_url || '127.0.0.1:11434')}</b></span>
                             <span>PERSISTENZA: <b style="color:#4ade80;">100% GARANTITA</b></span>
                         </div>
                     </div>
