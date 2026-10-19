@@ -2,11 +2,11 @@
 
 > **REGOLA ZERO**: Progetto puramente OSSERVATORE. Nessuna modifica a file esterni a `STATISTICAI`. Configurazioni e parametri sono congelati e intoccabili.
 
-Data aggiornamento baseline v2.2: **2026-10-19 10:19:55**
+Data aggiornamento baseline v2.2 (Roster Ottimizzato 10 Agenti): **2026-10-19 11:41:22**
 
 ---
 
-## 1. Mappa Agenti (13 Profili Hermes Attivi)
+## 1. Mappa Agenti (10 Profili Hermes Attivi)
 
 | # | Agente / Titolo | Profilo Hermes | Modello Assegnato | Architettura | Sorgente | Sprite Associato |
 |---|-----------------|----------------|-------------------|--------------|----------|------------------|
@@ -17,18 +17,15 @@ Data aggiornamento baseline v2.2: **2026-10-19 10:19:55**
 | 5 | **QUALITY CHEKER** | `gynbox3` | `hermes3:64k` | Dense Agentic (8B) | Ollama (C:) | `sprites_agents/QUALITY CHEKER.png` |
 | 6 | **Direttore Marketing** | `mark1` | `qwen2.5:64k` | Dense Generalist (7.6B) | Ollama (C:) | `sprites_agents/Direttore Marketing.png` |
 | 7 | **Copywriter Creativo** | `mark2` | `llama3.1:64k` | Dense Creative (8B) | Ollama (C:) | `sprites_agents/Copywriter Creativo.png` |
-| 8 | **Growth Hacker** | `mark3` | `hermes3:64k` | Dense Agentic (8B) | Ollama (C:) | `sprites_agents/Growt hacker.png` |
-| 9 | **Chief Architect** | `mentor` | `bonsai-27b:32k` | Reasoning Ternary (27B) | Ollama (C:) | `sprites_agents/Chief Architect.png` |
-| 10 | **IQ** | `mistral24b` | `Mistral-Small-24B...` | Dense Reasoning (24B) | llama.cpp (D:) | `sprites_agents/IQ.png` |
-| 11 | **OCOLUS** | `oculus` | `bonsai-9b:64k` | Vision Multimodal (9B) | Ollama (C:) | `sprites_agents/OCOLUS.png` |
-| 12 | **MIND** | `qwen` | `Qwen3.6-35B-A3B...` | MoE (35B A3B) | llama.cpp (D:) | `sprites_agents/MIND.png` |
-| 13 | **VISION** | `vision7b` | `Qwen2.5-VL-7B...` | Vision Multimodal (7B) | llama.cpp (D:) | `sprites_agents/VISION.png` |
+| 8 | **IQ** | `mistral24b` | `Mistral-Small-24B...` | Dense Reasoning (24B) | llama.cpp (D:) | `sprites_agents/IQ.png` |
+| 9 | **MIND** | `qwen` | `Qwen3.6-35B-A3B...` | MoE (35B A3B) | llama.cpp (D:) | `sprites_agents/MIND.png` |
+| 10 | **VISION** | `vision7b` | `Qwen2.5-VL-7B...` | Vision Multimodal (7B) | llama.cpp (D:) | `sprites_agents/VISION.png` |
 
 ---
 
 ## 2. File di Configurazione Monitorati (Integrità SHA-256)
 
-I seguenti 35 file costituiscono la baseline del Guardiano di integrità:
+I seguenti 29 file costituiscono la baseline del Guardiano di integrità:
 
 | Percorso File | SHA-256 Checksum | Dimensione (Byte) | Ultima Modifica (ISO) |
 |---|---|---|---|
@@ -47,14 +44,8 @@ I seguenti 35 file costituiscono la baseline del Guardiano di integrità:
 | `C:\Users\Gyniu\AppData\Local\hermes\profiles\mark1\profile.yaml` | `77746bea32908e45a09d4581d857746309a8b01a1c2dcf765acdc0cb8b3abd55` | 280 | 2026-10-19T01:58:43 |
 | `C:\Users\Gyniu\AppData\Local\hermes\profiles\mark2\config.yaml` | `d65963ef419b03e56c4926bd591690331985deb27f70d983ff582f6ee0bebcf0` | 6,815 | 2026-10-16T10:20:18 |
 | `C:\Users\Gyniu\AppData\Local\hermes\profiles\mark2\profile.yaml` | `78ebae27f80b8a2af7be352c14e08d0249d083c0632594b1b01db4c1e32aa17a` | 288 | 2026-10-19T01:58:43 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\mark3\config.yaml` | `1b44db6b91d5679b71e223783d241d24b7bbce6e5401f782b92fbb87639d6db4` | 6,813 | 2026-10-16T10:20:18 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\mark3\profile.yaml` | `a0e42b9d216549ffa9acfef3cb4e61030899ffb355930c6818941c737f286a63` | 280 | 2026-10-19T01:58:42 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\mentor\config.yaml` | `bcd6034b287aaabba3cb821efa21d98d4b8222364b1063c97697d6cf69a01cfd` | 7,664 | 2026-10-17T22:24:04 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\mentor\profile.yaml` | `adc3647cd3a13f8a4e1394850c821fc82643214cec9474921c429edba2235b88` | 219 | 2026-10-17T21:06:04 |
 | `C:\Users\Gyniu\AppData\Local\hermes\profiles\mistral24b\config.yaml` | `c07e37ab778a453ca6ca2bbf9d0b82a3ec334e68374eea1bac66fa86fdebb8af` | 726 | 2026-10-19T01:43:36 |
 | `C:\Users\Gyniu\AppData\Local\hermes\profiles\mistral24b\profile.yaml` | `d6a8ea645695216f4510e5f0e701dc0d3ad2543e1ca63f4d2b46038d2be18f22` | 172 | 2026-10-19T01:54:05 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\oculus\config.yaml` | `702aafaedfff11ad50c838fc68842b51e7eb1331c7ccb2ca383ee38e89da611f` | 7,795 | 2026-10-17T22:24:12 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\oculus\profile.yaml` | `253df7bfa9fca35b597d950cd0cb6b907cc72c0dd3a4cfbd475e034dc19dc0f3` | 210 | 2026-10-17T21:05:21 |
 | `C:\Users\Gyniu\AppData\Local\hermes\profiles\qwen\config.yaml` | `4f467267db526f5bef543e68e23167ca0e923d223f71eaf8c6d8a296fc558fae` | 600 | 2026-10-19T01:14:46 |
 | `C:\Users\Gyniu\AppData\Local\hermes\profiles\qwen\profile.yaml` | `8525665b77b2d9b9cd38bd87b775006dea65e2aa09bf0d5635f52ac092e2d3de` | 166 | 2026-10-19T00:57:15 |
 | `C:\Users\Gyniu\AppData\Local\hermes\profiles\vision7b\config.yaml` | `e754c349b4b4534acd90c13964faf379f523f36f039087c61572aa5e5c30e9d9` | 640 | 2026-10-19T01:43:42 |

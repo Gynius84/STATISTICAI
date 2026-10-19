@@ -116,7 +116,7 @@
         "vision": 20,
         "throughput": 68
       },
-      "model_notes": "Penetration testing, analisi vulnerabilità exploit e script security senza barriere."
+      "model_notes": "Penetration testing, analisi vulnerabilit\u00e0 exploit e script security senza barriere."
     },
     {
       "id": "gynbot2",
@@ -244,74 +244,7 @@
         "vision": 20,
         "throughput": 82
       },
-      "model_notes": "Massima fluidità linguistica e registro narrativo naturale, ideale per copywriting."
-    },
-    {
-      "id": "mark3",
-      "profile": "mark3",
-      "name": "Growth Hacker",
-      "title": "Growth Hacker, SEO Specialist & Data Analyst",
-      "group": "TEAM MARKETING",
-      "color": "#10b981",
-      "provider": "ollama",
-      "model": "hermes3:64k",
-      "base_model": "hermes3",
-      "context_limit": 20480,
-      "compress_threshold": 0.85,
-      "sprite": "sprites_agents/Growt hacker.png",
-      "is_cloud": false,
-      "source": "Ollama (Locale C:)",
-      "base_url": "http://127.0.0.1:11434/v1",
-      "architecture_type": "Dense Agentic (8.0B Function Calling)",
-      "architecture_tag": "dense",
-      "parameters": "8.0B Dense",
-      "active_parameters": "8.0B (100%)",
-      "estimated_speed_tps": "~42 tok/s (100% VRAM GPU RTX 4060)",
-      "tps_value": 42,
-      "benchmarks": {
-        "coding": 82,
-        "reasoning": 83,
-        "knowledge": 82,
-        "agentic": 94,
-        "vision": 20,
-        "throughput": 82
-      },
-      "model_notes": "Finetuning Nous Research specializzato in autonomia di sistema, structured output e skills."
-    },
-    {
-      "id": "mentor",
-      "profile": "mentor",
-      "name": "Chief Architect",
-      "title": "Chief Architect",
-      "group": "TEAM ARCHITETTURA",
-      "color": "#a855f7",
-      "provider": "ollama",
-      "model": "bonsai-27b:32k",
-      "base_model": "bonsai-27b",
-      "context_limit": 32768,
-      "compress_threshold": 0.85,
-      "sprite": "sprites_agents/Chief Architect.png",
-      "is_cloud": false,
-      "source": "Ollama (Locale C:)",
-      "parameters": "26.9B Ternary",
-      "architecture": "Qwen3.5 Reasoning",
-      "modality": "Vision + Text + Tool Calling",
-      "thinking_level": "Extended Thinking (DeepSeek/o1)",
-      "base_url": "http://127.0.0.1:11434/v1",
-      "architecture_type": "Reasoning Ternary Quantized (26.9B Prism ML)",
-      "architecture_tag": "reasoning",
-      "active_parameters": "26.9B (1.58-bit)",
-      "estimated_speed_tps": "~18 tok/s (Offload GPU 8GB + RAM)",
-      "tps_value": 18,
-      "benchmarks": {
-        "coding": 88,
-        "reasoning": 95,
-        "knowledge": 90,
-        "agentic": 92,
-        "vision": 75,
-        "throughput": 52
-      },
-      "model_notes": "Quantizzazione estrema 1.58 bit per eseguire 27B su hardware consumer con logica chain-of-thought."
+      "model_notes": "Massima fluidit\u00e0 linguistica e registro narrativo naturale, ideale per copywriting."
     },
     {
       "id": "mistral24b",
@@ -347,41 +280,6 @@
         "throughput": 54
       },
       "model_notes": "Mistral Small 24B finetuned per catena di ragionamento complessa, matematica e problem solving."
-    },
-    {
-      "id": "oculus",
-      "profile": "oculus",
-      "name": "OCOLUS",
-      "title": "Visual Auditort",
-      "group": "TEAM VISUAL AUDIT",
-      "color": "#0ea5e9",
-      "provider": "ollama",
-      "model": "bonsai-9b:64k",
-      "base_model": "bonsai-9b",
-      "context_limit": 65536,
-      "compress_threshold": 0.85,
-      "sprite": "sprites_agents/OCOLUS.png",
-      "is_cloud": false,
-      "source": "Ollama (Locale C:)",
-      "parameters": "9.0B Ternary",
-      "architecture": "Qwen3.5 Multimodal",
-      "modality": "Vision + Text + Tool Calling",
-      "thinking_level": "Fast / Standard",
-      "base_url": "http://127.0.0.1:11434/v1",
-      "architecture_type": "Vision Multimodal (VLM 9.0B Ternary)",
-      "architecture_tag": "vlm",
-      "active_parameters": "9.0B (1.58-bit)",
-      "estimated_speed_tps": "~38 tok/s (100% VRAM GPU RTX 4060)",
-      "tps_value": 38,
-      "benchmarks": {
-        "coding": 78,
-        "reasoning": 84,
-        "knowledge": 82,
-        "agentic": 86,
-        "vision": 91,
-        "throughput": 78
-      },
-      "model_notes": "Percezione visiva avanzata integrata su encoder multimodale ultra-veloce."
     },
     {
       "id": "qwen",
