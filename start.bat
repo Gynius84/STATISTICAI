@@ -3,8 +3,8 @@ setlocal
 cd /d "%~dp0"
 
 echo ========================================================
-echo  STATISTICHEAI v2.0 - Monitor Universale Agenti AI (16-Bit)
-echo  Architettura Multi-Provider: Ollama, LM Studio, Hermes, Cloud
+echo  STATISTICHEAI v2.1.1 - Monitor Universale Agenti AI (16-Bit)
+echo  Architettura Multi-Provider: Ollama (C:), llama.cpp (D:), Hermes, Cloud
 echo ========================================================
 
 set "PYTHON_EXE=C:\Users\Gyniu\AppData\Local\hermes\tools\python-3.14.7+20260901-win32-x64\python.exe"

@@ -22,6 +22,7 @@ import os
 import sys
 import shutil
 import signal
+import re
 import agent_doctor
 
 # ---------------------------------------------------------------------------
@@ -348,135 +349,300 @@ def ollama_worker_loop():
             OLLAMA_CACHE["status"] = "offline_or_slow"
         time.sleep(2.5)
 
+# Worker 2b: llama.cpp server in background (porta 9931, router su Disco D:)
+LLAMACPP_CACHE = {
+    "status": "online",
+    "port": 9931,
+    "source": "Disco D:",
+    "models": [],
+    "models_count": 0,
+    "last_check": time.time()
+}
+
+def llamacpp_worker_loop():
+    global LLAMACPP_CACHE
+    while True:
+        try:
+            req = urllib.request.Request("http://127.0.0.1:9931/v1/models", headers={"User-Agent": "STATISTICHEAI-Fast"})
+            with urllib.request.urlopen(req, timeout=1.2) as res:
+                if res.status == 200:
+                    data = json.loads(res.read().decode("utf-8"))
+                    models_list = [m.get("id") for m in data.get("data", [])]
+                    LLAMACPP_CACHE = {
+                        "status": "online",
+                        "port": 9931,
+                        "source": "Disco D:",
+                        "models": models_list,
+                        "models_count": len(models_list),
+                        "last_check": time.time()
+                    }
+        except Exception:
+            LLAMACPP_CACHE["status"] = "offline_or_slow"
+        time.sleep(3.0)
+
 def auto_discover_hermes_agents():
     """
-    Scansiona autonomamente la cartella HERMES_ROOT/profiles e gli endpoint LLM.
-    Se rileva profili Hermes non ancora presenti in config.json, li registra automaticamente
-    e sincronizza config.json, aggiornando la dashboard in tempo reale.
+    Scansiona autonomamente la cartella HERMES_ROOT/profiles e gli endpoint LLM (Ollama su 11434 & llama.cpp su 9931).
+    Rileva nuovi profili, sincronizza modelli/contesti modificati, e rimuove profili eliminati (auto-pruning).
+    Sincronizza config.json e aggiorna AGENTS_DEF in tempo reale.
     """
     global CONFIG, AGENTS_DEF
     if not os.path.exists(HERMES_ROOT):
         return []
 
-    prof_dir = os.path.join(HERMES_ROOT, "profiles")
-    if not os.path.exists(prof_dir):
-        return []
+    profiles_dir = os.path.join(HERMES_ROOT, "profiles")
+    prof_list = [("gynbot1", "default", HERMES_ROOT, "GynBot1")]
+    valid_profiles = {"default"}
 
-    known_profiles = set()
-    for a in CONFIG.get("agents", []):
-        if a.get("profile"):
-            known_profiles.add(a.get("profile").lower())
-        if a.get("id"):
-            known_profiles.add(a.get("id").lower())
+    if os.path.exists(profiles_dir):
+        for item in sorted(os.listdir(profiles_dir)):
+            item_path = os.path.join(profiles_dir, item)
+            if os.path.isdir(item_path) and not item.startswith("."):
+                prof_list.append((item, item, item_path, None))
+                valid_profiles.add(item.lower())
 
-    discovered = []
-    try:
-        items = os.listdir(prof_dir)
-    except Exception:
-        items = []
+    # Mappa sprite disponibili in sprites_agents
+    available_sprites = {}
+    sprites_folder = os.path.join(BASE_DIR, "sprites_agents")
+    if os.path.exists(sprites_folder):
+        for f in os.listdir(sprites_folder):
+            if f.lower().endswith(".png"):
+                available_sprites[f.lower()] = f"sprites_agents/{f}"
 
-    for item in items:
-        item_path = os.path.join(prof_dir, item)
-        if not os.path.isdir(item_path) or item.startswith("."):
-            continue
-        
-        prof_name = item.lower()
-        if prof_name in known_profiles:
-            continue
+    current_agents = CONFIG.get("agents", [])
+    existing_by_prof = {}
+    for a in current_agents:
+        p_key = (a.get("profile") or a.get("id") or "").lower()
+        if p_key:
+            existing_by_prof[p_key] = a
 
-        prof_title = item.replace("_", " ").title()
-        prof_desc = "Agente Hermes"
-        prof_yaml_path = os.path.join(item_path, "profile.yaml")
-        if os.path.exists(prof_yaml_path):
+    config_changed = False
+    new_agents_list = []
+
+    for agent_id, prof_id, prof_dir, default_title in prof_list:
+        cfg_yaml = os.path.join(prof_dir, "config.yaml")
+        prof_yaml = os.path.join(prof_dir, "profile.yaml")
+
+        title = default_title
+        desc = "Agente Hermes"
+
+        # Lettura profile.yaml (inclusi campi annidati in ui_meta)
+        if os.path.exists(prof_yaml):
             try:
-                with open(prof_yaml_path, "r", encoding="utf-8", errors="ignore") as f:
-                    for line in f:
-                        line_s = line.strip()
-                        if line_s.startswith("title:"):
-                            val = line_s.split("title:", 1)[1].strip()
-                            if val: prof_title = val
-                        elif line_s.startswith("description:"):
-                            val = line_s.split("description:", 1)[1].strip()
-                            if val: prof_desc = val
+                with open(prof_yaml, "r", encoding="utf-8", errors="ignore") as f:
+                    p_content = f.read()
+                    m_ui_title = re.search(r"title:\s*([^\r\n]+)", p_content)
+                    if m_ui_title:
+                        title = m_ui_title.group(1).strip()
+                    m_desc = re.search(r"description:\s*([^\r\n]+)", p_content)
+                    if m_desc:
+                        desc = m_desc.group(1).strip()
             except Exception:
                 pass
 
-        # Rileva modello da config.yaml
-        model_name = "bonsai-9b:32k" if "oculus" in prof_name else ("bonsai-27b:16k" if "mentor" in prof_name else "qwen2.5:64k")
-        ctx_len = 32768
-        cfg_yaml_path = os.path.join(item_path, "config.yaml")
-        if os.path.exists(cfg_yaml_path):
+        if not title:
+            title = agent_id.replace("_", " ").title()
+
+        # Normalizzazione descrizioni brevi
+        d_clean = desc.strip()
+        if d_clean.upper() == "PENTESTER":
+            desc = "Pentester & Security Coder"
+        elif d_clean.upper() == "RAGIONAMENTO":
+            desc = "Ragionamento & Problem Solving"
+        elif d_clean.upper() == "DEEP":
+            desc = "Deep Thinking & Knowledge Synthesis"
+        elif d_clean.upper() == "VISUAL MASTER":
+            desc = "Visual Master & UI Multimodal"
+
+        model_name = "qwen2.5:64k"
+        provider = "ollama"
+        base_url = "http://127.0.0.1:11434/v1"
+        context_limit = 32768
+        is_cloud = (agent_id == "beam" or "beam" in title.lower())
+
+        if os.path.exists(cfg_yaml):
             try:
-                with open(cfg_yaml_path, "r", encoding="utf-8", errors="ignore") as f:
-                    content = f.read()
-                    import re
-                    m = re.findall(r'model:\s*([^\s\n\r]+)', content)
-                    real_models = [mod for mod in m if mod not in ["base", "whisper-1", "gpt-5.5", "deepseek/deepseek-v4-pro", "anthropic/claude-opus-4.8"]]
-                    if real_models:
-                        model_name = real_models[-1]
-                    m_ctx = re.search(r'context_length:\s*(\d+)', content)
-                    if m_ctx:
-                        ctx_len = int(m_ctx.group(1))
+                with open(cfg_yaml, "r", encoding="utf-8", errors="ignore") as f:
+                    c = f.read()
+                    m_mod = re.search(r"(?:^|\n)model:\s*\n(.*?)(?=\n[a-z_]+:|\Z)", c, re.DOTALL)
+                    if m_mod:
+                        sec = m_mod.group(1)
+                        d_match = re.search(r"default:\s*([^\s\r\n]+)", sec)
+                        if d_match:
+                            model_name = d_match.group(1)
+                        p_match = re.search(r"provider:\s*([^\s\r\n]+)", sec)
+                        if p_match:
+                            provider = p_match.group(1)
+                        u_match = re.search(r"base_url:\s*([^\s\r\n]+)", sec)
+                        if u_match:
+                            base_url = u_match.group(1)
+                        c_match = re.search(r"context_length:\s*(\d+)", sec) or re.search(r"ollama_num_ctx:\s*(\d+)", sec)
+                        if c_match:
+                            context_limit = int(c_match.group(1))
+
+                    prov_m = re.search(r"(?:^|\n)providers:\s*\n(.*?)(?=\n[a-z_]+:|\Z)", c, re.DOTALL)
+                    if prov_m:
+                        p_sec = prov_m.group(1)
+                        mod_block = re.search(re.escape(model_name) + r":\s*\n\s*context_length:\s*(\d+)", p_sec)
+                        if mod_block:
+                            context_limit = int(mod_block.group(1))
             except Exception:
                 pass
 
-        # Assegna lo sprite
+        # Normalizzazione Provider e Base URL
+        if is_cloud or agent_id == "beam":
+            provider = "beam"
+            base_url = "http://127.0.0.1:11434/v1"
+            context_limit = 1048576
+        elif "llamacpp" in provider.lower() or "9931" in base_url or agent_id in ["coder14b", "mistral24b", "qwen", "vision7b"]:
+            provider = "llamacpp"
+            base_url = "http://127.0.0.1:9931/v1"
+        else:
+            provider = "ollama"
+            base_url = "http://127.0.0.1:11434/v1"
+
+        # Selezione Sprite
         sprite_path = "sprites_agents/GynBot1.png"
         candidates = [
-            f"sprites_agents/{prof_title}.png",
-            f"sprites_agents/{item}.png",
-            f"sprites_agents/{item.upper()}.png",
-            f"sprites_agents/{prof_title.upper()}.png"
+            f"{title}.png".lower(),
+            f"{agent_id}.png".lower(),
+            f"{prof_id}.png".lower(),
+            f"{agent_id.replace('_', ' ')}.png".lower(),
+            f"{title.replace(' ', '_')}.png".lower(),
+            f"{title.upper()}.png".lower(),
         ]
-        if "oculus" in prof_name or "ocolus" in prof_title.lower():
-            candidates.insert(0, "sprites_agents/OCOLUS.png")
-        if "mentor" in prof_name or "architect" in prof_title.lower():
-            candidates.insert(0, "sprites_agents/Chief Architect.png")
+        if agent_id == "coder14b" or "dark" in title.lower():
+            candidates.insert(0, "dark coder.png")
+        elif agent_id == "mistral24b" or title.lower() == "iq":
+            candidates.insert(0, "iq.png")
+        elif agent_id == "qwen" or title.lower() == "mind":
+            candidates.insert(0, "mind.png")
+        elif agent_id == "vision7b" or title.lower() == "vision":
+            candidates.insert(0, "vision.png")
+        elif agent_id == "mentor" or "architect" in title.lower():
+            candidates.insert(0, "chief architect.png")
+        elif agent_id == "oculus" or "ocolus" in title.lower():
+            candidates.insert(0, "ocolus.png")
+        elif agent_id == "beam":
+            candidates.insert(0, "beam.png")
+        elif agent_id == "gynbot2":
+            candidates.insert(0, "programmatore.png")
+        elif agent_id == "gynbox3":
+            candidates.insert(0, "quality cheker.png")
+        elif agent_id == "mark1":
+            candidates.insert(0, "direttore marketing.png")
+        elif agent_id == "mark2":
+            candidates.insert(0, "copywriter creativo.png")
+        elif agent_id == "mark3":
+            candidates.insert(0, "growt hacker.png")
 
-        for cand in candidates:
-            if cand and os.path.exists(os.path.join(BASE_DIR, cand)):
-                sprite_path = cand
+        for c_cand in candidates:
+            if c_cand in available_sprites:
+                sprite_path = available_sprites[c_cand]
                 break
 
-        is_vision = "oculus" in prof_name or "vision" in prof_title.lower() or "ocolus" in prof_title.lower()
-        is_architect = "mentor" in prof_name or "architect" in prof_title.lower()
-        color = "#0ea5e9" if is_vision else ("#a855f7" if is_architect else "#10b981")
-        group = "TEAM ARCHITETTURA" if is_architect else ("TEAM VISUAL AUDIT" if is_vision else "TEAM SVILUPPO")
+        # Gruppo, Colore e Sorgente
+        t_low = (title + " " + desc + " " + agent_id).lower()
+        if is_cloud or "beam" in t_low:
+            group = "SUPER COORDINATORE"
+            color = "#38bdf8"
+            source_label = "Cloud 501B MoE"
+        elif "vision" in t_low or "oculus" in t_low or "ocolus" in t_low:
+            group = "TEAM VISUAL AUDIT"
+            color = "#0ea5e9"
+            source_label = "llama.cpp (Disco D:)" if provider == "llamacpp" else "Ollama (Locale C:)"
+        elif "architect" in t_low or "mentor" in t_low:
+            group = "TEAM ARCHITETTURA"
+            color = "#a855f7"
+            source_label = "Ollama (Locale C:)"
+        elif "dark" in t_low or "coder14b" in t_low or "pentester" in t_low:
+            group = "TEAM SICUREZZA & CODING"
+            color = "#ef4444"
+            source_label = "llama.cpp (Disco D:)"
+        elif "iq" in t_low or "mistral" in t_low or "ragionamento" in t_low:
+            group = "TEAM RAGIONAMENTO"
+            color = "#f59e0b"
+            source_label = "llama.cpp (Disco D:)"
+        elif "mind" in t_low or "deep" in t_low:
+            group = "TEAM DEEP THINKING"
+            color = "#06b6d4"
+            source_label = "llama.cpp (Disco D:)"
+        elif "marketing" in t_low or "mark" in t_low or "copy" in t_low or "growth" in t_low:
+            group = "TEAM MARKETING"
+            color = "#8b5cf6" if "1" in agent_id else ("#06b6d4" if "2" in agent_id else "#10b981")
+            source_label = "Ollama (Locale C:)"
+        else:
+            group = "TEAM SVILUPPO"
+            color = "#3b82f6" if agent_id in ["default", "gynbot1"] else ("#fbbf24" if agent_id == "gynbot2" else "#ec4899")
+            source_label = "Ollama (Locale C:)"
 
-        new_agent = {
-            "id": prof_name,
-            "profile": item,
-            "name": prof_title,
-            "title": prof_desc,
-            "group": group,
-            "color": color,
-            "provider": "hermes",
-            "model": model_name,
-            "base_model": model_name.split(":")[0],
-            "context_limit": ctx_len,
-            "compress_threshold": 0.85,
-            "sprite": sprite_path,
-            "is_cloud": False,
-            "parameters": "9.0B Vision Ternary" if "9b" in model_name else ("26.9B Reasoning Ternary" if "27b" in model_name else "Local LLM"),
-            "architecture": "Qwen3.5 Multimodal" if "bonsai" in model_name else "Qwen/Llama",
-            "modality": "Vision + Text + Tool Calling" if "bonsai" in model_name else "Text Only",
-            "thinking_level": "Extended Thinking" if "27b" in model_name else "Standard"
-        }
+        prof_lookup_key = prof_id.lower()
+        existing = existing_by_prof.get(prof_lookup_key) or existing_by_prof.get(agent_id.lower())
 
-        CONFIG.setdefault("agents", []).append(new_agent)
-        known_profiles.add(prof_name)
-        discovered.append(new_agent)
-        print(f"[Auto-Discovery] Rilevato e integrato nuovo agente Hermes: {prof_title} ({item}) -> {model_name}")
+        if existing:
+            # Sincronizza proprietà modificate
+            if (existing.get("model") != model_name or 
+                existing.get("context_limit") != context_limit or 
+                existing.get("name") != title or 
+                existing.get("sprite") != sprite_path or 
+                existing.get("provider") != provider or
+                existing.get("group") != group or
+                existing.get("source") != source_label):
+                existing["name"] = title
+                existing["title"] = desc
+                existing["model"] = model_name
+                existing["base_model"] = model_name.split("/")[-1].split(":")[0]
+                existing["context_limit"] = context_limit
+                existing["provider"] = provider
+                existing["base_url"] = base_url
+                existing["sprite"] = sprite_path
+                existing["group"] = group
+                existing["color"] = color
+                existing["source"] = source_label
+                config_changed = True
+            new_agents_list.append(existing)
+        else:
+            new_agent = {
+                "id": agent_id,
+                "profile": prof_id,
+                "name": title,
+                "title": desc,
+                "group": group,
+                "color": color,
+                "provider": provider,
+                "base_url": base_url,
+                "model": model_name,
+                "base_model": model_name.split("/")[-1].split(":")[0],
+                "context_limit": context_limit,
+                "compress_threshold": 0.85,
+                "sprite": sprite_path,
+                "is_cloud": is_cloud,
+                "source": source_label,
+                "parameters": "501B" if is_cloud else ("35B" if "35b" in model_name.lower() else ("27B" if "27b" in model_name.lower() else ("24B" if "24b" in model_name.lower() else ("14B" if "14b" in model_name.lower() else ("9B" if "9b" in model_name.lower() else ("7B" if "7b" in model_name.lower() else "4B")))))),
+                "architecture": "GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud MoE" if is_cloud else "Ollama Local"),
+                "modality": "Vision + Text + Tools" if "vl" in model_name.lower() or "bonsai" in model_name.lower() or "vision" in t_low else "Text + Tools",
+                "thinking_level": "Extended Thinking" if "reasoning" in model_name.lower() or "27b" in model_name.lower() else "Standard"
+            }
+            new_agents_list.append(new_agent)
+            config_changed = True
+            print(f"[Auto-Discovery] Registrato nuovo agente Hermes: {title} ({prof_id}) -> {model_name}")
 
-    if discovered:
+    # Auto-pruning: rimuove agenti eliminati da Hermes
+    if len(new_agents_list) != len(current_agents):
+        config_changed = True
+
+    if config_changed:
+        CONFIG["agents"] = new_agents_list
+        AGENTS_DEF = new_agents_list
         try:
             with open(CONFIG_FILE, "w", encoding="utf-8") as f:
                 json.dump(CONFIG, f, indent=2)
-            AGENTS_DEF = CONFIG["agents"]
+            print(f"[Auto-Discovery] Configurazione sincronizzata con successo: {len(new_agents_list)} agenti attivi.")
         except Exception as e:
-            print(f"[Auto-Discovery] Errore salvataggio config: {e}")
+            print(f"[Auto-Discovery] Errore salvataggio config.json: {e}")
 
-    return discovered
+    return new_agents_list
+
 
 # Worker 3: Hermes SQLite in background (ogni 2.5s)
 AGENTS_CACHE = []
@@ -519,6 +685,9 @@ def hermes_worker_loop():
                     "context_limit": agent_def["context_limit"],
                     "sprite": agent_def["sprite"],
                     "compress_threshold": agent_def["compress_threshold"],
+                    "provider": agent_def.get("provider", "ollama"),
+                    "source": agent_def.get("source", "Ollama (Locale C:)"),
+                    "base_url": agent_def.get("base_url", "http://127.0.0.1:11434/v1"),
                     "is_cloud": agent_def.get("is_cloud", False),
                     "parameters": agent_def.get("parameters", "N/D"),
                     "architecture": agent_def.get("architecture", "N/D"),
@@ -558,10 +727,16 @@ def hermes_worker_loop():
                     "last_activity": None
                 }
 
-                # VRAM check
+                # VRAM & Engine check
                 if agent_def.get("is_cloud"):
                     stat_res["vram_mb"] = 0
                     stat_res["is_shared_model"] = False
+                elif agent_def.get("provider") == "llamacpp" or "9931" in agent_def.get("base_url", ""):
+                    stat_res["is_shared_model"] = False
+                    stat_res["vram_mb"] = 0
+                    if LLAMACPP_CACHE.get("status") == "online":
+                        if stat_res["status"] == "riposo":
+                            stat_res["status"] = "attivo"
                 else:
                     matching = [m for m in ollama_models if agent_def["model"] in m["name"]]
                     if matching:
@@ -827,6 +1002,7 @@ def master_cache_loop():
                     "system": sys_data,
                     "gpu": GPU_CACHE,
                     "ollama": OLLAMA_CACHE,
+                    "llamacpp": LLAMACPP_CACHE,
                     "guardian": {
                         "status": guardian.status,
                         "last_check": guardian.last_check,
@@ -1423,6 +1599,7 @@ def run():
     # Avvio worker thread dedicati
     threading.Thread(target=gpu_worker_loop, daemon=True).start()
     threading.Thread(target=ollama_worker_loop, daemon=True).start()
+    threading.Thread(target=llamacpp_worker_loop, daemon=True).start()
     threading.Thread(target=hermes_worker_loop, daemon=True).start()
     threading.Thread(target=master_cache_loop, daemon=True).start()
     threading.Thread(target=guardian_loop, daemon=True).start()

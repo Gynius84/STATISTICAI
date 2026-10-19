@@ -1,12 +1,43 @@
-# STATISTICHEAI v2.1 🎮🤖
-### Dashboard Retro Arcade (16-Bit) per Telemetria, Diagnosi e Monitoraggio Agenti AI Multi-Provider
+# STATISTICHEAI v2.1.1 🎮🤖
+### Dashboard Retro Arcade (16-Bit) per Telemetria, Diagnosi e Monitoraggio Agenti AI Multi-Provider (Ollama, llama.cpp, Hermes, Cloud)
 
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Pure%20Python)-brightgreen.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-informational.svg)]()
-[![Multi-Provider](https://img.shields.io/badge/Providers-Ollama%20%7C%20LM%20Studio%20%7C%20Hermes%20%7C%20OpenAI%20%7C%20Cloud-orange.svg)]()
+[![Multi-Provider](https://img.shields.io/badge/Providers-Ollama%20(C:)%20%7C%20llama.cpp%20(D:)%20%7C%20Hermes%20%7C%20Cloud%20501B-orange.svg)]()
 
-> **STATISTICHEAI v2.1** trasforma la gestione dei tuoi agenti AI locali e cloud in un videogioco Arcade Pixel Art a 16-bit. Monitora hardware, VRAM, saturazione token, memoria a lungo termine e stato di salute con un sistema avanzato di auto-diagnosi medica (*Cura Sessione*, *Cura Contesto*, *Resurrezione 1-Click*).
+> **STATISTICHEAI v2.1.1** trasforma la gestione dei tuoi agenti AI locali e cloud in un videogioco Arcade Pixel Art a 16-bit. Monitora hardware, VRAM, saturazione token, memoria a lungo termine e stato di salute di 13 agenti su tripla architettura: **Ollama Locale (C:)**, **llama.cpp Router (Disco D: porta 9931)** e **Beam 501B Cloud**.
+
+---
+
+## ✨ Novità della Versione 2.1.1 (Multi-Engine llama.cpp & 13 Agenti Auto-Discovery)
+
+- 🦙 **Supporto Completo per llama.cpp (Disco D: Porta 9931)**:
+  - Telemetria in tempo reale da `http://127.0.0.1:9931/v1/models` e probe di salute del router GGUF.
+  - Nuovo riquadro dedicato nell'HUD di sistema: `🦙 LLAMA.CPP (DISCO D: PORTA 9931)`.
+  - Badge di servizio live nel footer in tempo reale: `[ LLAMA.CPP :9931 (DISCO D:) OK ]`.
+- 🤖 **Supporto Roster Completo di 13 Agenti Hermes**:
+  - `GynBot1` (Regista & Esperto PC • Qwen3.5 64k • Ollama C:)
+  - `PROGRAMMATORE` (Sviluppatore & Coder • Qwen2.5-Coder 64k • Ollama C:)
+  - `QUALITY CHEKER` (QA & Tester • Hermes3 64k • Ollama C:)
+  - `Direttore Marketing` (Brand Strategist • Qwen2.5 64k • Ollama C:)
+  - `Copywriter Creativo` (Social Storyteller • Llama3.1 64k • Ollama C:)
+  - `Growth Hacker` (SEO & Data Analyst • Hermes3 64k • Ollama C:)
+  - `Chief Architect` (Deep Reasoning & Mentor Architecture • Bonsai 27B • Ollama C:)
+  - `OCOLUS` (Visual Auditor & UI Analyst • Bonsai 9B • Ollama C:)
+  - `DARK CODER` (Pentester & Security Coder • Qwen2.5-Coder 14B Uncensored GGUF • llama.cpp D:)
+  - `IQ` (Ragionamento & Problem Solving • Mistral-Small 24B Reasoning GGUF • llama.cpp D:)
+  - `MIND` (Deep Thinking & Knowledge Synthesis • Qwen3.6 35B A3B GGUF • llama.cpp D:)
+  - `VISION` (Visual Master & UI Multimodal • Qwen2.5-VL 7B GGUF • llama.cpp D:)
+  - `BEAM` (Super Coordinatore • Reflection Beam 501B MoE Cloud • 1M Context)
+- 🔄 **Auto-Discovery e Auto-Pruning 100% Autonomo**:
+  - Rileva automaticamente i profili Hermes leggendo anche campi annidati (`ui_meta -> title`).
+  - Sincronizza modelli, context length e provider senza richiedere alcuna modifica manuale al codice.
+  - Rimuove automaticamente dalla dashboard i profili eliminati (auto-pruning).
+- 🖼 **Nuovi Avatar Pixel-Art 16-Bit Aggiunti**:
+  - `DARK CODER.png`, `IQ.png`, `MIND.png`, `VISION.png`.
+- 🎯 **Filtri Squadre Arricchiti**:
+  - Filtri dedicati per `SICUREZZA & CODING`, `RAGIONAMENTO`, `DEEP THINKING`, `VISUAL AUDIT`, `ARCHITETTURA`, `SVILUPPO`, `MARKETING`, `COORDINATORE`.
 
 ---
 

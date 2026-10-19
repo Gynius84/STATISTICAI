@@ -1288,13 +1288,13 @@
                     <div class="main-title" id="main-header-title">
                         <span style="color: #7aa2f7;">STATISTICHEAI</span>
                         <span style="color: #565f89; margin: 0 4px;">•</span>
-                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES & OLLAMA (VERSIONE 2.1 • LAYOUT RICONFIGURABILE)</span>
+                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 13 AGENTI • OLLAMA (C:) + LLAMA.CPP (D:) + CLOUD (v2.1.1)</span>
                     </div>
                     <div id="title-dynamic-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 11px; margin-top: 3px; flex-wrap: wrap;">
                         <span id="title-workflow-badge" class="badge" style="background: #0f172a; color: #38bdf8; border-color: #0284c7; padding: 2px 7px; font-size: 10px; cursor: default; letter-spacing: 0.5px;">
-                            🔀 WORKFLOW: 🦙 OLLAMA LOCALE (14 MODELLI) + ☁ OLLAMA CLOUD (BEAM 501B)
+                            🔀 WORKFLOW: 🦙 OLLAMA (LOCALE C:) + 🦙 LLAMA.CPP (DISCO D:) + ☁ OLLAMA CLOUD (BEAM 501B)
                         </span>
-                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.1: HEADER/FOOTER FISSI & BOX RIPOSIZIONABILI • AZIONI REALI CON BACKUP</span>
+                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.1.1: AUTO-DISCOVERY MULTI-PROVIDER • 13 AGENTI • BOX RIPOSIZIONABILI</span>
                     </div>
                 </div>
             </div>
@@ -1387,15 +1387,27 @@
                     </div>
                 </div>
 
-                <!-- OLLAMA STATUS -->
+                <!-- OLLAMA STATUS (DISCO C:) -->
                 <div class="hud-metric draggable-hud" data-hud-id="hud-ollama">
                     <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ OLLAMA</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-ollama', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-ollama', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
-                        <span>OLLAMA RUNTIME</span>
+                        <span>OLLAMA RUNTIME (C:)</span>
                         <span id="hud-ollama-val">CONNESSO</span>
                     </div>
                     <div style="font-size: 10px; color: var(--text-bright); margin-top: 4px;" id="hud-ollama-sub">
-                        MODELLI IN VRAM: 0 | MODELLI LOCALI: 12 (OTTIMIZZATI)
+                        MODELLI IN VRAM: 0 | MODELLI LOCALI: 9 (OTTIMIZZATI)
+                    </div>
+                </div>
+
+                <!-- LLAMA.CPP STATUS (DISCO D:) -->
+                <div class="hud-metric draggable-hud" data-hud-id="hud-llamacpp" style="border-color: #059669;">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ LLAMA.CPP</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-llamacpp', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-llamacpp', 1)">▶</button></div></div>
+                    <div class="hud-metric-header">
+                        <span style="color: #34d399; font-weight: bold;">🦙 LLAMA.CPP (DISCO D:)</span>
+                        <span id="hud-llamacpp-val" style="color: var(--hp-green);">PORTA 9931</span>
+                    </div>
+                    <div style="font-size: 10px; color: var(--text-bright); margin-top: 4px;" id="hud-llamacpp-sub">
+                        MODELLI ATTIVI: 4 GGUF (ROUTER DISCO D:)
                     </div>
                 </div>
 
@@ -1403,11 +1415,11 @@
                 <div class="hud-metric draggable-hud" data-hud-id="hud-team">
                     <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ TEAM</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-team', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-team', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
-                        <span>STATO 7 AGENTI</span>
-                        <span id="hud-team-count">7 TOTALI</span>
+                        <span>STATO 13 AGENTI</span>
+                        <span id="hud-team-count">13 TOTALI</span>
                     </div>
                     <div style="font-size: 10px; color: var(--text-bright); margin-top: 4px;" id="hud-team-summary">
-                        SANI: 7 | INFERMERIA: 0 | CIMITERO: 0
+                        SANI: 13 | INFERMERIA: 0 | CIMITERO: 0
                     </div>
                 </div>
 
@@ -1501,13 +1513,15 @@
                 </div>
             </div>
             <span style="font-weight: bold; color: var(--text-muted); text-transform: uppercase;">FILTRA:</span>
-            <button class="btn-filter active" id="filter-btn-all" onclick="setFilter('all')">TUTTI</button>
-            <button class="btn-filter btn-filter-cloud" onclick="setFilter('SUPER COORDINATORE')">☁ SUPER COORDINATORE</button>
-            <button class="btn-filter btn-filter-sviluppo" onclick="setFilter('TEAM SVILUPPO')">⚒ TEAM SVILUPPO</button>
-            <button class="btn-filter btn-filter-marketing" onclick="setFilter('TEAM MARKETING')">📢 TEAM MARKETING</button>
-            <button class="btn-filter btn-filter-security" onclick="setFilter('SICUREZZA')">🛡 SICUREZZA</button>
-            <button class="btn-filter" style="color: #38bdf8; border-color: #0284c7;" onclick="setFilter('TEAM VISUAL AUDIT')">👁 VISUAL AUDIT</button>
-            <button class="btn-filter" style="color: #c084fc; border-color: #9333ea;" onclick="setFilter('TEAM ARCHITETTURA')">🏛 ARCHITETTURA</button>
+            <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (13)</button>
+            <button class="btn-filter btn-filter-cloud" data-filter="SUPER COORDINATORE" onclick="setFilter('SUPER COORDINATORE')">☁ COORDINATORE</button>
+            <button class="btn-filter btn-filter-sviluppo" data-filter="TEAM SVILUPPO" onclick="setFilter('TEAM SVILUPPO')">⚒ SVILUPPO</button>
+            <button class="btn-filter btn-filter-marketing" data-filter="TEAM MARKETING" onclick="setFilter('TEAM MARKETING')">📢 MARKETING</button>
+            <button class="btn-filter btn-filter-security" data-filter="TEAM SICUREZZA & CODING" onclick="setFilter('TEAM SICUREZZA & CODING')">🛡 SICUREZZA & CODING</button>
+            <button class="btn-filter" data-filter="TEAM RAGIONAMENTO" style="color: #f59e0b; border-color: #d97706;" onclick="setFilter('TEAM RAGIONAMENTO')">🧠 RAGIONAMENTO</button>
+            <button class="btn-filter" data-filter="TEAM DEEP THINKING" style="color: #06b6d4; border-color: #0891b2;" onclick="setFilter('TEAM DEEP THINKING')">🔮 DEEP THINKING</button>
+            <button class="btn-filter" data-filter="TEAM VISUAL AUDIT" style="color: #38bdf8; border-color: #0284c7;" onclick="setFilter('TEAM VISUAL AUDIT')">👁 VISUAL AUDIT</button>
+            <button class="btn-filter" data-filter="TEAM ARCHITETTURA" style="color: #c084fc; border-color: #9333ea;" onclick="setFilter('TEAM ARCHITETTURA')">🏛 ARCHITETTURA</button>
 
             <!-- PULSANTE RILEVA / SINCRONIZZA AGENTI (AUTO-DISCOVERY V2.0.1) -->
             <button class="btn-sync-agent" id="btn-sync-agents" onclick="triggerAgentDiscovery()" title="Rileva e sincronizza istantaneamente profili Hermes ed endpoint">
@@ -1525,7 +1539,7 @@
             <div class="box-reorder-header">
                 <span class="box-reorder-title">
                     <span class="drag-handle" title="Trascina per riposizionare l'intera griglia agenti">⠿</span>
-                    <span id="agents-grid-header-title">GRIGLIA SCHEDE AGENTI HERMES & CLOUD (10 AGENTI OPERATIVI)</span>
+                    <span id="agents-grid-header-title">GRIGLIA SCHEDE AGENTI HERMES & CLOUD (13 AGENTI OPERATIVI)</span>
                 </span>
                 <div class="box-reorder-buttons">
                     <button type="button" class="btn-box-reorder" onclick="moveSection('box-agents-grid', -1)" title="Sposta box in alto">▲ SPOSTA SU</button>
@@ -1578,8 +1592,9 @@
                 </div>
                 <div class="footer-services">
                     <span class="srv-badge srv-ok" id="footer-hermes-status">[ HERMES GATEWAY :42000 OK ]</span>
-                    <span class="srv-badge srv-ok" id="footer-ollama-status">[ OLLAMA :11434 OK ]</span>
-                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (V2.0) OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-ollama-status">[ OLLAMA :11434 (DISCO C:) OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-llamacpp-status">[ LLAMA.CPP :9931 (DISCO D:) OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (v2.1.1) OK ]</span>
                 </div>
             </div>
 
@@ -1597,8 +1612,8 @@
                     </span>
                     <span class="team-footer-chip chip-security">
                         <span class="chip-icon">🛡</span>
-                        <b>SICUREZZA:</b>
-                        <span id="footer-security-text">1/1 Auditor Operativo (CEH)</span>
+                        <b>SICUREZZA & CODING:</b>
+                        <span id="footer-security-text">DARK CODER, IQ, MIND, VISION Operativi</span>
                     </span>
                     <span class="team-footer-chip chip-cloud" style="border: 1px solid #38bdf8; background: #082136; color: #38bdf8;">
                         <span class="chip-icon">☁</span>
@@ -2048,8 +2063,31 @@
                 }
             }
 
-            // Statistiche dedicate: SICUREZZA
-            const sc = grpSummary['SICUREZZA'] || { total: 1, sani: 1, infermeria: 0, cimitero: 0 };
+            // llama.cpp Telemetry (Disco D: porta 9931)
+            const lc = data.llamacpp || {};
+            const lcVal = document.getElementById('hud-llamacpp-val');
+            const lcSub = document.getElementById('hud-llamacpp-sub');
+            const fLcStatus = document.getElementById('footer-llamacpp-status');
+            if (lcVal && lcSub) {
+                if (lc.status === 'online') {
+                    lcVal.textContent = 'ONLINE (PORTA 9931)';
+                    lcVal.style.color = 'var(--hp-green)';
+                    const count = lc.models_count || (lc.models ? lc.models.length : 4);
+                    lcSub.textContent = `MODELLI ATTIVI: ${count} GGUF (ROUTER DISCO D:)`;
+                    if (fLcStatus) {
+                        fLcStatus.className = 'srv-badge srv-ok';
+                        fLcStatus.textContent = `[ LLAMA.CPP :9931 (${count} MODELLI D:) OK ]`;
+                    }
+                } else {
+                    lcVal.textContent = 'OFFLINE / NON ATTIVO';
+                    lcVal.style.color = 'var(--hp-red)';
+                    lcSub.textContent = 'Router su porta 9931 non raggiungibile';
+                    if (fLcStatus) {
+                        fLcStatus.className = 'srv-badge srv-err';
+                        fLcStatus.textContent = '[ LLAMA.CPP :9931 OFFLINE ]';
+                    }
+                }
+            }
 
             // Statistiche dedicate: SUPER COORDINATORE (CLOUD)
             const beamAgent = agents.find(a => a.id === 'beam');
@@ -2081,7 +2119,7 @@
             }
             const fSc = document.getElementById('footer-security-text');
             if (fSc) {
-                fSc.textContent = `${sc.sani}/${sc.total} Auditor Operativo [OK] (CEH)`;
+                fSc.textContent = `DARK CODER, IQ, MIND, VISION Operativi [OK] (Router Disco D: porta 9931)`;
             }
             const fCloud = document.getElementById('footer-cloud-text');
             if (fCloud) {
@@ -2100,6 +2138,7 @@
             if (!data) return;
             const agents = data.agents || [];
             const ol = data.ollama || {};
+            const lc = data.llamacpp || {};
 
             const dynamicTitleEl = document.getElementById('title-dynamic-agents');
             const badgeEl = document.getElementById('title-workflow-badge');
@@ -2122,8 +2161,11 @@
 
             // 1. Titolo Principale Adattivo
             let titleText = '';
+            const hasLlamaCpp = providers.has('llamacpp') || (lc && lc.status === 'online');
             if (hermesAgents.length > 0) {
-                if (cloudAgents.length > 0) {
+                if (hasLlamaCpp && cloudAgents.length > 0) {
+                    titleText = `HERMES ${hermesAgents.length} AGENTI • OLLAMA (C:) + LLAMA.CPP (D:) + CLOUD (${agents.length} TOTALI)`;
+                } else if (cloudAgents.length > 0) {
                     titleText = `HERMES ${hermesAgents.length} AGENTI & OLLAMA + ${cloudAgents.length} CLOUD (${agents.length} TOTALI)`;
                 } else {
                     titleText = `HERMES ${hermesAgents.length} AGENTI & OLLAMA (${agents.length} TOTALI)`;
@@ -2138,12 +2180,18 @@
             // 2. Badge Dettagliato Workflow e Modelli (Locali & Cloud)
             let badgeParts = [];
             
-            // Info Ollama Locale
+            // Info Ollama Locale C:
             if (ol && ol.status === 'online') {
-                const locCount = ol.installed_models_count || 14;
-                badgeParts.push(`🦙 OLLAMA LOCALE (${locCount} MODELLI OTTIMIZZATI)`);
+                const locCount = ol.installed_models_count || 9;
+                badgeParts.push(`🦙 OLLAMA LOCALE C: (${locCount} MODELLI)`);
             } else if (providers.has('ollama')) {
-                badgeParts.push(`🦙 OLLAMA LOCALE`);
+                badgeParts.push(`🦙 OLLAMA LOCALE C:`);
+            }
+
+            // Info llama.cpp Locale D:
+            if (lc.status === 'online' || providers.has('llamacpp')) {
+                const lcCount = lc.models_count || (lc.models ? lc.models.length : 4);
+                badgeParts.push(`🦙 LLAMA.CPP DISCO D: (${lcCount} MODELLI GGUF)`);
             }
 
             // Info Cloud Ollama / Beam
@@ -2172,18 +2220,15 @@
             ACTIVE_FILTER = filter;
             document.querySelectorAll('.filter-bar .btn-filter').forEach(b => {
                 b.classList.remove('active');
+                const bf = b.getAttribute('data-filter') || '';
                 const txt = b.textContent.toUpperCase();
-                if ((filter === 'all' && txt.includes('TUTTI')) ||
-                    (filter === 'SUPER COORDINATORE' && txt.includes('COORDINATORE')) ||
-                    (filter === 'TEAM SVILUPPO' && txt.includes('SVILUPPO')) ||
-                    (filter === 'TEAM MARKETING' && txt.includes('MARKETING')) ||
-                    (filter === 'SICUREZZA' && txt.includes('SICUREZZA'))) {
+                if ((filter === 'all' && (bf === 'all' || txt.includes('TUTTI'))) ||
+                    (filter !== 'all' && (bf === filter || txt.includes(filter.toUpperCase())))) {
                     b.classList.add('active');
                 }
             });
             if (TELEMETRY_DATA && TELEMETRY_DATA.agents) {
                 renderAgentCards(TELEMETRY_DATA.agents);
-            }
         }
 
         const EXPANDED_CARDS = new Set();
@@ -2729,7 +2774,10 @@
                         { name: "Direttore Marketing", path: "sprites_agents/Direttore Marketing.png" },
                         { name: "Copywriter Creativo", path: "sprites_agents/Copywriter Creativo.png" },
                         { name: "Growt hacker", path: "sprites_agents/Growt hacker.png" },
-                        { name: "CEH", path: "sprites_agents/CEH.png" },
+                        { name: "DARK CODER", path: "sprites_agents/DARK CODER.png" },
+                        { name: "IQ", path: "sprites_agents/IQ.png" },
+                        { name: "MIND", path: "sprites_agents/MIND.png" },
+                        { name: "VISION", path: "sprites_agents/VISION.png" },
                         { name: "BEAM", path: "sprites_agents/BEAM.png" },
                         { name: "OCOLUS", path: "sprites_agents/OCOLUS.png" },
                         { name: "Chief Architect", path: "sprites_agents/Chief Architect.png" }
