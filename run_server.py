@@ -208,7 +208,7 @@ STATE_CACHE = {
     "timestamp": int(time.time() * 1000),
     "system": {"cpu_pct": 0, "ram_total_gb": 32, "ram_avail_gb": 16, "ram_used_pct": 50, "disk_free_gb": 200, "disk_total_gb": 500},
     "gpu": {"available": True, "name": "NVIDIA GeForce RTX 4060 Laptop GPU", "vram_total_mb": 8188, "vram_used_mb": 1200, "vram_free_mb": 6988, "gpu_util_pct": 0, "temperature_c": 50, "power_draw_w": 6.0},
-    "ollama": {"status": "online", "running_models": [], "installed_models_count": 16, "last_check": time.time()},
+    "ollama": {"status": "online", "running_models": [], "installed_models_count": 5, "local_models_count": 5, "active_models_count": 5, "last_check": time.time()},
     "guardian": {"status": "INTEGRO", "last_check": time.time(), "monitored_count": 24, "mismatches": []},
     "agents": [],
     "actions_enabled": False,
@@ -308,10 +308,11 @@ def gpu_worker_loop():
         time.sleep(4.0)
 
 # Worker 2: Ollama in background (ogni 3s / 30s)
-OLLAMA_CACHE = {"status": "online", "running_models": [], "installed_models_count": 16, "last_check": time.time()}
+OLLAMA_CACHE = {"status": "online", "running_models": [], "installed_models_count": 5, "local_models_count": 5, "active_models_count": 5, "last_check": time.time()}
 def ollama_worker_loop():
     global OLLAMA_CACHE
-    installed_count = 16
+    installed_count = 5
+    local_model_names = ["qwen3.5:64k", "qwen2.5-coder:64k", "hermes3:64k", "qwen2.5:64k", "llama3.1:64k"]
     last_tags_fetch = 0
     while True:
         try:
@@ -335,7 +336,11 @@ def ollama_worker_loop():
                     req_t = urllib.request.Request("http://127.0.0.1:11434/api/tags", headers={"User-Agent": "STATISTICHEAI-Fast"})
                     with urllib.request.urlopen(req_t, timeout=1.0) as res_t:
                         tags_data = json.loads(res_t.read().decode("utf-8"))
-                        installed_count = len(tags_data.get("models", []))
+                        raw_models = tags_data.get("models", [])
+                        # Modelli locali reali su Disco C: (esclude proxy cloud come beam:cloud con size < 1MB)
+                        local_models_list = [m for m in raw_models if not (m.get("name", "").endswith(":cloud") or m.get("size", 0) < 1000000)]
+                        installed_count = len(local_models_list)
+                        local_model_names = [m.get("name") for m in local_models_list]
                     last_tags_fetch = now
                 except Exception:
                     pass
@@ -344,6 +349,9 @@ def ollama_worker_loop():
                 "status": "online",
                 "running_models": running,
                 "installed_models_count": installed_count,
+                "local_models_count": installed_count,
+                "active_models_count": installed_count,
+                "models": local_model_names,
                 "last_check": now
             }
         except Exception as e:

@@ -1429,7 +1429,7 @@
                     </div>
                     <div id="title-dynamic-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 11px; margin-top: 3px; flex-wrap: wrap;">
                         <span id="title-workflow-badge" class="badge" style="background: #0f172a; color: #38bdf8; border-color: #0284c7; padding: 2px 7px; font-size: 10px; cursor: default; letter-spacing: 0.5px;">
-                            🔀 WORKFLOW: 🦙 OLLAMA (LOCALE C:) + 🦙 LLAMA.CPP (DISCO D:) + ☁ OLLAMA CLOUD (BEAM 501B)
+                            🔀 WORKFLOW: 🦙 OLLAMA (5 MODELLI C:) + 🦙 LLAMA.CPP (4 MODELLI D:) + ☁ CLOUD (BEAM 501B) = 10 AGENTI
                         </span>
                         <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.2: BENCHMARK RADAR OPENCOMPASS • ARCHITETTURE MOE/DENSE/VLM • STIMA SPEED TPS</span>
                     </div>
@@ -1528,11 +1528,11 @@
                 <div class="hud-metric draggable-hud" data-hud-id="hud-ollama">
                     <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ OLLAMA</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-ollama', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-ollama', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
-                        <span>OLLAMA RUNTIME (C:)</span>
+                        <span style="color: #6ee7b7; font-weight: bold;">🦙 OLLAMA (DISCO C:)</span>
                         <span id="hud-ollama-val">CONNESSO</span>
                     </div>
                     <div style="font-size: 10px; color: var(--text-bright); margin-top: 4px;" id="hud-ollama-sub">
-                        MODELLI IN VRAM: 0 | MODELLI LOCALI: 9 (OTTIMIZZATI)
+                        MODELLI IN VRAM: 0 | MODELLI ATTIVI: 5 LOCALI (DISCO C:)
                     </div>
                 </div>
 
@@ -2143,9 +2143,15 @@
             document.getElementById('hud-vram-bar').style.width = vramPct + '%';
 
             const runningCount = (ol.running_models || []).length;
+            const ollamaCount = ol.local_models_count || ol.active_models_count || ol.installed_models_count || 5;
             document.getElementById('hud-ollama-val').textContent = ol.status === 'online' ? 'CONNESSO' : 'OFFLINE/SLOW';
             document.getElementById('hud-ollama-sub').textContent = 
-                'MODELLI IN VRAM: ' + runningCount + ' | MODELLI LOCALI: ' + (ol.installed_models_count || 12);
+                'MODELLI IN VRAM: ' + runningCount + ' | MODELLI ATTIVI: ' + ollamaCount + ' LOCALI (DISCO C:)';
+            const fOlStatus = document.getElementById('footer-ollama-status');
+            if (fOlStatus) {
+                fOlStatus.className = ol.status === 'online' ? 'srv-badge srv-ok' : 'srv-badge srv-err';
+                fOlStatus.textContent = ol.status === 'online' ? `[ OLLAMA :11434 (${ollamaCount} MODELLI C:) OK ]` : '[ OLLAMA :11434 OFFLINE ]';
+            }
 
             let sani = 0, infermeria = 0, cimitero = 0;
             agents.forEach(a => {
