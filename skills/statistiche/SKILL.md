@@ -1,22 +1,27 @@
 ---
 name: statistiche
-description: Open native STATISTICHEAI 16-bit dashboard monitor.
-version: 2.0.1
+description: Open native STATISTICHEAI 16-bit dashboard monitor (v2.2, 10 optimized agents, Radar Benchmark OpenCompass, MoE & RTX 4060 TPS).
+version: 2.2.1
 author: Gyniu, Hermes Agent
 license: MIT
 platforms: [windows]
 metadata:
   hermes:
-    tags: [monitoring, dashboard, retro, agent-telemetry, ollama]
+    tags: [monitoring, dashboard, retro, agent-telemetry, ollama, llamacpp, radar-benchmark, moe]
 ---
 
-# STATISTICHEAI Monitor Skill
+# STATISTICHEAI Monitor Skill (v2.2.1)
 
-Opens and controls the STATISTICHEAI 16-bit retro arcade AI monitoring dashboard for Hermes agents and Ollama (local + cloud models) in a dedicated native desktop application window.
+Opens and controls the STATISTICHEAI 16-bit retro arcade AI monitoring dashboard for 10 optimized Hermes agents across multi-tier engines (Ollama on C:, llama.cpp on D:, and Beam 501B cloud) in a dedicated native desktop application window.
+
+### New in v2.2:
+- **Radar Benchmark OpenCompass**: Multi-dimensional radar spider charts for each model (Coding, Reasoning, Knowledge, Agentic, Vision, Hardware Throughput).
+- **Architecture Intelligence**: Automatic detection and profiling of MoE (Mixture of Experts), Dense Transformers, Vision Multimodal (VLM), and Ternary Quantized models.
+- **Hardware TPS Calibration**: Real-time estimated token throughput calibrated for NVIDIA GeForce RTX 4060 (8GB VRAM) and cloud tiers.
 
 ## When to Use
 
-- User asks to "open monitor", "show dashboard", "apri statistiche", "mostra monitoraggio", or check agent health/telemetry.
+- User asks to "open monitor", "show dashboard", "apri statistiche", "mostra monitoraggio", or check agent health/telemetry/benchmarks.
 - Triggered by slash command `/statistiche` or `/monitor`.
 - User wants to view real-time VRAM, tokens, session memory, or agent status without leaving Hermes.
 
