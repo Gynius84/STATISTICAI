@@ -20,6 +20,7 @@ from pathlib import Path
 
 # Percorsi base
 BASE_DIR = Path(__file__).resolve().parent
+WIN_FLAGS = 0x08000000 if sys.platform == "win32" else 0
 DATA_DIR = BASE_DIR / "data"
 LOG_DIR = BASE_DIR / "data"
 BACKUP_ROOT = BASE_DIR / "backups"
@@ -95,7 +96,8 @@ def is_pid_alive(pid: int) -> bool:
             ["tasklist", "/FI", f"PID eq {pid}", "/FO", "CSV", "/NH"],
             capture_output=True,
             text=True,
-            timeout=5
+            timeout=5,
+            creationflags=WIN_FLAGS
         )
         return str(pid) in res.stdout
     except Exception:
@@ -109,7 +111,7 @@ def check_and_heal_ollama_models(manifest: dict) -> tuple[int, int]:
     Ritorna (verificati_ok, ricreati).
     """
     try:
-        res = subprocess.run(["ollama", "list"], capture_output=True, text=True, timeout=10)
+        res = subprocess.run(["ollama", "list"], capture_output=True, text=True, timeout=10, creationflags=WIN_FLAGS)
         output = res.stdout if res.returncode == 0 else ""
     except Exception as exc:
         logger.warning("[OLLAMA] Impossibile contattare Ollama: %s", exc)
@@ -142,7 +144,8 @@ def check_and_heal_ollama_models(manifest: dict) -> tuple[int, int]:
                         ["ollama", "create", m_name, "-f", str(m_path)],
                         capture_output=True,
                         text=True,
-                        timeout=120
+                        timeout=120,
+                        creationflags=WIN_FLAGS
                     )
                     if c_res.returncode == 0:
                         logger.info("[OLLAMA] Modello '%s' ricreato con successo (1 sola volta).", m_name)

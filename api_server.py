@@ -2,6 +2,7 @@
 """STATISTICHEAI API SERVER - Serve dashboard in locale + dati Windows reali via wmic"""
 
 import os
+import sys
 import json
 import http.server
 import socketserver
@@ -17,10 +18,10 @@ def fetch_windows_resources():
     
     try:
         # CPU load - wmic output parsing
-        try:
+            flags = 0x08000000 if sys.platform == "win32" else 0
             cpu_output = subprocess.run(
                 ['wmic', 'logicalprocessor', 'get', 'loadpercentage'],
-                capture_output=True, text=True, timeout=3
+                capture_output=True, text=True, timeout=3, creationflags=flags
             )
             print(f'🔹 CPU Monitor: {cpu_output.stdout}')
         except Exception as e:

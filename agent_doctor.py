@@ -28,6 +28,7 @@ MANIFEST_FILE = HERMES_ROOT / "golden_tuning" / "tuning_manifest.json"
 HERMES_PYTHON = Path(r"C:\Users\Gyniu\AppData\Local\hermes\tools\python-3.14.7+20260901-win32-x64\python.exe")
 
 DATA_DIR.mkdir(parents=True, exist_ok=True)
+WIN_FLAGS = 0x08000000 if sys.platform == "win32" else 0
 BACKUPS_DIR.mkdir(parents=True, exist_ok=True)
 
 logger = logging.getLogger("agent_doctor")
@@ -206,7 +207,7 @@ def diagnose_agent(agent_id: str, profile_name: str, model_name: str, context_li
                     if pid > 0:
                         # Verifica se il processo Windows e' ancora in vita
                         out = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/FO", "CSV", "/NH"],
-                                             capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=3)
+                                             capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=3, creationflags=WIN_FLAGS)
                         if str(pid) not in out.stdout:
                             session_blocked = True
                             session_issue_detail = f"Lease sessione attivo orfano (PID morto: {pid})"
@@ -346,7 +347,8 @@ def resurrect_agent(agent_id: str, agent_name: str, profile_name: str) -> dict:
             text=True,
             encoding="utf-8",
             errors="replace",
-            timeout=60
+            timeout=60,
+            creationflags=WIN_FLAGS
         )
 
         out_text = (probe_res.stdout or "").strip()
