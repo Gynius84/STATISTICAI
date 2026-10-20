@@ -681,19 +681,57 @@ MODEL_BENCHMARK_CATALOG = {
             "throughput": 98
         },
         "model_notes": "MiniMax 3.1 Flash su Cloud Lightning Cluster. Architettura MoE da 456B totali (~45B attivi) specializzata in video generation, scripting multimediale, agentic autonomy e high-throughput reasoning."
+    },
+    "deepseek-ai/deepseek-v4.1-flash": {
+        "architecture_type": "MoE Ultra-Fast (DeepSeek V4.1 Flash NIM Cloud)",
+        "architecture_tag": "moe",
+        "parameters": "410B MoE NIM",
+        "active_parameters": "~28B per token",
+        "estimated_speed_tps": "~120 tok/s (NVIDIA NIM Cluster)",
+        "tps_value": 120,
+        "benchmarks": {
+            "coding": 97,
+            "reasoning": 95,
+            "knowledge": 93,
+            "agentic": 96,
+            "vision": 20,
+            "throughput": 99
+        },
+        "model_notes": "DeepSeek V4.1 Flash accelerato su cluster enterprise NVIDIA Cloud NIM. Architettura MoE da 410B (~28B attivi per token) con throughput estremo (120+ tok/s), 128k contesto nativo e zero overhead di memoria GPU locale."
+    },
+    "z-ai/glm-5.3": {
+        "architecture_type": "Dense Hybrid Reasoner (GLM 5.3 NIM Cloud)",
+        "architecture_tag": "reasoning",
+        "parameters": "130B Dense NIM",
+        "active_parameters": "130B Dense",
+        "estimated_speed_tps": "~90 tok/s (NVIDIA NIM Cluster)",
+        "tps_value": 90,
+        "benchmarks": {
+            "coding": 92,
+            "reasoning": 98,
+            "knowledge": 97,
+            "agentic": 94,
+            "vision": 25,
+            "throughput": 90
+        },
+        "model_notes": "General Language Model (GLM) 5.3 erogato via cluster NVIDIA Cloud NIM. Modello di frontiera da 130B parametri specializzato in deep reasoning logico, comprensione multilingue avanzata, sintesi cognitiva e 128k contesto senza consumo VRAM."
     }
 }
 
 def resolve_model_benchmarks(model_name, is_cloud=False, agent_id=None):
     """
-    Risolve tipo architettura (MoE/Dense/VLM/Reasoning), benchmark OpenCompass e velocità stimata RTX 4060.
+    Risolve tipo architettura (MoE/Dense/VLM/Reasoning), benchmark OpenCompass e velocità stimata RTX 4060 o Cloud.
     """
     m_clean = (model_name or "").lower().strip()
     a_clean = (agent_id or "").lower().strip()
 
+    if "glm-5" in m_clean or "glm" in m_clean or a_clean == "drago":
+        return MODEL_BENCHMARK_CATALOG["z-ai/glm-5.3"].copy()
+    if ("deepseek-v4.1" in m_clean or "v4.1-flash" in m_clean or ("deepseek" in m_clean and "flash" in m_clean) or a_clean == "deepseek"):
+        return MODEL_BENCHMARK_CATALOG["deepseek-ai/deepseek-v4.1-flash"].copy()
     if "beam" in m_clean or a_clean == "beam":
         return MODEL_BENCHMARK_CATALOG["beam:cloud"].copy()
-    if "minimax" in m_clean or a_clean == "minimax" or "video" in a_clean or "flash" in m_clean:
+    if "minimax" in m_clean or a_clean == "minimax" or ("video" in a_clean and "flash" in m_clean):
         return MODEL_BENCHMARK_CATALOG["minimax-m3.1-flash:cloud"].copy()
     if is_cloud and "501b" in m_clean:
         return MODEL_BENCHMARK_CATALOG["beam:cloud"].copy()
@@ -780,7 +818,7 @@ def auto_discover_hermes_agents():
     sprites_folder = os.path.join(BASE_DIR, "sprites_agents")
     if os.path.exists(master_sprites_folder) and os.path.exists(sprites_folder):
         for f in os.listdir(master_sprites_folder):
-            if f.lower().endswith(".png"):
+            if f.lower().endswith(".png") and not f.startswith("'") and not f.startswith('"') and len(f.strip()) > 5:
                 src = os.path.join(master_sprites_folder, f)
                 dst = os.path.join(sprites_folder, f)
                 try:
@@ -793,7 +831,7 @@ def auto_discover_hermes_agents():
     available_sprites = {}
     if os.path.exists(sprites_folder):
         for f in os.listdir(sprites_folder):
-            if f.lower().endswith(".png"):
+            if f.lower().endswith(".png") and not f.startswith("'") and not f.startswith('"') and len(f.strip()) > 5:
                 available_sprites[f.lower()] = f"sprites_agents/{f}"
 
     current_agents = CONFIG.get("agents", [])
@@ -820,22 +858,47 @@ def auto_discover_hermes_agents():
                     p_content = f.read()
                     m_ui_title = re.search(r"title:\s*([^\r\n]+)", p_content)
                     if m_ui_title:
-                        title = m_ui_title.group(1).strip()
+                        raw_t = m_ui_title.group(1).strip().strip("\"'")
+                        if raw_t and raw_t.lower() not in ["", "none", "null"]:
+                            title = raw_t
                     m_desc = re.search(r"description:\s*([^\r\n]+)", p_content)
                     if m_desc:
-                        desc = m_desc.group(1).strip()
+                        raw_d = m_desc.group(1).strip().strip("\"'")
+                        if raw_d and raw_d.lower() not in ["", "none", "null"]:
+                            desc = raw_d
             except Exception:
                 pass
 
-        if not title:
-            title = agent_id.replace("_", " ").title()
+        # Pulizia rigorosa del titolo
+        if title:
+            title = title.strip().strip("\"'")
+        if not title or title.lower() in ["", "''", '""', "none", "null"]:
+            title = None
 
-        # Normalizzazione titoli e descrizioni speciali
-        if agent_id == "minimax":
-            if title.lower() in ["video developer", "minimax", "cloud"]:
+        # Nomi e descrizioni calibrate per i profili noti
+        if agent_id == "deepseek":
+            if not title:
+                title = "DEEPSEEK"
+            if desc in ["Agente Hermes", ""]:
+                desc = "DeepSeek V4.1 Flash NIM Specialist"
+        elif agent_id == "drago":
+            if not title:
+                title = "DRAGO"
+            if desc in ["Agente Hermes", ""]:
+                desc = "GLM 5.3 Deep Reasoner & Knowledge"
+        elif agent_id == "minimax":
+            if not title or title.lower() in ["video developer", "minimax", "cloud"]:
                 title = "Video Developer"
             if desc.lower() in ["cloud", "agente hermes", ""]:
                 desc = "Video Developer & Multimedia Specialist"
+        elif agent_id == "coder14b":
+            if not title:
+                title = "DARK CODER"
+            if desc in ["Agente Hermes", "PENTESTER", ""]:
+                desc = "Pentester & Security Coder"
+
+        if not title:
+            title = agent_id.replace("_", " ").title()
 
         # Rilevamento automatico dell'avatar dai profili Hermes (profiles/<id>/assets/avatar.png)
         prof_assets = os.path.join(prof_dir, "assets") if prof_id != "default" else os.path.join(HERMES_ROOT, "assets")
@@ -843,7 +906,11 @@ def auto_discover_hermes_agents():
             for av_item in os.listdir(prof_assets):
                 if av_item.lower().startswith("avatar.") and av_item.lower().endswith((".png", ".jpg", ".jpeg", ".webp")):
                     av_src = os.path.join(prof_assets, av_item)
-                    for dn in [f"{title}.png", f"{agent_id}.png", f"{prof_id}.png"]:
+                    dest_names = [f"{agent_id}.png", f"{prof_id}.png"]
+                    clean_t = re.sub(r'[\\/*?:"<>|]', '', title).strip()
+                    if clean_t and clean_t not in ["", "''", '""']:
+                        dest_names.append(f"{clean_t}.png")
+                    for dn in set(dest_names):
                         av_dst = os.path.join(sprites_folder, dn)
                         try:
                             if not os.path.exists(av_dst) or os.path.getsize(av_dst) != os.path.getsize(av_src):
@@ -868,11 +935,7 @@ def auto_discover_hermes_agents():
         provider = "ollama"
         base_url = "http://127.0.0.1:11434/v1"
         context_limit = 32768
-        is_cloud = (
-            agent_id in ["beam", "minimax"] or 
-            ":cloud" in (default_title or "").lower() or
-            agent_id == "beam" or "beam" in title.lower()
-        )
+        is_cloud = False
 
         if os.path.exists(cfg_yaml):
             try:
@@ -903,19 +966,40 @@ def auto_discover_hermes_agents():
             except Exception:
                 pass
 
-        # Rilevamento avanzato Cloud Model
-        if (
+        # Rilevamento Cloud Model (Ollama Cloud Lightning o NVIDIA NIM Cloud)
+        is_nvidia = (
+            "nvidia" in (provider or "").lower() or 
+            "nvidia.com" in (base_url or "").lower() or 
+            agent_id in ["deepseek", "drago"] or
+            "glm-5" in model_name.lower() or
+            ("deepseek" in model_name.lower() and "flash" in model_name.lower())
+        )
+        is_cloud = (
+            is_nvidia or
             ":cloud" in model_name.lower() or 
             "beam" in model_name.lower() or 
             "minimax" in model_name.lower() or 
             agent_id in ["beam", "minimax"] or
             "cloud" in title.lower() or
             "openrouter" in (provider or "").lower()
-        ):
-            is_cloud = True
+        )
 
-        # Normalizzazione Provider e Base URL
-        if is_cloud:
+        # Normalizzazione Provider, Base URL e Context Limit
+        if is_nvidia:
+            provider = "nvidia"
+            if not base_url or "11434" in base_url or "9931" in base_url:
+                base_url = "https://integrate.api.nvidia.com/v1"
+            if context_limit < 65536:
+                context_limit = 131072
+            source_label = "NVIDIA NIM Cloud"
+            group = "TEAM CLOUD TITANS"
+            if agent_id == "deepseek" or "deepseek" in (title + model_name).lower():
+                color = "#76b900"
+            elif agent_id == "drago" or "drago" in (title + model_name).lower():
+                color = "#10b981"
+            else:
+                color = "#76b900"
+        elif is_cloud:
             if agent_id == "beam" or "beam" in model_name.lower():
                 provider = "beam" if provider == "beam" else "ollama"
                 base_url = "http://127.0.0.1:11434/v1"
@@ -955,7 +1039,13 @@ def auto_discover_hermes_agents():
             f"{title.replace(' ', '_')}.png".lower(),
             f"{title.upper()}.png".lower(),
         ]
-        if agent_id == "coder14b" or "dark" in title.lower():
+        if agent_id == "deepseek" or "deepseek" in title.lower():
+            candidates.insert(0, "deepseek.png")
+            candidates.insert(1, "deepseek.png".lower())
+        elif agent_id == "drago" or "drago" in title.lower():
+            candidates.insert(0, "drago.png")
+            candidates.insert(1, "drago.png".lower())
+        elif agent_id == "coder14b" or "dark" in title.lower():
             candidates.insert(0, "dark coder.png")
         elif agent_id == "minimax" or "video" in title.lower() or "video" in agent_id.lower():
             candidates.insert(0, "video developer.png")
@@ -997,6 +1087,10 @@ def auto_discover_hermes_agents():
             group = "TEAM VIDEO & MULTIMEDIA"
             color = "#ec4899"
             source_label = "Cloud MiniMax 3.1"
+        elif agent_id in ["deepseek", "drago"] or (is_cloud and is_nvidia and agent_id not in ["coder14b"]):
+            group = "TEAM CLOUD TITANS"
+            color = "#76b900" if (agent_id == "deepseek" or "deepseek" in t_low) else "#10b981"
+            source_label = "NVIDIA NIM Cloud"
         elif "vision" in t_low or "oculus" in t_low or "ocolus" in t_low:
             group = "TEAM VISUAL AUDIT"
             color = "#0ea5e9"
@@ -1026,7 +1120,9 @@ def auto_discover_hermes_agents():
             color = "#3b82f6" if agent_id in ["default", "gynbot1"] else ("#fbbf24" if agent_id == "gynbot2" else "#ec4899")
             source_label = "llama.cpp (Disco D:)" if provider == "llamacpp" or "9931" in (base_url or "") else "Ollama (Locale C:)"
 
-        if provider == "llamacpp" or "9931" in (base_url or ""):
+        if is_nvidia or "nvidia" in (provider or "").lower() or agent_id in ["deepseek", "drago"]:
+            source_label = "NVIDIA NIM Cloud"
+        elif provider == "llamacpp" or "9931" in (base_url or ""):
             source_label = "llama.cpp (Disco D:)"
         elif is_cloud:
             if "beam" in model_name.lower() or agent_id == "beam":
@@ -1041,8 +1137,10 @@ def auto_discover_hermes_agents():
         existing = existing_by_prof.get(prof_lookup_key) or existing_by_prof.get(agent_id.lower())
 
         if existing:
-            # Sincronizza proprietà modificate
-            if (existing.get("model") != model_name or 
+            # Sincronizza proprietà modificate e guarisce nomi/benchmarks obsoleti
+            force_sync = (existing.get("name") in ["", "''", '""'] or existing.get("sprite", "").endswith("''png") or existing.get("sprite", "").endswith("/.png"))
+            if (force_sync or
+                existing.get("model") != model_name or 
                 existing.get("context_limit") != context_limit or 
                 existing.get("name") != title or 
                 existing.get("sprite") != sprite_path or 
@@ -1074,7 +1172,7 @@ def auto_discover_hermes_agents():
                 existing["tps_value"] = bench_meta["tps_value"]
                 existing["benchmarks"] = bench_meta["benchmarks"]
                 existing["model_notes"] = bench_meta["model_notes"]
-                existing["architecture"] = "GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local")
+                existing["architecture"] = "NVIDIA NIM Cloud Enterprise" if is_nvidia else ("GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local"))
                 config_changed = True
             new_agents_list.append(existing)
         else:
@@ -1735,7 +1833,7 @@ class FastStatHandler(http.server.BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(res).encode("utf-8"))
             return
 
-        # 10. Catalogo Benchmark & Specifiche Architetture (v2.3.2)
+        # 10. Catalogo Benchmark & Specifiche Architetture (v2.4)
         if path == "/api/v1/models/benchmarks":
             self.send_response(200)
             self.send_security_headers("application/json")

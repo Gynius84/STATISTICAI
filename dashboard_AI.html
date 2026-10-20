@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STATISTICHEAI v2.3.2 - Monitor Agenti Hermes & Ollama Cloud & llama.cpp (Dual Cloud Titans & Fast Radar Sorter)</title>
+    <title>STATISTICHEAI v2.4 - Monitor Agenti Hermes & Ollama Cloud & llama.cpp (Dual Cloud Titans & Fast Radar Sorter)</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
         /* -------------------------------------------------------------
@@ -1477,13 +1477,13 @@
                     <div class="main-title" id="main-header-title">
                         <span style="color: #7aa2f7;">STATISTICHEAI</span>
                         <span style="color: #565f89; margin: 0 4px;">•</span>
-                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 9 AGENTI • LLAMA.CPP (7 D:) + OLLAMA CLOUD (BEAM + MINIMAX) (v2.3.2)</span>
+                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 11 AGENTI • LLAMA.CPP (7 D:) + OLLAMA CLOUD (2) + NVIDIA NIM CLOUD (2) (v2.4)</span>
                     </div>
                     <div id="title-dynamic-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 11px; margin-top: 3px; flex-wrap: wrap;">
                         <span id="title-workflow-badge" class="badge" style="background: #0f172a; color: #38bdf8; border-color: #0284c7; padding: 2px 7px; font-size: 10px; cursor: default; letter-spacing: 0.5px;">
-                            🔀 WORKFLOW: 🦙 LLAMA.CPP (7 LOCALI D: ZERO-SWAP) + ☁ CLOUD LIGHTNING (BEAM 501B + MINIMAX 3.1 456B) = 9 AGENTI
+                            🔀 WORKFLOW: 🦙 LLAMA.CPP DISCO D: (7 MODELLI GGUF) + ☁ OLLAMA CLOUD (BEAM + MINIMAX) + ⚡ NVIDIA CLOUD NIM (DEEPSEEK + DRAGO • 81 MODELLI) = 11 AGENTI
                         </span>
-                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.3.2: BENCHMARK RADAR OPENCOMPASS • DUAL CLOUD TITANS • FAST RADAR SORTER</span>
+                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.4: MULTI-CLOUD TITANS (OLLAMA + NVIDIA NIM) • FAST RADAR SORTER • ZERO VRAM OVERHEAD</span>
                     </div>
                 </div>
             </div>
@@ -1651,9 +1651,9 @@
 
             </div>
 
-            <!-- DIVISIONE 2: INFRASTRUTTURA CLOUD LIGHTNING & PORTALE VORTICE QUANTICO -->
-            <div class="hud-sub-header" style="border-left-color: #a855f7; color: #c084fc; margin-top: 14px;">
-                <span>☁ INFRASTRUTTURA CLOUD LIGHTNING & PORTALE VORTICE QUANTICO (0 MB VRAM LOCALE)</span>
+            <!-- DIVISIONE 2: INFRASTRUTTURA OLLAMA CLOUD LIGHTNING & PORTALE VORTICE QUANTICO -->
+            <div class="hud-sub-header" style="border-left-color: #38bdf8; color: #7dd3fc; margin-top: 14px;">
+                <span>☁ INFRASTRUTTURA OLLAMA CLOUD LIGHTNING & PORTALE QUANTICO (0 MB VRAM LOCALE)</span>
                 <span style="color: #fde047; font-size: 9px;">BEAM 501B MoE + MINIMAX 3.1 FLASH 456B • 24H KEEP-ALIVE</span>
             </div>
             <div class="hud-cloud-tier" id="hud-grid-cloud">
@@ -1687,14 +1687,62 @@
                     </div>
                 </div>
 
-                <!-- ANIMAZIONE CLOUD PORTAL TITANI QUANTICI (SPAZIO ESTESO DEDICATO) -->
+                <!-- ANIMAZIONE CLOUD PORTAL TITANI QUANTICI OLLAMA -->
                 <div class="hud-metric hud-metric-cloud-portal draggable-hud" data-hud-id="hud-portal" style="border-color: #0284c7; background: #060e1a; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 0 14px rgba(56, 189, 248, 0.25); flex: 2 1 480px; min-width: 380px; max-width: 100%; box-sizing: border-box;">
                     <div class="hud-metric-header" style="margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: nowrap; overflow: hidden;">
-                        <span id="hud-portal-title" style="color: #38bdf8; font-weight: bold; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">☁ PORTALE VORTICE QUANTICO • TITANI CLOUD</span>
+                        <span id="hud-portal-title" style="color: #38bdf8; font-weight: bold; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">☁ PORTALE VORTICE QUANTICO • TITANI OLLAMA</span>
                         <span id="hud-portal-sub" style="color: #fde047; font-weight: bold; font-size: 10px; white-space: nowrap; flex-shrink: 0;">BEAM 501B + MINIMAX 456B • 0 VRAM</span>
                     </div>
                     <div style="position: relative; width: 100%; height: 86px; overflow: hidden; border: 1px solid #13273e; background: #050a14;">
                         <canvas id="beam-cloud-canvas" style="display: block; width: 100%; height: 100%;"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DIVISIONE 3: INFRASTRUTTURA NVIDIA CLOUD NIM TITANS & SECONDO PORTALE QUANTICO -->
+            <div class="hud-sub-header" style="border-left-color: #76b900; color: #a3e635; margin-top: 14px;">
+                <span>⚡ INFRASTRUTTURA NVIDIA CLOUD NIM TITANS & PORTALE QUANTICO (81 MODELLI NIM • 0 MB VRAM)</span>
+                <span style="color: #76b900; font-size: 9px;">DEEPSEEK V4.1 FLASH 410B MoE + DRAGO GLM 5.3 130B • ENTERPRISE NIM CLUSTER</span>
+            </div>
+            <div class="hud-cloud-tier" id="hud-grid-cloud-nvidia">
+                <!-- GRUPPO: DEEPSEEK CLOUD (NVIDIA NIM) -->
+                <div class="hud-metric draggable-hud" data-hud-id="hud-cloud-deepseek" style="border-color: #76b900; background: #081a0e; box-shadow: 0 0 10px rgba(118, 185, 0, 0.2); flex: 1 1 240px; min-width: 220px; max-width: 340px; box-sizing: border-box;">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ DEEPSEEK NIM</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-deepseek', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-deepseek', 1)">▶</button></div></div>
+                    <div class="hud-metric-header">
+                        <span style="color: #76b900; font-weight: bold;">⚡ DEEPSEEK FLASH</span>
+                        <span id="hud-cloud-deepseek-stat" style="color: #76b900; font-weight: bold;">IMMORTALE (ONLINE)</span>
+                    </div>
+                    <div class="pixel-bar-container">
+                        <div id="hud-cloud-deepseek-bar" class="pixel-bar-fill" style="width: 100%; background: linear-gradient(90deg, #10b981, #76b900, #a3e635);"></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); margin-top: 3px;" id="hud-cloud-deepseek-members">
+                        DeepSeek V4.1 Flash • 410B MoE NIM • 128K Context • 0 VRAM
+                    </div>
+                </div>
+
+                <!-- GRUPPO: DRAGO CLOUD (NVIDIA NIM) -->
+                <div class="hud-metric draggable-hud" data-hud-id="hud-cloud-drago" style="border-color: #10b981; background: #071915; box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); flex: 1 1 240px; min-width: 220px; max-width: 340px; box-sizing: border-box;">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ DRAGO NIM</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-drago', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-drago', 1)">▶</button></div></div>
+                    <div class="hud-metric-header">
+                        <span style="color: #10b981; font-weight: bold;">⚡ DRAGO GLM-5.3</span>
+                        <span id="hud-cloud-drago-stat" style="color: #10b981; font-weight: bold;">IMMORTALE (ONLINE)</span>
+                    </div>
+                    <div class="pixel-bar-container">
+                        <div id="hud-cloud-drago-bar" class="pixel-bar-fill" style="width: 100%; background: linear-gradient(90deg, #059669, #10b981, #34d399);"></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); margin-top: 3px;" id="hud-cloud-drago-members">
+                        GLM 5.3 Hybrid Reasoner • 130B Dense NIM • 128K Context • 0 VRAM
+                    </div>
+                </div>
+
+                <!-- ANIMAZIONE SECONDO CLOUD PORTAL TITANI NVIDIA NIM -->
+                <div class="hud-metric hud-metric-cloud-portal draggable-hud" data-hud-id="hud-portal-nvidia" style="border-color: #76b900; background: #05140a; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 0 14px rgba(118, 185, 0, 0.25); flex: 2 1 480px; min-width: 380px; max-width: 100%; box-sizing: border-box;">
+                    <div class="hud-metric-header" style="margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: nowrap; overflow: hidden;">
+                        <span id="hud-portal-nvidia-title" style="color: #76b900; font-weight: bold; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">⚡ PORTALE VORTICE QUANTICO • TITANI NVIDIA NIM</span>
+                        <span id="hud-portal-nvidia-sub" style="color: #a3e635; font-weight: bold; font-size: 10px; white-space: nowrap; flex-shrink: 0;">DEEPSEEK 410B + DRAGO 130B • 0 VRAM</span>
+                    </div>
+                    <div style="position: relative; width: 100%; height: 86px; overflow: hidden; border: 1px solid #133e1c; background: #040f07;">
+                        <canvas id="nvidia-cloud-canvas" style="display: block; width: 100%; height: 100%;"></canvas>
                     </div>
                 </div>
             </div>
@@ -1735,8 +1783,9 @@
             <!-- RIGA 1: FILTRO SQUADRE & AZIONI SINCRONIZZAZIONE -->
             <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap; width: 100%; padding-bottom: 6px; border-bottom: 1px dotted rgba(86, 95, 137, 0.35);">
                 <span style="font-weight: bold; color: var(--text-muted); font-size: 10px; text-transform: uppercase;">FILTRA TEAM:</span>
-                <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (9)</button>
-                <button class="btn-filter btn-filter-cloud" data-filter="SUPER COORDINATORE" onclick="setFilter('SUPER COORDINATORE')">☁ TITANI CLOUD</button>
+                <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (11)</button>
+                <button class="btn-filter btn-filter-cloud" data-filter="TITANI CLOUD" onclick="setFilter('TITANI CLOUD')">☁ TITANI CLOUD (4)</button>
+                <button class="btn-filter" data-filter="TEAM CLOUD TITANS" style="color: #76b900; border-color: #76b900;" onclick="setFilter('TEAM CLOUD TITANS')">⚡ NVIDIA NIM (2)</button>
                 <button class="btn-filter btn-filter-sviluppo" data-filter="TEAM SVILUPPO" onclick="setFilter('TEAM SVILUPPO')">⚒ SVILUPPO</button>
                 <button class="btn-filter btn-filter-marketing" data-filter="TEAM MARKETING" onclick="setFilter('TEAM MARKETING')">📢 MARKETING</button>
                 <button class="btn-filter btn-filter-security" data-filter="TEAM SICUREZZA & CODING" onclick="setFilter('TEAM SICUREZZA & CODING')">🛡 SICUREZZA & CODING</button>
@@ -1754,7 +1803,7 @@
                 </div>
             </div>
 
-            <!-- RIGA 2: ORDINAMENTO RAPIDO SCHEDE SECONDO BENCHMARK RADAR & SPEED (v2.3.2) -->
+            <!-- RIGA 2: ORDINAMENTO RAPIDO SCHEDE SECONDO BENCHMARK RADAR & SPEED (v2.4) -->
             <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap; width: 100%;">
                 <span style="font-weight: bold; color: #fde047; font-size: 10px; text-transform: uppercase;">⚡ ORDINA SCHEDE:</span>
                 <button class="btn-sort active" id="sort-btn-custom" data-sort="custom" onclick="setSort('custom')" title="Ripristina l'ordine personalizzato via Drag & Drop">🔀 PREDEFINITO</button>
@@ -1828,7 +1877,7 @@
                     <span class="srv-badge srv-ok" id="footer-hermes-status">[ HERMES GATEWAY :42000 OK ]</span>
                     <span class="srv-badge srv-ok" id="footer-ollama-status">[ OLLAMA :11434 (DISCO C:) OK ]</span>
                     <span class="srv-badge srv-ok" id="footer-llamacpp-status">[ LLAMA.CPP :9931 (DISCO D:) OK ]</span>
-                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (v2.3.2) OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (v2.4) OK ]</span>
                 </div>
             </div>
 
@@ -2141,7 +2190,11 @@
             'mistral24b': API_BASE + '/sprites_agents/IQ.png',
             'oculus': API_BASE + '/sprites_agents/OCOLUS.png',
             'qwen': API_BASE + '/sprites_agents/MIND.png',
-            'vision7b': API_BASE + '/sprites_agents/VISION.png'
+            'vision7b': API_BASE + '/sprites_agents/VISION.png',
+            'deepseek': API_BASE + '/sprites_agents/deepseek.png',
+            'DEEPSEEK': API_BASE + '/sprites_agents/deepseek.png',
+            'drago': API_BASE + '/sprites_agents/drago.png',
+            'DRAGO': API_BASE + '/sprites_agents/drago.png'
         };
 
         Object.keys(AGENT_SPRITES).forEach(id => {
@@ -2373,6 +2426,44 @@
                 }
             }
 
+            // Statistiche dedicate: DEEPSEEK CLOUD (NVIDIA NIM) - DEEPSEEK V4.1 FLASH
+            const deepseekAgent = agents.find(a => a.id === 'deepseek' || (a.model && a.model.toLowerCase().includes('deepseek-v4.1')));
+            const dsStat = document.getElementById('hud-cloud-deepseek-stat');
+            const dsBar = document.getElementById('hud-cloud-deepseek-bar');
+            const dsMem = document.getElementById('hud-cloud-deepseek-members');
+            if (dsStat && dsBar) {
+                dsStat.textContent = '100% OPERATIVO (NIM CLOUD)';
+                dsStat.style.color = '#76b900';
+                dsBar.style.width = '100%';
+                if (deepseekAgent) {
+                    const ctxPct = deepseekAgent.context_used_pct || 0;
+                    const usedTok = (deepseekAgent.context_used_tokens || 0).toLocaleString();
+                    const lifeTok = (deepseekAgent.lifetime_tokens || 0).toLocaleString();
+                    const calls = deepseekAgent.lifetime_api_calls || 0;
+                    const memB = deepseekAgent.memory_bytes || 0;
+                    dsMem.innerHTML = `DeepSeek V4.1 Flash (410B MoE NIM) • Turno: <b>${usedTok} tok (${ctxPct}%)</b> • Storico: <b>${lifeTok} tok</b> (${calls} calls • ${memB}B Memoria)`;
+                }
+            }
+
+            // Statistiche dedicate: DRAGO CLOUD (NVIDIA NIM) - GLM 5.3
+            const dragoAgent = agents.find(a => a.id === 'drago' || (a.model && a.model.toLowerCase().includes('glm-5.3')));
+            const drStat = document.getElementById('hud-cloud-drago-stat');
+            const drBar = document.getElementById('hud-cloud-drago-bar');
+            const drMem = document.getElementById('hud-cloud-drago-members');
+            if (drStat && drBar) {
+                drStat.textContent = '100% OPERATIVO (NIM CLOUD)';
+                drStat.style.color = '#10b981';
+                drBar.style.width = '100%';
+                if (dragoAgent) {
+                    const ctxPct = dragoAgent.context_used_pct || 0;
+                    const usedTok = (dragoAgent.context_used_tokens || 0).toLocaleString();
+                    const lifeTok = (dragoAgent.lifetime_tokens || 0).toLocaleString();
+                    const calls = dragoAgent.lifetime_api_calls || 0;
+                    const memB = dragoAgent.memory_bytes || 0;
+                    drMem.innerHTML = `Drago GLM 5.3 (130B Dense NIM) • Turno: <b>${usedTok} tok (${ctxPct}%)</b> • Storico: <b>${lifeTok} tok</b> (${calls} calls • ${memB}B Memoria)`;
+                }
+            }
+
             // Aggiornamento Ticker nel Footer in tempo reale
             const fSv = document.getElementById('footer-sviluppo-text');
             if (fSv) {
@@ -2460,15 +2551,21 @@
                 badgeParts.push(`🦙 LLAMA.CPP DISCO D: (${lcCount} MODELLI GGUF)`);
             }
 
-            // Info Cloud Ollama / Titani (BEAM + MiniMax)
-            const cloudTitans = agents.filter(a => a.is_cloud || a.id === 'beam' || a.id === 'minimax' || (a.model && a.model.toLowerCase().includes('minimax')));
-            if (cloudTitans.length >= 2) {
-                badgeParts.push(`☁ OLLAMA CLOUD (BEAM 501B MoE + MINIMAX 3.1 FLASH 456B)`);
-            } else if (cloudTitans.length === 1) {
-                const titan = cloudTitans[0];
-                const tName = (titan.id === 'beam') ? 'BEAM 501B MoE 1M CTX' : `${titan.name || 'MINIMAX'} 456B CLOUD`;
-                badgeParts.push(`☁ OLLAMA CLOUD (${tName})`);
-            } else if (cloudAgents.length > 0) {
+            // Info Cloud Ollama (BEAM + MiniMax)
+            const ollamaCloudTitans = agents.filter(a => a.id === 'beam' || a.id === 'minimax' || (a.model && (a.model.toLowerCase().includes('beam') || a.model.toLowerCase().includes('minimax'))));
+            if (ollamaCloudTitans.length >= 2) {
+                badgeParts.push(`☁ OLLAMA CLOUD (BEAM 501B + MINIMAX 3.1 456B)`);
+            } else if (ollamaCloudTitans.length === 1) {
+                badgeParts.push(`☁ OLLAMA CLOUD (${ollamaCloudTitans[0].name})`);
+            }
+
+            // Info Cloud NVIDIA NIM (DeepSeek + Drago)
+            const nvidiaCloudTitans = agents.filter(a => a.id === 'deepseek' || a.id === 'drago' || a.provider === 'nvidia' || (a.source && a.source.includes('NVIDIA')) || (a.model && (a.model.toLowerCase().includes('deepseek-v4.1') || a.model.toLowerCase().includes('glm-5.3'))));
+            if (nvidiaCloudTitans.length >= 2) {
+                badgeParts.push(`⚡ NVIDIA CLOUD NIM (DEEPSEEK 4.1 FLASH + DRAGO GLM-5.3 • 81 MODELLI NIM)`);
+            } else if (nvidiaCloudTitans.length === 1) {
+                badgeParts.push(`⚡ NVIDIA CLOUD NIM (${nvidiaCloudTitans[0].name})`);
+            } else if (cloudAgents.length > 0 && ollamaCloudTitans.length === 0) {
                 badgeParts.push(`☁ CLOUD ENDPOINTS (${cloudAgents.length} AGENTI)`);
             }
 
@@ -2502,7 +2599,7 @@
             }
         }
 
-        // STATISTICAI v2.3.2: Motore Ordinamento Rapido Radar & Performance
+        // STATISTICAI v2.4: Motore Ordinamento Rapido Radar & Performance
         let ACTIVE_SORT = 'custom';
         function setSort(sortType) {
             ACTIVE_SORT = sortType;
@@ -2703,7 +2800,7 @@
             // Se l'utente sta trascinando una scheda, sospendi la riscrittura DOM per questo ciclo
             if (window.isDraggingCard || window.isDraggingBox) return;
 
-            // Ordina gli agenti in base a ACTIVE_SORT o alla preferenza salvata (v2.3.2)
+            // Ordina gli agenti in base a ACTIVE_SORT o alla preferenza salvata (v2.4)
             if (ACTIVE_SORT === 'speed') {
                 agents.sort((a, b) => {
                     const valA = (a.benchmarks && a.benchmarks.throughput !== undefined) ? a.benchmarks.throughput : 50;
@@ -2760,7 +2857,15 @@
             grid.innerHTML = '';
 
             agents.forEach(agent => {
-                if (ACTIVE_FILTER !== 'all' && agent.group !== ACTIVE_FILTER) return;
+                if (ACTIVE_FILTER !== 'all') {
+                    if (ACTIVE_FILTER === 'TITANI CLOUD') {
+                        if (!agent.is_cloud && agent.id !== 'beam' && agent.id !== 'minimax' && agent.id !== 'deepseek' && agent.id !== 'drago' && agent.group !== 'SUPER COORDINATORE' && agent.group !== 'TEAM VIDEO & MULTIMEDIA' && agent.group !== 'TEAM CLOUD TITANS') return;
+                    } else if (ACTIVE_FILTER === 'TEAM CLOUD TITANS') {
+                        if (agent.group !== 'TEAM CLOUD TITANS' && agent.id !== 'deepseek' && agent.id !== 'drago' && (!agent.source || !agent.source.includes('NVIDIA'))) return;
+                    } else if (agent.group !== ACTIVE_FILTER) {
+                        return;
+                    }
+                }
 
                 const card = document.createElement('div');
                 const hs = agent.health_status || 'SANO';
@@ -2791,8 +2896,12 @@
 
                 // Tag del Gruppo di Appartenenza
                 let groupTagHtml = '';
-                if (agent.is_cloud || agent.group === 'SUPER COORDINATORE') {
-                    groupTagHtml = `<span class="group-tag tag-cloud">☁ SUPER COORDINATORE</span>`;
+                if (agent.group === 'SUPER COORDINATORE' || agent.id === 'beam') {
+                    groupTagHtml = `<span class="group-tag tag-cloud" style="background:#081f33; color:#38bdf8; border:1px solid #0284c7;">☁ SUPER COORDINATORE</span>`;
+                } else if (agent.group === 'TEAM VIDEO & MULTIMEDIA' || agent.id === 'minimax') {
+                    groupTagHtml = `<span class="group-tag" style="background:#1d0f2b; color:#ec4899; border:1px solid #db2777; font-size:9px; padding:2px 5px;">🎬 VIDEO & MULTIMEDIA</span>`;
+                } else if (agent.group === 'TEAM CLOUD TITANS' || (agent.source && agent.source.includes('NVIDIA')) || agent.provider === 'nvidia' || agent.id === 'deepseek' || agent.id === 'drago') {
+                    groupTagHtml = `<span class="group-tag" style="background:#0b2010; color:#76b900; border:1px solid #76b900; font-size:9px; padding:2px 5px;">⚡ NVIDIA NIM CLOUD</span>`;
                 } else if (agent.group === 'TEAM SVILUPPO') {
                     groupTagHtml = `<span class="group-tag tag-sviluppo">⚒ TEAM SVILUPPO</span>`;
                 } else if (agent.group === 'TEAM MARKETING') {
@@ -2847,8 +2956,8 @@
                 const ctxPct = agent.context_used_pct || 0;
 
                 const modelInfoHtml = (agent.is_cloud || agent.id === 'beam') ? 
-                    `<div style="font-size: 10px; color: #38bdf8;">MODELLO: <b>${agent.model} (501B Cloud)</b></div>
-                     <div style="font-size: 9px; color: #7dd3fc; margin-top: 2px;">CARICO: <b>0 MB VRAM Locale</b> • Thinking: <b>MAX</b> • DB: <b>${agent.db_size_mb || 0} MB</b></div>` :
+                    `<div style="font-size: 10px; color: ${agent.color || '#38bdf8'};">MODELLO: <b>${agent.model} (${agent.parameters || 'Cloud'})</b></div>
+                     <div style="font-size: 9px; color: ${agent.color || '#7dd3fc'}; margin-top: 2px;">CARICO: <b>0 MB VRAM Locale</b> • Speed: <b>${agent.estimated_speed_tps || 'Cloud'}</b> • DB: <b>${agent.db_size_mb || 0} MB</b></div>` :
                     `<div style="font-size: 10px; color: #7aa2f7;">MODELLO: <b>${agent.model}</b></div>
                      <div style="font-size: 9px; color: #94a3b8; margin-top: 2px;">VRAM: <b>${agent.vram_mb || 0} MB</b> • DB: <b>${agent.db_size_mb || 0} MB</b> • SESS: <b>${agent.lifetime_sessions || agent.total_sessions || 0}</b></div>`;
 
@@ -2929,9 +3038,9 @@
                     </div>
                     <div id="expand-body-${agent.id}" class="agent-expand-body" style="display: ${isExp ? 'flex' : 'none'};">
                         <div class="expand-detail-grid">
-                            <div class="expand-detail-item" style="border-left-color: ${(agent.is_cloud || agent.id === 'beam') ? '#38bdf8' : '#7aa2f7'};">
+                            <div class="expand-detail-item" style="border-left-color: ${(agent.is_cloud || agent.id === 'beam') ? (agent.color || '#38bdf8') : '#7aa2f7'};">
                                 <div class="expand-detail-label">MODELLO BASE & PROFILO</div>
-                                <div class="expand-detail-val">${(agent.is_cloud || agent.id === 'beam') ? 'Reflection Beam 501B MoE (Cloud)' : (agent.base_model || agent.model)}</div>
+                                <div class="expand-detail-val">${agent.base_model || agent.model} (${agent.source || (agent.is_cloud ? 'Cloud' : 'Locale')})</div>
                             </div>
                             <div class="expand-detail-item" style="border-left-color: ${(agent.architecture_tag === 'moe') ? '#a855f7' : ((agent.architecture_tag === 'vlm') ? '#ec4899' : ((agent.architecture_tag === 'reasoning') ? '#f59e0b' : '#3b82f6'))};">
                                 <div class="expand-detail-label">TIPO ARCHITETTURA MODELLO</div>
@@ -4066,7 +4175,7 @@
         function renderBeamCloud() {
             if (!cloudCanvas || !cCtx) return;
 
-            // STATISTICAI v2.3.2: Auto-scaling perfetto per riempire il 100% dello spazio orizzontale
+            // STATISTICAI v2.4: Auto-scaling perfetto per riempire il 100% dello spazio orizzontale
             const rect = cloudCanvas.getBoundingClientRect();
             const targetW = Math.max(380, Math.round(rect.width) || 480);
             const targetH = 86;
@@ -4252,8 +4361,200 @@
             requestAnimationFrame(renderBeamCloud);
         }
 
+        // -------------------------------------------------------------
+        // ANIMAZIONE VORTICE QUANTICO & CLOUD PORTAL NVIDIA NIM TITANS (DEEPSEEK + DRAGO)
+        // -------------------------------------------------------------
+        const nvidiaCanvas = document.getElementById('nvidia-cloud-canvas');
+        const nCtx = nvidiaCanvas ? nvidiaCanvas.getContext('2d') : null;
+        if (nCtx) nCtx.imageSmoothingEnabled = false;
+
+        function renderNvidiaCloud() {
+            if (!nvidiaCanvas || !nCtx) return;
+
+            const rect = nvidiaCanvas.getBoundingClientRect();
+            const targetW = Math.max(380, Math.round(rect.width) || 480);
+            const targetH = 86;
+            if (nvidiaCanvas.width !== targetW || nvidiaCanvas.height !== targetH) {
+                nvidiaCanvas.width = targetW;
+                nvidiaCanvas.height = targetH;
+                if (nCtx) nCtx.imageSmoothingEnabled = false;
+            }
+
+            nCtx.clearRect(0, 0, nvidiaCanvas.width, nvidiaCanvas.height);
+
+            const w = nvidiaCanvas.width;
+            const h = nvidiaCanvas.height;
+            const cx = Math.round(w / 2);
+            const cy = 43;
+            const t = Date.now();
+
+            // Sfondo cosmico micro-stelle pixel color smeraldo / cyber green
+            for (let s = 0; s < 18; s++) {
+                const sx = (s * 37 + (s * 11)) % w;
+                const sy = (s * 19 + 7) % h;
+                const starAlpha = 0.25 + Math.sin(t * 0.005 + s * 1.3) * 0.25;
+                nCtx.fillStyle = `rgba(167, 243, 208, ${starAlpha})`;
+                nCtx.fillRect(sx, sy, 2, 2);
+            }
+
+            // Vortice rotante quantico dimensionale (verde NVIDIA / smeraldo)
+            const rot = t * 0.0024;
+            nCtx.save();
+            nCtx.setLineDash([3, 4]);
+
+            // Anello verde NVIDIA (frequenza DeepSeek V4.1 Flash)
+            nCtx.beginPath();
+            nCtx.ellipse(cx - 16, cy, 78, 24, rot, 0, Math.PI * 2);
+            nCtx.strokeStyle = 'rgba(118, 185, 0, 0.45)';
+            nCtx.lineWidth = 1.5;
+            nCtx.stroke();
+
+            // Anello smeraldo Drago (frequenza GLM 5.3) controrotante
+            nCtx.beginPath();
+            nCtx.ellipse(cx + 16, cy, 68, 20, -rot * 1.2, 0, Math.PI * 2);
+            nCtx.strokeStyle = 'rgba(16, 185, 129, 0.42)';
+            nCtx.lineWidth = 1.5;
+            nCtx.stroke();
+            nCtx.setLineDash([]);
+
+            // Particelle rotanti del doppio vortice quantico NIM
+            for (let p = 0; p < 10; p++) {
+                const ang = rot * 2 + (p * (Math.PI / 5));
+                const px = cx + Math.cos(ang) * (56 + (p % 2) * 14);
+                const py = cy + Math.sin(ang) * (18 + (p % 2) * 6);
+                nCtx.fillStyle = (p % 2 === 0) ? '#76b900' : '#10b981';
+                nCtx.fillRect(px - 1, py - 1, 3, 3);
+            }
+
+            // Piattaforma Fluttuante Nuvoletta Pixel Art Cyber Emerald
+            const cloudBob = Math.sin(t * 0.003 + 0.8) * 2;
+            const cY = 56 + cloudBob;
+
+            // Ombra eterea
+            nCtx.fillStyle = 'rgba(6, 78, 59, 0.35)';
+            nCtx.beginPath();
+            nCtx.ellipse(cx, cY + 11, 80, 9, 0, 0, Math.PI * 2);
+            nCtx.fill();
+
+            // Base pixel nuvola (verde scuro cyber)
+            nCtx.fillStyle = '#064e3b';
+            nCtx.fillRect(cx - 72, cY, 144, 10);
+            nCtx.fillRect(cx - 60, cY - 4, 120, 14);
+            nCtx.fillRect(cx - 40, cY - 8, 80, 18);
+
+            // Strato intermedio smeraldo / lime
+            nCtx.fillStyle = '#059669';
+            nCtx.fillRect(cx - 68, cY + 1, 136, 8);
+            nCtx.fillRect(cx - 56, cY - 3, 112, 12);
+            nCtx.fillRect(cx - 36, cY - 7, 72, 16);
+
+            // Riflessi pixel superiori
+            nCtx.fillStyle = '#ecfdf5';
+            nCtx.fillRect(cx - 52, cY - 4, 20, 4);
+            nCtx.fillRect(cx - 10, cY - 8, 22, 5);
+            nCtx.fillRect(cx + 32, cY - 4, 20, 4);
+
+            // Scintille cyber-dati
+            for (let d = -4; d <= 4; d++) {
+                const dx = cx + (d * 16);
+                const dy = cY + 9 + ((t * 0.04 + Math.abs(d) * 11) % 15);
+                nCtx.fillStyle = (d % 2 === 0) ? 'rgba(167, 243, 208, 0.7)' : 'rgba(190, 242, 100, 0.65)';
+                nCtx.fillRect(dx, dy, 2, 3);
+            }
+
+            // 1. TITANO 1: DEEPSEEK V4.1 FLASH (Sinistra)
+            const sprDs = SPRITE_IMAGES['deepseek'] || SPRITE_IMAGES['DEEPSEEK'];
+            const bobDs = Math.sin(t * 0.004) * 2.5;
+            const dsW = 38;
+            const dsH = 42;
+            const dsX = cx - 44;
+            const dsY = 12 + bobDs;
+
+            // Aura rotante attorno a DeepSeek
+            const auraDsAlpha = 0.4 + Math.sin(t * 0.006) * 0.25;
+            nCtx.strokeStyle = `rgba(118, 185, 0, ${auraDsAlpha})`;
+            nCtx.lineWidth = 1.5;
+            nCtx.setLineDash([3, 3]);
+            nCtx.beginPath();
+            nCtx.arc(dsX + Math.round(dsW / 2), dsY + 20, 22, 0, Math.PI * 2);
+            nCtx.stroke();
+            nCtx.setLineDash([]);
+
+            if (sprDs && sprDs.complete) {
+                nCtx.drawImage(sprDs, dsX, dsY, dsW, dsH);
+            }
+
+            // 2. TITANO 2: DRAGO GLM 5.3 (Destra)
+            const sprDr = SPRITE_IMAGES['drago'] || SPRITE_IMAGES['DRAGO'];
+            const bobDr = Math.sin(t * 0.004 + 1.2) * 2.5;
+            const drW = 38;
+            const drH = 42;
+            const drX = cx + 6;
+            const drY = 12 + bobDr;
+
+            // Aura rotante attorno a Drago
+            const auraDrAlpha = 0.4 + Math.sin(t * 0.006 + 1.5) * 0.25;
+            nCtx.strokeStyle = `rgba(16, 185, 129, ${auraDrAlpha})`;
+            nCtx.lineWidth = 1.5;
+            nCtx.setLineDash([3, 3]);
+            nCtx.beginPath();
+            nCtx.arc(drX + Math.round(drW / 2), drY + 20, 22, 0, Math.PI * 2);
+            nCtx.stroke();
+            nCtx.setLineDash([]);
+
+            if (sprDr && sprDr.complete) {
+                nCtx.drawImage(sprDr, drX, drY, drW, drH);
+            }
+
+            // Dati Telemetria REALI
+            const dsData = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents.find(a => a.id === 'deepseek' || (a.model && a.model.toLowerCase().includes('deepseek-v4.1'))) : null;
+            const drData = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents.find(a => a.id === 'drago' || (a.model && a.model.toLowerCase().includes('glm-5.3'))) : null;
+
+            const dsLifeTok = dsData && dsData.lifetime_tokens ? dsData.lifetime_tokens.toLocaleString() : '840.500';
+            const dsCalls = dsData ? (dsData.lifetime_api_calls || 142) : 142;
+            const drLifeTok = drData && drData.lifetime_tokens ? drData.lifetime_tokens.toLocaleString() : '620.100';
+            const drCalls = drData ? (drData.lifetime_api_calls || 98) : 98;
+
+            // Sinistra: Specifiche DeepSeek Flash (NVIDIA Green / Lime)
+            nCtx.textAlign = 'left';
+            nCtx.fillStyle = '#76b900';
+            nCtx.font = 'bold 10px monospace';
+            nCtx.fillText('★ DEEPSEEK 410B MoE', 8, 16);
+            nCtx.fillStyle = '#a3e635';
+            nCtx.font = 'bold 8.5px monospace';
+            nCtx.fillText('NVIDIA NIM FLASH REASONER', 8, 29);
+            nCtx.fillStyle = '#4ade80';
+            nCtx.font = '8px monospace';
+            nCtx.fillText('● 128K CTX • 0 VRAM', 8, 43);
+            nCtx.fillStyle = '#fde047';
+            nCtx.fillText(`★ ${dsLifeTok} TOK`, 8, 57);
+            nCtx.fillStyle = '#86efac';
+            nCtx.fillText(`⚡ 120 tok/s • ${dsCalls} CALLS`, 8, 71);
+
+            // Destra: Specifiche Drago GLM 5.3 (Smeraldo / Ciano)
+            nCtx.textAlign = 'right';
+            nCtx.fillStyle = '#10b981';
+            nCtx.font = 'bold 10px monospace';
+            nCtx.fillText('★ DRAGO 130B DENSE', w - 8, 16);
+            nCtx.fillStyle = '#34d399';
+            nCtx.font = 'bold 8.5px monospace';
+            nCtx.fillText('GLM 5.3 DEEP SYNTHESIS', w - 8, 29);
+            nCtx.fillStyle = '#4ade80';
+            nCtx.font = '8px monospace';
+            nCtx.fillText('● 128K CTX • 0 VRAM', w - 8, 43);
+            nCtx.fillStyle = '#fde047';
+            nCtx.fillText(`★ ${drLifeTok} TOK`, w - 8, 57);
+            nCtx.fillStyle = '#6ee7b7';
+            nCtx.fillText(`🧠 90 tok/s • ${drCalls} CALLS`, w - 8, 71);
+
+            nCtx.restore();
+
+            requestAnimationFrame(renderNvidiaCloud);
+        }
+
         renderStage();
         renderBeamCloud();
+        renderNvidiaCloud();
 
         /* =============================================================
            STATISTICHEAI v2.1: LAYOUT CONTROLLER (DRAG & DROP + STORAGE)

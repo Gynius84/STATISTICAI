@@ -1,14 +1,31 @@
-# STATISTICHEAI v2.3.2 🎮🤖
-### Dashboard Retro Arcade (16-Bit) per Telemetria, Diagnosi, Benchmark Radar OpenCompass e Rilevamento Architetture MoE/Dense (Ollama Cloud, llama.cpp, Hermes)
+# STATISTICHEAI v2.4 🎮🤖
+### Dashboard Retro Arcade (16-Bit) per Telemetria, Diagnosi, Benchmark Radar OpenCompass e Rilevamento Architetture MoE/Dense (Ollama Cloud, NVIDIA Cloud NIM 81 Modelli, llama.cpp, Hermes)
 
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Pure%20Python)-brightgreen.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-informational.svg)]()
-[![Multi-Provider](https://img.shields.io/badge/Providers-llama.cpp%20(7%20D:)%20%7C%20Ollama%20Cloud%20(Beam%20+%20MiniMax)-orange.svg)]()
+[![Multi-Provider](https://img.shields.io/badge/Providers-llama.cpp%20(7%20D:)%20%7C%20Ollama%20Cloud%20(2)%20%7C%20NVIDIA%20NIM%20(2)-brightgreen.svg)]()
 
-> **STATISTICHEAI v2.3.2** trasforma la gestione dei tuoi agenti AI locali e cloud in un videogioco Arcade Pixel Art a 16-bit. Monitora hardware, VRAM, saturazione token, memoria a lungo termine, grafici **Benchmark Radar OpenCompass**, tipo di architettura (**MoE, Dense, VLM**) e velocità stimata **TPS su RTX 4060** e Cloud Lightning per i 9 agenti attivi: 7 modelli locali ultra-ottimizzati su **llama.cpp Router (Disco D: porta 9931)** + 2 modelli cloud massivi ad altissimo throughput su **Ollama Cloud (Beam 501B MoE + MiniMax 3.1 Flash 456B MoE)**.
+> **STATISTICHEAI v2.4** trasforma la gestione dei tuoi agenti AI locali e multi-cloud in un videogioco Arcade Pixel Art a 16-bit. Monitora hardware, VRAM, saturazione token, memoria a lungo termine, grafici **Benchmark Radar OpenCompass**, tipo di architettura (**MoE, Dense, VLM, Hybrid Reasoning**) e velocità stimata **TPS** per gli **11 agenti attivi**: 7 modelli locali ultra-ottimizzati su **llama.cpp Router (Disco D: porta 9931)** + 2 modelli cloud massivi su **Ollama Cloud (Beam 501B MoE + MiniMax 3.1 Flash 456B MoE)** + 2 Titani Cloud accelerati su **NVIDIA Cloud NIM Enterprise (DeepSeek V4.1 Flash 410B MoE + Drago GLM 5.3 130B)** con accesso illimitato a 81 modelli NIM e zero consumo di VRAM locale.
 
 ---
+
+## ✨ Novità della Versione 2.4 (NVIDIA Cloud NIM 81 Modelli, Doppio Portale Vortice Quantico, Auto-Discovery 2.4)
+
+- ⚡ **Integrazione NVIDIA Cloud NIM Enterprise (81 Modelli NIM ad Accesso Illimitato)**:
+  - Collegamento diretto agli endpoint cloud NVIDIA NIM (`https://integrate.api.nvidia.com/v1`) con supporto completo a 81 modelli all'avanguardia senza alcun sovraccarico sulla GPU locale RTX 4060:
+    - **`DEEPSEEK` (DeepSeek V4.1 Flash)**: Architettura MoE da 410B totali (~28B attivi per token), throughput vertiginoso stimato a **120+ tok/s**, finestra contesto nativa a 128k e benchmark OpenCompass di eccellenza (Coding 97, Throughput 99, Agentic 96).
+    - **`DRAGO` (GLM 5.3)**: Modello Dense Hybrid Reasoner da 130B parametri specializzato in deep reasoning cognitivo, comprensione multilingue e sintesi concettuale a 128k contesto con benchmark OpenCompass di spicco (Reasoning 98, Knowledge 97, Throughput 90).
+- ☁ **Due Portali Vortice Quantico Indipendenti con Nuvolette Fluttuanti 16-Bit**:
+  - **Divisione 2 - Portale Ollama Cloud Titans**: Piattaforma fluttuante pixel art celeste con doppio vortice quantico ciano/magenta per **BEAM** (501B) e **MiniMax Video Developer** (456B).
+  - **Divisione 3 - Portale NVIDIA NIM Cloud Titans**: Seconda piattaforma fluttuante pixel art in stile cyber emerald & verde NVIDIA (`#76b900`) con vortice ad alta frequenza per **DEEPSEEK** e **DRAGO**, auree rotanti sincronizzate e colonne di telemetria live con token turn/lifetime, conteggio chiamate e throughput.
+- 🔍 **Auto-Discovery Engine 2.4 (Self-Healing e Sanitizzazione Completa)**:
+  - Rilevamento automatico e pulizia rigorosa dei nomi profilo Hermes da `profile.yaml`, eliminando artefatti di stringhe vuote o con virgolette (`''`) e formattando nomi puliti (`DEEPSEEK`, `DRAGO`, `DARK CODER`).
+  - Sincronizzazione automatica degli avatar da `profiles/<name>/assets/avatar.png` a `sprites_agents/<nome>.png` con prevenzione di file spuri e fallback dinamico su canvas.
+  - Risoluzione istantanea di benchmark realistici e architetture per qualsiasi nuovo modello connesso tra gli 81 di NVIDIA NIM o locale.
+- 🔀 **Nuovo Badge Workflow Multi-Cloud & Filtri Squadre**:
+  - Badge header aggiornato: `🔀 WORKFLOW: 🦙 LLAMA.CPP DISCO D: (7 MODELLI GGUF) + ☁ OLLAMA CLOUD (BEAM + MINIMAX) + ⚡ NVIDIA CLOUD NIM (DEEPSEEK + DRAGO • 81 MODELLI NIM) = 11 AGENTI`.
+  - Filtri squadra aggiornati a 11 agenti totali con pulsanti dedicati: `TUTTI (11)`, `☁ TITANI CLOUD (4)`, `⚡ NVIDIA NIM (2)`.
 
 ## ✨ Novità della Versione 2.3.2 (Fast Radar Sorter & Layout HUD Diviso Antistraripamento)
 
