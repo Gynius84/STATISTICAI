@@ -1,4 +1,4 @@
-# STATISTICHEAI v2.3 🎮🤖
+# STATISTICHEAI v2.3.1 🎮🤖
 ### Dashboard Retro Arcade (16-Bit) per Telemetria, Diagnosi, Benchmark Radar OpenCompass e Rilevamento Architetture MoE/Dense (Ollama Cloud, llama.cpp, Hermes)
 
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Pure%20Python)-brightgreen.svg)]()
@@ -6,7 +6,22 @@
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-informational.svg)]()
 [![Multi-Provider](https://img.shields.io/badge/Providers-llama.cpp%20(7%20D:)%20%7C%20Ollama%20Cloud%20(Beam%20+%20MiniMax)-orange.svg)]()
 
-> **STATISTICHEAI v2.3** trasforma la gestione dei tuoi agenti AI locali e cloud in un videogioco Arcade Pixel Art a 16-bit. Monitora hardware, VRAM, saturazione token, memoria a lungo termine, grafici **Benchmark Radar OpenCompass**, tipo di architettura (**MoE, Dense, VLM**) e velocità stimata **TPS su RTX 4060** e Cloud Lightning per i 9 agenti attivi: 7 modelli locali ultra-ottimizzati su **llama.cpp Router (Disco D: porta 9931)** + 2 modelli cloud massivi ad altissimo throughput su **Ollama Cloud (Beam 501B MoE + MiniMax 3.1 Flash 456B MoE)**.
+> **STATISTICHEAI v2.3.1** trasforma la gestione dei tuoi agenti AI locali e cloud in un videogioco Arcade Pixel Art a 16-bit. Monitora hardware, VRAM, saturazione token, memoria a lungo termine, grafici **Benchmark Radar OpenCompass**, tipo di architettura (**MoE, Dense, VLM**) e velocità stimata **TPS su RTX 4060** e Cloud Lightning per i 9 agenti attivi: 7 modelli locali ultra-ottimizzati su **llama.cpp Router (Disco D: porta 9931)** + 2 modelli cloud massivi ad altissimo throughput su **Ollama Cloud (Beam 501B MoE + MiniMax 3.1 Flash 456B MoE)**.
+
+---
+
+## ✨ Novità della Versione 2.3.1 (Portale Vortice Quantico Titani Cloud, Card MiniMax HUD, Dynamic Workflow)
+
+- ☁ **Doppio Titano nel Portale Vortice Quantico (Animazione 16-Bit Estesa)**:
+  - Il Portale Vortice Quantico accoglie ora simultaneamente entrambi i Titani Cloud: **BEAM** (501B Super Coordinator) e **MiniMax Video Developer** (456B MoE Flash).
+  - Piattaforma celeste fluttuante espansa, doppio anello vortice quantico ciano/magenta ad interpolazione sinusoidale sfasata, particelle orbitali e colonne laterali di telemetria perfettamente bilanciate (zero sovrapposizioni).
+- 🗂 **Nuova Card HUD Dedicata per MiniMax Cloud (`hud-cloud-minimax`)**:
+  - Inserita metrica dedicata nella griglia HUD superiore in perfetto stile arcade (gradiente viola/magenta `#9333ea` -> `#c084fc` -> `#ec4899`).
+  - Monitoraggio real-time di token per turno, percentuale contesto (128K), storico globale, chiamate API e consumo VRAM (0 MB).
+- 🔀 **Badge Workflow Adattivo Multi-Titano**:
+  - Il badge `🔀 WORKFLOW:` nell'header identifica e mostra dinamicamente tutti i modelli cloud attivi (`☁ OLLAMA CLOUD (BEAM 501B MoE + MINIMAX 3.1 FLASH 456B)`).
+- 🛡 **Layout Engine Autorigenerante**:
+  - Salvataggio e ripristino dell'ordine drag-and-drop con tolleranza per le versioni precedenti: le nuove card vengono integrate armoniosamente anche in presenza di cache di layout preesistenti.
 
 ---
 

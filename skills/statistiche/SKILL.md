@@ -1,7 +1,7 @@
 ---
 name: statistiche
-description: Open native STATISTICHEAI 16-bit dashboard monitor (v2.3, 9 agents, 7 local llama.cpp + 2 cloud Ollama Beam & MiniMax, Radar Benchmark OpenCompass, MoE & RTX 4060 TPS).
-version: 2.3.0
+description: Open native STATISTICHEAI 16-bit dashboard monitor (v2.3.1, 9 agents, 7 local llama.cpp + 2 cloud Ollama Beam & MiniMax, Dual Cloud Titans Quantum Portal, Radar Benchmark OpenCompass, MoE & RTX 4060 TPS).
+version: 2.3.1
 author: Gyniu, Hermes Agent
 license: MIT
 platforms: [windows]
@@ -10,9 +10,15 @@ metadata:
     tags: [monitoring, dashboard, retro, agent-telemetry, ollama, llamacpp, radar-benchmark, moe, cloud-lightning]
 ---
 
-# STATISTICHEAI Monitor Skill (v2.3.0)
+# STATISTICHEAI Monitor Skill (v2.3.1)
 
 Opens and controls the STATISTICHEAI 16-bit retro arcade AI monitoring dashboard for the 9 optimized Hermes agents across hybrid local & cloud engines (7 local models on llama.cpp port 9931 disk D:, plus 2 Cloud Lightning MoE models on Ollama port 11434: BEAM 501B MoE and MiniMax 3.1 Flash 456B MoE) in a dedicated native desktop application window.
+
+### New in v2.3.1:
+- **Dual Cloud Titans in Portale Vortice Quantico**: Simultaneous cosmic rendering of both Cloud Titans (`BEAM:cloud` 501B MoE and `MiniMax 3.1 Flash:cloud` 456B MoE Video Developer) side-by-side on an expanded celestial floating platform, equipped with dual rotating quantum vortices, independent cyber-auras, and balanced real-time telemetry columns.
+- **Dedicated MiniMax Cloud Top HUD Card (`hud-cloud-minimax`)**: High-visibility HUD metric card featuring live turn tokens, context percentage, historical tokens, API calls, and zero-VRAM cloud indicators with purple/magenta gradient visual styling.
+- **Dynamic Multi-Titan Cloud Workflow Badge**: Header badge automatically adapts to identify and format multi-cloud agent clusters (`☁ OLLAMA CLOUD (BEAM 501B MoE + MINIMAX 3.1 FLASH 456B)`).
+- **Self-Healing Adaptive Layout Engine**: Seamless automatic layout restoration and upgrade handling for persisted localStorage configurations.
 
 ### New in v2.3:
 - **Cloud Lightning Integration**: Seamless telemetry and persistent 24h keep-alive for `BEAM:cloud` (501B Super Coordinator) and `MiniMax 3.1 Flash:cloud` (456B Video Developer).

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STATISTICHEAI v2.3 - Monitor Agenti Hermes & Ollama Cloud & llama.cpp (Radar Benchmark & MoE Intelligence)</title>
+    <title>STATISTICHEAI v2.3.1 - Monitor Agenti Hermes & Ollama Cloud & llama.cpp (Dual Cloud Titans & Radar Benchmark)</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
         /* -------------------------------------------------------------
@@ -1425,13 +1425,13 @@
                     <div class="main-title" id="main-header-title">
                         <span style="color: #7aa2f7;">STATISTICHEAI</span>
                         <span style="color: #565f89; margin: 0 4px;">•</span>
-                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 9 AGENTI • LLAMA.CPP (7 D:) + OLLAMA CLOUD (BEAM + MINIMAX) (v2.3)</span>
+                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 9 AGENTI • LLAMA.CPP (7 D:) + OLLAMA CLOUD (BEAM + MINIMAX) (v2.3.1)</span>
                     </div>
                     <div id="title-dynamic-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 11px; margin-top: 3px; flex-wrap: wrap;">
                         <span id="title-workflow-badge" class="badge" style="background: #0f172a; color: #38bdf8; border-color: #0284c7; padding: 2px 7px; font-size: 10px; cursor: default; letter-spacing: 0.5px;">
                             🔀 WORKFLOW: 🦙 LLAMA.CPP (7 LOCALI D: ZERO-SWAP) + ☁ CLOUD LIGHTNING (BEAM 501B + MINIMAX 3.1 456B) = 9 AGENTI
                         </span>
-                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.3: BENCHMARK RADAR OPENCOMPASS • AUTO-AVATAR HERMES • STIMA SPEED TPS</span>
+                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.3.1: BENCHMARK RADAR OPENCOMPASS • DUAL CLOUD TITANS • SPEED TPS</span>
                     </div>
                 </div>
             </div>
@@ -1590,7 +1590,7 @@
                     </div>
                 </div>
 
-                <!-- GRUPPO: SUPER COORDINATORE CLOUD -->
+                <!-- GRUPPO: SUPER COORDINATORE CLOUD (BEAM) -->
                 <div class="hud-metric draggable-hud" data-hud-id="hud-cloud" style="border-color: #0284c7; background: #081524; box-shadow: 0 0 10px rgba(2, 132, 199, 0.2);">
                     <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ BEAM CLOUD</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
@@ -1605,14 +1605,29 @@
                     </div>
                 </div>
 
-                <!-- ANIMAZIONE CLOUD PORTAL BEAM (ACCANTO ALLA CARD) -->
-                <div class="hud-metric hud-metric-cloud-portal draggable-hud" data-hud-id="hud-portal" style="border-color: #0284c7; background: #060e1a; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 0 14px rgba(56, 189, 248, 0.25); min-width: 340px;">
+                <!-- GRUPPO: VIDEO DEVELOPER CLOUD (MINIMAX) -->
+                <div class="hud-metric draggable-hud" data-hud-id="hud-cloud-minimax" style="border-color: #a855f7; background: #12091e; box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ MINIMAX CLOUD</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-minimax', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-minimax', 1)">▶</button></div></div>
+                    <div class="hud-metric-header">
+                        <span style="color: #c084fc; font-weight: bold;">☁ VIDEO DEVELOPER</span>
+                        <span id="hud-cloud-minimax-stat" style="color: #c084fc; font-weight: bold;">IMMORTALE (ONLINE)</span>
+                    </div>
+                    <div class="pixel-bar-container">
+                        <div id="hud-cloud-minimax-bar" class="pixel-bar-fill" style="width: 100%; background: linear-gradient(90deg, #9333ea, #c084fc, #ec4899);"></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); margin-top: 3px;" id="hud-cloud-minimax-members">
+                        MiniMax 3.1 Flash • 456B MoE Cloud • 128K Context • 0 VRAM
+                    </div>
+                </div>
+
+                <!-- ANIMAZIONE CLOUD PORTAL TITANI QUANTICI (ACCANTO ALLE CARD) -->
+                <div class="hud-metric hud-metric-cloud-portal draggable-hud" data-hud-id="hud-portal" style="border-color: #0284c7; background: #060e1a; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 0 14px rgba(56, 189, 248, 0.25); min-width: 440px;">
                     <div class="hud-metric-header" style="margin-bottom: 4px;">
-                        <span style="color: #38bdf8; font-weight: bold; font-size: 11px;">☁ PORTALE VORTICE QUANTICO • BEAM 501B</span>
-                        <span style="color: #fde047; font-weight: bold; font-size: 10px;">1M CONTEXT • IMMORTALE</span>
+                        <span id="hud-portal-title" style="color: #38bdf8; font-weight: bold; font-size: 11px;">☁ PORTALE VORTICE QUANTICO • TITANI CLOUD</span>
+                        <span id="hud-portal-sub" style="color: #fde047; font-weight: bold; font-size: 10px;">BEAM 501B + MINIMAX 456B • 0 VRAM</span>
                     </div>
                     <div style="position: relative; width: 100%; height: 86px; overflow: hidden; border: 1px solid #13273e; background: #050a14;">
-                        <canvas id="beam-cloud-canvas" width="380" height="86" style="display: block; width: 100%; height: 100%;"></canvas>
+                        <canvas id="beam-cloud-canvas" width="460" height="86" style="display: block; width: 100%; height: 100%;"></canvas>
                     </div>
                 </div>
             </div>
@@ -1730,7 +1745,7 @@
                     <span class="srv-badge srv-ok" id="footer-hermes-status">[ HERMES GATEWAY :42000 OK ]</span>
                     <span class="srv-badge srv-ok" id="footer-ollama-status">[ OLLAMA :11434 (DISCO C:) OK ]</span>
                     <span class="srv-badge srv-ok" id="footer-llamacpp-status">[ LLAMA.CPP :9931 (DISCO D:) OK ]</span>
-                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (v2.3) OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (v2.3.1) OK ]</span>
                 </div>
             </div>
 
@@ -2032,6 +2047,7 @@
         const AGENT_SPRITES = {
             'gynbot1': API_BASE + '/sprites_agents/GynBot1.png',
             'beam': API_BASE + '/sprites_agents/BEAM.png',
+            'minimax': API_BASE + '/sprites_agents/Video Developer.png',
             'coder14b': API_BASE + '/sprites_agents/DARK CODER.png',
             'gynbot2': API_BASE + '/sprites_agents/PROGRAMMATORE.png',
             'gynbox3': API_BASE + '/sprites_agents/QUALITY CHEKER.png',
@@ -2236,7 +2252,7 @@
                 }
             }
 
-            // Statistiche dedicate: SUPER COORDINATORE (CLOUD)
+            // Statistiche dedicate: SUPER COORDINATORE (CLOUD) - BEAM
             const beamAgent = agents.find(a => a.id === 'beam');
             const clStat = document.getElementById('hud-cloud-stat');
             const clBar = document.getElementById('hud-cloud-bar');
@@ -2255,6 +2271,25 @@
                 }
             }
 
+            // Statistiche dedicate: VIDEO DEVELOPER (CLOUD) - MINIMAX 3.1 FLASH
+            const minimaxAgent = agents.find(a => a.id === 'minimax' || (a.model && a.model.toLowerCase().includes('minimax')));
+            const mmStat = document.getElementById('hud-cloud-minimax-stat');
+            const mmBar = document.getElementById('hud-cloud-minimax-bar');
+            const mmMem = document.getElementById('hud-cloud-minimax-members');
+            if (mmStat && mmBar) {
+                mmStat.textContent = '100% OPERATIVO (CLOUD)';
+                mmStat.style.color = '#c084fc';
+                mmBar.style.width = '100%';
+                if (minimaxAgent) {
+                    const ctxPct = minimaxAgent.context_used_pct || 0;
+                    const usedTok = (minimaxAgent.context_used_tokens || 0).toLocaleString();
+                    const lifeTok = (minimaxAgent.lifetime_tokens || 0).toLocaleString();
+                    const calls = minimaxAgent.lifetime_api_calls || 0;
+                    const memB = minimaxAgent.memory_bytes || 0;
+                    mmMem.innerHTML = `MiniMax 3.1 Flash (456B MoE) • Turno: <b>${usedTok} tok (${ctxPct}%)</b> • Storico: <b>${lifeTok} tok</b> (${calls} calls • ${memB}B Memoria)`;
+                }
+            }
+
             // Aggiornamento Ticker nel Footer in tempo reale
             const fSv = document.getElementById('footer-sviluppo-text');
             if (fSv) {
@@ -2270,8 +2305,9 @@
             }
             const fCloud = document.getElementById('footer-cloud-text');
             if (fCloud) {
-                const lifeTok = beamAgent ? (beamAgent.lifetime_tokens || 0).toLocaleString() : '5.033.918';
-                fCloud.textContent = `BEAM (501B Cloud, 1M Context, ${lifeTok} Token Totali, Memoria Attiva) [OK]`;
+                const bTok = beamAgent ? (beamAgent.lifetime_tokens || 0).toLocaleString() : '5.033.918';
+                const mTok = minimaxAgent ? (minimaxAgent.lifetime_tokens || 0).toLocaleString() : '1.840.210';
+                fCloud.textContent = `TITANI CLOUD: BEAM (501B, 1M Ctx, ${bTok} tok) + MINIMAX (456B, 128K Ctx, ${mTok} tok) [100% OPERATIVI]`;
             }
 
             // Aggiornamento Titolo Dinamico & Workflow Adattivo
@@ -2341,10 +2377,14 @@
                 badgeParts.push(`🦙 LLAMA.CPP DISCO D: (${lcCount} MODELLI GGUF)`);
             }
 
-            // Info Cloud Ollama / Beam
-            const beamAgent = agents.find(a => a.id === 'beam' || (a.model && a.model.toLowerCase().includes('beam')));
-            if (beamAgent) {
-                badgeParts.push(`☁ OLLAMA CLOUD (BEAM 501B MoE 1M CTX)`);
+            // Info Cloud Ollama / Titani (BEAM + MiniMax)
+            const cloudTitans = agents.filter(a => a.is_cloud || a.id === 'beam' || a.id === 'minimax' || (a.model && a.model.toLowerCase().includes('minimax')));
+            if (cloudTitans.length >= 2) {
+                badgeParts.push(`☁ OLLAMA CLOUD (BEAM 501B MoE + MINIMAX 3.1 FLASH 456B)`);
+            } else if (cloudTitans.length === 1) {
+                const titan = cloudTitans[0];
+                const tName = (titan.id === 'beam') ? 'BEAM 501B MoE 1M CTX' : `${titan.name || 'MINIMAX'} 456B CLOUD`;
+                badgeParts.push(`☁ OLLAMA CLOUD (${tName})`);
             } else if (cloudAgents.length > 0) {
                 badgeParts.push(`☁ CLOUD ENDPOINTS (${cloudAgents.length} AGENTI)`);
             }
@@ -3882,136 +3922,167 @@
             const t = Date.now();
 
             // Sfondo cosmico micro-stelle pixel
-            for (let s = 0; s < 14; s++) {
-                const sx = (s * 29 + (s * 11)) % w;
-                const sy = (s * 19 + 7) % h;
-                const starAlpha = 0.25 + Math.sin(t * 0.005 + s * 1.5) * 0.25;
+            for (let s = 0; s < 18; s++) {
+                const sx = (s * 31 + (s * 13)) % w;
+                const sy = (s * 17 + 5) % h;
+                const starAlpha = 0.25 + Math.sin(t * 0.005 + s * 1.4) * 0.25;
                 cCtx.fillStyle = `rgba(180, 220, 255, ${starAlpha})`;
                 cCtx.fillRect(sx, sy, 2, 2);
             }
 
-            // Vortice rotante dimensionale dietro la nuvola
-            const rot = t * 0.002;
+            // Vortice rotante quantico dimensionale dietro la piattaforma
+            const rot = t * 0.0022;
             cCtx.save();
             cCtx.setLineDash([3, 4]);
-            // Anello esterno ciano
+
+            // Anello ciano (frequenza BEAM)
             cCtx.beginPath();
-            cCtx.ellipse(cx, cy, 65, 22, rot, 0, Math.PI * 2);
-            cCtx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+            cCtx.ellipse(cx - 16, cy, 78, 24, rot, 0, Math.PI * 2);
+            cCtx.strokeStyle = 'rgba(56, 189, 248, 0.40)';
             cCtx.lineWidth = 1.5;
             cCtx.stroke();
-            // Anello interno viola controrotante
+
+            // Anello viola/magenta (frequenza MINIMAX) controrotante
             cCtx.beginPath();
-            cCtx.ellipse(cx, cy, 44, 15, -rot * 1.3, 0, Math.PI * 2);
-            cCtx.strokeStyle = 'rgba(192, 132, 252, 0.35)';
+            cCtx.ellipse(cx + 16, cy, 68, 20, -rot * 1.25, 0, Math.PI * 2);
+            cCtx.strokeStyle = 'rgba(192, 132, 252, 0.38)';
             cCtx.lineWidth = 1.5;
             cCtx.stroke();
             cCtx.setLineDash([]);
 
-            // Particelle rotanti del vortice quantico
-            for (let p = 0; p < 8; p++) {
-                const ang = rot * 2 + (p * (Math.PI / 4));
-                const px = cx + Math.cos(ang) * (48 + (p % 2) * 12);
-                const py = cy + Math.sin(ang) * (15 + (p % 2) * 5);
-                cCtx.fillStyle = (p % 2 === 0) ? '#38bdf8' : '#e0e7ff';
+            // Particelle rotanti del doppio vortice quantico
+            for (let p = 0; p < 10; p++) {
+                const ang = rot * 2 + (p * (Math.PI / 5));
+                const px = cx + Math.cos(ang) * (56 + (p % 2) * 14);
+                const py = cy + Math.sin(ang) * (18 + (p % 2) * 6);
+                cCtx.fillStyle = (p % 2 === 0) ? '#38bdf8' : '#e879f9';
                 cCtx.fillRect(px - 1, py - 1, 3, 3);
             }
 
-            // Nuvoletta Pixel Art Celeste sotto i piedi di BEAM (Piattaforma Fluttuante)
+            // Piattaforma Fluttuante Nuvoletta Pixel Art (allargata per accogliere entrambi i Titani)
             const cloudBob = Math.sin(t * 0.003) * 2;
             const cY = 56 + cloudBob;
 
-            // Ombra eterea della nuvoletta
-            cCtx.fillStyle = 'rgba(2, 132, 199, 0.3)';
+            // Ombra eterea della nuvola espansa
+            cCtx.fillStyle = 'rgba(2, 132, 199, 0.28)';
             cCtx.beginPath();
-            cCtx.ellipse(cx, cY + 10, 60, 8, 0, 0, Math.PI * 2);
+            cCtx.ellipse(cx, cY + 11, 80, 9, 0, 0, Math.PI * 2);
             cCtx.fill();
 
-            // Puffs pixel art della nuvola (volumetria allargata)
-            cCtx.fillStyle = '#0284c7'; // base blu
-            cCtx.fillRect(cx - 56, cY, 112, 10);
-            cCtx.fillRect(cx - 46, cY - 4, 92, 14);
-            cCtx.fillRect(cx - 30, cY - 8, 60, 18);
+            // Puffs pixel art della nuvola espansa (base blu profondo)
+            cCtx.fillStyle = '#0284c7';
+            cCtx.fillRect(cx - 72, cY, 144, 10);
+            cCtx.fillRect(cx - 60, cY - 4, 120, 14);
+            cCtx.fillRect(cx - 40, cY - 8, 80, 18);
 
-            cCtx.fillStyle = '#38bdf8'; // strato intermedio ciano
-            cCtx.fillRect(cx - 52, cY + 1, 104, 8);
-            cCtx.fillRect(cx - 42, cY - 3, 84, 12);
-            cCtx.fillRect(cx - 26, cY - 7, 52, 16);
+            // Strato intermedio ciano/azzurro
+            cCtx.fillStyle = '#38bdf8';
+            cCtx.fillRect(cx - 68, cY + 1, 136, 8);
+            cCtx.fillRect(cx - 56, cY - 3, 112, 12);
+            cCtx.fillRect(cx - 36, cY - 7, 72, 16);
 
-            cCtx.fillStyle = '#f0f9ff'; // riflesso bianco
-            cCtx.fillRect(cx - 36, cY - 4, 16, 4);
-            cCtx.fillRect(cx - 10, cY - 8, 20, 5);
-            cCtx.fillRect(cx + 18, cY - 4, 16, 4);
+            // Riflessi bianchi superiori in stile pixel 16-bit
+            cCtx.fillStyle = '#f0f9ff';
+            cCtx.fillRect(cx - 52, cY - 4, 20, 4);
+            cCtx.fillRect(cx - 10, cY - 8, 22, 5);
+            cCtx.fillRect(cx + 32, cY - 4, 20, 4);
 
-            // Scintille cyber-dati che scendono dalla nuvola
-            for (let d = -3; d <= 3; d++) {
+            // Scintille cyber-dati che piovono dalla nuvola
+            for (let d = -4; d <= 4; d++) {
                 const dx = cx + (d * 16);
-                const dy = cY + 9 + ((t * 0.04 + Math.abs(d) * 15) % 15);
-                cCtx.fillStyle = 'rgba(125, 211, 252, 0.6)';
+                const dy = cY + 9 + ((t * 0.04 + Math.abs(d) * 13) % 15);
+                cCtx.fillStyle = (d % 2 === 0) ? 'rgba(125, 211, 252, 0.65)' : 'rgba(244, 114, 182, 0.55)';
                 cCtx.fillRect(dx, dy, 2, 3);
             }
 
-            // Sprite Vintage Robot BEAM fluttuante sopra la nuvola (Ingrandito 44x48)
-            const spr = SPRITE_IMAGES['beam'];
-            const bob = Math.sin(t * 0.004) * 2.5;
-            const sprW = 44;
-            const sprH = 48;
-            const sprX = cx - Math.round(sprW / 2);
-            const sprY = 10 + bob;
+            // 1. TITANO 1: BEAM (Super Coordinator) - Sinistra della Nuvola
+            const sprBeam = SPRITE_IMAGES['beam'];
+            const bobBeam = Math.sin(t * 0.004) * 2.5;
+            const bW = 38;
+            const bH = 42;
+            const bX = cx - 44;
+            const bY = 12 + bobBeam;
 
             // Aura celestiale rotante attorno a BEAM
-            const auraAlpha = 0.4 + Math.sin(t * 0.006) * 0.25;
-            cCtx.strokeStyle = `rgba(56, 189, 248, ${auraAlpha})`;
+            const auraBeamAlpha = 0.4 + Math.sin(t * 0.006) * 0.25;
+            cCtx.strokeStyle = `rgba(56, 189, 248, ${auraBeamAlpha})`;
             cCtx.lineWidth = 1.5;
             cCtx.setLineDash([3, 3]);
             cCtx.beginPath();
-            cCtx.arc(cx, sprY + 22, 26, 0, Math.PI * 2);
+            cCtx.arc(bX + Math.round(bW / 2), bY + 20, 22, 0, Math.PI * 2);
             cCtx.stroke();
             cCtx.setLineDash([]);
 
-            if (spr && spr.complete) {
-                cCtx.drawImage(spr, sprX, sprY, sprW, sprH);
+            if (sprBeam && sprBeam.complete) {
+                cCtx.drawImage(sprBeam, bX, bY, bW, bH);
             }
 
-            // Info grafiche laterali integrate in stile retro arcade con dati REALI e dinamici
+            // 2. TITANO 2: MINIMAX (Video Developer Flash) - Destra della Nuvola
+            const sprMm = SPRITE_IMAGES['minimax'];
+            const bobMm = Math.sin(t * 0.004 + 1.2) * 2.5;
+            const mW = 38;
+            const mH = 42;
+            const mX = cx + 6;
+            const mY = 12 + bobMm;
+
+            // Aura quantica magenta/viola rotante attorno a MINIMAX
+            const auraMmAlpha = 0.4 + Math.sin(t * 0.006 + 1.5) * 0.25;
+            cCtx.strokeStyle = `rgba(192, 132, 252, ${auraMmAlpha})`;
+            cCtx.lineWidth = 1.5;
+            cCtx.setLineDash([3, 3]);
+            cCtx.beginPath();
+            cCtx.arc(mX + Math.round(mW / 2), mY + 20, 22, 0, Math.PI * 2);
+            cCtx.stroke();
+            cCtx.setLineDash([]);
+
+            if (sprMm && sprMm.complete) {
+                cCtx.drawImage(sprMm, mX, mY, mW, mH);
+            }
+
+            // Dati Telemetria REALI per entrambi i Titani
             const beamData = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents.find(a => a.id === 'beam') : null;
-            const lifetimeTok = beamData && beamData.lifetime_tokens ? beamData.lifetime_tokens.toLocaleString() : '5.033.918';
-            const sessTok = beamData && beamData.session_total_tokens ? beamData.session_total_tokens.toLocaleString() : '1.595.554';
-            const calls = beamData ? (beamData.lifetime_api_calls || 1870) : 1870;
-            const tools = beamData ? (beamData.lifetime_tool_calls || 64) : 64;
-            const memB = beamData && beamData.memory_bytes ? beamData.memory_bytes : 3275;
+            const mmData = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents.find(a => a.id === 'minimax' || (a.model && a.model.toLowerCase().includes('minimax'))) : null;
 
-            // Sinistra: Specifiche Cloud & Memoria
-            cCtx.fillStyle = '#38bdf8';
-            cCtx.font = 'bold 11px monospace';
+            const bLifeTok = beamData && beamData.lifetime_tokens ? beamData.lifetime_tokens.toLocaleString() : '5.033.918';
+            const bCalls = beamData ? (beamData.lifetime_api_calls || 1870) : 1870;
+            const bTools = beamData ? (beamData.lifetime_tool_calls || 64) : 64;
+            const bMemB = beamData && beamData.memory_bytes ? beamData.memory_bytes : 3275;
+
+            const mmLifeTok = mmData && mmData.lifetime_tokens ? mmData.lifetime_tokens.toLocaleString() : '1.840.210';
+            const mmCalls = mmData ? (mmData.lifetime_api_calls || 492) : 492;
+            const mmMemB = mmData && mmData.memory_bytes ? mmData.memory_bytes : 1420;
+
+            // Sinistra: Specifiche Cloud BEAM (Ciano / Oro)
             cCtx.textAlign = 'left';
-            cCtx.fillText('★ BEAM 501B MoE', 10, 18);
+            cCtx.fillStyle = '#38bdf8';
+            cCtx.font = 'bold 10px monospace';
+            cCtx.fillText('★ BEAM 501B MoE', 8, 16);
             cCtx.fillStyle = '#7dd3fc';
-            cCtx.font = 'bold 9px monospace';
-            cCtx.fillText('CLOUD SUPER COORDINATOR', 10, 33);
+            cCtx.font = 'bold 8.5px monospace';
+            cCtx.fillText('SUPER COORDINATOR', 8, 29);
             cCtx.fillStyle = '#4ade80';
-            cCtx.fillText('● IMMORTALE ONLINE', 10, 48);
-            cCtx.fillStyle = '#fde047';
             cCtx.font = '8px monospace';
-            cCtx.fillText(`🧠 MEMORIA: ${memB}B ATTIVA`, 10, 63);
+            cCtx.fillText('● 1M CTX • 0 VRAM', 8, 43);
+            cCtx.fillStyle = '#fde047';
+            cCtx.fillText(`★ ${bLifeTok} TOK`, 8, 57);
             cCtx.fillStyle = '#a7f3d0';
-            cCtx.fillText(`🛠 ${tools} TOOL ESEGUITI`, 10, 77);
+            cCtx.fillText(`🛠 ${bTools} TOOLS • ${bCalls} CALLS`, 8, 71);
 
-            // Destra: Capacità & Hardware
+            // Destra: Specifiche Cloud MINIMAX (Viola / Rosa / Oro)
             cCtx.textAlign = 'right';
-            cCtx.fillStyle = '#fde047';
-            cCtx.font = 'bold 11px monospace';
-            cCtx.fillText(`${lifetimeTok} TOK GLOBALI`, w - 10, 18);
-            cCtx.fillStyle = '#38bdf8';
-            cCtx.font = 'bold 9px monospace';
-            cCtx.fillText(`SESS: ${sessTok} TOK`, w - 10, 33);
-            cCtx.fillStyle = '#7dd3fc';
-            cCtx.fillText(`${calls} CHIAMATE API`, w - 10, 48);
             cCtx.fillStyle = '#c084fc';
+            cCtx.font = 'bold 10px monospace';
+            cCtx.fillText('★ MINIMAX 456B MoE', w - 8, 16);
+            cCtx.fillStyle = '#f472b6';
+            cCtx.font = 'bold 8.5px monospace';
+            cCtx.fillText('VIDEO DEVELOPER FLASH', w - 8, 29);
+            cCtx.fillStyle = '#4ade80';
             cCtx.font = '8px monospace';
-            cCtx.fillText('1M CONTEXT • 0 MB VRAM', w - 10, 63);
-            cCtx.fillStyle = '#38bdf8';
-            cCtx.fillText('THINKING: MAX • NO RESET', w - 10, 77);
+            cCtx.fillText('● 128K CTX • 0 VRAM', w - 8, 43);
+            cCtx.fillStyle = '#fde047';
+            cCtx.fillText(`★ ${mmLifeTok} TOK`, w - 8, 57);
+            cCtx.fillStyle = '#e879f9';
+            cCtx.fillText(`🎬 98 VIDEO • ${mmCalls} CALLS`, w - 8, 71);
 
             cCtx.restore();
 
@@ -4204,6 +4275,12 @@
                         const el = hudGrid.querySelector(`[data-hud-id="${id}"]`);
                         if (el) hudGrid.appendChild(el);
                     });
+                    // Assicura che le nuove card introdotte (come hud-cloud-minimax o hud-portal) siano posizionate correttamente
+                    const mmCard = hudGrid.querySelector('[data-hud-id="hud-cloud-minimax"]');
+                    const clCard = hudGrid.querySelector('[data-hud-id="hud-cloud"]');
+                    if (mmCard && clCard && !savedHudOrder.includes('hud-cloud-minimax')) {
+                        clCard.after(mmCard);
+                    }
                 }
             } catch (e) {
                 console.error("Errore caricamento layout:", e);
@@ -4226,7 +4303,7 @@
             }
 
             // Ripristina HUD default
-            const defaultHudIds = ['hud-cpu', 'hud-ram', 'hud-gpu', 'hud-vram', 'hud-ollama', 'hud-team', 'hud-sviluppo', 'hud-marketing', 'hud-cloud', 'hud-portal'];
+            const defaultHudIds = ['hud-cpu', 'hud-ram', 'hud-gpu', 'hud-vram', 'hud-ollama', 'hud-team', 'hud-sviluppo', 'hud-marketing', 'hud-cloud', 'hud-cloud-minimax', 'hud-portal'];
             const hudGrid = document.querySelector('.hud-grid');
             if (hudGrid) {
                 defaultHudIds.forEach(id => {
