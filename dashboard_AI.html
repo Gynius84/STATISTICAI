@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STATISTICHEAI v2.3.1 - Monitor Agenti Hermes & Ollama Cloud & llama.cpp (Dual Cloud Titans & Radar Benchmark)</title>
+    <title>STATISTICHEAI v2.3.2 - Monitor Agenti Hermes & Ollama Cloud & llama.cpp (Dual Cloud Titans & Fast Radar Sorter)</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
         /* -------------------------------------------------------------
@@ -249,6 +249,58 @@
             border-color: var(--border-inner);
             color: var(--text-bright);
             box-shadow: inset 0 0 0 1px var(--border-inner);
+        }
+
+        /* Pulsanti Ordinamento Rapido Radar (Versione 2.3.2) */
+        .btn-sort {
+            background: #101422;
+            border: 2px solid #28304a;
+            color: var(--text-main);
+            padding: 4px 9px;
+            font-family: inherit;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-sort:hover {
+            background: #1c233a;
+            border-color: #3b82f6;
+            color: #ffffff;
+            transform: translateY(-1px);
+        }
+        .btn-sort.active {
+            background: #1e293b;
+            border-color: #fde047 !important;
+            color: #fde047 !important;
+            box-shadow: 0 0 8px rgba(253, 224, 71, 0.4);
+        }
+
+        /* Divisione HUD e Tier Cloud (Versione 2.3.2) */
+        .hud-sub-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 8px;
+            background: #080b16;
+            border-left: 3px solid #38bdf8;
+            font-size: 10px;
+            font-weight: bold;
+            color: #7dd3fc;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+        .hud-cloud-tier {
+            display: flex;
+            gap: 10px;
+            align-items: stretch;
+            flex-wrap: wrap;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         /* Griglia Agenti */
@@ -1425,13 +1477,13 @@
                     <div class="main-title" id="main-header-title">
                         <span style="color: #7aa2f7;">STATISTICHEAI</span>
                         <span style="color: #565f89; margin: 0 4px;">•</span>
-                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 9 AGENTI • LLAMA.CPP (7 D:) + OLLAMA CLOUD (BEAM + MINIMAX) (v2.3.1)</span>
+                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 9 AGENTI • LLAMA.CPP (7 D:) + OLLAMA CLOUD (BEAM + MINIMAX) (v2.3.2)</span>
                     </div>
                     <div id="title-dynamic-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 11px; margin-top: 3px; flex-wrap: wrap;">
                         <span id="title-workflow-badge" class="badge" style="background: #0f172a; color: #38bdf8; border-color: #0284c7; padding: 2px 7px; font-size: 10px; cursor: default; letter-spacing: 0.5px;">
                             🔀 WORKFLOW: 🦙 LLAMA.CPP (7 LOCALI D: ZERO-SWAP) + ☁ CLOUD LIGHTNING (BEAM 501B + MINIMAX 3.1 456B) = 9 AGENTI
                         </span>
-                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.3.1: BENCHMARK RADAR OPENCOMPASS • DUAL CLOUD TITANS • SPEED TPS</span>
+                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.3.2: BENCHMARK RADAR OPENCOMPASS • DUAL CLOUD TITANS • FAST RADAR SORTER</span>
                     </div>
                 </div>
             </div>
@@ -1464,6 +1516,7 @@
         <!-- CONTENITORE SEZIONI RICONFIGURABILI A DRAG-AND-DROP (VERSIONE 2.1) -->
         <div id="dashboard-sections" class="dashboard-sections">
 <!-- 2. HUD STATISTICHE DI SISTEMA -->
+        <!-- 2. HUD STATISTICHE DI SISTEMA (VERSIONE 2.3.2: SEZIONI DIVISE PERFETTE) -->
         <section class="pixel-box draggable-box" id="box-hud-metrics" data-box-id="box-hud-metrics">
             <div class="box-reorder-header">
                 <span class="box-reorder-title">
@@ -1475,7 +1528,13 @@
                     <button type="button" class="btn-box-reorder" onclick="moveSection('box-hud-metrics', 1)" title="Sposta box in basso">▼ SPOSTA GIÙ</button>
                 </div>
             </div>
-            <div class="hud-grid">
+
+            <!-- DIVISIONE 1: METRICHE HARDWARE LOCALE & MOTORI -->
+            <div class="hud-sub-header" style="border-left-color: #38bdf8; color: #7dd3fc;">
+                <span>⚡ TELEMETRIA HARDWARE LOCALE & MOTORI INFERENCE (RTX 4060 • DISCO D: 9931 • OLLAMA C:)</span>
+                <span style="color: var(--text-muted); font-size: 9px;">9 METRICHE LOCALI</span>
+            </div>
+            <div class="hud-grid" id="hud-grid-system">
                 <!-- CPU -->
                 <div class="hud-metric draggable-hud" data-hud-id="hud-cpu">
                     <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ CPU</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cpu', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cpu', 1)">▶</button></div></div>
@@ -1590,8 +1649,16 @@
                     </div>
                 </div>
 
+            </div>
+
+            <!-- DIVISIONE 2: INFRASTRUTTURA CLOUD LIGHTNING & PORTALE VORTICE QUANTICO -->
+            <div class="hud-sub-header" style="border-left-color: #a855f7; color: #c084fc; margin-top: 14px;">
+                <span>☁ INFRASTRUTTURA CLOUD LIGHTNING & PORTALE VORTICE QUANTICO (0 MB VRAM LOCALE)</span>
+                <span style="color: #fde047; font-size: 9px;">BEAM 501B MoE + MINIMAX 3.1 FLASH 456B • 24H KEEP-ALIVE</span>
+            </div>
+            <div class="hud-cloud-tier" id="hud-grid-cloud">
                 <!-- GRUPPO: SUPER COORDINATORE CLOUD (BEAM) -->
-                <div class="hud-metric draggable-hud" data-hud-id="hud-cloud" style="border-color: #0284c7; background: #081524; box-shadow: 0 0 10px rgba(2, 132, 199, 0.2);">
+                <div class="hud-metric draggable-hud" data-hud-id="hud-cloud" style="border-color: #0284c7; background: #081524; box-shadow: 0 0 10px rgba(2, 132, 199, 0.2); flex: 1 1 240px; min-width: 220px; max-width: 340px; box-sizing: border-box;">
                     <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ BEAM CLOUD</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
                         <span style="color: #38bdf8; font-weight: bold;">☁ SUPER COORDINATORE</span>
@@ -1606,7 +1673,7 @@
                 </div>
 
                 <!-- GRUPPO: VIDEO DEVELOPER CLOUD (MINIMAX) -->
-                <div class="hud-metric draggable-hud" data-hud-id="hud-cloud-minimax" style="border-color: #a855f7; background: #12091e; box-shadow: 0 0 10px rgba(168, 85, 247, 0.2);">
+                <div class="hud-metric draggable-hud" data-hud-id="hud-cloud-minimax" style="border-color: #a855f7; background: #12091e; box-shadow: 0 0 10px rgba(168, 85, 247, 0.2); flex: 1 1 240px; min-width: 220px; max-width: 340px; box-sizing: border-box;">
                     <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ MINIMAX CLOUD</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-minimax', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-minimax', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
                         <span style="color: #c084fc; font-weight: bold;">☁ VIDEO DEVELOPER</span>
@@ -1620,14 +1687,14 @@
                     </div>
                 </div>
 
-                <!-- ANIMAZIONE CLOUD PORTAL TITANI QUANTICI (ACCANTO ALLE CARD) -->
-                <div class="hud-metric hud-metric-cloud-portal draggable-hud" data-hud-id="hud-portal" style="border-color: #0284c7; background: #060e1a; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 0 14px rgba(56, 189, 248, 0.25); min-width: 440px;">
-                    <div class="hud-metric-header" style="margin-bottom: 4px;">
-                        <span id="hud-portal-title" style="color: #38bdf8; font-weight: bold; font-size: 11px;">☁ PORTALE VORTICE QUANTICO • TITANI CLOUD</span>
-                        <span id="hud-portal-sub" style="color: #fde047; font-weight: bold; font-size: 10px;">BEAM 501B + MINIMAX 456B • 0 VRAM</span>
+                <!-- ANIMAZIONE CLOUD PORTAL TITANI QUANTICI (SPAZIO ESTESO DEDICATO) -->
+                <div class="hud-metric hud-metric-cloud-portal draggable-hud" data-hud-id="hud-portal" style="border-color: #0284c7; background: #060e1a; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 0 14px rgba(56, 189, 248, 0.25); flex: 2 1 480px; min-width: 380px; max-width: 100%; box-sizing: border-box;">
+                    <div class="hud-metric-header" style="margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: nowrap; overflow: hidden;">
+                        <span id="hud-portal-title" style="color: #38bdf8; font-weight: bold; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">☁ PORTALE VORTICE QUANTICO • TITANI CLOUD</span>
+                        <span id="hud-portal-sub" style="color: #fde047; font-weight: bold; font-size: 10px; white-space: nowrap; flex-shrink: 0;">BEAM 501B + MINIMAX 456B • 0 VRAM</span>
                     </div>
                     <div style="position: relative; width: 100%; height: 86px; overflow: hidden; border: 1px solid #13273e; background: #050a14;">
-                        <canvas id="beam-cloud-canvas" width="460" height="86" style="display: block; width: 100%; height: 100%;"></canvas>
+                        <canvas id="beam-cloud-canvas" style="display: block; width: 100%; height: 100%;"></canvas>
                     </div>
                 </div>
             </div>
@@ -1652,37 +1719,53 @@
             <canvas id="retro-stage-canvas" width="1280" height="320"></canvas>
         </section>
 
-        <!-- 4. BARRA FILTRI & AZIONI UNIVERSALI (VERSIONE 2.1) -->
-        <div class="pixel-box filter-bar draggable-box" id="box-filter-bar" data-box-id="box-filter-bar">
-            <div class="box-reorder-header" style="width: 100%; margin-bottom: 6px;">
+        <!-- 4. BARRA FILTRI & ORDINAMENTO RAPIDO RADAR (VERSIONE 2.3.2) -->
+        <div class="pixel-box filter-bar draggable-box" id="box-filter-bar" data-box-id="box-filter-bar" style="display: flex; flex-direction: column; gap: 8px;">
+            <div class="box-reorder-header" style="width: 100%; margin-bottom: 2px;">
                 <span class="box-reorder-title">
                     <span class="drag-handle" title="Trascina per riposizionare questo box">⠿</span>
-                    <span>FILTRI SQUADRE & STRUMENTI AGENTI</span>
+                    <span>FILTRI SQUADRE & ORDINAMENTO RAPIDO BENCHMARK RADAR</span>
                 </span>
                 <div class="box-reorder-buttons">
                     <button type="button" class="btn-box-reorder" onclick="moveSection('box-filter-bar', -1)" title="Sposta box in alto">▲ SPOSTA SU</button>
                     <button type="button" class="btn-box-reorder" onclick="moveSection('box-filter-bar', 1)" title="Sposta box in basso">▼ SPOSTA GIÙ</button>
                 </div>
             </div>
-            <span style="font-weight: bold; color: var(--text-muted); text-transform: uppercase;">FILTRA:</span>
-            <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (10)</button>
-            <button class="btn-filter btn-filter-cloud" data-filter="SUPER COORDINATORE" onclick="setFilter('SUPER COORDINATORE')">☁ COORDINATORE</button>
-            <button class="btn-filter btn-filter-sviluppo" data-filter="TEAM SVILUPPO" onclick="setFilter('TEAM SVILUPPO')">⚒ SVILUPPO</button>
-            <button class="btn-filter btn-filter-marketing" data-filter="TEAM MARKETING" onclick="setFilter('TEAM MARKETING')">📢 MARKETING</button>
-            <button class="btn-filter btn-filter-security" data-filter="TEAM SICUREZZA & CODING" onclick="setFilter('TEAM SICUREZZA & CODING')">🛡 SICUREZZA & CODING</button>
-            <button class="btn-filter" data-filter="TEAM RAGIONAMENTO" style="color: #f59e0b; border-color: #d97706;" onclick="setFilter('TEAM RAGIONAMENTO')">🧠 RAGIONAMENTO</button>
-            <button class="btn-filter" data-filter="TEAM DEEP THINKING" style="color: #06b6d4; border-color: #0891b2;" onclick="setFilter('TEAM DEEP THINKING')">🔮 DEEP THINKING</button>
-            <button class="btn-filter" data-filter="TEAM VISUAL AUDIT" style="color: #38bdf8; border-color: #0284c7;" onclick="setFilter('TEAM VISUAL AUDIT')">👁 VISUAL AUDIT</button>
 
-            <!-- PULSANTE RILEVA / SINCRONIZZA AGENTI (AUTO-DISCOVERY V2.0.1) -->
-            <button class="btn-sync-agent" id="btn-sync-agents" onclick="triggerAgentDiscovery()" title="Rileva e sincronizza istantaneamente profili Hermes ed endpoint">
-                <span>🔄</span> RILEVA / SINCRONIZZA
-            </button>
+            <!-- RIGA 1: FILTRO SQUADRE & AZIONI SINCRONIZZAZIONE -->
+            <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap; width: 100%; padding-bottom: 6px; border-bottom: 1px dotted rgba(86, 95, 137, 0.35);">
+                <span style="font-weight: bold; color: var(--text-muted); font-size: 10px; text-transform: uppercase;">FILTRA TEAM:</span>
+                <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (9)</button>
+                <button class="btn-filter btn-filter-cloud" data-filter="SUPER COORDINATORE" onclick="setFilter('SUPER COORDINATORE')">☁ TITANI CLOUD</button>
+                <button class="btn-filter btn-filter-sviluppo" data-filter="TEAM SVILUPPO" onclick="setFilter('TEAM SVILUPPO')">⚒ SVILUPPO</button>
+                <button class="btn-filter btn-filter-marketing" data-filter="TEAM MARKETING" onclick="setFilter('TEAM MARKETING')">📢 MARKETING</button>
+                <button class="btn-filter btn-filter-security" data-filter="TEAM SICUREZZA & CODING" onclick="setFilter('TEAM SICUREZZA & CODING')">🛡 SICUREZZA & CODING</button>
+                <button class="btn-filter" data-filter="TEAM RAGIONAMENTO" style="color: #f59e0b; border-color: #d97706;" onclick="setFilter('TEAM RAGIONAMENTO')">🧠 RAGIONAMENTO</button>
+                <button class="btn-filter" data-filter="TEAM DEEP THINKING" style="color: #06b6d4; border-color: #0891b2;" onclick="setFilter('TEAM DEEP THINKING')">🔮 DEEP THINKING</button>
+                <button class="btn-filter" data-filter="TEAM VISUAL AUDIT" style="color: #38bdf8; border-color: #0284c7;" onclick="setFilter('TEAM VISUAL AUDIT')">👁 VISUAL AUDIT</button>
 
-            <!-- PULSANTE UNIVERSALE 1-CLICK: COLLEGA QUALSIASI AGENTE (VERSIONE 2.1) -->
-            <button class="btn-add-agent" onclick="openAddAgentModal()">
-                <span>+</span> COLLEGA NUOVO AGENTE
-            </button>
+                <div style="margin-left: auto; display: flex; gap: 6px;">
+                    <button class="btn-sync-agent" id="btn-sync-agents" onclick="triggerAgentDiscovery()" title="Rileva e sincronizza istantaneamente profili Hermes ed endpoint">
+                        <span>🔄</span> RILEVA / SINCRONIZZA
+                    </button>
+                    <button class="btn-add-agent" onclick="openAddAgentModal()">
+                        <span>+</span> COLLEGA NUOVO AGENTE
+                    </button>
+                </div>
+            </div>
+
+            <!-- RIGA 2: ORDINAMENTO RAPIDO SCHEDE SECONDO BENCHMARK RADAR & SPEED (v2.3.2) -->
+            <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap; width: 100%;">
+                <span style="font-weight: bold; color: #fde047; font-size: 10px; text-transform: uppercase;">⚡ ORDINA SCHEDE:</span>
+                <button class="btn-sort active" id="sort-btn-custom" data-sort="custom" onclick="setSort('custom')" title="Ripristina l'ordine personalizzato via Drag & Drop">🔀 PREDEFINITO</button>
+                <button class="btn-sort" id="sort-btn-speed" data-sort="speed" onclick="setSort('speed')" style="color: #2ac3de; border-color: #0891b2;" title="Ordina per Velocità stimata Throughput (TPS su RTX 4060 o Cloud)">🚀 VELOCITÀ (TPS)</button>
+                <button class="btn-sort" id="sort-btn-coding" data-sort="coding" onclick="setSort('coding')" style="color: #38bdf8; border-color: #0284c7;" title="Ordina per punteggio Benchmark Coding (HumanEval)">💻 CODING (HumanEval)</button>
+                <button class="btn-sort" id="sort-btn-reasoning" data-sort="reasoning" onclick="setSort('reasoning')" style="color: #a855f7; border-color: #7c3aed;" title="Ordina per punteggio Benchmark Reasoning (MATH/Logica)">🧠 RAGIONAMENTO (Logic)</button>
+                <button class="btn-sort" id="sort-btn-knowledge" data-sort="knowledge" onclick="setSort('knowledge')" style="color: #f59e0b; border-color: #d97706;" title="Ordina per punteggio Benchmark Conoscenza (MMLU-Pro)">📚 CONOSCENZA (MMLU)</button>
+                <button class="btn-sort" id="sort-btn-agentic" data-sort="agentic" onclick="setSort('agentic')" style="color: #10b981; border-color: #059669;" title="Ordina per capacità Agentica & Tool Calling">⚡ AGENTIC (Tools)</button>
+                <button class="btn-sort" id="sort-btn-vision" data-sort="vision" onclick="setSort('vision')" style="color: #ec4899; border-color: #db2777;" title="Ordina per punteggio Benchmark Multimodale Visione (VLM)">👁️ VISIONE (VLM)</button>
+                <button class="btn-sort" id="sort-btn-name" data-sort="name" onclick="setSort('name')" style="color: #94a3b8; border-color: #475569;" title="Ordina per nome agente in ordine alfabetico (A-Z)">🔤 NOME (A-Z)</button>
+            </div>
         </div>
 
         <!-- 5. GRIGLIA SCHEDE DEGLI AGENTI (VERSIONE 2.1) -->
@@ -1745,7 +1828,7 @@
                     <span class="srv-badge srv-ok" id="footer-hermes-status">[ HERMES GATEWAY :42000 OK ]</span>
                     <span class="srv-badge srv-ok" id="footer-ollama-status">[ OLLAMA :11434 (DISCO C:) OK ]</span>
                     <span class="srv-badge srv-ok" id="footer-llamacpp-status">[ LLAMA.CPP :9931 (DISCO D:) OK ]</span>
-                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (v2.3.1) OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (v2.3.2) OK ]</span>
                 </div>
             </div>
 
@@ -2419,6 +2502,34 @@
             }
         }
 
+        // STATISTICAI v2.3.2: Motore Ordinamento Rapido Radar & Performance
+        let ACTIVE_SORT = 'custom';
+        function setSort(sortType) {
+            ACTIVE_SORT = sortType;
+            document.querySelectorAll('.filter-bar .btn-sort').forEach(b => {
+                b.classList.remove('active');
+                if (b.getAttribute('data-sort') === sortType) {
+                    b.classList.add('active');
+                }
+            });
+
+            if (TELEMETRY_DATA && TELEMETRY_DATA.agents) {
+                renderAgentCards(TELEMETRY_DATA.agents);
+            }
+
+            const sortDescriptions = {
+                'custom': 'Ordine personalizzato / Drag & Drop',
+                'speed': 'Velocità Throughput stimata (TPS)',
+                'coding': 'Benchmark Coding (HumanEval)',
+                'reasoning': 'Benchmark Reasoning (MATH / Logica)',
+                'knowledge': 'Benchmark Conoscenza (MMLU-Pro)',
+                'agentic': 'Capacità Agentica (Tool Calling)',
+                'vision': 'Percezione Visiva Multimodale (VLM)',
+                'name': 'Alfabetico per Nome (A-Z)'
+            };
+            showToast('⚡ Agenti ordinati per: ' + (sortDescriptions[sortType] || sortType));
+        }
+
         const EXPANDED_CARDS = new Set();
         function toggleCardDetails(agentId) {
             if (EXPANDED_CARDS.has(agentId)) {
@@ -2592,17 +2703,58 @@
             // Se l'utente sta trascinando una scheda, sospendi la riscrittura DOM per questo ciclo
             if (window.isDraggingCard || window.isDraggingBox) return;
 
-            // Ordina gli agenti in base alla preferenza salvata dall'utente (v2.1)
-            const savedAgentOrder = JSON.parse(localStorage.getItem('statistiche_agents_order') || '[]');
-            if (savedAgentOrder && savedAgentOrder.length > 0) {
+            // Ordina gli agenti in base a ACTIVE_SORT o alla preferenza salvata (v2.3.2)
+            if (ACTIVE_SORT === 'speed') {
                 agents.sort((a, b) => {
-                    const idxA = savedAgentOrder.indexOf(a.id);
-                    const idxB = savedAgentOrder.indexOf(b.id);
-                    if (idxA === -1 && idxB === -1) return 0;
-                    if (idxA === -1) return 1;
-                    if (idxB === -1) return -1;
-                    return idxA - idxB;
+                    const valA = (a.benchmarks && a.benchmarks.throughput !== undefined) ? a.benchmarks.throughput : 50;
+                    const valB = (b.benchmarks && b.benchmarks.throughput !== undefined) ? b.benchmarks.throughput : 50;
+                    return valB - valA;
                 });
+            } else if (ACTIVE_SORT === 'coding') {
+                agents.sort((a, b) => {
+                    const valA = (a.benchmarks && a.benchmarks.coding !== undefined) ? a.benchmarks.coding : 50;
+                    const valB = (b.benchmarks && b.benchmarks.coding !== undefined) ? b.benchmarks.coding : 50;
+                    return valB - valA;
+                });
+            } else if (ACTIVE_SORT === 'reasoning') {
+                agents.sort((a, b) => {
+                    const valA = (a.benchmarks && a.benchmarks.reasoning !== undefined) ? a.benchmarks.reasoning : 50;
+                    const valB = (b.benchmarks && b.benchmarks.reasoning !== undefined) ? b.benchmarks.reasoning : 50;
+                    return valB - valA;
+                });
+            } else if (ACTIVE_SORT === 'knowledge') {
+                agents.sort((a, b) => {
+                    const valA = (a.benchmarks && a.benchmarks.knowledge !== undefined) ? a.benchmarks.knowledge : 50;
+                    const valB = (b.benchmarks && b.benchmarks.knowledge !== undefined) ? b.benchmarks.knowledge : 50;
+                    return valB - valA;
+                });
+            } else if (ACTIVE_SORT === 'agentic') {
+                agents.sort((a, b) => {
+                    const valA = (a.benchmarks && a.benchmarks.agentic !== undefined) ? a.benchmarks.agentic : 50;
+                    const valB = (b.benchmarks && b.benchmarks.agentic !== undefined) ? b.benchmarks.agentic : 50;
+                    return valB - valA;
+                });
+            } else if (ACTIVE_SORT === 'vision') {
+                agents.sort((a, b) => {
+                    const valA = (a.benchmarks && a.benchmarks.vision !== undefined) ? a.benchmarks.vision : 20;
+                    const valB = (b.benchmarks && b.benchmarks.vision !== undefined) ? b.benchmarks.vision : 20;
+                    return valB - valA;
+                });
+            } else if (ACTIVE_SORT === 'name') {
+                agents.sort((a, b) => (a.name || '').localeCompare(b.name || ''));
+            } else {
+                // Ordine predefinito / drag-and-drop salvato dall'utente
+                const savedAgentOrder = JSON.parse(localStorage.getItem('statistiche_agents_order') || '[]');
+                if (savedAgentOrder && savedAgentOrder.length > 0) {
+                    agents.sort((a, b) => {
+                        const idxA = savedAgentOrder.indexOf(a.id);
+                        const idxB = savedAgentOrder.indexOf(b.id);
+                        if (idxA === -1 && idxB === -1) return 0;
+                        if (idxA === -1) return 1;
+                        if (idxB === -1) return -1;
+                        return idxA - idxB;
+                    });
+                }
             }
 
             grid.innerHTML = '';
@@ -3913,6 +4065,17 @@
 
         function renderBeamCloud() {
             if (!cloudCanvas || !cCtx) return;
+
+            // STATISTICAI v2.3.2: Auto-scaling perfetto per riempire il 100% dello spazio orizzontale
+            const rect = cloudCanvas.getBoundingClientRect();
+            const targetW = Math.max(380, Math.round(rect.width) || 480);
+            const targetH = 86;
+            if (cloudCanvas.width !== targetW || cloudCanvas.height !== targetH) {
+                cloudCanvas.width = targetW;
+                cloudCanvas.height = targetH;
+                if (cCtx) cCtx.imageSmoothingEnabled = false;
+            }
+
             cCtx.clearRect(0, 0, cloudCanvas.width, cloudCanvas.height);
 
             const w = cloudCanvas.width;
@@ -4198,22 +4361,21 @@
 
         // --- Riordino Metriche HUD ---
         function moveHud(hudId, direction) {
-            const hudGrid = document.querySelector('.hud-grid');
-            if (!hudGrid) return;
-            const el = hudGrid.querySelector(`[data-hud-id="${hudId}"]`);
-            if (!el) return;
+            const el = document.querySelector(`[data-hud-id="${hudId}"]`);
+            if (!el || !el.parentElement) return;
+            const parent = el.parentElement;
 
             if (direction === -1) {
                 const prev = el.previousElementSibling;
                 if (prev && prev.classList.contains('draggable-hud')) {
-                    hudGrid.insertBefore(el, prev);
+                    parent.insertBefore(el, prev);
                     saveLayout();
                     showToast('✓ Riquadro HUD spostato prima!');
                 }
             } else if (direction === 1) {
                 const next = el.nextElementSibling;
                 if (next && next.classList.contains('draggable-hud')) {
-                    hudGrid.insertBefore(next, el);
+                    parent.insertBefore(next, el);
                     saveLayout();
                     showToast('✓ Riquadro HUD spostato dopo!');
                 }
@@ -4302,13 +4464,21 @@
                 });
             }
 
-            // Ripristina HUD default
-            const defaultHudIds = ['hud-cpu', 'hud-ram', 'hud-gpu', 'hud-vram', 'hud-ollama', 'hud-team', 'hud-sviluppo', 'hud-marketing', 'hud-cloud', 'hud-cloud-minimax', 'hud-portal'];
-            const hudGrid = document.querySelector('.hud-grid');
-            if (hudGrid) {
-                defaultHudIds.forEach(id => {
-                    const el = hudGrid.querySelector(`[data-hud-id="${id}"]`);
-                    if (el) hudGrid.appendChild(el);
+            // Ripristina HUD default divisi per divisione
+            const sysIds = ['hud-cpu', 'hud-ram', 'hud-gpu', 'hud-vram', 'hud-ollama', 'hud-llamacpp', 'hud-team', 'hud-sviluppo', 'hud-marketing'];
+            const sysGrid = document.getElementById('hud-grid-system');
+            if (sysGrid) {
+                sysIds.forEach(id => {
+                    const el = document.querySelector(`[data-hud-id="${id}"]`);
+                    if (el) sysGrid.appendChild(el);
+                });
+            }
+            const cloudIds = ['hud-cloud', 'hud-cloud-minimax', 'hud-portal'];
+            const cloudTier = document.getElementById('hud-grid-cloud');
+            if (cloudTier) {
+                cloudIds.forEach(id => {
+                    const el = document.querySelector(`[data-hud-id="${id}"]`);
+                    if (el) cloudTier.appendChild(el);
                 });
             }
 
@@ -4413,48 +4583,48 @@
         }
 
         function initHudDragAndDrop() {
-            const hudGrid = document.querySelector('.hud-grid');
-            if (!hudGrid) return;
+            const containers = document.querySelectorAll('.hud-grid, .hud-cloud-tier');
+            containers.forEach(container => {
+                const metrics = container.querySelectorAll('.draggable-hud');
+                metrics.forEach(metric => {
+                    metric.setAttribute('draggable', 'true');
 
-            const metrics = hudGrid.querySelectorAll('.draggable-hud');
-            metrics.forEach(metric => {
-                metric.setAttribute('draggable', 'true');
+                    metric.addEventListener('dragstart', (e) => {
+                        window.isDraggingHud = true;
+                        metric.classList.add('dragging-hud');
+                        e.dataTransfer.effectAllowed = 'move';
+                        e.dataTransfer.setData('text/plain', metric.getAttribute('data-hud-id'));
+                    });
 
-                metric.addEventListener('dragstart', (e) => {
-                    window.isDraggingHud = true;
-                    metric.classList.add('dragging-hud');
-                    e.dataTransfer.effectAllowed = 'move';
-                    e.dataTransfer.setData('text/plain', metric.getAttribute('data-hud-id'));
-                });
+                    metric.addEventListener('dragend', () => {
+                        window.isDraggingHud = false;
+                        metric.classList.remove('dragging-hud');
+                        document.querySelectorAll('.draggable-hud').forEach(m => m.classList.remove('drag-over-hud'));
+                        saveLayout();
+                        showToast('✓ Posizione metrica HUD salvata!');
+                    });
 
-                metric.addEventListener('dragend', () => {
-                    window.isDraggingHud = false;
-                    metric.classList.remove('dragging-hud');
-                    metrics.forEach(m => m.classList.remove('drag-over-hud'));
-                    saveLayout();
-                    showToast('✓ Posizione metrica HUD salvata!');
-                });
+                    metric.addEventListener('dragover', (e) => {
+                        if (!window.isDraggingHud) return;
+                        e.preventDefault();
+                        e.dataTransfer.dropEffect = 'move';
+                        metric.classList.add('drag-over-hud');
 
-                metric.addEventListener('dragover', (e) => {
-                    if (!window.isDraggingHud) return;
-                    e.preventDefault();
-                    e.dataTransfer.dropEffect = 'move';
-                    metric.classList.add('drag-over-hud');
+                        const dragging = document.querySelector('.dragging-hud');
+                        if (!dragging || dragging === metric || dragging.parentElement !== metric.parentElement) return;
 
-                    const dragging = hudGrid.querySelector('.dragging-hud');
-                    if (!dragging || dragging === metric) return;
+                        const rect = metric.getBoundingClientRect();
+                        const midX = rect.left + rect.width / 2;
+                        if (e.clientX < midX) {
+                            metric.parentElement.insertBefore(dragging, metric);
+                        } else {
+                            metric.parentElement.insertBefore(dragging, metric.nextElementSibling);
+                        }
+                    });
 
-                    const rect = metric.getBoundingClientRect();
-                    const midX = rect.left + rect.width / 2;
-                    if (e.clientX < midX) {
-                        hudGrid.insertBefore(dragging, metric);
-                    } else {
-                        hudGrid.insertBefore(dragging, metric.nextElementSibling);
-                    }
-                });
-
-                metric.addEventListener('dragleave', () => {
-                    metric.classList.remove('drag-over-hud');
+                    metric.addEventListener('dragleave', () => {
+                        metric.classList.remove('drag-over-hud');
+                    });
                 });
             });
         }

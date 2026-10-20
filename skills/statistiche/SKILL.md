@@ -1,7 +1,7 @@
 ---
 name: statistiche
-description: Open native STATISTICHEAI 16-bit dashboard monitor (v2.3.1, 9 agents, 7 local llama.cpp + 2 cloud Ollama Beam & MiniMax, Dual Cloud Titans Quantum Portal, Radar Benchmark OpenCompass, MoE & RTX 4060 TPS).
-version: 2.3.1
+description: Open native STATISTICHEAI 16-bit dashboard monitor (v2.3.2, 9 agents, 7 local llama.cpp + 2 cloud Ollama Beam & MiniMax, Dual Cloud Titans Quantum Portal, Radar Benchmark OpenCompass, MoE & RTX 4060 TPS).
+version: 2.3.2
 author: Gyniu, Hermes Agent
 license: MIT
 platforms: [windows]
@@ -10,9 +10,22 @@ metadata:
     tags: [monitoring, dashboard, retro, agent-telemetry, ollama, llamacpp, radar-benchmark, moe, cloud-lightning]
 ---
 
-# STATISTICHEAI Monitor Skill (v2.3.1)
+# STATISTICHEAI Monitor Skill (v2.3.2)
 
 Opens and controls the STATISTICHEAI 16-bit retro arcade AI monitoring dashboard for the 9 optimized Hermes agents across hybrid local & cloud engines (7 local models on llama.cpp port 9931 disk D:, plus 2 Cloud Lightning MoE models on Ollama port 11434: BEAM 501B MoE and MiniMax 3.1 Flash 456B MoE) in a dedicated native desktop application window.
+
+### New in v2.3.2:
+- **Fast Radar Benchmark & Performance Sorter**: Instant one-click sorting of all agent cards directly from the filter bar based on benchmark dimensions:
+  - 🚀 **Speed / Throughput (TPS)**: Sort by real-time hardware inference tokens/sec on RTX 4060 or Cloud Lightning.
+  - 💻 **Coding (HumanEval)**: Sort by programming benchmark precision.
+  - 🧠 **Reasoning (MATH/Logic)**: Sort by analytical and mathematical benchmark depth.
+  - 📚 **Knowledge (MMLU-Pro)**: Sort by comprehensive knowledge and encyclopedic accuracy.
+  - ⚡ **Agentic (Tool Calling)**: Sort by tool execution and workflow autonomy.
+  - 👁️ **Vision (VLM Perception)**: Sort by multimodal visual capabilities.
+  - 🔤 **Alphabetical (A-Z)** and 🔀 **Custom Drag & Drop** restoration.
+- **Harmonious Divided HUD Layout Architecture**: Completely eliminated grid overflow by dividing `#box-hud-metrics` into two distinct, dedicated architectural divisions:
+  - **Division 1 (Hardware & Local Inference)**: 9 local system metrics (CPU, RAM, GPU, VRAM, Ollama C:, llama.cpp D:, Team, Sviluppo, Marketing) in an auto-fitting balanced grid.
+  - **Division 2 (Cloud Titans & Portale Vortice Quantico)**: Dedicated flex tier accommodating BEAM (501B), MiniMax (456B), and an auto-responsive dynamic Portale Vortice Quantico with zero-overflow viewport scaling.
 
 ### New in v2.3.1:
 - **Dual Cloud Titans in Portale Vortice Quantico**: Simultaneous cosmic rendering of both Cloud Titans (`BEAM:cloud` 501B MoE and `MiniMax 3.1 Flash:cloud` 456B MoE Video Developer) side-by-side on an expanded celestial floating platform, equipped with dual rotating quantum vortices, independent cyber-auras, and balanced real-time telemetry columns.

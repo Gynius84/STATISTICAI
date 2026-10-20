@@ -1735,7 +1735,7 @@ class FastStatHandler(http.server.BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(res).encode("utf-8"))
             return
 
-        # 10. Catalogo Benchmark & Specifiche Architetture (v2.3.1)
+        # 10. Catalogo Benchmark & Specifiche Architetture (v2.3.2)
         if path == "/api/v1/models/benchmarks":
             self.send_response(200)
             self.send_security_headers("application/json")

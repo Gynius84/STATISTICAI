@@ -2,7 +2,7 @@
 
 > **REGOLA ZERO**: Progetto puramente OSSERVATORE. Nessuna modifica a file esterni a STATISTICAI. Configurazioni e parametri sono congelati e intoccabili.
 
-Data aggiornamento baseline v2.3.1 (Roster Ibrido 9 Agenti: 7 llama.cpp D: + 2 Ollama Cloud): **2026-10-20 11:20:00**
+Data aggiornamento baseline v2.3.2 (Roster Ibrido 9 Agenti: 7 llama.cpp D: + 2 Ollama Cloud): **2026-10-20 11:20:00**
 
 ---
 
