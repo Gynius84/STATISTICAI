@@ -328,3 +328,181 @@
 2026-10-16 15:25:13,680 [INFO] ESITO: 7/7 Agenti Verificati | Modelli Ollama OK: 6 (Ricreati: 0)
 2026-10-16 15:25:13,680 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
 2026-10-16 15:25:13,680 [INFO] =======================================================
+2026-10-19 13:21:58,725 [INFO] =======================================================
+2026-10-19 13:21:58,725 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-19 13:21:58,725 [INFO] =======================================================
+2026-10-19 13:22:09,053 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\OneDrive\Desktop\STATISTICAI\backups\guard_auto_backup_20261019_132158
+2026-10-19 13:22:09,069 [INFO] [ENGINE] Patch hermes-agent verificate al 100% (applicate o gia' intatte: 0 aggiornamenti eseguiti).
+2026-10-19 13:22:09,069 [INFO] --- 1. Verifica Modelli Ollama ---
+2026-10-19 13:22:09,285 [INFO] [OLLAMA] Modello ottimizzato 'qwen3.5:64k' -> PRESENTE (OK)
+2026-10-19 13:22:09,285 [INFO] [OLLAMA] Modello ottimizzato 'hermes3:64k' -> PRESENTE (OK)
+2026-10-19 13:22:09,286 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5:64k' -> PRESENTE (OK)
+2026-10-19 13:22:09,286 [INFO] --- 2. Verifica Configurazioni 7 Agenti ---
+2026-10-19 13:22:09,287 [INFO] [HERMES] Profilo 'default': Config allineato (Modello=qwen3.5:64k, Ctx=65536)
+2026-10-19 13:23:16,722 [INFO] =======================================================
+2026-10-19 13:23:16,723 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-19 13:23:16,723 [INFO] =======================================================
+2026-10-19 13:23:23,167 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\OneDrive\Desktop\STATISTICAI\backups\guard_auto_backup_20261019_132316
+2026-10-19 13:23:23,173 [INFO] [ENGINE] Patch hermes-agent verificate al 100% (applicate o gia' intatte: 0 aggiornamenti eseguiti).
+2026-10-19 13:23:23,173 [INFO] --- 1. Verifica Modelli Ollama ---
+2026-10-19 13:23:23,292 [INFO] [OLLAMA] Modello ottimizzato 'qwen3.5:64k' -> PRESENTE (OK)
+2026-10-19 13:23:23,292 [INFO] [OLLAMA] Modello ottimizzato 'hermes3:64k' -> PRESENTE (OK)
+2026-10-19 13:23:23,379 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5:64k' -> PRESENTE (OK)
+2026-10-19 13:23:23,379 [INFO] --- 2. Verifica Configurazioni 7 Agenti ---
+2026-10-19 13:23:23,380 [INFO] [HERMES] Profilo 'default': Config gia' ottimale al 100% (invariato)
+2026-10-19 13:23:23,380 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-19 13:23:23,381 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-19 13:23:23,382 [INFO] [HERMES] Profilo 'mark1': Config gia' ottimale al 100% (invariato)
+2026-10-19 13:23:23,383 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-19 13:23:23,383 [INFO] --- 3. Verifica Integrita' Gruppi Hermes ---
+2026-10-19 13:23:25,330 [INFO] [GROUPS] Tabelle hosted_rooms in state.db ripulite da record orfani
+2026-10-19 13:23:25,333 [INFO] [GROUPS] Root profile.yaml allineato con TEAM SVILUPPO e TEAM MARKETING
+2026-10-19 13:23:25,334 [INFO] [GROUPS] Profilo 'gynbot2' assegnato a gruppo 'TEAM SVILUPPO'
+2026-10-19 13:23:25,335 [INFO] [GROUPS] Profilo 'gynbox3' assegnato a gruppo 'TEAM SVILUPPO'
+2026-10-19 13:23:25,336 [INFO] [GROUPS] Profilo 'mark1' assegnato a gruppo 'TEAM MARKETING'
+2026-10-19 13:23:25,337 [INFO] [GROUPS] Profilo 'mark2' assegnato a gruppo 'TEAM MARKETING'
+2026-10-19 13:23:25,337 [INFO] [GROUPS] Integrita' gruppi e modalita' legacy verificata al 100%% (OK).
+2026-10-19 13:23:25,338 [INFO] =======================================================
+2026-10-19 13:23:25,338 [INFO] ESITO: 5/7 Agenti Verificati | Modelli Ollama OK: 3 (Ricreati: 0)
+2026-10-19 13:23:25,338 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-19 13:23:25,338 [INFO] =======================================================
+2026-10-19 13:52:07,602 [INFO] =======================================================
+2026-10-19 13:52:07,602 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-19 13:52:07,602 [INFO] =======================================================
+2026-10-19 13:52:18,267 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\OneDrive\Desktop\STATISTICAI\backups\guard_auto_backup_20261019_135207
+2026-10-19 13:52:18,284 [INFO] [ENGINE] Patch hermes-agent verificate al 100% (applicate o gia' intatte: 0 aggiornamenti eseguiti).
+2026-10-19 13:52:18,284 [INFO] --- 1. Verifica Modelli Ollama ---
+2026-10-19 13:52:18,500 [INFO] [OLLAMA] Modello ottimizzato 'qwen3.5:64k' -> PRESENTE (OK)
+2026-10-19 13:52:18,501 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5:64k' -> PRESENTE (OK)
+2026-10-19 13:52:18,501 [INFO] --- 2. Verifica Configurazioni 7 Agenti ---
+2026-10-19 13:52:18,501 [INFO] [HERMES] Profilo 'default': Config gia' ottimale al 100% (invariato)
+2026-10-19 13:52:18,503 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-19 13:52:18,504 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-19 13:52:18,504 [INFO] [HERMES] Profilo 'mark1': Config gia' ottimale al 100% (invariato)
+2026-10-19 13:52:18,505 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-19 13:52:18,505 [INFO] --- 3. Verifica Integrita' Gruppi Hermes ---
+2026-10-19 13:52:18,693 [INFO] [GROUPS] Tabelle hosted_rooms in state.db ripulite da record orfani
+2026-10-19 13:52:18,697 [INFO] [GROUPS] Integrita' gruppi e modalita' legacy verificata al 100%% (OK).
+2026-10-19 13:52:18,698 [INFO] =======================================================
+2026-10-19 13:52:18,698 [INFO] ESITO: 5/7 Agenti Verificati | Modelli Ollama OK: 2 (Ricreati: 0)
+2026-10-19 13:52:18,698 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-19 13:52:18,698 [INFO] =======================================================
+2026-10-19 19:33:00,992 [INFO] =======================================================
+2026-10-19 19:33:00,993 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-19 19:33:00,993 [INFO] =======================================================
+2026-10-19 19:33:09,763 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\OneDrive\Desktop\STATISTICAI\backups\guard_auto_backup_20261019_193300
+2026-10-19 19:33:09,777 [INFO] [ENGINE] Patch hermes-agent verificate al 100% (applicate o gia' intatte: 0 aggiornamenti eseguiti).
+2026-10-19 19:33:09,778 [INFO] --- 1. Verifica Modelli Ollama ---
+2026-10-19 19:33:10,019 [INFO] [OLLAMA] Modello ottimizzato 'qwen3.5:64k' -> PRESENTE (OK)
+2026-10-19 19:33:10,019 [INFO] [OLLAMA] Modello ottimizzato 'qwen2.5:64k' -> PRESENTE (OK)
+2026-10-19 19:33:10,019 [INFO] --- 2. Verifica Configurazioni 7 Agenti ---
+2026-10-19 19:33:10,020 [INFO] [HERMES] Profilo 'default': Config gia' ottimale al 100% (invariato)
+2026-10-19 19:33:10,020 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-19 19:33:10,021 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-19 19:33:10,021 [INFO] [HERMES] Profilo 'mark1': Config gia' ottimale al 100% (invariato)
+2026-10-19 19:33:10,022 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-19 19:33:10,022 [INFO] --- 3. Verifica Integrita' Gruppi Hermes ---
+2026-10-19 19:33:10,193 [INFO] [GROUPS] Tabelle hosted_rooms e record orfani profili ritirati ripuliti da state.db
+2026-10-19 19:33:10,208 [INFO] [GROUPS] Root profile.yaml allineato con TEAM SVILUPPO e TEAM MARKETING
+2026-10-19 19:33:10,209 [INFO] [GROUPS] Profilo 'gynbot2' assegnato a gruppo 'TEAM SVILUPPO'
+2026-10-19 19:33:10,210 [INFO] [GROUPS] Profilo 'gynbox3' assegnato a gruppo 'TEAM SVILUPPO'
+2026-10-19 19:33:10,210 [INFO] [GROUPS] Profilo 'mark1' assegnato a gruppo 'TEAM MARKETING'
+2026-10-19 19:33:10,211 [INFO] [GROUPS] Profilo 'mark2' assegnato a gruppo 'TEAM MARKETING'
+2026-10-19 19:33:10,211 [INFO] [GROUPS] Integrita' gruppi e modalita' legacy verificata al 100%% (OK).
+2026-10-19 19:33:10,886 [INFO] [RUNTIME] Parametri di sistema anti-swap (LLAMA_ARG_MODELS_MAX=1, OLLAMA_KEEP_ALIVE=2m) verificati al 100%%
+2026-10-19 19:33:10,886 [INFO] =======================================================
+2026-10-19 19:33:10,887 [INFO] ESITO: 5/7 Agenti Verificati | Modelli Ollama OK: 2 (Ricreati: 0)
+2026-10-19 19:33:10,887 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-19 19:33:10,887 [INFO] =======================================================
+2026-10-19 21:12:08,726 [INFO] [ENGINE] agent_init.py patch applicata (supporto modelli locali calibrati)
+2026-10-19 21:12:08,729 [INFO] [ENGINE] conversation_loop.py patch applicata (soglia Ollama 16k)
+2026-10-19 21:12:08,730 [INFO] [ENGINE] model_metadata.py patch applicata (MINIMUM_CONTEXT_LENGTH = 16_384)
+2026-10-19 21:12:08,759 [INFO] [ENGINE] custom provider patch applicata (Ollama options)
+2026-10-19 21:12:08,760 [INFO] [ENGINE] session_lifecycle.py patch applicata (rilascio slot gruppo)
+2026-10-19 21:12:08,761 [INFO] [ENGINE] file_tools_write_guards.py patch applicata
+2026-10-19 21:12:08,762 [INFO] [ENGINE] terminal_tool.py patch applicata
+2026-10-19 21:12:08,763 [INFO] [ENGINE] chat_completions.py patch applicata (filtro tool Ollama)
+2026-10-19 21:12:08,763 [INFO] [ENGINE] Patch hermes-agent verificate al 100% (applicate o gia' intatte: 8 aggiornamenti eseguiti).
+2026-10-19 21:19:32,247 [INFO] =======================================================
+2026-10-19 21:19:32,248 [INFO]    HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   
+2026-10-19 21:19:32,248 [INFO] =======================================================
+2026-10-19 21:19:36,830 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\OneDrive\Desktop\STATISTICAI\backups\guard_auto_backup_20261019_211932
+2026-10-19 21:19:36,830 [ERROR] Manifest di tuning non trovato in: C:\Users\Gyniu\AppData\Local\hermes\golden_tuning\tuning_manifest.json
+2026-10-19 23:23:59,396 [INFO] =======================================================
+2026-10-19 23:23:59,397 [INFO]    HERMES & LLAMA.CPP GUARD - CONTROLLO INTEGRITA'   
+2026-10-19 23:23:59,397 [INFO] =======================================================
+2026-10-19 23:24:03,631 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\OneDrive\Desktop\STATISTICAI\backups\guard_auto_backup_20261019_232359
+2026-10-19 23:24:03,635 [INFO] [ENGINE] conversation_loop.py patch applicata (soglia Ollama 16k)
+2026-10-19 23:24:03,638 [INFO] [ENGINE] model_metadata.py patch applicata (MINIMUM_CONTEXT_LENGTH = 16_384)
+2026-10-19 23:24:03,665 [INFO] [ENGINE] custom provider patch applicata (Ollama options)
+2026-10-19 23:24:03,667 [INFO] [ENGINE] session_lifecycle.py patch applicata (rilascio slot gruppo)
+2026-10-19 23:24:03,669 [INFO] [ENGINE] file_tools_write_guards.py patch applicata
+2026-10-19 23:24:03,672 [INFO] [ENGINE] terminal_tool.py patch applicata
+2026-10-19 23:24:03,674 [INFO] [ENGINE] chat_completions.py patch applicata (filtro tool Ollama)
+2026-10-19 23:24:03,674 [INFO] [ENGINE] Patch hermes-agent verificate al 100% (applicate o gia' intatte: 7 aggiornamenti eseguiti).
+2026-10-19 23:24:03,674 [INFO] --- 1. Verifica Modelli GGUF llama.cpp (Porta 9931) ---
+2026-10-19 23:24:03,774 [INFO] [LLAMACPP] Modello GGUF 'Abiray/Qwen3.6-35B-A3B-Q4_K_M-GGUF:Q4_K_M' -> PRESENTE (OK)
+2026-10-19 23:24:03,775 [INFO] [LLAMACPP] Modello GGUF 'bartowski/DeepSeek-Coder-V2-Lite-Instruct-GGUF:Q4_K_M' -> PRESENTE (OK)
+2026-10-19 23:24:03,775 [INFO] [LLAMACPP] Modello GGUF 'mradermacher/Nous-Hermes-2-Mixtral-8x7B-DPO-GGUF:Q4_K_M' -> PRESENTE (OK)
+2026-10-19 23:24:03,775 [INFO] [LLAMACPP] Modello GGUF 'bartowski/Phi-3.5-MoE-instruct-GGUF:Q4_K_M' -> PRESENTE (OK)
+2026-10-19 23:24:03,775 [INFO] [LLAMACPP] Modello GGUF 'roleplaiapp/Qwen2.5-Coder-14B-Instruct-Uncensored-Q4_K_M-GGUF:Q4_K_M' -> PRESENTE (OK)
+2026-10-19 23:24:03,775 [INFO] [LLAMACPP] Modello GGUF 'bartowski/Hermes-3-Llama-3.1-8B-GGUF:Q4_K_M' -> PRESENTE (OK)
+2026-10-19 23:24:03,775 [INFO] [LLAMACPP] Modello GGUF 'PatataAliena/Qwen2.5-VL-7B-Instruct-Q4_K_M-GGUF:Q4_K_M' -> PRESENTE (OK)
+2026-10-19 23:24:03,775 [INFO] --- 2. Verifica Configurazioni 7 Agenti Locali ---
+2026-10-19 23:24:03,777 [INFO] [HERMES] Profilo 'default': Config allineato (Modello=bartowski/Hermes-3-Llama-3.1-8B-GGUF:Q4_K_M, Ctx=16384)
+2026-10-19 23:24:03,777 [INFO] [HERMES] Profilo 'coder14b': Config gia' ottimale al 100% (invariato)
+2026-10-19 23:24:03,778 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-19 23:24:03,779 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-19 23:24:03,780 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-19 23:24:03,780 [INFO] [HERMES] Profilo 'mistral24b': Config gia' ottimale al 100% (invariato)
+2026-10-19 23:24:03,781 [INFO] [HERMES] Profilo 'qwen': Config gia' ottimale al 100% (invariato)
+2026-10-19 23:24:03,782 [INFO] [HERMES] Profilo 'vision7b': Config gia' ottimale al 100% (invariato)
+2026-10-19 23:24:03,782 [INFO] --- 3. Verifica Integrita' Gruppi Hermes ---
+2026-10-19 23:24:03,809 [INFO] [GROUPS] canonical-protocol.ts aggiornato per room_plumbing
+2026-10-19 23:24:03,827 [INFO] [GROUPS] group-turns.ts allineato con tolleranza not_found
+2026-10-19 23:24:03,828 [INFO] [GROUPS] Gateway session_controls.py allineato per codici 4007, lookup titoli e room_plumbing
+2026-10-19 23:24:03,830 [INFO] [GROUPS] session_policy.py CREATE_FIELDS aggiornato con room_plumbing
+2026-10-19 23:24:03,832 [INFO] [GROUPS] canonical_sessions.py CanonicalCreateParams aggiornato con room_plumbing
+2026-10-19 23:24:03,856 [INFO] [GROUPS] Tabelle hosted_rooms e record orfani profili ritirati ripuliti da state.db
+2026-10-19 23:24:03,858 [INFO] [GROUPS] Gateway session_group_controls allineato
+2026-10-19 23:24:03,860 [INFO] [GROUPS] tui_gateway methods_groups allineato
+2026-10-19 23:24:03,861 [INFO] [GROUPS] Root profile.yaml allineato con TEAM SVILUPPO e TEAM MARKETING
+2026-10-19 23:24:03,862 [INFO] [GROUPS] Profilo 'gynbot2' assegnato a gruppo 'TEAM SVILUPPO'
+2026-10-19 23:24:03,863 [INFO] [GROUPS] Profilo 'gynbox3' assegnato a gruppo 'TEAM SVILUPPO'
+2026-10-19 23:24:03,864 [INFO] [GROUPS] Profilo 'mark2' assegnato a gruppo 'TEAM MARKETING'
+2026-10-19 23:24:03,864 [INFO] [GROUPS] Integrita' gruppi e modalita' legacy verificata al 100%% (OK).
+2026-10-19 23:24:04,697 [INFO] [RUNTIME] Parametri di sistema anti-swap (LLAMA_ARG_MODELS_MAX=1, LLAMA_ARG_N_PARALLEL=1) verificati al 100%%
+2026-10-19 23:24:04,697 [INFO] =======================================================
+2026-10-19 23:24:04,697 [INFO] ESITO: 8/7 Agenti Verificati | Modelli GGUF OK: 7 (Mancanti: 0)
+2026-10-19 23:24:04,697 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-19 23:24:04,698 [INFO] =======================================================
+2026-10-19 23:46:46,463 [INFO] =======================================================
+2026-10-19 23:46:46,463 [INFO]    HERMES & LLAMA.CPP GUARD - CONTROLLO INTEGRITA'   
+2026-10-19 23:46:46,463 [INFO] =======================================================
+2026-10-19 23:46:48,932 [INFO] [BACKUP] Backup automatico salvato in: C:\Users\Gyniu\OneDrive\Desktop\STATISTICAI\backups\guard_auto_backup_20261019_234646
+2026-10-19 23:46:49,072 [INFO] [ENGINE] Patch hermes-agent verificate al 100% (applicate o gia' intatte: 0 aggiornamenti eseguiti).
+2026-10-19 23:46:49,072 [INFO] --- 1. Verifica Modelli GGUF llama.cpp (Porta 9931) ---
+2026-10-19 23:46:49,133 [INFO] [LLAMACPP] Modello GGUF 'bartowski/DeepSeek-Coder-V2-Lite-Instruct-GGUF:Q4_K_M' -> PRESENTE (OK)
+2026-10-19 23:46:49,134 [INFO] [LLAMACPP] Modello GGUF 'bartowski/Phi-3.5-MoE-instruct-GGUF:Q4_K_M' -> PRESENTE (OK)
+2026-10-19 23:46:49,134 [INFO] [LLAMACPP] Modello GGUF 'Abiray/Qwen3.6-35B-A3B-Q4_K_M-GGUF:Q4_K_M' -> PRESENTE (OK)
+2026-10-19 23:46:49,134 [INFO] [LLAMACPP] Modello GGUF 'PatataAliena/Qwen2.5-VL-7B-Instruct-Q4_K_M-GGUF:Q4_K_M' -> PRESENTE (OK)
+2026-10-19 23:46:49,134 [INFO] [LLAMACPP] Modello GGUF 'mradermacher/Nous-Hermes-2-Mixtral-8x7B-DPO-GGUF:Q4_K_M' -> PRESENTE (OK)
+2026-10-19 23:46:49,134 [INFO] [LLAMACPP] Modello GGUF 'roleplaiapp/Qwen2.5-Coder-14B-Instruct-Uncensored-Q4_K_M-GGUF:Q4_K_M' -> PRESENTE (OK)
+2026-10-19 23:46:49,134 [INFO] [LLAMACPP] Modello GGUF 'bartowski/Hermes-3-Llama-3.1-8B-GGUF:Q4_K_M' -> PRESENTE (OK)
+2026-10-19 23:46:49,134 [INFO] --- 2. Verifica Configurazioni 7 Agenti Locali ---
+2026-10-19 23:46:49,134 [INFO] [HERMES] Profilo 'default': Config gia' ottimale al 100% (invariato)
+2026-10-19 23:46:49,135 [INFO] [HERMES] Profilo 'coder14b': Config gia' ottimale al 100% (invariato)
+2026-10-19 23:46:49,135 [INFO] [HERMES] Profilo 'gynbot2': Config gia' ottimale al 100% (invariato)
+2026-10-19 23:46:49,135 [INFO] [HERMES] Profilo 'gynbox3': Config gia' ottimale al 100% (invariato)
+2026-10-19 23:46:49,136 [INFO] [HERMES] Profilo 'mark2': Config gia' ottimale al 100% (invariato)
+2026-10-19 23:46:49,136 [INFO] [HERMES] Profilo 'qwen': Config gia' ottimale al 100% (invariato)
+2026-10-19 23:46:49,136 [INFO] [HERMES] Profilo 'vision7b': Config gia' ottimale al 100% (invariato)
+2026-10-19 23:46:49,136 [INFO] --- 3. Verifica Integrita' Gruppi Hermes ---
+2026-10-19 23:46:49,157 [INFO] [GROUPS] session_policy.py CREATE_FIELDS aggiornato con room_plumbing
+2026-10-19 23:46:49,166 [INFO] [GROUPS] Tabelle hosted_rooms e record orfani profili ritirati ripuliti da state.db
+2026-10-19 23:46:49,188 [INFO] [GROUPS] Integrita' gruppi e modalita' legacy verificata al 100%% (OK).
+2026-10-19 23:46:50,017 [INFO] [RUNTIME] Parametri di sistema anti-swap (LLAMA_ARG_MODELS_MAX=1, LLAMA_ARG_N_PARALLEL=1) verificati al 100%%
+2026-10-19 23:46:50,017 [INFO] =======================================================
+2026-10-19 23:46:50,017 [INFO] ESITO: 7/7 Agenti Verificati | Modelli GGUF OK: 7 (Mancanti: 0)
+2026-10-19 23:46:50,017 [INFO] Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!
+2026-10-19 23:46:50,017 [INFO] =======================================================

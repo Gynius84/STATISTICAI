@@ -546,22 +546,22 @@ MODEL_BENCHMARK_CATALOG = {
         },
         "model_notes": "Penetration testing, analisi vulnerabilità exploit e script security senza barriere."
     },
-    "lucy-in-the-sky/mistral-small-24b-instruct-2501-reasoning-q4_k_m-gguf:q4_k_m": {
-        "architecture_type": "Dense Reasoning (24.0B GGUF Q4_K_M)",
-        "architecture_tag": "reasoning",
-        "parameters": "24.0B GGUF",
-        "active_parameters": "24.0B (100%)",
-        "estimated_speed_tps": "~19 tok/s (Offload Ibrido GPU 8GB + RAM)",
-        "tps_value": 19,
+    "bartowski/hermes-3-llama-3.1-8b-gguf:q4_k_m": {
+        "architecture_type": "Dense Agentic (8.0B GGUF Q4_K_M)",
+        "architecture_tag": "agentic",
+        "parameters": "8.0B GGUF",
+        "active_parameters": "8.0B (100% VRAM GPU RTX 4060)",
+        "estimated_speed_tps": "~44 tok/s (100% VRAM GPU Zero-Swap)",
+        "tps_value": 44,
         "benchmarks": {
-            "coding": 86,
-            "reasoning": 96,
-            "knowledge": 91,
-            "agentic": 90,
+            "coding": 84,
+            "reasoning": 88,
+            "knowledge": 87,
+            "agentic": 97,
             "vision": 20,
-            "throughput": 54
+            "throughput": 90
         },
-        "model_notes": "Mistral Small 24B finetuned per catena di ragionamento complessa, matematica e problem solving."
+        "model_notes": "Nous Hermes 3 (Llama 3.1 8B): ultra-veloce, 100% in VRAM GPU (0 swap), specializzato in function calling, orchestrazione e workflow autonomi."
     },
     "abiray/qwen3.6-35b-a3b-q4_k_m-gguf:q4_k_m": {
         "architecture_type": "MoE (Mixture of Experts - 35B Total, ~3.6B Active)",
@@ -613,6 +613,74 @@ MODEL_BENCHMARK_CATALOG = {
             "throughput": 75
         },
         "model_notes": "Supermodello Cloud MoE 671B parametrico con Multi-head Latent Attention e DeepSeek reasoning."
+    },
+    "bartowski/deepseek-coder-v2-lite-instruct-gguf:q4_k_m": {
+        "architecture_type": "MoE (Mixture of Experts - 16B Total, ~2.4B Active)",
+        "architecture_tag": "moe",
+        "parameters": "16B MoE GGUF",
+        "active_parameters": "~2.4B per token",
+        "estimated_speed_tps": "~24 tok/s (Active MoE Offload RTX 4060)",
+        "tps_value": 24,
+        "benchmarks": {
+            "coding": 94,
+            "reasoning": 89,
+            "knowledge": 86,
+            "agentic": 92,
+            "vision": 20,
+            "throughput": 65
+        },
+        "model_notes": "DeepSeek Coder V2 Lite MoE (16B totali, 2.4B attivi per token). Eccellenza nel coding multi-linguaggio e logica strutturata."
+    },
+    "bartowski/phi-3.5-moe-instruct-gguf:q4_k_m": {
+        "architecture_type": "MoE (Mixture of Experts - 42B Total, ~6.6B Active)",
+        "architecture_tag": "moe",
+        "parameters": "42B MoE GGUF (16x3.8B)",
+        "active_parameters": "~6.6B per token (2 active experts)",
+        "estimated_speed_tps": "~16 tok/s (Active MoE Offload RTX 4060)",
+        "tps_value": 16,
+        "benchmarks": {
+            "coding": 86,
+            "reasoning": 94,
+            "knowledge": 92,
+            "agentic": 90,
+            "vision": 20,
+            "throughput": 50
+        },
+        "model_notes": "Microsoft Phi-3.5 MoE (16 esperti da 3.8B, 2 attivi per token). Altissima densità intellettuale per copywriting e marketing."
+    },
+    "mradermacher/nous-hermes-2-mixtral-8x7b-dpo-gguf:q4_k_m": {
+        "architecture_type": "MoE (Mixture of Experts - 46.7B Total, ~12.9B Active)",
+        "architecture_tag": "moe",
+        "parameters": "46.7B MoE GGUF (8x7B)",
+        "active_parameters": "~12.9B per token (2 active experts)",
+        "estimated_speed_tps": "~14 tok/s (Active MoE Offload RTX 4060)",
+        "tps_value": 14,
+        "benchmarks": {
+            "coding": 88,
+            "reasoning": 92,
+            "knowledge": 91,
+            "agentic": 95,
+            "vision": 20,
+            "throughput": 45
+        },
+        "model_notes": "Nous Hermes 2 Mixtral 8x7B DPO (Direct Preference Optimization). Campione per system instructions, tool calling e QA."
+    },
+    "minimax-m3.1-flash:cloud": {
+        "architecture_type": "MoE Ultra-Fast (MiniMax 3.1 Flash - 456B MoE)",
+        "architecture_tag": "moe",
+        "parameters": "456B MoE",
+        "active_parameters": "~45B per token",
+        "estimated_speed_tps": "~65 tok/s (Cloud Lightning Cluster)",
+        "tps_value": 65,
+        "benchmarks": {
+            "coding": 94,
+            "reasoning": 95,
+            "knowledge": 96,
+            "agentic": 95,
+            "vision": 92,
+            "throughput": 98
+        },
+        "model_notes": "MiniMax 3.1 Flash su Cloud Lightning Cluster. Architettura MoE da 456B totali (~45B attivi) specializzata in video generation, scripting multimediale, agentic autonomy e high-throughput reasoning."
     }
 }
 
@@ -623,7 +691,11 @@ def resolve_model_benchmarks(model_name, is_cloud=False, agent_id=None):
     m_clean = (model_name or "").lower().strip()
     a_clean = (agent_id or "").lower().strip()
 
-    if is_cloud or "beam" in m_clean or a_clean == "beam":
+    if "beam" in m_clean or a_clean == "beam":
+        return MODEL_BENCHMARK_CATALOG["beam:cloud"].copy()
+    if "minimax" in m_clean or a_clean == "minimax" or "video" in a_clean or "flash" in m_clean:
+        return MODEL_BENCHMARK_CATALOG["minimax-m3.1-flash:cloud"].copy()
+    if is_cloud and "501b" in m_clean:
         return MODEL_BENCHMARK_CATALOG["beam:cloud"].copy()
     if "deepseek-v4" in m_clean:
         return MODEL_BENCHMARK_CATALOG["deepseek-v4-pro:cloud"].copy()
@@ -633,12 +705,18 @@ def resolve_model_benchmarks(model_name, is_cloud=False, agent_id=None):
         return MODEL_BENCHMARK_CATALOG["bonsai-9b:64k"].copy()
     if "uncensored" in m_clean or "coder-14b" in m_clean or a_clean == "coder14b" or "dark" in a_clean:
         return MODEL_BENCHMARK_CATALOG["roleplaiapp/qwen2.5-coder-14b-instruct-uncensored-q4_k_m-gguf:q4_k_m"].copy()
-    if "mistral" in m_clean or "reasoning" in m_clean or a_clean == "mistral24b" or a_clean == "iq":
-        return MODEL_BENCHMARK_CATALOG["lucy-in-the-sky/mistral-small-24b-instruct-2501-reasoning-q4_k_m-gguf:q4_k_m"].copy()
+    if "hermes-3" in m_clean or "llama-3.1-8b" in m_clean or a_clean == "mistral24b" or a_clean == "iq":
+        return MODEL_BENCHMARK_CATALOG["bartowski/hermes-3-llama-3.1-8b-gguf:q4_k_m"].copy()
     if "35b" in m_clean or "a3b" in m_clean or a_clean == "qwen" or a_clean == "mind":
         return MODEL_BENCHMARK_CATALOG["abiray/qwen3.6-35b-a3b-q4_k_m-gguf:q4_k_m"].copy()
     if "vl" in m_clean or a_clean == "vision7b" or a_clean == "vision":
         return MODEL_BENCHMARK_CATALOG["patataaliena/qwen2.5-vl-7b-instruct-q4_k_m-gguf:q4_k_m"].copy()
+    if "deepseek-coder" in m_clean or ("deepseek" in m_clean and "coder" in m_clean) or (a_clean == "gynbot2" and "deepseek" in m_clean):
+        return MODEL_BENCHMARK_CATALOG["bartowski/deepseek-coder-v2-lite-instruct-gguf:q4_k_m"].copy()
+    if "phi" in m_clean or (a_clean == "mark2" and "phi" in m_clean):
+        return MODEL_BENCHMARK_CATALOG["bartowski/phi-3.5-moe-instruct-gguf:q4_k_m"].copy()
+    if "mixtral" in m_clean or "nous-hermes-2-mixtral" in m_clean or (a_clean == "gynbox3" and "mixtral" in m_clean):
+        return MODEL_BENCHMARK_CATALOG["mradermacher/nous-hermes-2-mixtral-8x7b-dpo-gguf:q4_k_m"].copy()
     if "qwen3.5" in m_clean or a_clean in ["default", "gynbot1"]:
         return MODEL_BENCHMARK_CATALOG["qwen3.5:64k"].copy()
     if "coder" in m_clean or a_clean == "gynbot2":
@@ -697,9 +775,22 @@ def auto_discover_hermes_agents():
                 prof_list.append((item, item, item_path, None))
                 valid_profiles.add(item.lower())
 
+    # Sincronizza sprite dal repository master se presente
+    master_sprites_folder = r"C:\Users\Gyniu\Desktop\progetti ai\STATISTICHEAI\sprites_agents"
+    sprites_folder = os.path.join(BASE_DIR, "sprites_agents")
+    if os.path.exists(master_sprites_folder) and os.path.exists(sprites_folder):
+        for f in os.listdir(master_sprites_folder):
+            if f.lower().endswith(".png"):
+                src = os.path.join(master_sprites_folder, f)
+                dst = os.path.join(sprites_folder, f)
+                try:
+                    if not os.path.exists(dst) or os.path.getsize(dst) != os.path.getsize(src):
+                        shutil.copy2(src, dst)
+                except Exception:
+                    pass
+
     # Mappa sprite disponibili in sprites_agents
     available_sprites = {}
-    sprites_folder = os.path.join(BASE_DIR, "sprites_agents")
     if os.path.exists(sprites_folder):
         for f in os.listdir(sprites_folder):
             if f.lower().endswith(".png"):
@@ -739,6 +830,29 @@ def auto_discover_hermes_agents():
         if not title:
             title = agent_id.replace("_", " ").title()
 
+        # Normalizzazione titoli e descrizioni speciali
+        if agent_id == "minimax":
+            if title.lower() in ["video developer", "minimax", "cloud"]:
+                title = "Video Developer"
+            if desc.lower() in ["cloud", "agente hermes", ""]:
+                desc = "Video Developer & Multimedia Specialist"
+
+        # Rilevamento automatico dell'avatar dai profili Hermes (profiles/<id>/assets/avatar.png)
+        prof_assets = os.path.join(prof_dir, "assets") if prof_id != "default" else os.path.join(HERMES_ROOT, "assets")
+        if os.path.exists(prof_assets):
+            for av_item in os.listdir(prof_assets):
+                if av_item.lower().startswith("avatar.") and av_item.lower().endswith((".png", ".jpg", ".jpeg", ".webp")):
+                    av_src = os.path.join(prof_assets, av_item)
+                    for dn in [f"{title}.png", f"{agent_id}.png", f"{prof_id}.png"]:
+                        av_dst = os.path.join(sprites_folder, dn)
+                        try:
+                            if not os.path.exists(av_dst) or os.path.getsize(av_dst) != os.path.getsize(av_src):
+                                shutil.copy2(av_src, av_dst)
+                                print(f"[Auto-Discovery] Avatar sincronizzato da profilo Hermes '{prof_id}' -> {dn}")
+                            available_sprites[dn.lower()] = f"sprites_agents/{dn}"
+                        except Exception:
+                            pass
+
         # Normalizzazione descrizioni brevi
         d_clean = desc.strip()
         if d_clean.upper() == "PENTESTER":
@@ -754,7 +868,11 @@ def auto_discover_hermes_agents():
         provider = "ollama"
         base_url = "http://127.0.0.1:11434/v1"
         context_limit = 32768
-        is_cloud = (agent_id == "beam" or "beam" in title.lower())
+        is_cloud = (
+            agent_id in ["beam", "minimax"] or 
+            ":cloud" in (default_title or "").lower() or
+            agent_id == "beam" or "beam" in title.lower()
+        )
 
         if os.path.exists(cfg_yaml):
             try:
@@ -785,17 +903,47 @@ def auto_discover_hermes_agents():
             except Exception:
                 pass
 
+        # Rilevamento avanzato Cloud Model
+        if (
+            ":cloud" in model_name.lower() or 
+            "beam" in model_name.lower() or 
+            "minimax" in model_name.lower() or 
+            agent_id in ["beam", "minimax"] or
+            "cloud" in title.lower() or
+            "openrouter" in (provider or "").lower()
+        ):
+            is_cloud = True
+
         # Normalizzazione Provider e Base URL
-        if is_cloud or agent_id == "beam":
-            provider = "beam"
-            base_url = "http://127.0.0.1:11434/v1"
-            context_limit = 1048576
-        elif "llamacpp" in provider.lower() or "9931" in base_url or agent_id in ["coder14b", "mistral24b", "qwen", "vision7b"]:
+        if is_cloud:
+            if agent_id == "beam" or "beam" in model_name.lower():
+                provider = "beam" if provider == "beam" else "ollama"
+                base_url = "http://127.0.0.1:11434/v1"
+                context_limit = 1048576
+                source_label = "Cloud 501B MoE"
+                group = "SUPER COORDINATORE"
+                color = "#38bdf8"
+            elif agent_id == "minimax" or "minimax" in model_name.lower():
+                provider = "ollama"
+                base_url = "http://127.0.0.1:11434/v1"
+                context_limit = 131072
+                source_label = "Cloud MiniMax 3.1"
+                group = "TEAM VIDEO & MULTIMEDIA"
+                color = "#ec4899"
+            else:
+                provider = "ollama"
+                base_url = "http://127.0.0.1:11434/v1"
+                source_label = "Cloud Lightning Cluster"
+                group = "TEAM CLOUD"
+                color = "#a855f7"
+        elif "llamacpp" in provider.lower() or "9931" in base_url or agent_id in ["coder14b", "mistral24b", "qwen", "vision7b", "gynbot2", "gynbox3", "mark2"]:
             provider = "llamacpp"
             base_url = "http://127.0.0.1:9931/v1"
+            source_label = "llama.cpp (Disco D:)"
         else:
             provider = "ollama"
             base_url = "http://127.0.0.1:11434/v1"
+            source_label = "Ollama (Locale C:)"
 
         # Selezione Sprite
         sprite_path = "sprites_agents/GynBot1.png"
@@ -809,6 +957,8 @@ def auto_discover_hermes_agents():
         ]
         if agent_id == "coder14b" or "dark" in title.lower():
             candidates.insert(0, "dark coder.png")
+        elif agent_id == "minimax" or "video" in title.lower() or "video" in agent_id.lower():
+            candidates.insert(0, "video developer.png")
         elif agent_id == "mistral24b" or title.lower() == "iq":
             candidates.insert(0, "iq.png")
         elif agent_id == "qwen" or title.lower() == "mind":
@@ -839,10 +989,14 @@ def auto_discover_hermes_agents():
 
         # Gruppo, Colore e Sorgente
         t_low = (title + " " + desc + " " + agent_id).lower()
-        if is_cloud or "beam" in t_low:
+        if is_cloud and ("beam" in t_low or agent_id == "beam"):
             group = "SUPER COORDINATORE"
             color = "#38bdf8"
             source_label = "Cloud 501B MoE"
+        elif is_cloud and ("minimax" in t_low or "video" in t_low or agent_id == "minimax"):
+            group = "TEAM VIDEO & MULTIMEDIA"
+            color = "#ec4899"
+            source_label = "Cloud MiniMax 3.1"
         elif "vision" in t_low or "oculus" in t_low or "ocolus" in t_low:
             group = "TEAM VISUAL AUDIT"
             color = "#0ea5e9"
@@ -866,11 +1020,21 @@ def auto_discover_hermes_agents():
         elif "marketing" in t_low or "mark" in t_low or "copy" in t_low or "growth" in t_low:
             group = "TEAM MARKETING"
             color = "#8b5cf6" if "1" in agent_id else ("#06b6d4" if "2" in agent_id else "#10b981")
-            source_label = "Ollama (Locale C:)"
+            source_label = "llama.cpp (Disco D:)" if provider == "llamacpp" or "9931" in (base_url or "") else "Ollama (Locale C:)"
         else:
             group = "TEAM SVILUPPO"
             color = "#3b82f6" if agent_id in ["default", "gynbot1"] else ("#fbbf24" if agent_id == "gynbot2" else "#ec4899")
-            source_label = "Ollama (Locale C:)"
+            source_label = "llama.cpp (Disco D:)" if provider == "llamacpp" or "9931" in (base_url or "") else "Ollama (Locale C:)"
+
+        if provider == "llamacpp" or "9931" in (base_url or ""):
+            source_label = "llama.cpp (Disco D:)"
+        elif is_cloud:
+            if "beam" in model_name.lower() or agent_id == "beam":
+                source_label = "Cloud 501B MoE"
+            elif "minimax" in model_name.lower() or agent_id == "minimax":
+                source_label = "Cloud MiniMax 3.1"
+            else:
+                source_label = "Cloud Lightning Cluster"
 
         bench_meta = resolve_model_benchmarks(model_name, is_cloud=is_cloud, agent_id=agent_id)
         prof_lookup_key = prof_id.lower()
@@ -885,6 +1049,9 @@ def auto_discover_hermes_agents():
                 existing.get("provider") != provider or
                 existing.get("group") != group or
                 existing.get("source") != source_label or
+                existing.get("is_cloud") != is_cloud or
+                existing.get("architecture_type") != bench_meta["architecture_type"] or
+                existing.get("architecture_tag") != bench_meta["architecture_tag"] or
                 "benchmarks" not in existing or
                 "architecture_type" not in existing):
                 existing["name"] = title
@@ -895,15 +1062,19 @@ def auto_discover_hermes_agents():
                 existing["provider"] = provider
                 existing["base_url"] = base_url
                 existing["sprite"] = sprite_path
+                existing["is_cloud"] = is_cloud
                 existing["group"] = group
                 existing["color"] = color
                 existing["source"] = source_label
                 existing["architecture_type"] = bench_meta["architecture_type"]
                 existing["architecture_tag"] = bench_meta["architecture_tag"]
+                existing["parameters"] = bench_meta.get("parameters", "Standard")
+                existing["active_parameters"] = bench_meta.get("active_parameters", "N/D")
                 existing["estimated_speed_tps"] = bench_meta["estimated_speed_tps"]
                 existing["tps_value"] = bench_meta["tps_value"]
                 existing["benchmarks"] = bench_meta["benchmarks"]
                 existing["model_notes"] = bench_meta["model_notes"]
+                existing["architecture"] = "GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local")
                 config_changed = True
             new_agents_list.append(existing)
         else:
@@ -930,9 +1101,9 @@ def auto_discover_hermes_agents():
                 "tps_value": bench_meta["tps_value"],
                 "benchmarks": bench_meta["benchmarks"],
                 "model_notes": bench_meta["model_notes"],
-                "architecture": "GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud MoE" if is_cloud else "Ollama Local"),
-                "modality": "Vision + Text + Tools" if "vl" in model_name.lower() or "bonsai" in model_name.lower() or "vision" in t_low else "Text + Tools",
-                "thinking_level": "Extended Thinking" if "reasoning" in model_name.lower() or "27b" in model_name.lower() else "Standard"
+                "architecture": "GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local"),
+                "modality": "Vision + Video + Text + Tools" if ("vl" in model_name.lower() or "video" in t_low or "minimax" in t_low or "vision" in t_low) else "Text + Tools",
+                "thinking_level": "Flash Fast" if "flash" in model_name.lower() else ("Extended Thinking" if ("reasoning" in model_name.lower() or "27b" in model_name.lower()) else "Standard")
             }
             new_agents_list.append(new_agent)
             config_changed = True
@@ -998,15 +1169,15 @@ def hermes_worker_loop():
                     "sprite": agent_def["sprite"],
                     "compress_threshold": agent_def["compress_threshold"],
                     "provider": agent_def.get("provider", "ollama"),
-                    "source": agent_def.get("source", "Ollama (Locale C:)"),
+                    "source": agent_def.get("source") or ("llama.cpp (Disco D:)" if agent_def.get("provider") == "llamacpp" or "9931" in str(agent_def.get("base_url", "")) else ("Cloud MiniMax 3.1" if "minimax" in str(agent_def.get("id", "")).lower() or "minimax" in str(agent_def.get("model", "")).lower() else ("Cloud 501B MoE" if agent_def.get("is_cloud") or agent_def.get("id") == "beam" else "Ollama (Locale C:)"))),
                     "base_url": agent_def.get("base_url", "http://127.0.0.1:11434/v1"),
                     "is_cloud": agent_def.get("is_cloud", False),
-                    "parameters": agent_def.get("parameters") or meta.get("parameters", "N/D"),
+                    "parameters": meta.get("parameters") or agent_def.get("parameters", "N/D"),
                     "architecture": agent_def.get("architecture", "N/D"),
-                    "architecture_type": agent_def.get("architecture_type") or meta["architecture_type"],
-                    "architecture_tag": agent_def.get("architecture_tag") or meta["architecture_tag"],
-                    "estimated_speed_tps": agent_def.get("estimated_speed_tps") or meta["estimated_speed_tps"],
-                    "tps_value": agent_def.get("tps_value") or meta["tps_value"],
+                    "architecture_type": meta["architecture_type"],
+                    "architecture_tag": meta["architecture_tag"],
+                    "estimated_speed_tps": meta["estimated_speed_tps"],
+                    "tps_value": meta["tps_value"],
                     "benchmarks": agent_def.get("benchmarks") or meta["benchmarks"],
                     "model_notes": agent_def.get("model_notes") or meta["model_notes"],
                     "modality": agent_def.get("modality", "Text"),
@@ -1046,6 +1217,7 @@ def hermes_worker_loop():
                 }
 
                 # VRAM & Engine check
+                matching = []
                 if agent_def.get("is_cloud"):
                     stat_res["vram_mb"] = 0
                     stat_res["is_shared_model"] = False
@@ -1211,9 +1383,8 @@ def hermes_worker_loop():
                             stat_res["endpoint_error"] = str(e)
                             stat_res["current_task"] = f"Offline: {str(e)[:26]}"
 
-                # Diagnosi integrata reale & simulata
-                is_cloud_agent = agent_def.get("is_cloud", False) or profile == "beam" or provider in ["cloud", "ollama_cloud"]
-                is_hermes = (provider == "hermes" and os.path.exists(db_path))
+                is_cloud_agent = bool(agent_def.get("is_cloud", False))
+                is_hermes = os.path.exists(db_path)
 
                 if is_hermes:
                     diag = agent_doctor.diagnose_agent(
@@ -1272,7 +1443,7 @@ def hermes_worker_loop():
                     stat_res["room"] = "cloud"
                     stat_res["status"] = "supervisione_cloud"
                     stat_res["hp"] = 100
-                elif matching or stat_res.get("endpoint_online"):
+                elif matching or LLAMACPP_CACHE.get("status") == "online" or stat_res.get("endpoint_online"):
                     stat_res["room"] = "ufficio"
                     stat_res["status"] = "lavoro"
                 else:
@@ -1564,7 +1735,7 @@ class FastStatHandler(http.server.BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(res).encode("utf-8"))
             return
 
-        # 10. Catalogo Benchmark & Specifiche Architetture (v2.2)
+        # 10. Catalogo Benchmark & Specifiche Architetture (v2.3)
         if path == "/api/v1/models/benchmarks":
             self.send_response(200)
             self.send_security_headers("application/json")

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STATISTICHEAI v2.2 - Monitor Agenti Hermes & Ollama (Radar Benchmark & MoE Intelligence)</title>
+    <title>STATISTICHEAI v2.3 - Monitor Agenti Hermes & Ollama Cloud & llama.cpp (Radar Benchmark & MoE Intelligence)</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
         /* -------------------------------------------------------------
@@ -1425,13 +1425,13 @@
                     <div class="main-title" id="main-header-title">
                         <span style="color: #7aa2f7;">STATISTICHEAI</span>
                         <span style="color: #565f89; margin: 0 4px;">•</span>
-                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 10 AGENTI • OLLAMA (C:) + LLAMA.CPP (D:) + CLOUD (v2.2)</span>
+                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 9 AGENTI • LLAMA.CPP (7 D:) + OLLAMA CLOUD (BEAM + MINIMAX) (v2.3)</span>
                     </div>
                     <div id="title-dynamic-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 11px; margin-top: 3px; flex-wrap: wrap;">
                         <span id="title-workflow-badge" class="badge" style="background: #0f172a; color: #38bdf8; border-color: #0284c7; padding: 2px 7px; font-size: 10px; cursor: default; letter-spacing: 0.5px;">
-                            🔀 WORKFLOW: 🦙 OLLAMA (5 MODELLI C:) + 🦙 LLAMA.CPP (4 MODELLI D:) + ☁ CLOUD (BEAM 501B) = 10 AGENTI
+                            🔀 WORKFLOW: 🦙 LLAMA.CPP (7 LOCALI D: ZERO-SWAP) + ☁ CLOUD LIGHTNING (BEAM 501B + MINIMAX 3.1 456B) = 9 AGENTI
                         </span>
-                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.2: BENCHMARK RADAR OPENCOMPASS • ARCHITETTURE MOE/DENSE/VLM • STIMA SPEED TPS</span>
+                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.3: BENCHMARK RADAR OPENCOMPASS • AUTO-AVATAR HERMES • STIMA SPEED TPS</span>
                     </div>
                 </div>
             </div>
@@ -1730,7 +1730,7 @@
                     <span class="srv-badge srv-ok" id="footer-hermes-status">[ HERMES GATEWAY :42000 OK ]</span>
                     <span class="srv-badge srv-ok" id="footer-ollama-status">[ OLLAMA :11434 (DISCO C:) OK ]</span>
                     <span class="srv-badge srv-ok" id="footer-llamacpp-status">[ LLAMA.CPP :9931 (DISCO D:) OK ]</span>
-                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (v2.2) OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (v2.3) OK ]</span>
                 </div>
             </div>
 
@@ -2329,7 +2329,7 @@
             
             // Info Ollama Locale C:
             if (ol && ol.status === 'online') {
-                const locCount = ol.installed_models_count || 9;
+                const locCount = ol.installed_models_count || (ol.models ? ol.models.length : 2);
                 badgeParts.push(`🦙 OLLAMA LOCALE C: (${locCount} MODELLI)`);
             } else if (providers.has('ollama')) {
                 badgeParts.push(`🦙 OLLAMA LOCALE C:`);
@@ -2337,7 +2337,7 @@
 
             // Info llama.cpp Locale D:
             if (lc.status === 'online' || providers.has('llamacpp')) {
-                const lcCount = lc.models_count || (lc.models ? lc.models.length : 4);
+                const lcCount = lc.models_count || (lc.models ? lc.models.length : 7);
                 badgeParts.push(`🦙 LLAMA.CPP DISCO D: (${lcCount} MODELLI GGUF)`);
             }
 

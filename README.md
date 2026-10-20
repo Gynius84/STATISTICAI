@@ -1,18 +1,27 @@
-# STATISTICHEAI v2.2 🎮🤖
-### Dashboard Retro Arcade (16-Bit) per Telemetria, Diagnosi, Benchmark Radar OpenCompass e Rilevamento Architetture MoE/Dense (Ollama, llama.cpp, Hermes, Cloud)
+# STATISTICHEAI v2.3 🎮🤖
+### Dashboard Retro Arcade (16-Bit) per Telemetria, Diagnosi, Benchmark Radar OpenCompass e Rilevamento Architetture MoE/Dense (Ollama Cloud, llama.cpp, Hermes)
 
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Pure%20Python)-brightgreen.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-informational.svg)]()
-[![Multi-Provider](https://img.shields.io/badge/Providers-Ollama%20(C:)%20%7C%20llama.cpp%20(D:)%20%7C%20Hermes%20%7C%20Cloud%20501B-orange.svg)]()
+[![Multi-Provider](https://img.shields.io/badge/Providers-llama.cpp%20(7%20D:)%20%7C%20Ollama%20Cloud%20(Beam%20+%20MiniMax)-orange.svg)]()
 
-> **STATISTICHEAI v2.2** trasforma la gestione dei tuoi agenti AI locali e cloud in un videogioco Arcade Pixel Art a 16-bit. Monitora hardware, VRAM, saturazione token, memoria a lungo termine, grafici **Benchmark Radar OpenCompass**, tipo di architettura (**MoE, Dense, VLM, Ternary**) e velocità stimata **TPS su RTX 4060** per 13 agenti su tripla architettura: **Ollama Locale (C:)**, **llama.cpp Router (Disco D: porta 9931)** e **Beam 501B Cloud**.
+> **STATISTICHEAI v2.3** trasforma la gestione dei tuoi agenti AI locali e cloud in un videogioco Arcade Pixel Art a 16-bit. Monitora hardware, VRAM, saturazione token, memoria a lungo termine, grafici **Benchmark Radar OpenCompass**, tipo di architettura (**MoE, Dense, VLM**) e velocità stimata **TPS su RTX 4060** e Cloud Lightning per i 9 agenti attivi: 7 modelli locali ultra-ottimizzati su **llama.cpp Router (Disco D: porta 9931)** + 2 modelli cloud massivi ad altissimo throughput su **Ollama Cloud (Beam 501B MoE + MiniMax 3.1 Flash 456B MoE)**.
 
 ---
 
-## ✨ Novità della Versione 2.2 (Radar Benchmark OpenCompass, Architetture MoE & Calcolo Speed TPS)
+## ✨ Novità della Versione 2.3 (MiniMax 3.1 Flash, Auto-Discovery Avatar Hermes, Cloud Lightning 24h)
 
-- 📊 **Grafici Radar Benchmark OpenCompass / VLMEvalKit**:
+- ☁ **Integrazione MiniMax 3.1 Flash Cloud (456B MoE - Video Developer)**:
+  - Nuovo agente specializzato `Video Developer` collegato a `minimax-m3.1-flash:cloud` tramite Ollama Cloud endpoint.
+  - Prestazioni lightning cluster: 65 tok/s, 131k context window, radar benchmark coding 94 / reasoning 95 / throughput 98.
+- 🖼 **Hermes Profile Auto-Avatar Discovery**:
+  - Il sistema di monitoraggio rileva e sincronizza automaticamente gli avatar personalizzati direttamente dalla directory dei profili Hermes (`profiles/<name>/assets/avatar.png`).
+  - Zero configurazione manuale: chi importa o crea un agente con avatar in Hermes ottiene immediatamente l'avatar integrato e le metriche reali nella dashboard.
+- ⚡ **Persistenza Cloud 24h & Zero-Swap Local**:
+  - Keep-alive persistente `OLLAMA_KEEP_ALIVE=24h` per eliminare la latenza di riconnessione dei modelli cloud.
+  - Politica anti-swap a 1 modello locale attivo alla volta (`--models-max 1 --parallel 1`) per proteggere gli 8GB di VRAM della GPU NVIDIA RTX 4060.
+- 📊 **Radar Benchmark OpenCompass / VLMEvalKit**:
   - Ogni scheda tecnica agente espandibile include un autentico radar chart spider multi-dimensionale con 6 assi prestazionali:
     1. `Coding (HumanEval / SWE-bench)`
     2. `Reasoning (MATH / Logic / GSM8k)`

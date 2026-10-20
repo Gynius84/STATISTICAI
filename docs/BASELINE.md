@@ -1,63 +1,47 @@
-# BASELINE CONFIGURAZIONE AGENTI HERMES & MODELLI OLLAMA / LLAMA.CPP
+# BASELINE CONFIGURAZIONE AGENTI HERMES & MODELLI LLAMA.CPP / CLOUD
 
-> **REGOLA ZERO**: Progetto puramente OSSERVATORE. Nessuna modifica a file esterni a `STATISTICAI`. Configurazioni e parametri sono congelati e intoccabili.
+> **REGOLA ZERO**: Progetto puramente OSSERVATORE. Nessuna modifica a file esterni a STATISTICAI. Configurazioni e parametri sono congelati e intoccabili.
 
-Data aggiornamento baseline v2.2 (Roster Ottimizzato 10 Agenti): **2026-10-19 11:41:22**
+Data aggiornamento baseline v2.3 (Roster Ibrido 9 Agenti: 7 llama.cpp D: + 2 Ollama Cloud): **2026-10-20 11:20:00**
 
 ---
 
-## 1. Mappa Agenti (10 Profili Hermes Attivi)
+## 1. Mappa Agenti (9 Profili Hermes Attivi)
 
 | # | Agente / Titolo | Profilo Hermes | Modello Assegnato | Architettura | Sorgente | Sprite Associato |
 |---|-----------------|----------------|-------------------|--------------|----------|------------------|
-| 1 | **GynBot1** | `default` (Root) | `qwen3.5:64k` | Dense Transformer (4B) | Ollama (C:) | `sprites_agents/GynBot1.png` |
-| 2 | **BEAM** | `beam` | `beam:cloud` | MoE (501B MoE) | Cloud | `sprites_agents/BEAM.png` |
-| 3 | **DARK CODER** | `coder14b` | `Qwen2.5-Coder-14B...` | Dense Specialist (14B) | llama.cpp (D:) | `sprites_agents/DARK CODER.png` |
-| 4 | **PROGRAMMATORE** | `gynbot2` | `qwen2.5-coder:64k` | Dense Specialist (7.6B) | Ollama (C:) | `sprites_agents/PROGRAMMATORE.png` |
-| 5 | **QUALITY CHEKER** | `gynbox3` | `hermes3:64k` | Dense Agentic (8B) | Ollama (C:) | `sprites_agents/QUALITY CHEKER.png` |
-| 6 | **Direttore Marketing** | `mark1` | `qwen2.5:64k` | Dense Generalist (7.6B) | Ollama (C:) | `sprites_agents/Direttore Marketing.png` |
-| 7 | **Copywriter Creativo** | `mark2` | `llama3.1:64k` | Dense Creative (8B) | Ollama (C:) | `sprites_agents/Copywriter Creativo.png` |
-| 8 | **IQ** | `mistral24b` | `Mistral-Small-24B...` | Dense Reasoning (24B) | llama.cpp (D:) | `sprites_agents/IQ.png` |
-| 9 | **MIND** | `qwen` | `Qwen3.6-35B-A3B...` | MoE (35B A3B) | llama.cpp (D:) | `sprites_agents/MIND.png` |
-| 10 | **VISION** | `vision7b` | `Qwen2.5-VL-7B...` | Vision Multimodal (7B) | llama.cpp (D:) | `sprites_agents/VISION.png` |
+| 1 | **GynBot1** | default (Root) | eam:cloud | MoE (501B MoE) | Cloud | sprites_agents/GynBot1.png |
+| 2 | **BEAM** | eam | eam:cloud | MoE (501B MoE) | Cloud | sprites_agents/BEAM.png |
+| 3 | **Video Developer** | minimax | minimax-m3.1-flash:cloud | MoE Ultra-Fast (456B) | Cloud MiniMax 3.1 | sprites_agents/Video Developer.png |
+| 4 | **DARK CODER** | coder14b | Qwen2.5-Coder-14B-Instruct-Q4_K_M | Dense Specialist (14.7B) | llama.cpp (D:) | sprites_agents/DARK CODER.png |
+| 5 | **PROGRAMMATORE** | gynbot2 | DeepSeek-Coder-V2-Lite-Instruct-Q4_K_M | MoE Specialist (16B) | llama.cpp (D:) | sprites_agents/PROGRAMMATORE.png |
+| 6 | **QUALITY CHEKER** | gynbox3 | Nous-Hermes-2-Mixtral-8x7B-DPO-Q4_K_M | MoE (46.7B) | llama.cpp (D:) | sprites_agents/QUALITY CHEKER.png |
+| 7 | **Copywriter Creativo** | mark2 | Phi-3.5-MoE-instruct-Q4_K_M | MoE (42B) | llama.cpp (D:) | sprites_agents/Copywriter Creativo.png |
+| 8 | **MIND** | qwen | Qwen3.6-35B-A3B-Q4_K_M | MoE (35B A3B) | llama.cpp (D:) | sprites_agents/MIND.png |
+| 9 | **VISION** | ision7b | Qwen2.5-VL-7B-Instruct-Q4_K_M | Vision Multimodal (7.6B) | llama.cpp (D:) | sprites_agents/VISION.png |
 
 ---
 
 ## 2. File di Configurazione Monitorati (Integrità SHA-256)
 
-I seguenti 29 file costituiscono la baseline del Guardiano di integrità:
+I seguenti 14 file costituiscono la baseline del Guardiano di integrità:
 
 | Percorso File | SHA-256 Checksum | Dimensione (Byte) | Ultima Modifica (ISO) |
 |---|---|---|---|
-| `C:\Users\Gyniu\AppData\Local\hermes\config.yaml` | `2399ad27ca0076f68d76df08ae2e1d5b1146ddb1e22f13743d5e2f84792b6919` | 8,372 | 2026-10-19T08:52:33 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profile.yaml` | `af2b6eb14f166fd1d78342a7ca8ee5367ae2d63f6cd1b219bd2e23079de830a9` | 1,065 | 2026-10-19T01:58:44 |
-| `C:\Users\Gyniu\AppData\Local\hermes\context_length_cache.yaml` | `0afd894b8871373cdff7216d06735ebe9e8632fb5e65f7ac875715f2937d6f95` | 699 | 2026-10-19T01:41:20 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\beam\config.yaml` | `310ee03ca19aad9b1bfd76eacb8a481ba54599707751d91463523420fdebe474` | 7,603 | 2026-10-16T17:03:49 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\beam\profile.yaml` | `b918583ed5db346d64e1a82ee9cdef0e43897747bcfa9aa4b87a38ef14af76ab` | 216 | 2026-10-16T21:36:15 |
+| `C:\Users\Gyniu\AppData\Local\hermes\config.yaml` | `472cb03ccc54030d43f654582c1644ae78b36c0e72d1f19c5366278face1cb4b` | 8,067 | 2026-10-20T11:21:40 |
+| `C:\Users\Gyniu\AppData\Local\hermes\profile.yaml` | `a6862c4574d0ff58db45161352bd0083a194d8adfc806f3c3b3edaf3f9ae8d31` | 1,065 | 2026-10-20T10:21:18 |
 | `C:\Users\Gyniu\AppData\Local\hermes\profiles\coder14b\config.yaml` | `17c55f5c368626a1b0ea061d08c5ca45ae595e916b929aeeb37b71d5c705a527` | 690 | 2026-10-19T01:43:31 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\coder14b\profile.yaml` | `6b0ec3637f249075cda5b989443ba98b2e6926db3db1cb4949d2ac5e6c0356ea` | 177 | 2026-10-19T01:54:53 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\gynbot2\config.yaml` | `a6cef20a867559e1dbcdee61279fbb6116396aa0813c57387b4ddcb4bee24806` | 6,851 | 2026-10-16T10:20:18 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\gynbot2\profile.yaml` | `13acabdab9a6fa298cb93c2e0d93f3d0a6e04d9ada509c8d5afdeab59840951f` | 275 | 2026-10-19T01:58:39 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\gynbox3\config.yaml` | `e5f7bf027124a3d1074cf05f77d29edd21fd39975ea0b261602de33387ab4438` | 6,809 | 2026-10-16T11:14:29 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\gynbox3\profile.yaml` | `52a64009b7618bbc9ccd734b6227e7719de8c69911a2f4692ce6b8076aefc866` | 277 | 2026-10-19T01:58:38 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\mark1\config.yaml` | `090a8044e4d967f3db9cf023210ffe2a0bb810fa1677af3b46c09afd42711d36` | 6,813 | 2026-10-16T10:20:18 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\mark1\profile.yaml` | `77746bea32908e45a09d4581d857746309a8b01a1c2dcf765acdc0cb8b3abd55` | 280 | 2026-10-19T01:58:43 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\mark2\config.yaml` | `d65963ef419b03e56c4926bd591690331985deb27f70d983ff582f6ee0bebcf0` | 6,815 | 2026-10-16T10:20:18 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\mark2\profile.yaml` | `78ebae27f80b8a2af7be352c14e08d0249d083c0632594b1b01db4c1e32aa17a` | 288 | 2026-10-19T01:58:43 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\mistral24b\config.yaml` | `c07e37ab778a453ca6ca2bbf9d0b82a3ec334e68374eea1bac66fa86fdebb8af` | 726 | 2026-10-19T01:43:36 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\mistral24b\profile.yaml` | `d6a8ea645695216f4510e5f0e701dc0d3ad2543e1ca63f4d2b46038d2be18f22` | 172 | 2026-10-19T01:54:05 |
+| `C:\Users\Gyniu\AppData\Local\hermes\profiles\coder14b\profile.yaml` | `9f298178d5c31de8009449cdee22660134b536d789ef7782dbd1c43fee92c8e4` | 177 | 2026-10-20T10:51:19 |
+| `C:\Users\Gyniu\AppData\Local\hermes\profiles\gynbot2\config.yaml` | `e14ff7c2d67c31e88ff7af1a640e06a876b19c36e24b10a847ca61af19ce55f2` | 688 | 2026-10-19T13:14:20 |
+| `C:\Users\Gyniu\AppData\Local\hermes\profiles\gynbot2\profile.yaml` | `d481e731831dfed08dd61e7f813704076cf42234dc6a54b3389c374e7f5de3f3` | 293 | 2026-10-20T10:50:46 |
+| `C:\Users\Gyniu\AppData\Local\hermes\profiles\gynbox3\config.yaml` | `60b7e285b2df079bd7ceaed0da6dfcaf9b29f229798b62cddec11b3b8846d3a1` | 814 | 2026-10-19T18:43:50 |
+| `C:\Users\Gyniu\AppData\Local\hermes\profiles\gynbox3\profile.yaml` | `dc4d40d56bd452562b935a49d8bf3399b945b8733cbcf47690bc242bbb200013` | 295 | 2026-10-20T10:51:41 |
+| `C:\Users\Gyniu\AppData\Local\hermes\profiles\mark2\config.yaml` | `842b1c78557c89a9512c99d2da1857bc4b1cb538a4e9482da942b4f45e223c03` | 775 | 2026-10-19T18:53:18 |
+| `C:\Users\Gyniu\AppData\Local\hermes\profiles\mark2\profile.yaml` | `958efd6ac451a91c95ca3d69e9c5a28484ba4d49ad570cf9950b075376d5a6bf` | 306 | 2026-10-20T10:52:49 |
 | `C:\Users\Gyniu\AppData\Local\hermes\profiles\qwen\config.yaml` | `4f467267db526f5bef543e68e23167ca0e923d223f71eaf8c6d8a296fc558fae` | 600 | 2026-10-19T01:14:46 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\qwen\profile.yaml` | `8525665b77b2d9b9cd38bd87b775006dea65e2aa09bf0d5635f52ac092e2d3de` | 166 | 2026-10-19T00:57:15 |
+| `C:\Users\Gyniu\AppData\Local\hermes\profiles\qwen\profile.yaml` | `c080a26515e8fb9653c6026ae61f0d43706f167037ba7190c63c34d2f618b0ad` | 166 | 2026-10-20T10:53:50 |
 | `C:\Users\Gyniu\AppData\Local\hermes\profiles\vision7b\config.yaml` | `e754c349b4b4534acd90c13964faf379f523f36f039087c61572aa5e5c30e9d9` | 640 | 2026-10-19T01:43:42 |
-| `C:\Users\Gyniu\AppData\Local\hermes\profiles\vision7b\profile.yaml` | `d0cd0919d9d1aa4c8c32b1735eb5f85141c1c2ce5002525a8c51554535305f30` | 177 | 2026-10-19T01:58:21 |
-| `C:\Users\Gyniu\AppData\Local\hermes\modelfiles\Modelfile.bonsai-27b-16k` | `db819fbf1dae16fc0e53a73fcb7a807ce08fcfaca9c3ef8ba5e3e1270e7eee24` | 129 | 2026-10-17T20:58:43 |
-| `C:\Users\Gyniu\AppData\Local\hermes\modelfiles\Modelfile.bonsai-9b-32k` | `710d3d485902fd5ade30a7816a756b0d81a097f7d0a0b57f145d3d9afb5ee2d6` | 138 | 2026-10-17T20:58:20 |
-| `C:\Users\Gyniu\AppData\Local\hermes\modelfiles\Modelfile.hermes3-64k` | `6e04172e18a1a39a68c5258029f994b4a41ee181f7bfefab81da7477941141d6` | 1,911 | 2026-10-12T23:25:52 |
-| `C:\Users\Gyniu\AppData\Local\hermes\modelfiles\Modelfile.llama31-64k` | `6810aadc530181cf96f8fef2f6c759b9f60b624c0e44fc41a3c41fdc54be8306` | 87 | 2026-10-14T10:13:50 |
-| `C:\Users\Gyniu\AppData\Local\hermes\modelfiles\Modelfile.qwen25-64k` | `13dd5f234b8a0b1086aaec0338a5efd61afe1e805fa840b47a2d1f288e02621c` | 1,690 | 2026-10-14T11:02:49 |
-| `C:\Users\Gyniu\AppData\Local\hermes\modelfiles\Modelfile.qwen25coder-64k` | `b9849a8ad54ec841b8f4b2198752183550b36993ee9a8a09a38e3f351874bdd5` | 1,645 | 2026-10-13T09:51:27 |
-| `C:\Users\Gyniu\AppData\Local\hermes\modelfiles\Modelfile.qwen35-64k` | `f155f1861b453cb1781958f619d6f3ef43d50c527a2f6804e6ef004c832a7834` | 135 | 2026-10-15T13:28:43 |
-| `C:\Users\Gyniu\AppData\Local\hermes\modelfiles\Modelfile.whiterabbit-16k` | `f4018fd451936a7c7f948a04ae9ca24000c0263a47cba6df3d1cca422a7ee45d` | 1,815 | 2026-10-14T17:51:43 |
+| `C:\Users\Gyniu\AppData\Local\hermes\profiles\vision7b\profile.yaml` | `08746b4a210c18a19d2b8128a745a008d059051f242aa85eec64ca3eda6878e2` | 177 | 2026-10-20T10:53:32 |
 
 ---
 

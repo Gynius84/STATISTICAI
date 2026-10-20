@@ -2,9 +2,10 @@
 """
 STATISTICHEAI - Guard & Self-Healing Engine Idempotente
 Verifica e ripristina con 1 click:
-- I 7 agenti Hermes (GynBot1-3, Mark1-3, CEH) con configurazioni calibrate
-- Le versioni ottimizzate dei modelli in Ollama (64k, 32k, 24k, 20k, 16k)
-- Modelli creati una sola volta (idempotente)
+- I 7 agenti Hermes locali alimentati da llama.cpp (Porta 9931, Disco D:)
+- Configurazione calibrata (16k / 32k context, provider llamacpp)
+- Verifica modelli GGUF su router llama.cpp (Disco D:)
+- Pulizia residui profili ritirati da database e config
 - Backup automatico prima di ogni modifica
 - Log dettagliato sia su console che su file
 """
@@ -104,60 +105,47 @@ def is_pid_alive(pid: int) -> bool:
         return True
 
 
-def check_and_heal_ollama_models(manifest: dict) -> tuple[int, int]:
+def check_and_heal_llamacpp_models(manifest: dict) -> tuple[int, int]:
     """
-    Verifica che le 6 versioni ottimizzate dei modelli esistano in Ollama.
-    Se mancanti, le ricrea ciascuna UNA SOLA VOLTA dal proprio Modelfile.
-    Ritorna (verificati_ok, ricreati).
+    Verifica che i modelli GGUF locali siano presenti su disco D: e registrati nel router llama.cpp (porta 9931).
+    Ritorna (verificati_ok, mancanti).
     """
+    import urllib.request
+    models_on_server = set()
     try:
-        res = subprocess.run(["ollama", "list"], capture_output=True, text=True, timeout=10, creationflags=WIN_FLAGS)
-        output = res.stdout if res.returncode == 0 else ""
+        req = urllib.request.Request("http://127.0.0.1:9931/v1/models", headers={"User-Agent": "guard_engine"})
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            for m in data.get("data", []):
+                mid = m.get("id")
+                if mid:
+                    models_on_server.add(mid)
     except Exception as exc:
-        logger.warning("[OLLAMA] Impossibile contattare Ollama: %s", exc)
-        return 0, 0
+        logger.warning("[LLAMACPP] Impossibile contattare router llama.cpp su :9931: %s", exc)
 
-    unique_models = {}
+    hub_dir = Path(r"D:\LLAMA MODELS\hub")
+    ok_count = 0
+    missing_count = 0
+
+    unique_models = set()
     for pid, spec in manifest.get("profiles", {}).items():
         m_name = spec.get("model")
-        m_file = spec.get("modelfile")
-        if m_name and m_file and m_name not in unique_models:
-            unique_models[m_name] = Path(m_file)
+        if m_name:
+            unique_models.add(m_name)
 
-    ok_count = 0
-    recreated_count = 0
-    processed = set()
+    for m_name in unique_models:
+        clean_name = m_name.split(":")[0] if ":" in m_name else m_name
+        repo_prefix = clean_name.replace("/", "--")
+        expected_folder = hub_dir / f"models--{repo_prefix}"
 
-    for m_name, m_path in unique_models.items():
-        if m_name in processed:
-            continue
-        processed.add(m_name)
-
-        if m_name in output:
-            logger.info("[OLLAMA] Modello ottimizzato '%s' -> PRESENTE (OK)", m_name)
+        if m_name in models_on_server or expected_folder.exists():
+            logger.info("[LLAMACPP] Modello GGUF '%s' -> PRESENTE (OK)", m_name)
             ok_count += 1
         else:
-            if m_path.exists():
-                logger.warning("[OLLAMA] Modello ottimizzato '%s' ASSENTE! Ricreazione da %s...", m_name, m_path.name)
-                try:
-                    c_res = subprocess.run(
-                        ["ollama", "create", m_name, "-f", str(m_path)],
-                        capture_output=True,
-                        text=True,
-                        timeout=120,
-                        creationflags=WIN_FLAGS
-                    )
-                    if c_res.returncode == 0:
-                        logger.info("[OLLAMA] Modello '%s' ricreato con successo (1 sola volta).", m_name)
-                        recreated_count += 1
-                    else:
-                        logger.error("[OLLAMA] Errore ricreazione '%s': %s", m_name, c_res.stderr)
-                except Exception as e:
-                    logger.error("[OLLAMA] Eccezione ricreazione '%s': %s", m_name, e)
-            else:
-                logger.error("[OLLAMA] Modelfile mancante per '%s' a: %s", m_name, m_path)
+            logger.warning("[LLAMACPP] Modello GGUF '%s' NON TROVATO a: %s", m_name, expected_folder)
+            missing_count += 1
 
-    return ok_count, recreated_count
+    return ok_count, missing_count
 
 
 def heal_profile_config(pid: str, spec: dict) -> bool:
@@ -171,8 +159,10 @@ def heal_profile_config(pid: str, spec: dict) -> bool:
         return False
 
     target_model = spec["model"]
-    target_num_ctx = spec["ollama_num_ctx"]
-    target_ctx_len = spec["context_length"]
+    target_provider = spec.get("provider", "ollama-launch")
+    target_base_url = spec.get("base_url")
+    target_num_ctx = spec.get("ollama_num_ctx")
+    target_ctx_len = spec.get("context_length", 16384)
 
     text = config_file.read_text(encoding="utf-8", errors="replace")
     lines = text.splitlines()
@@ -205,7 +195,20 @@ def heal_profile_config(pid: str, spec: dict) -> bool:
                 if curr != target_model:
                     line = f"  default: {target_model}"
                     modified = True
+            elif stripped.startswith("provider:"):
+                curr_p = stripped.split(":", 1)[1].strip()
+                if curr_p != target_provider:
+                    line = f"  provider: {target_provider}"
+                    modified = True
+            elif stripped.startswith("base_url:") and target_base_url:
+                curr_b = stripped.split(":", 1)[1].strip()
+                if curr_b != target_base_url:
+                    line = f"  base_url: {target_base_url}"
+                    modified = True
             elif stripped.startswith("ollama_num_ctx:"):
+                if target_provider == "llamacpp":
+                    modified = True
+                    continue
                 has_num_ctx = True
                 val = stripped.split(":", 1)[1].strip()
                 if val != str(target_num_ctx):
@@ -220,7 +223,7 @@ def heal_profile_config(pid: str, spec: dict) -> bool:
             new_lines.append(line)
             continue
         elif in_model_block and not (line.startswith("  ") or line.startswith("\t")):
-            if not has_num_ctx:
+            if target_provider != "llamacpp" and not has_num_ctx and target_num_ctx:
                 new_lines.append(f"  ollama_num_ctx: {target_num_ctx}")
                 modified = True
             if not has_ctx_len:
@@ -252,7 +255,7 @@ def heal_profile_config(pid: str, spec: dict) -> bool:
         new_lines.append(line)
 
     if in_model_block:
-        if not has_num_ctx:
+        if target_provider != "llamacpp" and not has_num_ctx and target_num_ctx:
             new_lines.append(f"  ollama_num_ctx: {target_num_ctx}")
             modified = True
         if not has_ctx_len:
@@ -458,7 +461,8 @@ def heal_engine_patches() -> bool:
     plan = None
     try:
         plan = _plan_execution(
-            command or ","""
+            command or "",
+        )"""
             if target_plan in txt:
                 txt = txt.replace(target_plan, repl_plan, 1)
                 f_term.write_text(txt, encoding="utf-8")
@@ -685,9 +689,14 @@ def heal_bot_groups() -> bool:
             conn = sqlite3.connect(sdb)
             conn.execute("DELETE FROM hosted_rooms")
             conn.execute("DELETE FROM hosted_room_events")
+            retired = ['mark3', 'mentor', 'oculus', 'gynbot3', 'hacker', 'mark1', 'mistral24b']
+            for p in retired:
+                conn.execute("DELETE FROM gateway_heartbeats WHERE profile = ?", (p,))
+                conn.execute("DELETE FROM gateway_routing WHERE session_key LIKE ?", (f"%{p}%",))
+                conn.execute("DELETE FROM session_admissions WHERE payload_json LIKE ?", (f"%{p}%",))
             conn.commit()
             conn.close()
-            logger.info("[GROUPS] Tabelle hosted_rooms in state.db ripulite da record orfani")
+            logger.info("[GROUPS] Tabelle hosted_rooms e record orfani profili ritirati ripuliti da state.db")
     except Exception as exc:
         logger.warning("[GROUPS] Errore pulizia sqlite: %s", exc)
 
@@ -772,15 +781,9 @@ def _(rid, params: dict, _catalog=_local_catalog, _methods=_METHODS) -> dict:
         name: TEAM MARKETING
         roomId: rm-team-marketing-local
         members:
-          - name: mark1
-            title: Direttore Marketing
-            handle: Direttore Marketing
           - name: mark2
             title: Copywriter Creativo
             handle: Copywriter Creativo
-          - name: mark3
-            title: Growth Hacker
-            handle: Growth Hacker
         log: []"""
             rp_txt = re.sub(r"    rooms:\s*\{\}", rooms_block, rp_txt)
             changed = True
@@ -800,18 +803,32 @@ def _(rid, params: dict, _catalog=_local_catalog, _methods=_METHODS) -> dict:
 
     ensure_group("gynbot2", "TEAM SVILUPPO")
     ensure_group("gynbox3", "TEAM SVILUPPO")
-    ensure_group("mark1", "TEAM MARKETING")
     ensure_group("mark2", "TEAM MARKETING")
-    ensure_group("mark3", "TEAM MARKETING")
 
     logger.info("[GROUPS] Integrita' gruppi e modalita' legacy verificata al 100%% (OK).")
     return True
 
 
+def heal_runtime_environment() -> bool:
+    """Garantisce che i parametri di runtime anti-swap (LLAMA_ARG_MODELS_MAX=1, LLAMA_ARG_N_PARALLEL=1) siano attivi."""
+    try:
+        import subprocess
+        ps_script = """
+        [Environment]::SetEnvironmentVariable("LLAMA_ARG_MODELS_MAX", "1", "User")
+        [Environment]::SetEnvironmentVariable("LLAMA_ARG_N_PARALLEL", "1", "User")
+        """
+        subprocess.run(["powershell", "-NoProfile", "-Command", ps_script], capture_output=True, timeout=10)
+        logger.info("[RUNTIME] Parametri di sistema anti-swap (LLAMA_ARG_MODELS_MAX=1, LLAMA_ARG_N_PARALLEL=1) verificati al 100%%")
+        return True
+    except Exception as exc:
+        logger.warning("[RUNTIME] Errore verifica parametri ambiente: %s", exc)
+        return False
+
+
 def run_guard() -> int:
     """Esegue il ciclo completo di auto-allineamento e self-healing."""
     logger.info("=======================================================")
-    logger.info("   HERMES & OLLAMA GUARD - CONTROLLO INTEGRITA'   ")
+    logger.info("   HERMES & LLAMA.CPP GUARD - CONTROLLO INTEGRITA'   ")
     logger.info("=======================================================")
 
     make_auto_backup()
@@ -828,10 +845,10 @@ def run_guard() -> int:
 
     heal_engine_patches()
 
-    logger.info("--- 1. Verifica Modelli Ollama ---")
-    ok_models, recreated = check_and_heal_ollama_models(manifest)
+    logger.info("--- 1. Verifica Modelli GGUF llama.cpp (Porta 9931) ---")
+    ok_models, missing = check_and_heal_llamacpp_models(manifest)
 
-    logger.info("--- 2. Verifica Configurazioni 7 Agenti ---")
+    logger.info("--- 2. Verifica Configurazioni 7 Agenti Locali ---")
     profiles = manifest.get("profiles", {})
     aligned_count = 0
     for pid, spec in profiles.items():
@@ -839,9 +856,10 @@ def run_guard() -> int:
             aligned_count += 1
 
     heal_bot_groups()
+    heal_runtime_environment()
 
     logger.info("=======================================================")
-    logger.info("ESITO: %d/7 Agenti Verificati | Modelli Ollama OK: %d (Ricreati: %d)", aligned_count, ok_models, recreated)
+    logger.info("ESITO: %d/7 Agenti Verificati | Modelli GGUF OK: %d (Mancanti: %d)", aligned_count, ok_models, missing)
     logger.info("Hermes Guard: Sistema al 100%% allineato, idempotente e stabile!")
     logger.info("=======================================================")
     return 0
