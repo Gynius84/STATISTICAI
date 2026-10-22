@@ -1208,6 +1208,10 @@ def auto_discover_hermes_agents():
             group = "TEAM DEEP THINKING"
             color = "#06b6d4"
             source_label = "llama.cpp (Disco D:)"
+        elif is_openrouter or agent_id in ["inkling", "laguna"] or "openrouter" in t_low:
+            group = "TEAM OPENROUTER CLOUD"
+            color = "#c084fc" if agent_id == "inkling" else "#818cf8"
+            source_label = "OpenRouter Cloud"
         elif "marketing" in t_low or "mark" in t_low or "copy" in t_low or "growth" in t_low:
             group = "TEAM MARKETING"
             color = "#8b5cf6" if "1" in agent_id else ("#06b6d4" if "2" in agent_id else "#10b981")
@@ -1217,8 +1221,13 @@ def auto_discover_hermes_agents():
             color = "#3b82f6" if agent_id in ["default", "gynbot1"] else ("#fbbf24" if agent_id == "gynbot2" else "#ec4899")
             source_label = "llama.cpp (Disco D:)" if provider == "llamacpp" or "9931" in (base_url or "") else "Ollama (Locale C:)"
 
-        if is_nvidia or "nvidia" in (provider or "").lower() or agent_id in ["deepseek", "drago"]:
+        if is_openrouter or agent_id in ["inkling", "laguna"]:
+            source_label = "OpenRouter Cloud"
+            group = "TEAM OPENROUTER CLOUD"
+            color = "#c084fc" if agent_id == "inkling" else "#818cf8"
+        elif is_nvidia or "nvidia" in (provider or "").lower() or agent_id in ["deepseek", "drago"]:
             source_label = "NVIDIA NIM Cloud"
+            group = "TEAM CLOUD TITANS"
         elif provider == "llamacpp" or "9931" in (base_url or ""):
             source_label = "llama.cpp (Disco D:)"
         elif is_cloud:

@@ -344,6 +344,16 @@
             box-shadow: 0 0 12px rgba(56, 189, 248, 0.25), inset 0 0 0 1px #0369a1;
             background: #091322;
         }
+        .agent-card.card-openrouter {
+            border-color: #a855f7 !important;
+            box-shadow: 0 0 14px rgba(168, 85, 247, 0.35), inset 0 0 0 1px #7c3aed !important;
+            background: #11091d !important;
+        }
+        .agent-card.card-nvidia {
+            border-color: #76b900 !important;
+            box-shadow: 0 0 14px rgba(118, 185, 0, 0.35), inset 0 0 0 1px #4d7c0f !important;
+            background: #081a0e !important;
+        }
 
         /* Card Dettagli Avanzati Espandibili */
         .agent-expand-toggle {
@@ -1831,9 +1841,11 @@
             <!-- RIGA 1: FILTRO SQUADRE & AZIONI SINCRONIZZAZIONE -->
             <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap; width: 100%; padding-bottom: 6px; border-bottom: 1px dotted rgba(86, 95, 137, 0.35);">
                 <span style="font-weight: bold; color: var(--text-muted); font-size: 10px; text-transform: uppercase;">FILTRA TEAM:</span>
-                <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (11)</button>
-                <button class="btn-filter btn-filter-cloud" data-filter="TITANI CLOUD" onclick="setFilter('TITANI CLOUD')">☁ TITANI CLOUD (4)</button>
+                <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (9)</button>
+                <button class="btn-filter btn-filter-cloud" data-filter="TITANI CLOUD" onclick="setFilter('TITANI CLOUD')">☁ TUTTI I CLOUD (6)</button>
                 <button class="btn-filter" data-filter="TEAM CLOUD TITANS" style="color: #76b900; border-color: #76b900;" onclick="setFilter('TEAM CLOUD TITANS')">⚡ NVIDIA NIM (2)</button>
+                <button class="btn-filter" data-filter="TEAM OPENROUTER CLOUD" style="color: #c084fc; border-color: #a855f7; box-shadow: 0 0 6px rgba(168,85,247,0.3);" onclick="setFilter('TEAM OPENROUTER CLOUD')">🌌 OPENROUTER (2)</button>
+                <button class="btn-filter" data-filter="llamacpp" style="color: #60a5fa; border-color: #3b82f6;" onclick="setFilter('llamacpp')">🦙 LLAMA.CPP DISCO D: (3)</button>
                 <button class="btn-filter btn-filter-sviluppo" data-filter="TEAM SVILUPPO" onclick="setFilter('TEAM SVILUPPO')">⚒ SVILUPPO</button>
                 <button class="btn-filter btn-filter-marketing" data-filter="TEAM MARKETING" onclick="setFilter('TEAM MARKETING')">📢 MARKETING</button>
                 <button class="btn-filter btn-filter-security" data-filter="TEAM SICUREZZA & CODING" onclick="setFilter('TEAM SICUREZZA & CODING')">🛡 SICUREZZA & CODING</button>
@@ -2918,10 +2930,14 @@
 
             agents.forEach(agent => {
                 if (ACTIVE_FILTER !== 'all') {
-                    if (ACTIVE_FILTER === 'TITANI CLOUD') {
-                        if (!agent.is_cloud && agent.id !== 'beam' && agent.id !== 'minimax' && agent.id !== 'deepseek' && agent.id !== 'drago' && agent.group !== 'SUPER COORDINATORE' && agent.group !== 'TEAM VIDEO & MULTIMEDIA' && agent.group !== 'TEAM CLOUD TITANS') return;
-                    } else if (ACTIVE_FILTER === 'TEAM CLOUD TITANS') {
-                        if (agent.group !== 'TEAM CLOUD TITANS' && agent.id !== 'deepseek' && agent.id !== 'drago' && (!agent.source || !agent.source.includes('NVIDIA'))) return;
+                    if (ACTIVE_FILTER === 'TITANI CLOUD' || ACTIVE_FILTER === 'CLOUD') {
+                        if (!agent.is_cloud && agent.id !== 'beam') return;
+                    } else if (ACTIVE_FILTER === 'TEAM CLOUD TITANS' || ACTIVE_FILTER === 'NVIDIA NIM') {
+                        if (agent.provider !== 'nvidia' && (!agent.source || !agent.source.includes('NVIDIA')) && agent.id !== 'deepseek' && agent.id !== 'drago') return;
+                    } else if (ACTIVE_FILTER === 'TEAM OPENROUTER CLOUD' || ACTIVE_FILTER === 'OPENROUTER') {
+                        if (agent.provider !== 'openrouter' && (!agent.source || !agent.source.includes('OpenRouter')) && agent.id !== 'inkling' && agent.id !== 'laguna') return;
+                    } else if (ACTIVE_FILTER === 'llamacpp') {
+                        if (agent.is_cloud || agent.provider !== 'llamacpp') return;
                     } else if (agent.group !== ACTIVE_FILTER) {
                         return;
                     }
@@ -2932,7 +2948,11 @@
                 const isExp = EXPANDED_CARDS.has(agent.id);
 
                 let cardClass = 'agent-card';
-                if (agent.is_cloud || agent.id === 'beam') cardClass += ' card-cloud';
+                const isNvidiaCard = (agent.provider === 'nvidia' || (agent.source && agent.source.includes('NVIDIA')) || agent.id === 'deepseek' || agent.id === 'drago');
+                const isOpenRouterCard = (agent.provider === 'openrouter' || (agent.source && agent.source.includes('OpenRouter')) || agent.id === 'inkling' || agent.id === 'laguna');
+                if (isOpenRouterCard) cardClass += ' card-cloud card-openrouter';
+                else if (isNvidiaCard) cardClass += ' card-cloud card-nvidia';
+                else if (agent.is_cloud || agent.id === 'beam') cardClass += ' card-cloud';
                 else if (hs === 'INFERMERIA') cardClass += ' card-infermeria';
                 else if (hs === 'CIMITERO') cardClass += ' card-cimitero';
                 card.className = cardClass;
@@ -2943,8 +2963,12 @@
                 const spriteUrl = API_BASE + '/' + agent.sprite.replace(/^(\.\/|\/)/, '');
 
                 let badgeHtml = '';
-                if (agent.is_cloud || agent.id === 'beam') {
-                    badgeHtml = `<span class="status-badge status-cloud">[ ☁ CLOUD • IMMORTALE ]</span>`;
+                if (isOpenRouterCard) {
+                    badgeHtml = `<span class="status-badge" style="background:#190b2e; color:#c084fc; border-color:#a855f7; box-shadow:0 0 8px rgba(168,85,247,0.35);">[ 🌌 OPENROUTER CLOUD • IMMORTALE ]</span>`;
+                } else if (isNvidiaCard) {
+                    badgeHtml = `<span class="status-badge" style="background:#081a0e; color:#76b900; border-color:#76b900; box-shadow:0 0 8px rgba(118,185,0,0.35);">[ ⚡ NVIDIA NIM • IMMORTALE ]</span>`;
+                } else if (agent.is_cloud || agent.id === 'beam') {
+                    badgeHtml = `<span class="status-badge status-cloud">[ ☁ OLLAMA CLOUD • IMMORTALE ]</span>`;
                 } else if (hs === 'SANO') {
                     badgeHtml = `<span class="status-badge status-sano">[ SANO • ${agent.room.toUpperCase()} ]</span>`;
                 } else if (hs === 'INFERMERIA') {
@@ -2962,6 +2986,8 @@
                     groupTagHtml = `<span class="group-tag" style="background:#1d0f2b; color:#ec4899; border:1px solid #db2777; font-size:9px; padding:2px 5px;">🎬 VIDEO & MULTIMEDIA</span>`;
                 } else if (agent.group === 'TEAM CLOUD TITANS' || (agent.source && agent.source.includes('NVIDIA')) || agent.provider === 'nvidia' || agent.id === 'deepseek' || agent.id === 'drago') {
                     groupTagHtml = `<span class="group-tag" style="background:#0b2010; color:#76b900; border:1px solid #76b900; font-size:9px; padding:2px 5px;">⚡ NVIDIA NIM CLOUD</span>`;
+                } else if (agent.group === 'TEAM OPENROUTER CLOUD' || agent.provider === 'openrouter' || (agent.source && agent.source.includes('OpenRouter')) || agent.id === 'inkling' || agent.id === 'laguna') {
+                    groupTagHtml = `<span class="group-tag" style="background:#190b2e; color:#c084fc; border:1px solid #a855f7; font-size:9px; padding:2px 5px; box-shadow:0 0 6px rgba(168,85,247,0.3);">🌌 OPENROUTER CLOUD</span>`;
                 } else if (agent.group === 'TEAM SVILUPPO') {
                     groupTagHtml = `<span class="group-tag tag-sviluppo">⚒ TEAM SVILUPPO</span>`;
                 } else if (agent.group === 'TEAM MARKETING') {
@@ -3015,11 +3041,40 @@
 
                 const ctxPct = agent.context_used_pct || 0;
 
-                const modelInfoHtml = (agent.is_cloud || agent.id === 'beam') ? 
-                    `<div style="font-size: 10px; color: ${agent.color || '#38bdf8'};">MODELLO: <b>${agent.model} (${agent.parameters || 'Cloud'})</b></div>
-                     <div style="font-size: 9px; color: ${agent.color || '#7dd3fc'}; margin-top: 2px;">CARICO: <b>0 MB VRAM Locale</b> • Speed: <b>${agent.estimated_speed_tps || 'Cloud'}</b> • DB: <b>${agent.db_size_mb || 0} MB</b></div>` :
-                    `<div style="font-size: 10px; color: #7aa2f7;">MODELLO: <b>${agent.model}</b></div>
-                     <div style="font-size: 9px; color: #94a3b8; margin-top: 2px;">VRAM: <b>${agent.vram_mb || 0} MB</b> • DB: <b>${agent.db_size_mb || 0} MB</b> • SESS: <b>${agent.lifetime_sessions || agent.total_sessions || 0}</b></div>`;
+                let modelInfoHtml = '';
+                if (isOpenRouterCard) {
+                    modelInfoHtml = `
+                        <div style="font-size: 10px; color: #c084fc; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                            MODELLO: <b>${agent.model}</b>
+                            <span style="font-size: 8px; color: #c084fc; background: #190b2e; border: 1px solid #a855f7; padding: 1px 4px; border-radius: 2px; font-weight: bold; box-shadow: 0 0 6px rgba(168,85,247,0.35);">[ 🌌 OPENROUTER CLOUD ]</span>
+                        </div>
+                        <div style="font-size: 9px; color: #d8b4fe; margin-top: 2px;">CARICO: <b>0 MB VRAM Locale</b> • Speed: <b style="color: #c084fc;">${agent.estimated_speed_tps || 'Cloud'}</b> • DB: <b>${agent.db_size_mb || 0} MB</b></div>
+                    `;
+                } else if (isNvidiaCard) {
+                    modelInfoHtml = `
+                        <div style="font-size: 10px; color: #76b900; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                            MODELLO: <b>${agent.model}</b>
+                            <span style="font-size: 8px; color: #76b900; background: #0b2010; border: 1px solid #76b900; padding: 1px 4px; border-radius: 2px; font-weight: bold;">[ ⚡ NVIDIA NIM CLOUD ]</span>
+                        </div>
+                        <div style="font-size: 9px; color: #86efac; margin-top: 2px;">CARICO: <b>0 MB VRAM Locale</b> • Speed: <b style="color: #76b900;">${agent.estimated_speed_tps || 'Cloud'}</b> • DB: <b>${agent.db_size_mb || 0} MB</b></div>
+                    `;
+                } else if (agent.is_cloud || agent.id === 'beam') {
+                    modelInfoHtml = `
+                        <div style="font-size: 10px; color: #38bdf8; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                            MODELLO: <b>${agent.model}</b>
+                            <span style="font-size: 8px; color: #38bdf8; background: #081f33; border: 1px solid #0284c7; padding: 1px 4px; border-radius: 2px; font-weight: bold;">[ ☁ OLLAMA CLOUD ]</span>
+                        </div>
+                        <div style="font-size: 9px; color: #7dd3fc; margin-top: 2px;">CARICO: <b>0 MB VRAM Locale</b> • Speed: <b style="color: #38bdf8;">${agent.estimated_speed_tps || 'Cloud'}</b> • DB: <b>${agent.db_size_mb || 0} MB</b></div>
+                    `;
+                } else {
+                    modelInfoHtml = `
+                        <div style="font-size: 10px; color: #7aa2f7; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                            MODELLO: <b>${agent.model}</b>
+                            <span style="font-size: 8px; color: #60a5fa; background: #0e172a; border: 1px solid #3b82f6; padding: 1px 4px; border-radius: 2px; font-weight: bold;">[ 🦙 LLAMA.CPP DISCO D: ]</span>
+                        </div>
+                        <div style="font-size: 9px; color: #94a3b8; margin-top: 2px;">VRAM: <b>${agent.vram_mb || 0} MB</b> • DB: <b>${agent.db_size_mb || 0} MB</b> • SESS: <b>${agent.lifetime_sessions || agent.total_sessions || 0}</b></div>
+                    `;
+                }
 
                 card.innerHTML = `
                     <div class="agent-header">
