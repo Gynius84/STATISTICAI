@@ -715,6 +715,57 @@ MODEL_BENCHMARK_CATALOG = {
             "throughput": 90
         },
         "model_notes": "General Language Model (GLM) 5.3 erogato via cluster NVIDIA Cloud NIM. Modello di frontiera da 130B parametri specializzato in deep reasoning logico, comprensione multilingue avanzata, sintesi cognitiva e 128k contesto senza consumo VRAM."
+    },
+    "thinkingmachines/inkling:free": {
+        "architecture_type": "Dense Cognitive Reasoner (Inkling OpenRouter Cloud)",
+        "architecture_tag": "reasoning",
+        "parameters": "70B Reasoning Cloud",
+        "active_parameters": "70B Dense",
+        "estimated_speed_tps": "~60 tok/s (OpenRouter Cloud Router)",
+        "tps_value": 60,
+        "benchmarks": {
+            "coding": 90,
+            "reasoning": 96,
+            "knowledge": 93,
+            "agentic": 95,
+            "vision": 20,
+            "throughput": 85
+        },
+        "model_notes": "Thinking Machines Inkling via OpenRouter Cloud. Architettura cognitiva ad alta reattivita' con forte propensione al ragionamento logico, problem solving agentico e 32k contesto con zero VRAM."
+    },
+    "poolside/laguna-s-2.1:free": {
+        "architecture_type": "MoE SWE Specialist (Laguna OpenRouter Cloud)",
+        "architecture_tag": "agentic",
+        "parameters": "35B MoE Cloud",
+        "active_parameters": "~12B per token",
+        "estimated_speed_tps": "~80 tok/s (OpenRouter Cloud Router)",
+        "tps_value": 80,
+        "benchmarks": {
+            "coding": 96,
+            "reasoning": 92,
+            "knowledge": 90,
+            "agentic": 97,
+            "vision": 20,
+            "throughput": 92
+        },
+        "model_notes": "Poolside Laguna S-2.1 via OpenRouter Cloud. Modello allineato per compiti avanzati di Software Engineering (SWE), refactoring, tool use ed esecuzione autonoma di flussi complessi."
+    },
+    "recursive/flint-v1.0:free": {
+        "architecture_type": "Dense Fast Turnaround (Flint OpenRouter Cloud)",
+        "architecture_tag": "dense",
+        "parameters": "14B Dense Cloud",
+        "active_parameters": "14B Dense",
+        "estimated_speed_tps": "~75 tok/s (OpenRouter Cloud Router)",
+        "tps_value": 75,
+        "benchmarks": {
+            "coding": 88,
+            "reasoning": 86,
+            "knowledge": 85,
+            "agentic": 91,
+            "vision": 20,
+            "throughput": 90
+        },
+        "model_notes": "Recursive Flint v1.0 su OpenRouter Cloud. Agente ultra-reattivo compatto per orchestrazione rapida di compiti e supporto operativo."
     }
 }
 
@@ -725,6 +776,12 @@ def resolve_model_benchmarks(model_name, is_cloud=False, agent_id=None):
     m_clean = (model_name or "").lower().strip()
     a_clean = (agent_id or "").lower().strip()
 
+    if "inkling" in m_clean or a_clean == "inkling" or "thinkingmachines" in m_clean:
+        return MODEL_BENCHMARK_CATALOG["thinkingmachines/inkling:free"].copy()
+    if "laguna" in m_clean or a_clean == "laguna" or "poolside" in m_clean:
+        return MODEL_BENCHMARK_CATALOG["poolside/laguna-s-2.1:free"].copy()
+    if "flint" in m_clean or "recursive" in m_clean:
+        return MODEL_BENCHMARK_CATALOG["recursive/flint-v1.0:free"].copy()
     if "glm-5" in m_clean or "glm" in m_clean or a_clean == "drago":
         return MODEL_BENCHMARK_CATALOG["z-ai/glm-5.3"].copy()
     if ("deepseek-v4.1" in m_clean or "v4.1-flash" in m_clean or ("deepseek" in m_clean and "flash" in m_clean) or a_clean == "deepseek"):
@@ -896,6 +953,16 @@ def auto_discover_hermes_agents():
                 title = "DARK CODER"
             if desc in ["Agente Hermes", "PENTESTER", ""]:
                 desc = "Pentester & Security Coder"
+        elif agent_id == "inkling":
+            if not title:
+                title = "INKLING"
+            if desc in ["Agente Hermes", ""]:
+                desc = "Thinking Machines Reasoning Agent"
+        elif agent_id == "laguna":
+            if not title:
+                title = "LAGUNA"
+            if desc in ["Agente Hermes", ""]:
+                desc = "Poolside SWE Autonomous Specialist"
 
         if not title:
             title = agent_id.replace("_", " ").title()
@@ -966,7 +1033,16 @@ def auto_discover_hermes_agents():
             except Exception:
                 pass
 
-        # Rilevamento Cloud Model (Ollama Cloud Lightning o NVIDIA NIM Cloud)
+        # Rilevamento Cloud Model (Ollama Cloud, NVIDIA NIM Cloud o OpenRouter Cloud)
+        is_openrouter = (
+            "openrouter" in (provider or "").lower() or 
+            "openrouter.ai" in (base_url or "").lower() or 
+            ":free" in model_name.lower() or 
+            agent_id in ["inkling", "laguna"] or
+            "poolside" in model_name.lower() or 
+            "thinkingmachines" in model_name.lower() or 
+            "recursive" in model_name.lower()
+        )
         is_nvidia = (
             "nvidia" in (provider or "").lower() or 
             "nvidia.com" in (base_url or "").lower() or 
@@ -975,17 +1051,33 @@ def auto_discover_hermes_agents():
             ("deepseek" in model_name.lower() and "flash" in model_name.lower())
         )
         is_cloud = (
+            is_openrouter or
             is_nvidia or
             ":cloud" in model_name.lower() or 
             "beam" in model_name.lower() or 
             "minimax" in model_name.lower() or 
             agent_id in ["beam", "minimax"] or
-            "cloud" in title.lower() or
-            "openrouter" in (provider or "").lower()
+            "cloud" in (title or "").lower()
         )
 
         # Normalizzazione Provider, Base URL e Context Limit
-        if is_nvidia:
+        if is_openrouter:
+            provider = "openrouter"
+            if not base_url or "11434" in base_url or "9931" in base_url:
+                base_url = "https://openrouter.ai/api/v1"
+            if context_limit < 32768:
+                context_limit = 32768
+            source_label = "OpenRouter Cloud"
+            group = "TEAM OPENROUTER CLOUD"
+            if agent_id == "inkling" or "inkling" in (title + model_name).lower():
+                color = "#a855f7"
+            elif agent_id == "laguna" or "laguna" in (title + model_name).lower():
+                color = "#6366f1"
+            elif agent_id in ["default", "gynbot1"]:
+                color = "#818cf8"
+            else:
+                color = "#818cf8"
+        elif is_nvidia:
             provider = "nvidia"
             if not base_url or "11434" in base_url or "9931" in base_url:
                 base_url = "https://integrate.api.nvidia.com/v1"
@@ -1039,7 +1131,12 @@ def auto_discover_hermes_agents():
             f"{title.replace(' ', '_')}.png".lower(),
             f"{title.upper()}.png".lower(),
         ]
-        if agent_id == "deepseek" or "deepseek" in title.lower():
+        if agent_id == "inkling" or "inkling" in title.lower():
+            candidates.insert(0, "inkling.png")
+        elif agent_id == "laguna" or "laguna" in title.lower():
+            candidates.insert(0, "laguna.png")
+            candidates.insert(1, "Laguna.png")
+        elif agent_id == "deepseek" or "deepseek" in title.lower():
             candidates.insert(0, "deepseek.png")
             candidates.insert(1, "deepseek.png".lower())
         elif agent_id == "drago" or "drago" in title.lower():
@@ -1172,7 +1269,7 @@ def auto_discover_hermes_agents():
                 existing["tps_value"] = bench_meta["tps_value"]
                 existing["benchmarks"] = bench_meta["benchmarks"]
                 existing["model_notes"] = bench_meta["model_notes"]
-                existing["architecture"] = "NVIDIA NIM Cloud Enterprise" if is_nvidia else ("GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local"))
+                existing["architecture"] = "OpenRouter Cloud Router" if is_openrouter else ("NVIDIA NIM Cloud Enterprise" if is_nvidia else ("GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local")))
                 config_changed = True
             new_agents_list.append(existing)
         else:
@@ -1199,7 +1296,7 @@ def auto_discover_hermes_agents():
                 "tps_value": bench_meta["tps_value"],
                 "benchmarks": bench_meta["benchmarks"],
                 "model_notes": bench_meta["model_notes"],
-                "architecture": "GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local"),
+                "architecture": "OpenRouter Cloud Router" if is_openrouter else ("NVIDIA NIM Cloud Enterprise" if is_nvidia else ("GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local"))),
                 "modality": "Vision + Video + Text + Tools" if ("vl" in model_name.lower() or "video" in t_low or "minimax" in t_low or "vision" in t_low) else "Text + Tools",
                 "thinking_level": "Flash Fast" if "flash" in model_name.lower() else ("Extended Thinking" if ("reasoning" in model_name.lower() or "27b" in model_name.lower()) else "Standard")
             }
