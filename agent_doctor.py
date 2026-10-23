@@ -9,7 +9,10 @@ Gestione reale e sicura delle diagnosi, cure (sessione/contesto) e resurrezioni 
 
 import os
 import sys
+import re
+import time
 import json
+import ctypes
 import shutil
 import sqlite3
 import datetime
@@ -21,6 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
 BACKUPS_DIR = BASE_DIR / "backups"
 SIMULATED_FILE = DATA_DIR / "simulated_states.json"
+CURED_FILE = DATA_DIR / "cured_states.json"
 HISTORY_FILE = DATA_DIR / "actions_history.json"
 
 HERMES_ROOT = Path(r"C:\Users\Gyniu\AppData\Local\hermes")
@@ -153,31 +157,194 @@ def backup_agent(agent_id: str, profile_name: str, action_name: str) -> Path:
     return b_dir
 
 
-def diagnose_agent(agent_id: str, profile_name: str, model_name: str, context_limit: int, is_cloud: bool = False, **kwargs) -> dict:
-    """Diagnosi reale dello stato dell'agente."""
-    if is_cloud or agent_id == "beam":
-        return {
-            "agent_id": agent_id,
-            "profile": profile_name,
-            "health_status": "SANO",
-            "room": "cloud",
-            "session_blocked": False,
-            "session_issue_detail": "",
-            "context_overflow": False,
-            "context_issue_detail": "",
-            "can_cure_session": False,
-            "can_cure_context": False,
-            "can_resurrect": False,
-            "is_simulated": False
-        }
+def _is_pid_alive(pid: int) -> bool:
+    """Verifica istantanea (0.01ms) via Win32 API se un processo Windows e' ancora vivo."""
+    if not pid or pid <= 0:
+        return False
+    if sys.platform == "win32":
+        try:
+            PROCESS_QUERY_LIMITED_INFORMATION = 0x1000
+            STILL_ACTIVE = 259
+            h_proc = ctypes.windll.kernel32.OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, False, int(pid))
+            if not h_proc:
+                return False
+            exit_code = ctypes.c_ulong()
+            ok = ctypes.windll.kernel32.GetExitCodeProcess(h_proc, ctypes.byref(exit_code))
+            ctypes.windll.kernel32.CloseHandle(h_proc)
+            return bool(ok and exit_code.value == STILL_ACTIVE)
+        except Exception:
+            pass
+    try:
+        out = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/FO", "CSV", "/NH"],
+                             capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=2, creationflags=WIN_FLAGS)
+        return str(pid) in out.stdout
+    except Exception:
+        return False
 
+
+def _get_last_ok_assistant_ts(p_dir: Path) -> float:
+    """Restituisce il timestamp dell'ultima risposta valida dell'agente nel database SQLite."""
+    db_file = p_dir / "state.db"
+    if not db_file.exists():
+        return 0.0
+    try:
+        uri = f"file:{db_file}?mode=ro"
+        conn = sqlite3.connect(uri, uri=True, timeout=0.4)
+        c = conn.cursor()
+        c.execute("""
+            SELECT max(timestamp) FROM messages
+            WHERE role = 'assistant'
+              AND content NOT LIKE 'Your request was not processed%'
+              AND content NOT LIKE 'An automated delivery was interrupted%'
+        """)
+        row = c.fetchone()
+        conn.close()
+        return float(row[0]) if (row and row[0]) else 0.0
+    except Exception:
+        return 0.0
+
+
+def _parse_log_ts(line: str) -> float:
+    """Estrae il timestamp UNIX da una riga di log Hermes 'YYYY-MM-DD HH:MM:SS,mmm'."""
+    m = re.match(r"^(\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2})(?:,(\d{1,3}))?", line)
+    if not m:
+        return 0.0
+    try:
+        dt = datetime.datetime.strptime(m.group(1), "%Y-%m-%d %H:%M:%S")
+        ms = int(m.group(2) or 0) / 1000.0
+        return dt.timestamp() + ms
+    except Exception:
+        return 0.0
+
+
+def _analyze_error_logs(agent_id: str, profile_name: str, p_dir: Path, is_cloud: bool, baseline_ts: float, cured_at: float = 0.0) -> tuple[bool, str]:
+    """
+    Analizza gli ultimi blocchi di logs/errors.log del profilo (e del pool OpenRouter condiviso)
+    per rilevare blocchi reali non risolti:
+    - HTTP 429 Quota Exceeded / RateLimitError (Google AI Studio, OpenRouter Free Tier)
+    - HTTP 502/503/504 Gateway Timeout / Managed worker lost (NVIDIA NIM / Cloud Upstream)
+    Ignora errori vecchi superati da una risposta valida successiva o da un fix di config.yaml.
+    """
+    now = time.time()
+    log_files = [p_dir / "logs" / "errors.log"]
+
+    # I profili OpenRouter Free Tier (inkling, laguna) condividono il limite giornaliero sull'account OpenRouter
+    is_openrouter_prof = profile_name in ("inkling", "laguna") or agent_id in ("inkling", "laguna")
+    if is_openrouter_prof:
+        shared_or_log = HERMES_ROOT / "profiles" / "laguna" / "logs" / "errors.log"
+        if shared_or_log not in log_files:
+            log_files.append(shared_or_log)
+
+    cfg_file = p_dir / "config.yaml"
+    cfg_uses_9931 = False
+    if cfg_file.exists():
+        try:
+            cfg_txt = cfg_file.read_text(encoding="utf-8", errors="ignore")
+            cfg_uses_9931 = "127.0.0.1:9931" in cfg_txt and "127.0.0.1:9932" not in cfg_txt
+        except Exception:
+            pass
+
+    latest_issue_ts = 0.0
+    latest_issue_msg = ""
+
+    for lf in log_files:
+        if not lf.exists():
+            continue
+        try:
+            with open(lf, "rb") as f:
+                f.seek(0, os.SEEK_END)
+                sz = f.tell()
+                f.seek(max(0, sz - 16384), os.SEEK_SET)
+                tail_text = f.read().decode("utf-8", errors="ignore")
+        except Exception:
+            continue
+
+        # Suddivide in blocchi basati sulle righe che iniziano con timestamp YYYY-MM-DD HH:MM:SS
+        blocks = []
+        curr_ts = 0.0
+        curr_lines = []
+        for line in tail_text.splitlines():
+            ts = _parse_log_ts(line)
+            if ts > 0:
+                if curr_lines and curr_ts > 0:
+                    blocks.append((curr_ts, "\n".join(curr_lines)))
+                curr_ts = ts
+                curr_lines = [line]
+            else:
+                if curr_lines:
+                    curr_lines.append(line)
+        if curr_lines and curr_ts > 0:
+            blocks.append((curr_ts, "\n".join(curr_lines)))
+
+        for b_ts, b_txt in blocks:
+            is_shared_or_block = (lf != (p_dir / "logs" / "errors.log"))
+            if is_shared_or_block:
+                if "free-models-per-day" not in b_txt and "openrouter_free_tier" not in b_txt:
+                    continue
+                # Per il limite giornaliero OpenRouter (50/50 free-models-per-day), vale finche' non scade X-RateLimit-Reset
+                # a meno che non ci sia stata una risposta valida almeno 5 minuti dopo o una cura manuale
+                if b_ts <= cured_at or baseline_ts > (b_ts + 300):
+                    continue
+            else:
+                # Ignora errori precedenti all'ultima risposta valida dell'agente (con 5s di tolleranza) o all'ultima cura manuale
+                if b_ts <= max(baseline_ts + 2.0, cured_at):
+                    continue
+
+            # Ignora vecchi errori sulla porta 9932 se il profilo ora punta correttamente a 9931
+            if "127.0.0.1:9932" in b_txt and cfg_uses_9931:
+                continue
+
+            b_low = b_txt.lower()
+            # 1. Controllo Quota / Rate Limit (HTTP 429)
+            if any(k in b_low for k in ("ratelimiterror", "error code: 429", "\"code\": 429", "quota exceeded", "exceeded your current quota", "resource_exhausted", "free-models-per-day")):
+                reset_m = re.search(r"'X-RateLimit-Reset':\s*'(\d+)'", b_txt)
+                reset_ts = (int(reset_m.group(1)) / 1000.0) if reset_m else (b_ts + 14400)
+                if now < reset_ts or (now - b_ts) < 14400:
+                    if b_ts >= latest_issue_ts:
+                        latest_issue_ts = b_ts
+                        if "free-models-per-day" in b_low or is_openrouter_prof:
+                            latest_issue_msg = "In attesa rigenerazione Quota OpenRouter (HTTP 429: 50/50 req giornaliere Free Tier)"
+                        elif "exceeded your current quota" in b_low or "quota exceeded" in b_low or "googleapis" in b_low or profile_name == "google":
+                            latest_issue_msg = "In attesa rigenerazione Quota Google AI Studio (HTTP 429 Free Tier)"
+                        else:
+                            latest_issue_msg = "In attesa rigenerazione Quota Cloud (HTTP 429 Rate Limit)"
+
+            # 2. Controllo Timeout / 504 / Crash Worker su Cloud
+            elif is_cloud and any(k in b_txt for k in ("Error code: 504", "Error code: 502", "Error code: 503", "Gateway Timeout", "Managed worker lost: EOFError", "API call failed after 3 retries")):
+                if (now - b_ts) < 21600:
+                    prev_ts = latest_issue_ts
+                    if b_ts >= latest_issue_ts:
+                        latest_issue_ts = b_ts
+                        if ("Quota" in latest_issue_msg or "504" in latest_issue_msg) and (b_ts - prev_ts) < 30:
+                            pass
+                        elif "504" in b_txt or "Gateway Timeout" in b_txt or "504" in tail_text[-1500:]:
+                            latest_issue_msg = "Timeout Nodo Cloud NVIDIA NIM (HTTP 504 Gateway Timeout) — Attesa ripristino"
+                        else:
+                            latest_issue_msg = "Sessione Cloud interrotta per Timeout Upstream — Attesa ripristino nodo"
+
+    if latest_issue_ts > 0 and latest_issue_msg:
+        return True, latest_issue_msg
+    return False, ""
+
+
+def diagnose_agent(agent_id: str, profile_name: str, model_name: str, context_limit: int, is_cloud: bool = False, **kwargs) -> dict:
+    """
+    Diagnosi reale e dinamica dello stato di salute e della stanza dell'agente (Locale e Cloud):
+    - LA CASETTA (riposo): Agente SANO e pronto, ma non in esecuzione attiva in questo istante.
+    - L'UFFICIO (lavoro): Agente SANO attualmente in esecuzione attiva (processo vivo o attivita' negli ultimi secondi).
+    - INFERMERIA (cura): Agente temporaneamente infortunato / in pausa per limiti rigenerabili (es. Quota Cloud 429, Timeout 504, Lease orfano).
+    - IL CIMITERO (deceduto): Agente bloccato da doppio guasto critico (sessione + contesto/configurazione).
+    """
     p_dir = get_profile_path(profile_name)
     sim = get_simulated_states().get(agent_id)
+    cured_map = _load_json(CURED_FILE, {})
+    cured_at = float(cured_map.get(agent_id, 0.0) or 0.0)
 
     session_blocked = False
     session_issue_detail = ""
     context_overflow = False
     context_issue_detail = ""
+    is_working_now = False
 
     # 1. Controlli simulati (se presenti)
     if sim:
@@ -194,9 +361,9 @@ def diagnose_agent(agent_id: str, profile_name: str, model_name: str, context_li
             context_overflow = True
             context_issue_detail = "Simulazione critica: Contesto ecceduto e configurazione non allineata"
 
-    # 2. Diagnosi Reale se non simulato
+    # 2. Diagnosi Reale basata su processi attivi, database SQLite e logs/errors.log
     if not sim:
-        # A. Controllo Sessione reale
+        # A. Controllo Lease Sessione reale in runtime/active_sessions.json
         rt_file = p_dir / "runtime" / "active_sessions.json"
         if rt_file.exists():
             try:
@@ -205,27 +372,25 @@ def diagnose_agent(agent_id: str, profile_name: str, model_name: str, context_li
                 for e in entries:
                     pid = e.get("pid", 0)
                     if pid > 0:
-                        # Verifica se il processo Windows e' ancora in vita
-                        out = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/FO", "CSV", "/NH"],
-                                             capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=3, creationflags=WIN_FLAGS)
-                        if str(pid) not in out.stdout:
+                        if _is_pid_alive(pid):
+                            is_working_now = True
+                        else:
                             session_blocked = True
-                            session_issue_detail = f"Lease sessione attivo orfano (PID morto: {pid})"
-                            break
+                            session_issue_detail = f"Sessione interrotta / Lease orfano (PID terminato: {pid})"
             except Exception:
                 pass
 
-        # B. Controllo Contesto e Configurazione reale
-        cfg_file = p_dir / "config.yaml"
-        if cfg_file.exists():
-            try:
-                txt = cfg_file.read_text(encoding="utf-8", errors="ignore")
-                # Controlla se la lunghezza di contesto e' allineata
-                if f"context_length: {context_limit}" not in txt and f"context_length:{context_limit}" not in txt:
-                    context_overflow = True
-                    context_issue_detail = f"Disallineamento parametri contesto (richiesto: {context_limit})"
-            except Exception:
-                pass
+        # B. Analisi Reale di logs/errors.log (Quota 429, Timeout 504, EOFError)
+        if not is_working_now:
+            last_ok_ts = _get_last_ok_assistant_ts(p_dir)
+            baseline_ts = max(last_ok_ts, cured_at)
+            log_blocked, log_detail = _analyze_error_logs(agent_id, profile_name, p_dir, is_cloud, baseline_ts, cured_at)
+            if log_blocked:
+                session_blocked = True
+                if session_issue_detail and log_detail not in session_issue_detail:
+                    session_issue_detail = f"{log_detail} • {session_issue_detail}"
+                else:
+                    session_issue_detail = log_detail
 
     # 3. Classificazione Finale: SANO, INFERMERIA, CIMITERO
     if session_blocked and context_overflow:
@@ -236,11 +401,14 @@ def diagnose_agent(agent_id: str, profile_name: str, model_name: str, context_li
         room = "infermeria"
     else:
         health_status = "SANO"
-        room = "casetta"  # verra' aggiornata a 'ufficio' se al lavoro attivo
+        room = "ufficio" if is_working_now else "casetta"
 
     return {
+        "agent_id": agent_id,
+        "profile": profile_name,
         "health_status": health_status,
         "room": room,
+        "is_working_now": is_working_now,
         "session_blocked": session_blocked,
         "session_issue_detail": session_issue_detail,
         "context_overflow": context_overflow,
@@ -253,7 +421,7 @@ def diagnose_agent(agent_id: str, profile_name: str, model_name: str, context_li
 
 
 def cure_session(agent_id: str, agent_name: str, profile_name: str) -> dict:
-    """Cura SOLO la sessione dell'agente."""
+    """Cura SOLO la sessione dell'agente (pulisce lease orfani e registra timestamp di cura)."""
     b_path = backup_agent(agent_id, profile_name, "cure_session")
     p_dir = get_profile_path(profile_name)
 
@@ -270,13 +438,18 @@ def cure_session(agent_id: str, agent_name: str, profile_name: str) -> dict:
         except Exception:
             pass
 
-    # 2. Rimuove simulazione sessione se presente
+    # 2. Registra timestamp di cura per ignorare errori log precedenti alla cura manuale
+    cured_map = _load_json(CURED_FILE, {})
+    cured_map[agent_id] = time.time()
+    _save_json(CURED_FILE, cured_map)
+
+    # 3. Rimuove simulazione sessione se presente
     sims = get_simulated_states()
     if agent_id in sims and sims[agent_id].get("type") == "session":
         del sims[agent_id]
         _save_json(SIMULATED_FILE, sims)
 
-    msg = f"Sessione curata con successo: ripuliti lease attivi e rimossi eventuali lock orfani."
+    msg = f"Sessione curata con successo: ripuliti lease attivi ({cleaned_count}) e resettato stato diagnostico."
     log_action(agent_id, agent_name, "CURA_SESSIONE", "SUCCESSO", msg, str(b_path))
     return {"ok": True, "message": msg, "backup_path": str(b_path)}
 

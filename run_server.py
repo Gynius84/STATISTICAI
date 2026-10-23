@@ -364,6 +364,7 @@ LLAMACPP_CACHE = {
     "port": 9931,
     "source": "Disco D:",
     "models": [],
+    "loaded_models": [],
     "models_count": 0,
     "last_check": time.time()
 }
@@ -376,12 +377,18 @@ def llamacpp_worker_loop():
             with urllib.request.urlopen(req, timeout=1.2) as res:
                 if res.status == 200:
                     data = json.loads(res.read().decode("utf-8"))
-                    models_list = [m.get("id") for m in data.get("data", [])]
+                    raw_models = data.get("data", [])
+                    models_list = [m.get("id") for m in raw_models]
+                    loaded_list = [
+                        m.get("id") for m in raw_models
+                        if isinstance(m.get("status"), dict) and m.get("status", {}).get("value") in ("loaded", "loading")
+                    ]
                     LLAMACPP_CACHE = {
                         "status": "online",
                         "port": 9931,
                         "source": "Disco D:",
                         "models": models_list,
+                        "loaded_models": loaded_list,
                         "models_count": len(models_list),
                         "last_check": time.time()
                     }
@@ -1102,6 +1109,10 @@ def auto_discover_hermes_agents():
                         mod_block = re.search(re.escape(model_name) + r":\s*\n\s*context_length:\s*(\d+)", p_sec)
                         if mod_block:
                             context_limit = int(mod_block.group(1))
+                        elif context_limit == 32768:
+                            any_ctx = re.search(r"context_length:\s*(\d+)", p_sec)
+                            if any_ctx:
+                                context_limit = int(any_ctx.group(1))
             except Exception:
                 pass
 
@@ -1547,23 +1558,24 @@ def hermes_worker_loop():
                     "context_used_pct": 0.0,
                     "hp": 100,
                     "status": "riposo",
-                    "room": "cloud" if agent_def.get("is_cloud") else "casetta",
+                    "room": "casetta",
                     "vram_mb": 0,
                     "is_shared_model": False,
-                    "last_activity": None
+                    "last_activity": None,
+                    "last_activity_ts": 0.0
                 }
 
                 # VRAM & Engine check
                 matching = []
+                is_loaded_llamacpp = False
                 if agent_def.get("is_cloud"):
                     stat_res["vram_mb"] = 0
                     stat_res["is_shared_model"] = False
                 elif agent_def.get("provider") == "llamacpp" or "9931" in agent_def.get("base_url", ""):
                     stat_res["is_shared_model"] = False
-                    stat_res["vram_mb"] = 0
-                    if LLAMACPP_CACHE.get("status") == "online":
-                        if stat_res["status"] == "riposo":
-                            stat_res["status"] = "attivo"
+                    loaded_lc = LLAMACPP_CACHE.get("loaded_models", [])
+                    is_loaded_llamacpp = bool(agent_def["model"] in loaded_lc)
+                    stat_res["vram_mb"] = 4800 if is_loaded_llamacpp else 0
                 else:
                     matching = [m for m in ollama_models if agent_def["model"] in m["name"]]
                     if matching:
@@ -1683,11 +1695,13 @@ def hermes_worker_loop():
                             stat_res["context_used_pct"] = min(100.0, ctx_pct)
                             stat_res["hp"] = max(5, round(100.0 - ctx_pct))
                             stat_res["current_task"] = row[8] or row[6] or "Elaborazione attiva"
-                            if row[7]:
+                            raw_act_ts = row[7] or row[2] or 0.0
+                            if raw_act_ts:
                                 try:
-                                    stat_res["last_activity"] = datetime.datetime.fromtimestamp(row[7]).strftime("%d/%m %H:%M:%S")
+                                    stat_res["last_activity_ts"] = float(raw_act_ts)
+                                    stat_res["last_activity"] = datetime.datetime.fromtimestamp(float(raw_act_ts)).strftime("%d/%m %H:%M:%S")
                                 except Exception:
-                                    stat_res["last_activity"] = str(row[7])
+                                    stat_res["last_activity"] = str(raw_act_ts)
                             else:
                                 stat_res["last_activity"] = "In attesa"
                     except Exception:
@@ -1768,6 +1782,17 @@ def hermes_worker_loop():
                         stat_res["session_issue_detail"] = ""
                         stat_res["hp"] = 100
 
+                # Determina se l'agente sta realmente lavorando in questo istante:
+                # 1) Processo vivo in runtime/active_sessions.json (diag.is_working_now)
+                # 2) Attivita' reale nella sessione SQLite negli ultimi 90 secondi
+                # 3) Modello locale attualmente caricato in VRAM (llama.cpp loaded_models o ollama ps)
+                now_ts = time.time()
+                act_ts = float(stat_res.get("last_activity_ts") or 0.0)
+                is_recent_turn = (act_ts > 0 and (now_ts - act_ts) <= 90.0)
+                is_local_vram_active = (not is_cloud_agent) and (bool(matching) or is_loaded_llamacpp)
+                is_working_now = bool(diag.get("is_working_now") if is_hermes else False) or is_recent_turn or is_local_vram_active
+                stat_res["is_working_now"] = is_working_now
+
                 if stat_res.get("health_status") == "CIMITERO":
                     stat_res["room"] = "cimitero"
                     stat_res["status"] = "deceduto"
@@ -1776,16 +1801,16 @@ def hermes_worker_loop():
                     stat_res["room"] = "infermeria"
                     stat_res["status"] = "malato"
                     stat_res["hp"] = min(stat_res["hp"], 35)
-                elif agent_def.get("is_cloud") or profile == "beam" or provider in ["cloud", "ollama_cloud"]:
-                    stat_res["room"] = "cloud"
-                    stat_res["status"] = "supervisione_cloud"
-                    stat_res["hp"] = 100
-                elif matching or LLAMACPP_CACHE.get("status") == "online" or stat_res.get("endpoint_online"):
+                elif is_working_now:
                     stat_res["room"] = "ufficio"
                     stat_res["status"] = "lavoro"
+                    if is_cloud_agent:
+                        stat_res["hp"] = 100
                 else:
                     stat_res["room"] = "casetta"
                     stat_res["status"] = "riposo"
+                    if is_cloud_agent:
+                        stat_res["hp"] = 100
 
                 new_list.append(stat_res)
 

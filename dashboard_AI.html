@@ -2515,15 +2515,41 @@
                 }
             }
 
+            function applyCloudHudState(ag, statEl, barEl, defaultColor, providerTag) {
+                if (!statEl) return;
+                if (!ag) {
+                    statEl.textContent = `PRONTO (${providerTag})`;
+                    statEl.style.color = defaultColor;
+                    if (barEl) barEl.style.width = '100%';
+                    return;
+                }
+                const hs = ag.health_status || 'SANO';
+                if (hs === 'INFERMERIA') {
+                    statEl.textContent = `🏥 IN INFERMERIA (PAUSA ${providerTag})`;
+                    statEl.style.color = '#fbbf24';
+                    if (barEl) { barEl.style.width = '35%'; barEl.style.background = '#f59e0b'; }
+                } else if (hs === 'CIMITERO') {
+                    statEl.textContent = `† CIMITERO (${providerTag})`;
+                    statEl.style.color = '#c084fc';
+                    if (barEl) { barEl.style.width = '0%'; }
+                } else if (ag.room === 'ufficio') {
+                    statEl.textContent = `⚡ IN LAVORO ATTIVO (${providerTag})`;
+                    statEl.style.color = '#4ade80';
+                    if (barEl) { barEl.style.width = '100%'; }
+                } else {
+                    statEl.textContent = `💤 PRONTO A RIPOSO (${providerTag})`;
+                    statEl.style.color = defaultColor;
+                    if (barEl) { barEl.style.width = '100%'; }
+                }
+            }
+
             // Statistiche dedicate: SUPER COORDINATORE (CLOUD) - BEAM
             const beamAgent = agents.find(a => a.id === 'beam');
             const clStat = document.getElementById('hud-cloud-stat');
             const clBar = document.getElementById('hud-cloud-bar');
             const clMem = document.getElementById('hud-cloud-members');
             if (clStat && clBar) {
-                clStat.textContent = '100% OPERATIVO (CLOUD)';
-                clStat.style.color = '#38bdf8';
-                clBar.style.width = '100%';
+                applyCloudHudState(beamAgent, clStat, clBar, '#38bdf8', 'OLLAMA CLOUD');
                 if (beamAgent) {
                     const ctxPct = beamAgent.context_used_pct || 0;
                     const usedTok = (beamAgent.context_used_tokens || 0).toLocaleString();
@@ -2540,9 +2566,7 @@
             const mmBar = document.getElementById('hud-cloud-minimax-bar');
             const mmMem = document.getElementById('hud-cloud-minimax-members');
             if (mmStat && mmBar) {
-                mmStat.textContent = '100% OPERATIVO (CLOUD)';
-                mmStat.style.color = '#c084fc';
-                mmBar.style.width = '100%';
+                applyCloudHudState(minimaxAgent, mmStat, mmBar, '#c084fc', 'CLOUD');
                 if (minimaxAgent) {
                     const ctxPct = minimaxAgent.context_used_pct || 0;
                     const usedTok = (minimaxAgent.context_used_tokens || 0).toLocaleString();
@@ -2559,9 +2583,7 @@
             const dsBar = document.getElementById('hud-cloud-deepseek-bar');
             const dsMem = document.getElementById('hud-cloud-deepseek-members');
             if (dsStat && dsBar) {
-                dsStat.textContent = '100% OPERATIVO (NIM CLOUD)';
-                dsStat.style.color = '#76b900';
-                dsBar.style.width = '100%';
+                applyCloudHudState(deepseekAgent, dsStat, dsBar, '#76b900', 'NIM CLOUD');
                 if (deepseekAgent) {
                     const ctxPct = deepseekAgent.context_used_pct || 0;
                     const usedTok = (deepseekAgent.context_used_tokens || 0).toLocaleString();
@@ -2578,9 +2600,7 @@
             const drBar = document.getElementById('hud-cloud-drago-bar');
             const drMem = document.getElementById('hud-cloud-drago-members');
             if (drStat && drBar) {
-                drStat.textContent = '100% OPERATIVO (NIM CLOUD)';
-                drStat.style.color = '#10b981';
-                drBar.style.width = '100%';
+                applyCloudHudState(dragoAgent, drStat, drBar, '#10b981', 'NIM CLOUD');
                 if (dragoAgent) {
                     const ctxPct = dragoAgent.context_used_pct || 0;
                     const usedTok = (dragoAgent.context_used_tokens || 0).toLocaleString();
@@ -2592,14 +2612,12 @@
             }
 
             // Statistiche dedicate: NEMOTRON CLOUD (NVIDIA NIM) - NEMOTRON-3 ULTRA 550B-A55B
-            const nemotronAgent = agents.find(a => a.id === 'nomotron' || a.id === 'nemotron' || (a.model && a.model.toLowerCase().includes('nemotron')));
+            const nemotronAgent = agents.find(a => a.id === 'nomotron' || a.id === 'nemotron' || (a.model && a.model.toLowerCase().includes('nemotron') && a.provider === 'nvidia'));
             const nmStat = document.getElementById('hud-cloud-nomotron-stat');
             const nmBar = document.getElementById('hud-cloud-nomotron-bar');
             const nmMem = document.getElementById('hud-cloud-nomotron-members');
             if (nmStat && nmBar) {
-                nmStat.textContent = '100% OPERATIVO (NIM CLOUD)';
-                nmStat.style.color = '#a3e635';
-                nmBar.style.width = '100%';
+                applyCloudHudState(nemotronAgent, nmStat, nmBar, '#a3e635', 'NIM CLOUD');
                 if (nemotronAgent) {
                     const ctxPct = nemotronAgent.context_used_pct || 0;
                     const usedTok = (nemotronAgent.context_used_tokens || 0).toLocaleString();
@@ -2613,20 +2631,22 @@
             // Statistiche dedicate: INKLING & LAGUNA (OPENROUTER CLOUD)
             const inklingAgent = agents.find(a => a.id === 'inkling' || (a.model && a.model.toLowerCase().includes('inkling')));
             const inkStat = document.getElementById('hud-cloud-inkling-stat');
+            const inkBar = document.getElementById('hud-cloud-inkling-bar');
             const inkMem = document.getElementById('hud-cloud-inkling-members');
             if (inkStat && inklingAgent) {
-                inkStat.textContent = '100% OPERATIVO (OPENROUTER)';
+                applyCloudHudState(inklingAgent, inkStat, inkBar, '#a855f7', 'OPENROUTER');
                 const ctxPct = inklingAgent.context_used_pct || 0;
                 const usedTok = (inklingAgent.context_used_tokens || 0).toLocaleString();
                 const lifeTok = (inklingAgent.lifetime_tokens || 0).toLocaleString();
                 const calls = inklingAgent.lifetime_api_calls || 0;
-                if (inkMem) inkMem.innerHTML = `Inkling 70B Reasoner • Turno: <b>${usedTok} tok (${ctxPct}%)</b> • Storico: <b>${lifeTok} tok</b> (${calls} calls • 0 VRAM)`;
+                if (inkMem) inkMem.innerHTML = `Inkling (Trinity Free) • Turno: <b>${usedTok} tok (${ctxPct}%)</b> • Storico: <b>${lifeTok} tok</b> (${calls} calls • 0 VRAM)`;
             }
             const lagunaAgent = agents.find(a => a.id === 'laguna' || (a.model && a.model.toLowerCase().includes('laguna')));
             const lagStat = document.getElementById('hud-cloud-laguna-stat');
+            const lagBar = document.getElementById('hud-cloud-laguna-bar');
             const lagMem = document.getElementById('hud-cloud-laguna-members');
             if (lagStat && lagunaAgent) {
-                lagStat.textContent = '100% OPERATIVO (OPENROUTER)';
+                applyCloudHudState(lagunaAgent, lagStat, lagBar, '#6366f1', 'OPENROUTER');
                 const ctxPct = lagunaAgent.context_used_pct || 0;
                 const usedTok = (lagunaAgent.context_used_tokens || 0).toLocaleString();
                 const lifeTok = (lagunaAgent.lifetime_tokens || 0).toLocaleString();
@@ -3095,7 +3115,7 @@
                 else if (isOpenRouterCard) cardClass += ' card-cloud card-openrouter';
                 else if (isNvidiaCard) cardClass += ' card-cloud card-nvidia';
                 else if (agent.is_cloud || agent.id === 'beam') cardClass += ' card-cloud';
-                else if (hs === 'INFERMERIA') cardClass += ' card-infermeria';
+                if (hs === 'INFERMERIA') cardClass += ' card-infermeria';
                 else if (hs === 'CIMITERO') cardClass += ' card-cimitero';
                 card.className = cardClass;
                 card.setAttribute('data-agent-id', agent.id);
@@ -3104,22 +3124,23 @@
 
                 const spriteUrl = API_BASE + '/' + agent.sprite.replace(/^(\.\/|\/)/, '');
 
+                const roomStateLabel = (agent.room === 'ufficio') ? '⚡ IN LAVORO (UFFICIO)' : '💤 A RIPOSO (CASETTA)';
                 let badgeHtml = '';
-                if (isGoogleCard) {
-                    badgeHtml = `<span class="status-badge" style="background:#261705; color:#fbbf24; border-color:#f59e0b; box-shadow:0 0 8px rgba(245,158,11,0.38);">[ ✨ GOOGLE AI CLOUD • IMMORTALE ]</span>`;
-                } else if (isOpenRouterCard) {
-                    badgeHtml = `<span class="status-badge" style="background:#190b2e; color:#c084fc; border-color:#a855f7; box-shadow:0 0 8px rgba(168,85,247,0.35);">[ 🌌 OPENROUTER CLOUD • IMMORTALE ]</span>`;
-                } else if (isNvidiaCard) {
-                    badgeHtml = `<span class="status-badge" style="background:#081a0e; color:#76b900; border-color:#76b900; box-shadow:0 0 8px rgba(118,185,0,0.35);">[ ⚡ NVIDIA NIM • IMMORTALE ]</span>`;
-                } else if (agent.is_cloud || agent.id === 'beam') {
-                    badgeHtml = `<span class="status-badge status-cloud">[ ☁ OLLAMA CLOUD • IMMORTALE ]</span>`;
-                } else if (hs === 'SANO') {
-                    badgeHtml = `<span class="status-badge status-sano">[ SANO • ${agent.room.toUpperCase()} ]</span>`;
+                if (hs === 'CIMITERO') {
+                    badgeHtml = `<span class="status-badge status-cimitero">[ † CIMITERO: R.I.P. ]</span>`;
                 } else if (hs === 'INFERMERIA') {
-                    const iss = agent.session_blocked ? 'SESSIONE' : 'CONTESTO';
-                    badgeHtml = `<span class="status-badge status-infermeria">[ INFERMERIA: ${iss} ]</span>`;
-                } else if (hs === 'CIMITERO') {
-                    badgeHtml = `<span class="status-badge status-cimitero">[ CIMITERO: R.I.P. ]</span>`;
+                    const iss = (agent.is_cloud || agent.id === 'beam') ? 'PAUSA QUOTA/TIMEOUT' : (agent.session_blocked ? 'SESSIONE' : 'CONTESTO');
+                    badgeHtml = `<span class="status-badge status-infermeria" style="box-shadow:0 0 10px rgba(245,158,11,0.45);">[ 🏥 INFERMERIA • ${iss} ]</span>`;
+                } else if (isGoogleCard) {
+                    badgeHtml = `<span class="status-badge" style="background:#261705; color:#fbbf24; border-color:#f59e0b; box-shadow:0 0 8px rgba(245,158,11,0.38);">[ ✨ GOOGLE CLOUD • ${roomStateLabel} ]</span>`;
+                } else if (isOpenRouterCard) {
+                    badgeHtml = `<span class="status-badge" style="background:#190b2e; color:#c084fc; border-color:#a855f7; box-shadow:0 0 8px rgba(168,85,247,0.35);">[ 🌌 OPENROUTER • ${roomStateLabel} ]</span>`;
+                } else if (isNvidiaCard) {
+                    badgeHtml = `<span class="status-badge" style="background:#081a0e; color:#76b900; border-color:#76b900; box-shadow:0 0 8px rgba(118,185,0,0.35);">[ ⚡ NVIDIA NIM • ${roomStateLabel} ]</span>`;
+                } else if (agent.is_cloud || agent.id === 'beam') {
+                    badgeHtml = `<span class="status-badge status-cloud">[ ☁ OLLAMA CLOUD • ${roomStateLabel} ]</span>`;
+                } else {
+                    badgeHtml = `<span class="status-badge status-sano">[ 🟢 SANO • ${roomStateLabel} ]</span>`;
                 }
 
                 // Tag del Gruppo di Appartenenza
@@ -3156,36 +3177,47 @@
 
                 // Pulsanti azione
                 let actionsHtml = '';
-                if (agent.is_cloud || agent.id === 'beam') {
-                    actionsHtml = `
-                        <div style="display:flex; width:100%; gap:4px;">
-                            <button class="btn-act" style="background:#0c2333; color:#38bdf8; border-color:#38bdf8; flex:1; cursor:default;" onclick="event.stopPropagation();">
-                                ★ CLOUD PERPETUO (NO CRASH / ZERO VRAM) ★
-                            </button>
-                            <button class="btn-act btn-delete-agent" onclick="deleteAgent('${agent.id}', '${agent.name}'); event.stopPropagation();" title="Rimuovi dal monitoraggio">✕</button>
-                        </div>
-                    `;
-                } else if (hs === 'INFERMERIA') {
+                if (hs === 'INFERMERIA') {
                     if (agent.can_cure_session || agent.session_blocked) {
-                        actionsHtml += `<button class="btn-act btn-cure-session" onclick="openConfirmAction('${agent.id}', 'cure_session'); event.stopPropagation();">CURA SESSIONE</button>`;
+                        actionsHtml += `<button class="btn-act btn-cure-session" onclick="openConfirmAction('${agent.id}', 'cure_session'); event.stopPropagation();">🏥 CURA / RESET SESSIONE</button>`;
                     }
                     if (agent.can_cure_context || agent.context_overflow) {
                         actionsHtml += `<button class="btn-act btn-cure-context" onclick="openConfirmAction('${agent.id}', 'cure_context'); event.stopPropagation();">CURA CONTESTO</button>`;
                     }
+                    actionsHtml += `<button class="btn-act btn-delete-agent" onclick="deleteAgent('${agent.id}', '${agent.name}'); event.stopPropagation();" title="Rimuovi dal monitoraggio">✕</button>`;
                 } else if (hs === 'CIMITERO') {
                     actionsHtml += `<button class="btn-act btn-resurrect" onclick="openConfirmAction('${agent.id}', 'resurrect'); event.stopPropagation();">★ RESUSCITA (1-CLICK) ★</button>`;
-                }
-
-                if (!agent.is_cloud && agent.id !== 'beam') {
+                    actionsHtml += `<button class="btn-act btn-delete-agent" onclick="deleteAgent('${agent.id}', '${agent.name}'); event.stopPropagation();" title="Rimuovi dal monitoraggio">✕</button>`;
+                } else if (agent.is_cloud || agent.id === 'beam') {
+                    const cloudStateBtn = (agent.room === 'ufficio')
+                        ? '⚡ CLOUD ATTIVO IN LAVORO (UFFICIO) ★'
+                        : '💤 CLOUD PRONTO A RIPOSO (CASETTA) • 0 VRAM ★';
+                    actionsHtml = `
+                        <div style="display:flex; width:100%; gap:4px;">
+                            <button class="btn-act" style="background:#0c2333; color:#38bdf8; border-color:#38bdf8; flex:1; cursor:default;" onclick="event.stopPropagation();">
+                                ${cloudStateBtn}
+                            </button>
+                            <button class="btn-act btn-delete-agent" onclick="deleteAgent('${agent.id}', '${agent.name}'); event.stopPropagation();" title="Rimuovi dal monitoraggio">✕</button>
+                        </div>
+                    `;
+                } else {
                     actionsHtml += `<button class="btn-act btn-simulate" onclick="openSimulateModal('${agent.id}'); event.stopPropagation();">SIMULA/TEST</button>`;
                     actionsHtml += `<button class="btn-act btn-delete-agent" onclick="deleteAgent('${agent.id}', '${agent.name}'); event.stopPropagation();" title="Rimuovi dal monitoraggio">✕</button>`;
                 }
 
-                let hpColor = (agent.is_cloud || agent.id === 'beam') ? '#38bdf8' : 'var(--hp-green)';
-                if (!agent.is_cloud && agent.id !== 'beam') {
+                let hpColor = (hs === 'INFERMERIA') ? 'var(--hp-yellow)' : ((hs === 'CIMITERO') ? 'var(--hp-red)' : ((agent.is_cloud || agent.id === 'beam') ? '#38bdf8' : 'var(--hp-green)'));
+                if (hs === 'SANO' && !agent.is_cloud && agent.id !== 'beam') {
                     if (agent.hp <= 30) hpColor = 'var(--hp-red)';
                     else if (agent.hp <= 60) hpColor = 'var(--hp-yellow)';
                 }
+                const hpBarWidth = (hs === 'INFERMERIA') ? 35 : ((hs === 'CIMITERO') ? 0 : (agent.hp || 100));
+                const hpTextLabel = (hs === 'INFERMERIA')
+                    ? '35 / 100 HP (IN INFERMERIA • ATTESA RIGENERAZIONE)'
+                    : ((hs === 'CIMITERO')
+                        ? '0 / 100 HP (DECEDUTO)'
+                        : ((agent.is_cloud || agent.id === 'beam')
+                            ? `100 / 100 HP (OPERATIVO • ${agent.room === 'ufficio' ? 'LAVORO' : 'RIPOSO'})`
+                            : `${agent.hp} / 100 HP (${agent.room === 'ufficio' ? 'LAVORO' : 'RIPOSO'})`));
 
                 const ctxPct = agent.context_used_pct || 0;
 
@@ -3250,11 +3282,11 @@
 
                     <div style="display: flex; flex-direction: column; gap: 4px; background: #0b0d16; padding: 6px; border: 1px solid #1f2438;">
                         <div class="agent-stat-row">
-                            <span style="color: var(--text-muted);">${(agent.is_cloud || agent.id === 'beam') ? 'STATO SALUTE (CLOUD):' : 'ENERGIA HP:'}</span>
-                            <span style="font-weight: bold; color: ${hpColor};">${(agent.is_cloud || agent.id === 'beam') ? 'IMMORTALE (100 HP)' : agent.hp + ' / 100'}</span>
+                            <span style="color: var(--text-muted);">${(agent.is_cloud || agent.id === 'beam') ? 'STATO SALUTE & STANZA:' : 'ENERGIA HP & STANZA:'}</span>
+                            <span style="font-weight: bold; color: ${hpColor};">${hpTextLabel}</span>
                         </div>
                         <div class="pixel-bar-container">
-                            <div class="pixel-bar-fill" style="width: 100%; background-color: ${hpColor};"></div>
+                            <div class="pixel-bar-fill" style="width: ${hpBarWidth}%; background-color: ${hpColor};"></div>
                         </div>
 
                         <div class="agent-stat-row" style="margin-top: 3px;">
@@ -4308,93 +4340,138 @@
             ctx.beginPath(); ctx.moveTo(roomWidth * 3, 0); ctx.lineTo(roomWidth * 3, canvas.height); ctx.stroke();
 
             // =========================================================
-            // 5. DISEGNO E ANIMAZIONE DEGLI AGENTI (7 AGENTI LOCALI)
+            // 5. DISEGNO E ANIMAZIONE DI TUTTI GLI AGENTI NELLE 4 STANZE REALI
             // =========================================================
             if (TELEMETRY_DATA && TELEMETRY_DATA.agents) {
-                TELEMETRY_DATA.agents.forEach((agent, i) => {
+                const roomBuckets = { casetta: [], ufficio: [], infermeria: [], cimitero: [] };
+                TELEMETRY_DATA.agents.forEach((agent) => {
                     if (!SPRITE_IMAGES[agent.id]) {
                         const img = new Image();
                         img.src = API_BASE + '/' + (agent.sprite || 'sprites_agents/GynBot1.png').replace(/^(\.\/|\/)/, '');
                         SPRITE_IMAGES[agent.id] = img;
                     }
-                    if (agent.id === 'beam' || agent.is_cloud) return; // Agenti Cloud nel Portale dedicato nell'HUD
-
-                    if (!AGENT_COORDS[agent.id]) {
-                        AGENT_COORDS[agent.id] = {
-                            x: 25 + ((i % 4) * 72),
-                            y: 190,
-                            targetX: 25 + ((i % 4) * 72),
-                            targetY: 190,
-                            bob: 0
-                        };
-                    }
-
-                    const pos = AGENT_COORDS[agent.id];
-                    if (!pos) return;
-
                     const hs = agent.health_status || 'SANO';
-                    let targetBaseX = 40;
+                    if (hs === 'CIMITERO') roomBuckets.cimitero.push(agent);
+                    else if (hs === 'INFERMERIA') roomBuckets.infermeria.push(agent);
+                    else if (agent.room === 'ufficio') roomBuckets.ufficio.push(agent);
+                    else roomBuckets.casetta.push(agent);
+                });
 
-                    if (hs === 'CIMITERO') {
-                        targetBaseX = roomWidth * 3 + 24 + ((i % 4) * 72);
-                    } else if (hs === 'INFERMERIA') {
-                        targetBaseX = roomWidth * 2 + 28 + ((i % 3) * 96);
-                    } else if (agent.room === 'ufficio') {
-                        targetBaseX = roomWidth + 30 + ((i % 3) * 96);
-                    } else {
-                        targetBaseX = 25 + ((i % 4) * 72);
-                    }
+                // Badge contatori in tempo reale in alto a destra di ogni stanza
+                ctx.font = 'bold 9px monospace';
+                ctx.textAlign = 'right';
+                ctx.fillStyle = '#7aa2f7';
+                ctx.fillText(`[${roomBuckets.casetta.length} PRONTI]`, roomWidth - 10, 22);
+                ctx.fillStyle = '#4ade80';
+                ctx.fillText(`[${roomBuckets.ufficio.length} ATTIVI]`, roomWidth * 2 - 10, 22);
+                ctx.fillStyle = '#fbbf24';
+                ctx.fillText(`[${roomBuckets.infermeria.length} IN CURA]`, roomWidth * 3 - 10, 22);
+                ctx.fillStyle = '#bb9af7';
+                ctx.fillText(`[${roomBuckets.cimitero.length} R.I.P.]`, roomWidth * 4 - 10, 22);
 
-                    pos.targetX = targetBaseX;
-                    pos.x += (pos.targetX - pos.x) * 0.08;
-                    pos.bob = Math.sin(Date.now() * 0.005 + i) * 3;
-
-                    const spr = SPRITE_IMAGES[agent.id];
-                    if (spr && spr.complete) {
-                        ctx.save();
-                        if (hs === 'CIMITERO') {
-                            // Fantasma / sagoma eterea trasparente al cimitero
-                            ctx.globalAlpha = 0.65 + Math.sin(Date.now() * 0.008 + i) * 0.25;
-                            ctx.drawImage(spr, pos.x, pos.y + pos.bob - 10, 48, 52);
-                            // Aureola pixel art
-                            ctx.fillStyle = '#ffea75';
-                            ctx.fillRect(pos.x + 14, pos.y + pos.bob - 16, 20, 3);
-                        } else if (hs === 'INFERMERIA') {
-                            ctx.drawImage(spr, pos.x, pos.y + pos.bob, 48, 52);
-                            // Benda / Cerotto pixel art
-                            ctx.fillStyle = '#ffffff';
-                            ctx.fillRect(pos.x + 30, pos.y + pos.bob + 10, 10, 6);
-                            ctx.fillStyle = '#f7768e';
-                            ctx.fillRect(pos.x + 34, pos.y + pos.bob + 12, 2, 2);
-                        } else {
-                            ctx.drawImage(spr, pos.x, pos.y + pos.bob, 48, 52);
-                        }
-                        ctx.restore();
-                    }
-
-                    // Nome agente sopra lo sprite
-                    ctx.fillStyle = '#ffffff';
+                // Se nessun agente sta lavorando in questo istante nell'Ufficio, mostra cartello retrogame
+                if (roomBuckets.ufficio.length === 0) {
+                    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+                    ctx.fillRect(roomWidth + 32, 108, roomWidth - 64, 38);
+                    ctx.strokeStyle = '#38bdf8';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(roomWidth + 32, 108, roomWidth - 64, 38);
+                    ctx.fillStyle = '#38bdf8';
                     ctx.font = 'bold 9px monospace';
                     ctx.textAlign = 'center';
-                    ctx.fillText(agent.name.substring(0, 11), pos.x + 24, pos.y + pos.bob - 6);
+                    ctx.fillText('NESSUN TASK IN CORSO ORA', roomWidth + 160, 124);
+                    ctx.fillStyle = '#94a3b8';
+                    ctx.font = '8px monospace';
+                    ctx.fillText('Agenti sani in riposo nella Casetta', roomWidth + 160, 138);
+                }
 
-                    // Indicatore visivo del gruppo sotto lo sprite
-                    const dotColor = (agent.group === 'TEAM SVILUPPO') ? '#fbbf24' : ((agent.group === 'TEAM MARKETING') ? '#c084fc' : '#f87171');
-                    ctx.fillStyle = dotColor;
-                    ctx.fillRect(pos.x + 22, pos.y + pos.bob + 54, 5, 5);
+                const drawRoomAgents = (list, roomIndex) => {
+                    const totalInRoom = list.length;
+                    const roomStartX = roomIndex * roomWidth;
+                    list.forEach((agent, slotIdx) => {
+                        const cols = totalInRoom <= 3 ? Math.max(1, totalInRoom) : (totalInRoom <= 6 ? 3 : 4);
+                        const col = slotIdx % cols;
+                        const row = Math.floor(slotIdx / cols);
+                        const totalRows = Math.ceil(totalInRoom / cols);
+                        const sprSizeW = totalRows > 1 ? 40 : 46;
+                        const sprSizeH = totalRows > 1 ? 44 : 50;
 
-                    // Fumetti di stato
-                    if (hs === 'CIMITERO') {
-                        ctx.fillStyle = '#bb9af7';
-                        ctx.fillText('† R.I.P †', pos.x + 24, pos.y + pos.bob - 22);
-                    } else if (hs === 'INFERMERIA') {
-                        ctx.fillStyle = '#f7768e';
-                        ctx.fillText('+SOS+', pos.x + 24, pos.y + pos.bob - 16);
-                    } else if (agent.room === 'casetta') {
-                        ctx.fillStyle = '#7aa2f7';
-                        ctx.fillText('Zzz', pos.x + 36, pos.y + pos.bob - 16);
-                    }
-                });
+                        const cellW = Math.floor((roomWidth - 24) / cols);
+                        const targetBaseX = roomStartX + 12 + col * cellW + Math.floor((cellW - sprSizeW) / 2);
+                        const targetBaseY = (totalRows === 1) ? 188 : (row === 0 ? 150 : 232);
+
+                        if (!AGENT_COORDS[agent.id]) {
+                            AGENT_COORDS[agent.id] = {
+                                x: targetBaseX,
+                                y: targetBaseY,
+                                targetX: targetBaseX,
+                                targetY: targetBaseY,
+                                bob: 0
+                            };
+                        }
+
+                        const pos = AGENT_COORDS[agent.id];
+                        pos.targetX = targetBaseX;
+                        pos.targetY = targetBaseY;
+                        pos.x += (pos.targetX - pos.x) * 0.10;
+                        pos.y += (pos.targetY - pos.y) * 0.10;
+                        pos.bob = Math.sin(Date.now() * 0.005 + slotIdx * 1.3) * 2.5;
+
+                        const hs = agent.health_status || 'SANO';
+                        const spr = SPRITE_IMAGES[agent.id];
+                        if (spr && spr.complete && spr.naturalWidth > 0) {
+                            ctx.save();
+                            if (hs === 'CIMITERO') {
+                                ctx.globalAlpha = 0.65 + Math.sin(Date.now() * 0.008 + slotIdx) * 0.25;
+                                ctx.drawImage(spr, pos.x, pos.y + pos.bob - 8, sprSizeW, sprSizeH);
+                                ctx.fillStyle = '#ffea75';
+                                ctx.fillRect(pos.x + 10, pos.y + pos.bob - 14, sprSizeW - 20, 3);
+                            } else if (hs === 'INFERMERIA') {
+                                ctx.drawImage(spr, pos.x, pos.y + pos.bob, sprSizeW, sprSizeH);
+                                // Benda / Croce medica pixel art
+                                ctx.fillStyle = '#ffffff';
+                                ctx.fillRect(pos.x + sprSizeW - 14, pos.y + pos.bob + 4, 11, 11);
+                                ctx.fillStyle = '#ef4444';
+                                ctx.fillRect(pos.x + sprSizeW - 10, pos.y + pos.bob + 6, 3, 7);
+                                ctx.fillRect(pos.x + sprSizeW - 12, pos.y + pos.bob + 8, 7, 3);
+                            } else {
+                                ctx.drawImage(spr, pos.x, pos.y + pos.bob, sprSizeW, sprSizeH);
+                            }
+                            ctx.restore();
+                        }
+
+                        // Targhetta Nome sotto/sopra lo sprite
+                        const centerX = pos.x + Math.round(sprSizeW / 2);
+                        ctx.fillStyle = 'rgba(7, 10, 20, 0.82)';
+                        ctx.fillRect(pos.x - 4, pos.y + pos.bob + sprSizeH - 2, sprSizeW + 8, 11);
+                        ctx.fillStyle = agent.color || '#ffffff';
+                        ctx.font = 'bold 8px monospace';
+                        ctx.textAlign = 'center';
+                        ctx.fillText(agent.name.substring(0, 10), centerX, pos.y + pos.bob + sprSizeH + 6);
+
+                        // Fumetti di stato sopra lo sprite
+                        ctx.font = 'bold 8px monospace';
+                        if (hs === 'CIMITERO') {
+                            ctx.fillStyle = '#bb9af7';
+                            ctx.fillText('† R.I.P †', centerX, pos.y + pos.bob - 6);
+                        } else if (hs === 'INFERMERIA') {
+                            ctx.fillStyle = '#fbbf24';
+                            const issueTag = (agent.session_issue_detail && agent.session_issue_detail.includes('429')) ? '⏳429 QUOTA' : '🏥 IN CURA';
+                            ctx.fillText(issueTag, centerX, pos.y + pos.bob - 4);
+                        } else if (roomIndex === 1) {
+                            ctx.fillStyle = '#4ade80';
+                            ctx.fillText('⚡ WORK', centerX, pos.y + pos.bob - 4);
+                        } else {
+                            ctx.fillStyle = '#7aa2f7';
+                            ctx.fillText('Zzz', centerX + 10, pos.y + pos.bob - 4);
+                        }
+                    });
+                };
+
+                drawRoomAgents(roomBuckets.casetta, 0);
+                drawRoomAgents(roomBuckets.ufficio, 1);
+                drawRoomAgents(roomBuckets.infermeria, 2);
+                drawRoomAgents(roomBuckets.cimitero, 3);
             }
 
             // =========================================================
@@ -4478,6 +4555,14 @@
 
                 if (spr && spr.complete && spr.naturalWidth > 0) {
                     ctx.drawImage(spr, ax, ay, drawW, drawH);
+                    if ((ag.health_status || 'SANO') === 'INFERMERIA') {
+                        // Croce medica pixel art sull'avatar in nuvoletta quando e' in infermeria
+                        ctx.fillStyle = '#ffffff';
+                        ctx.fillRect(ax + drawW - 10, ay + 2, 9, 9);
+                        ctx.fillStyle = '#ef4444';
+                        ctx.fillRect(ax + drawW - 7, ay + 3, 3, 7);
+                        ctx.fillRect(ax + drawW - 9, ay + 5, 7, 3);
+                    }
                 }
 
                 // Targhetta pixel art con il nome dell'agente sotto l'avatar
@@ -4486,7 +4571,7 @@
                 ctx.textAlign = 'center';
                 ctx.fillStyle = theme.tagBg || '#050a14';
                 ctx.fillRect(ax - 2, ay + drawH - 2, drawW + 4, 9);
-                ctx.fillStyle = ag.color || theme.primaryColor;
+                ctx.fillStyle = (ag.health_status === 'INFERMERIA') ? '#fbbf24' : (ag.color || theme.primaryColor);
                 ctx.fillText(label, ax + Math.round(drawW / 2), ay + drawH + 5);
             });
 
@@ -4516,14 +4601,16 @@
                 ctx.fillStyle = theme.accentColor;
                 ctx.fillText(`⚡ ${a.estimated_speed_tps || 'Cloud Speed'}`, 8, 71);
 
-                // Lato Destro: Statistiche Storiche & Operatività
+                // Lato Destro: Statistiche Storiche & Operatività Reale
                 ctx.textAlign = 'right';
                 ctx.fillStyle = '#fde047';
                 ctx.font = 'bold 10px monospace';
                 ctx.fillText(`★ ${lifeTok} TOK STORICO`, w - 8, 16);
-                ctx.fillStyle = a.color || theme.primaryColor;
+                const aHs = a.health_status || 'SANO';
+                ctx.fillStyle = (aHs === 'INFERMERIA') ? '#fbbf24' : ((a.room === 'ufficio') ? '#4ade80' : (a.color || theme.primaryColor));
                 ctx.font = 'bold 8.5px monospace';
-                ctx.fillText('STATO: 100% OPERATIVO', w - 8, 29);
+                const aStateTxt = (aHs === 'INFERMERIA') ? '🏥 INFERMERIA (PAUSA QUOTA)' : ((a.room === 'ufficio') ? '⚡ IN LAVORO (UFFICIO)' : '💤 PRONTO (CASETTA)');
+                ctx.fillText(aStateTxt, w - 8, 29);
                 ctx.fillStyle = '#4ade80';
                 ctx.font = '8px monospace';
                 ctx.fillText(`● SESSIONI: ${a.lifetime_sessions || 1} • MSG: ${a.lifetime_messages || 0}`, w - 8, 43);
@@ -4539,15 +4626,18 @@
                 const ctx1 = Math.round((a1.context_limit || 32768) / 1024);
                 const ctx2 = Math.round((a2.context_limit || 32768) / 1024);
 
+                const s1 = (a1.health_status === 'INFERMERIA') ? '🏥 INFERMERIA (PAUSA)' : ((a1.room === 'ufficio') ? '⚡ IN LAVORO' : '💤 PRONTO (RIPOSO)');
+                const s2 = (a2.health_status === 'INFERMERIA') ? '🏥 INFERMERIA (PAUSA)' : ((a2.room === 'ufficio') ? '⚡ IN LAVORO' : '💤 PRONTO (RIPOSO)');
+
                 // Sinistra: Agente 1
                 ctx.textAlign = 'left';
                 ctx.fillStyle = a1.color || theme.primaryColor;
                 ctx.font = 'bold 10px monospace';
                 ctx.fillText(`★ ${(a1.name || '').toUpperCase()} ${(a1.parameters || '').split(' ')[0]}`, 8, 16);
-                ctx.fillStyle = theme.secondaryColor;
+                ctx.fillStyle = (a1.health_status === 'INFERMERIA') ? '#fbbf24' : '#4ade80';
                 ctx.font = 'bold 8.5px monospace';
-                ctx.fillText((a1.title || 'CLOUD SPECIALIST').toUpperCase().substring(0, 24), 8, 29);
-                ctx.fillStyle = '#4ade80';
+                ctx.fillText(s1, 8, 29);
+                ctx.fillStyle = theme.secondaryColor;
                 ctx.font = '8px monospace';
                 ctx.fillText(`● ${ctx1 >= 1000 ? '1M' : ctx1 + 'K'} CTX • 0 VRAM`, 8, 43);
                 ctx.fillStyle = '#fde047';
@@ -4560,10 +4650,10 @@
                 ctx.fillStyle = a2.color || theme.secondaryColor;
                 ctx.font = 'bold 10px monospace';
                 ctx.fillText(`★ ${(a2.name || '').toUpperCase()} ${(a2.parameters || '').split(' ')[0]}`, w - 8, 16);
-                ctx.fillStyle = theme.accentColor;
+                ctx.fillStyle = (a2.health_status === 'INFERMERIA') ? '#fbbf24' : '#4ade80';
                 ctx.font = 'bold 8.5px monospace';
-                ctx.fillText((a2.title || 'CLOUD SPECIALIST').toUpperCase().substring(0, 24), w - 8, 29);
-                ctx.fillStyle = '#4ade80';
+                ctx.fillText(s2, w - 8, 29);
+                ctx.fillStyle = theme.accentColor;
                 ctx.font = '8px monospace';
                 ctx.fillText(`● ${ctx2 >= 1000 ? '1M' : ctx2 + 'K'} CTX • 0 VRAM`, w - 8, 43);
                 ctx.fillStyle = '#fde047';
@@ -4578,12 +4668,14 @@
                 ctx.textAlign = 'left';
                 leftAgents.forEach((ag, idx) => {
                     const yBase = 15 + idx * 27;
-                    ctx.fillStyle = ag.color || theme.primaryColor;
+                    const isInf = (ag.health_status === 'INFERMERIA');
+                    const stIcon = isInf ? '🏥' : (ag.room === 'ufficio' ? '⚡' : '💤');
+                    ctx.fillStyle = isInf ? '#fbbf24' : (ag.color || theme.primaryColor);
                     ctx.font = 'bold 9.5px monospace';
-                    ctx.fillText(`★ ${(ag.name || '').toUpperCase()} ${(ag.parameters || '').split(' ')[0]}`, 8, yBase);
-                    ctx.fillStyle = '#fde047';
+                    ctx.fillText(`${stIcon} ${(ag.name || '').toUpperCase()} ${(ag.parameters || '').split(' ')[0]}`, 8, yBase);
+                    ctx.fillStyle = isInf ? '#fcd34d' : '#fde047';
                     ctx.font = '8px monospace';
-                    ctx.fillText(`● ${(ag.lifetime_tokens || 0).toLocaleString()} TOK (${ag.lifetime_api_calls || 0} CALLS)`, 8, yBase + 12);
+                    ctx.fillText(isInf ? `⚠ INFERMERIA • ${(ag.lifetime_tokens || 0).toLocaleString()} TOK` : `● PRONTO • ${(ag.lifetime_tokens || 0).toLocaleString()} TOK`, 8, yBase + 12);
                 });
                 ctx.fillStyle = '#86efac';
                 ctx.font = '8px monospace';
@@ -4592,16 +4684,20 @@
                 ctx.textAlign = 'right';
                 rightAgents.forEach((ag, idx) => {
                     const yBase = 15 + idx * 27;
-                    ctx.fillStyle = ag.color || theme.secondaryColor;
+                    const isInf = (ag.health_status === 'INFERMERIA');
+                    const stIcon = isInf ? '🏥' : (ag.room === 'ufficio' ? '⚡' : '💤');
+                    ctx.fillStyle = isInf ? '#fbbf24' : (ag.color || theme.secondaryColor);
                     ctx.font = 'bold 9.5px monospace';
-                    ctx.fillText(`★ ${(ag.name || '').toUpperCase()} ${(ag.parameters || '').split(' ')[0]}`, w - 8, yBase);
-                    ctx.fillStyle = '#fde047';
+                    ctx.fillText(`${stIcon} ${(ag.name || '').toUpperCase()} ${(ag.parameters || '').split(' ')[0]}`, w - 8, yBase);
+                    ctx.fillStyle = isInf ? '#fcd34d' : '#fde047';
                     ctx.font = '8px monospace';
-                    ctx.fillText(`● ${(ag.lifetime_tokens || 0).toLocaleString()} TOK (${ag.lifetime_api_calls || 0} CALLS)`, w - 8, yBase + 12);
+                    ctx.fillText(isInf ? `⚠ INFERMERIA • ${(ag.lifetime_tokens || 0).toLocaleString()} TOK` : `● PRONTO • ${(ag.lifetime_tokens || 0).toLocaleString()} TOK`, w - 8, yBase + 12);
                 });
-                ctx.fillStyle = '#4ade80';
+                const saniCount = activeAgents.filter(x => (x.health_status || 'SANO') === 'SANO').length;
+                const infCount = N - saniCount;
+                ctx.fillStyle = infCount > 0 ? '#fbbf24' : '#4ade80';
                 ctx.font = '8px monospace';
-                ctx.fillText(`● ${N} TITANI ATTIVI • 100% ONLINE`, w - 8, 72);
+                ctx.fillText(infCount > 0 ? `● ${saniCount} SANI • ${infCount} IN INFERMERIA` : `● ${N} TITANI SANI • PRONTI`, w - 8, 72);
             }
         }
 
