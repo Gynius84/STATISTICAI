@@ -930,7 +930,8 @@ def auto_discover_hermes_agents():
     if os.path.exists(profiles_dir):
         for item in sorted(os.listdir(profiles_dir)):
             item_path = os.path.join(profiles_dir, item)
-            if os.path.isdir(item_path) and not item.startswith("."):
+            # Escludi 'default' / 'gynbot1' in profiles/ perche' il profilo default (GynBot1) e' gia' caricato da HERMES_ROOT
+            if os.path.isdir(item_path) and not item.startswith(".") and item.lower() not in ("default", "gynbot1"):
                 prof_list.append((item, item, item_path, None))
                 valid_profiles.add(item.lower())
 
@@ -959,7 +960,11 @@ def auto_discover_hermes_agents():
     existing_by_prof = {}
     for a in current_agents:
         p_key = (a.get("profile") or a.get("id") or "").lower()
-        if p_key:
+        if p_key in ("default", "gynbot1"):
+            p_key = "default"
+            a["id"] = "gynbot1"
+            a["profile"] = "default"
+        if p_key and p_key not in existing_by_prof:
             existing_by_prof[p_key] = a
 
     config_changed = False
