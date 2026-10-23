@@ -2,21 +2,25 @@
 setlocal
 cd /d "%~dp0"
 
-echo ========================================================
-echo  STATISTICHEAI v2.5 - Monitor Universale Agenti AI (16-Bit)
-echo  Triple Cloud Titans: Ollama, NVIDIA NIM, OpenRouter Cloud
-echo  Multi-Provider: Ollama (C:), llama.cpp (D:), Hermes, Multi-Cloud
-echo ========================================================
+echo ======================================================================
+echo  STATISTICHEAI v2.6 - Monitor Universale Agenti AI (16-Bit Retrogame)
+echo  11 Agenti: 3 Locali llama.cpp (:9931) + 8 Titani Quad-Cloud
+echo  Cloud: Ollama Cloud, NVIDIA NIM, OpenRouter, Google AI Studio
+echo  Stanze Live: Casetta (Riposo), Ufficio (Lavoro), Infermeria, Cimitero
+echo ======================================================================
 
 set "PYTHON_EXE=C:\Users\Gyniu\AppData\Local\hermes\tools\python-3.14.7+20260901-win32-x64\python.exe"
+if not exist "%PYTHON_EXE%" (
+    set "PYTHON_EXE=C:\Users\Gyniu\miniforge3\python.exe"
+)
 if not exist "%PYTHON_EXE%" (
     set "PYTHON_EXE=python"
 )
 
-echo [1/2] Verifica server e avvio in modalita' App Nativa...
+echo [1/2] Verifica server v2.6 e avvio in modalita' App Nativa...
 "%PYTHON_EXE%" open_monitor.py
 
 echo.
-echo Server v2.5 attivo in background su http://127.0.0.1:8888.
+echo Server STATISTICHEAI v2.6 attivo in background su http://127.0.0.1:8888.
 echo Per arrestare il server, eseguire stop.bat.
 echo.

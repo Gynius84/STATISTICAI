@@ -1,5 +1,5 @@
 """
-STATISTICHEAI - Native Desktop App & Hermes Bridge Launcher
+STATISTICHEAI v2.6 - Native Desktop App & Hermes Bridge Launcher
 Avvia il server in background (se non attivo) e apre la dashboard in modalità
 finestra "App Nativa" standalone (frameless, zero barre browser, stile desktop app).
 """
@@ -14,12 +14,15 @@ import subprocess
 import webbrowser
 
 V2_DIR = os.path.dirname(os.path.abspath(__file__))
+if not os.path.exists(os.path.join(V2_DIR, "run_server.py")):
+    V2_DIR = r"C:\Users\Gyniu\OneDrive\Desktop\STATISTICAI"
 SERVER_SCRIPT = os.path.join(V2_DIR, "run_server.py")
 URL = "http://127.0.0.1:8888/dashboard_AI.html"
 HEALTH_URL = "http://127.0.0.1:8888/health"
 
 HERMES_PYTHON = r"C:\Users\Gyniu\AppData\Local\hermes\tools\python-3.14.7+20260901-win32-x64\python.exe"
 HERMES_PYTHONW = r"C:\Users\Gyniu\AppData\Local\hermes\tools\python-3.14.7+20260901-win32-x64\pythonw.exe"
+
 
 def is_server_online(timeout=0.8):
     try:
@@ -32,12 +35,12 @@ def is_server_online(timeout=0.8):
         pass
     return False, 0
 
+
 def start_server_daemon():
     online, count = is_server_online(timeout=0.5)
     if online:
-        return True, count, "Server gia' online su porta 8888"
+        return True, count, "Server v2.6 gia' online su porta 8888"
 
-    # Selezione interprete python headless
     py_exe = HERMES_PYTHONW if os.path.exists(HERMES_PYTHONW) else (
         HERMES_PYTHON if os.path.exists(HERMES_PYTHON) else sys.executable
     )
@@ -54,22 +57,21 @@ def start_server_daemon():
             creationflags=flags,
             close_fds=True
         )
-    except Exception as e:
-        # Fallback senza creationflags se non supportati
+    except Exception:
         try:
             subprocess.Popen([py_exe, SERVER_SCRIPT], cwd=V2_DIR)
         except Exception as e2:
             return False, 0, f"Errore avvio server: {e2}"
 
-    # Attesa che il server risponda a /health (max 5 secondi)
     t0 = time.time()
     while time.time() - t0 < 5.0:
         time.sleep(0.3)
         online, count = is_server_online(timeout=0.5)
         if online:
-            return True, count, "Server avviato con successo in background (porta 8888)"
+            return True, count, "Server v2.6 avviato con successo in background (porta 8888)"
 
     return False, 0, "Timeout durante l'avvio del server"
+
 
 def find_native_browser():
     candidates = [
@@ -86,14 +88,15 @@ def find_native_browser():
             return c
     return None
 
+
 def launch_native_window():
     browser = find_native_browser()
     if browser:
         args = [
             browser,
             f"--app={URL}",
-            "--window-size=1480,920",
-            "--window-position=120,60",
+            "--window-size=1520,940",
+            "--window-position=100,45",
             "--disable-features=Translate"
         ]
         try:
@@ -101,12 +104,12 @@ def launch_native_window():
             CREATE_NO_WINDOW = 0x08000000
             subprocess.Popen(args, creationflags=DETACHED_PROCESS | CREATE_NO_WINDOW)
             return True, f"Aperto in modalita' App Nativa via {os.path.basename(browser)}"
-        except Exception as e:
+        except Exception:
             pass
 
-    # Fallback su browser predefinito di sistema
     webbrowser.open(URL)
     return True, "Aperto nel browser predefinito di sistema"
+
 
 def main():
     ok, count, msg = start_server_daemon()
@@ -117,13 +120,15 @@ def main():
     app_ok, app_msg = launch_native_window()
     result = {
         "ok": True,
+        "version": "2.6",
         "agents_monitored": count,
         "mode": "native_app" if "App Nativa" in app_msg else "browser",
         "url": URL,
-        "message": f"STATISTICHEAI v2.0 attivo. {app_msg}. {count} agenti monitorati (Hermes + Ollama + Cloud)."
+        "message": f"STATISTICHEAI v2.6 attivo. {app_msg}. {count} agenti monitorati (3 Locali llama.cpp :9931 + 8 Cloud su Ollama, NVIDIA NIM, OpenRouter, Google AI Studio)."
     }
     print(json.dumps(result, indent=2))
     return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

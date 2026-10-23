@@ -1,53 +1,45 @@
 ---
 name: statistiche
-description: Open native STATISTICHEAI 16-bit dashboard monitor (v2.5, 9 active agents: 3 local llama.cpp Disco D: + 2 cloud Ollama Beam & MiniMax + 2 cloud NVIDIA NIM DeepSeek & Drago + 2 cloud OpenRouter Inkling & Laguna, Triple Quantum Nuvoletta Portals, Dynamic Cloud Auto-Detection, OpenCompass Radar Benchmarks, Zero Local VRAM Cloud).
-version: 2.5
+description: Open native STATISTICHEAI 16-bit dashboard monitor (v2.6, 11 active agents: 3 local llama.cpp Disco D: :9931 + 2 Ollama Cloud BEAM & NEMO + 3 NVIDIA NIM Cloud NEMOTRON, DEEPSEEK & DRAGO + 2 OpenRouter Cloud INKLING & LAGUNA + 1 Google AI Studio Cloud GEMINI, Quadruple Quantum Nuvoletta Portals, Real-Time 4-Room Routing Casetta/Ufficio/Infermeria/Cimitero, Live Quota 429 & Timeout 504 Clinical Diagnostics).
+version: 2.6
 author: Gyniu, Hermes Agent
 license: MIT
 platforms: [windows]
 metadata:
   hermes:
-    tags: [monitoring, dashboard, retro, agent-telemetry, ollama, llamacpp, nvidia-nim, openrouter, radar-benchmark, moe, cloud-lightning, triple-cloud]
+    tags: [monitoring, dashboard, retro, agent-telemetry, ollama, llamacpp, nvidia-nim, openrouter, google-ai-studio, radar-benchmark, moe, cloud-lightning, quad-cloud, agent-doctor]
 ---
 
-# STATISTICHEAI Monitor Skill (v2.5)
+# STATISTICHEAI Monitor Skill (v2.6)
 
-Opens and controls the STATISTICHEAI 16-bit retro arcade AI monitoring dashboard for the 9 optimized Hermes agents across hybrid local & triple-cloud engines (3 local models on llama.cpp port 9931 disk D:, plus 2 Cloud Lightning MoE models on Ollama: BEAM 501B MoE and MiniMax 3.1 Flash 456B MoE, plus 2 Cloud Titans on NVIDIA NIM Enterprise: DeepSeek V4.1 Flash 410B MoE and Drago GLM 5.3 130B, plus 2 Cloud Titans on OpenRouter: Inkling Reasoner 70B and Laguna SWE 35B MoE) in a dedicated native desktop application window.
+Opens and controls the **STATISTICHEAI v2.6** 16-bit retro arcade AI monitoring dashboard for all **11 Hermes agents** across local & quadruple-cloud engines in a dedicated native desktop application window (`http://127.0.0.1:8888/dashboard_AI.html`).
 
-### New in v2.5:
-- **OpenRouter Cloud Integration (Triple Cloud Titans)**:
-  - Direct integration with OpenRouter Cloud endpoints (`https://openrouter.ai/api/v1`) providing high-speed cloud routing for modern agents with zero local GPU VRAM consumption.
-  - Telemetry and OpenCompass radar benchmarks calibrated for:
-    - **`INKLING` (Thinking Machines Inkling Free)**: Advanced reasoning and cognitive problem solver (~60+ tok/s, 32K context, reasoning score 96, agentic 95).
-    - **`LAGUNA` (Poolside Laguna S-2.1 Free)**: Specialist in software engineering, autonomous SWE tasks and tools (~80+ tok/s, 32K context, coding score 96, agentic 97).
-- **Triple Quantum Vortex Nuvoletta Portals**:
-  - **Portal 1 (Ollama Cloud Lightning)**: Celestial cyan & purple quantum vortex featuring BEAM 501B and MiniMax 3.1 Flash.
-  - **Portal 2 (NVIDIA Cloud NIM Titans)**: High-energy cyber emerald & NVIDIA green quantum vortex featuring DeepSeek V4.1 Flash and Drago GLM 5.3.
-  - **Portal 3 (OpenRouter Cloud Titans)**: Ethereal cosmic indigo, violet & neon lavender floating pixel art nuvoletta with live animated particle vortex featuring INKLING & LAGUNA floating avatars with celestial aura and live token stream.
-- **Dynamic Cloud Auto-Detection & Self-Provisioning Engine**:
-  - Whenever any cloud endpoint connects (Ollama Cloud, NVIDIA NIM, OpenRouter, or other cloud APIs), the monitoring engine automatically detects the cloud nature of the agent, provisions the dedicated card with live metrics, context % and lifetime tokens, and generates the corresponding nuvoletta section without manual configuration.
-- **Auto-Discovery Engine 2.5 (Clean Self-Healing & Pruning)**:
-  - Clean real-time discovery of all 9 active Hermes agents across local llama.cpp (Disco D:), Ollama Cloud, NVIDIA NIM Cloud, and OpenRouter Cloud.
-  - Full automatic avatar extraction from profile assets into `sprites_agents/`.
-  - Upgraded Workflow Header & Subtitle displaying the active triple-cloud hybrid architecture.
-
-### Previous Features (v2.4 & v2.3.2):
-- **NVIDIA Cloud NIM Enterprise Integration (81 Models)**: Direct access to 81 state-of-the-art models on NVIDIA Cloud NIM.
-- **Fast Radar Benchmark & Performance Sorter**: Instant one-click sorting of all agent cards directly from the filter bar (Speed TPS, Coding, Reasoning, Knowledge, Agentic, Vision, Alphabetical, Custom Drag & Drop).
-- **Harmonious Divided HUD Layout Architecture**: Divisions 1-4 with zero-overflow viewport auto-scaling.
+### New in v2.6 (Real-Time Room Placement, Clinical Diagnostics & Local Router Optimization):
+- **Real-Time 4-Room Routing (`LA CASETTA`, `L'UFFICIO`, `INFERMERIA`, `IL CIMITERO`)**:
+  - **`LA CASETTA (RIPOSO)`**: Healthy (`SANO`) agents that are ready to operate at 100% but are **not actively executing a task right now** rest in `LA CASETTA`.
+  - **`L'UFFICIO (LAVORO)`**: **Only** healthy agents that are **actively working right now** (live process in `runtime/active_sessions.json`, SQLite session turn within the last 90 seconds, or local model actively loaded in VRAM on `:9931` / `ollama ps`) appear in `L'UFFICIO`.
+  - **`INFERMERIA (CURA)`**: Both Local and Cloud agents that are temporarily paused/injured due to recoverable issues — such as **HTTP 429 Free-Tier Quota Exceeded** (Google AI Studio / OpenRouter daily limit), **HTTP 504 Gateway Timeout** (NVIDIA NIM upstream timeout), or **orphaned session leases** — are automatically placed in **`INFERMERIA`** (`35/100 HP`) with detailed Italian diagnostic banners and 1-click **`🏥 CURA / RESET SESSIONE`**.
+  - **`IL CIMITERO (CAMPO SANTO)`**: Reserved strictly for unrecoverable double-fault agents, with 1-click **`★ RESUSCITA (1-CLICK) ★`**.
+- **Quadruple Quantum Vortex Nuvoletta Portals (11 Agents)**:
+  - **Portal 1 — Ollama Cloud (`BEAM` 501B MoE & `NEMO` Nemotron-3 Ultra 550B MoE)**: Celestial cyan & turquoise quantum cloud.
+  - **Portal 2 — NVIDIA NIM Cloud (`NEMOTRON` 550B MoE, `DEEPSEEK` V4.1 Flash, `DRAGO` GLM 5.3)**: Cyber emerald & NVIDIA green quantum cloud with live per-agent health indicators.
+  - **Portal 3 — OpenRouter Cloud (`INKLING` Trinity Free & `LAGUNA` S-2.1 35B MoE Free)**: Cosmic indigo & violet quantum cloud.
+  - **Portal 4 — Google AI Studio Cloud (`GEMINI` 3.5 Flash 1M CTX)**: Solar gold & amber quantum cloud.
+- **Hardware-Optimized Local `llama.cpp` Router (`:9931`, Disco D:, RTX 4060 8GB)**:
+  - Unified all local profiles (`GynBot1` Hermes-3 8B, `DARK CODER` Qwen2.5-Coder 14B, `VISION` Qwen2.5-VL 7B) onto `:9931` with `MaxLoadedModels: 1`, `q8_0` KV cache, `--fit-target 256 --flash-attn on`, and native Hermes/Qwen ChatML `<tools>`/`<tool_call>` Jinja template.
 
 ## When to Use
 
-- User asks to "open monitor", "show dashboard", "apri statistiche", "mostra monitoraggio", or check agent health/telemetry/benchmarks.
+- User asks to "open monitor", "show dashboard", "apri statistiche", "mostra monitoraggio", or check agent health/telemetry/benchmarks/rooms.
 - Triggered by slash command `/statistiche` or `/monitor`.
-- User wants to view real-time VRAM, tokens, session memory, or agent status without leaving Hermes.
+- User wants to view real-time VRAM, tokens, session memory, room placement (`Casetta` / `Ufficio` / `Infermeria` / `Cimitero`), or cloud status.
 
 ## How to Run
 
 ```bash
 # Avvio monitor nativo Desktop
-start "C:\Users\Gyniu\OneDrive\Desktop\start - STATISTICHEAI.lnk"
+start "" "C:\Users\Gyniu\OneDrive\Desktop\start - STATISTICHEAI.lnk"
 
 # Oppure tramite script dedicato
-python open_monitor.py
+"C:\Users\Gyniu\AppData\Local\hermes\tools\python-3.14.7+20260901-win32-x64\python.exe" "C:\Users\Gyniu\OneDrive\Desktop\STATISTICAI\open_monitor.py"
 ```
