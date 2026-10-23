@@ -1687,6 +1687,21 @@
                     </div>
                 </div>
 
+                <!-- GRUPPO: NEMO CLOUD (OLLAMA CLOUD NEMOTRON-3 ULTRA 550B) -->
+                <div class="hud-metric draggable-hud" id="hud-cloud-nemo" data-hud-id="hud-cloud-nemo" style="border-color: #06b6d4; background: #081524; box-shadow: 0 0 10px rgba(6, 182, 212, 0.22); flex: 1 1 240px; min-width: 220px; max-width: 360px; box-sizing: border-box;">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ NEMO CLOUD</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-nemo', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-nemo', 1)">▶</button></div></div>
+                    <div class="hud-metric-header">
+                        <span style="color: #06b6d4; font-weight: bold;">☁ NEMO (NEMOTRON-3 550B)</span>
+                        <span id="hud-cloud-nemo-stat" style="color: #38bdf8; font-weight: bold;">IMMORTALE (ONLINE)</span>
+                    </div>
+                    <div class="pixel-bar-container">
+                        <div id="hud-cloud-nemo-bar" class="pixel-bar-fill" style="width: 100%; background: linear-gradient(90deg, #0284c7, #06b6d4, #67e8f9);"></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); margin-top: 3px;" id="hud-cloud-nemo-members">
+                        NEMO • 550B MoE Ollama Cloud • 256K Context (262.144 tok) • 0 VRAM
+                    </div>
+                </div>
+
                 <!-- ANIMAZIONE CLOUD PORTAL TITANI QUANTICI OLLAMA -->
                 <div class="hud-metric hud-metric-cloud-portal draggable-hud" id="hud-portal" data-hud-id="hud-portal" style="border-color: #0284c7; background: #060e1a; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 0 14px rgba(56, 189, 248, 0.25); flex: 2 1 480px; min-width: 380px; max-width: 100%; box-sizing: border-box;">
                     <div class="hud-metric-header" style="margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: nowrap; overflow: hidden;">
@@ -1880,7 +1895,8 @@
             <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap; width: 100%; padding-bottom: 6px; border-bottom: 1px dotted rgba(86, 95, 137, 0.35);">
                 <span style="font-weight: bold; color: var(--text-muted); font-size: 10px; text-transform: uppercase;">FILTRA TEAM:</span>
                 <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (9)</button>
-                <button class="btn-filter btn-filter-cloud" id="filter-btn-cloud" data-filter="TITANI CLOUD" onclick="setFilter('TITANI CLOUD')">☁ TUTTI I CLOUD (6)</button>
+                <button class="btn-filter btn-filter-cloud" id="filter-btn-cloud" data-filter="TITANI CLOUD" onclick="setFilter('TITANI CLOUD')">☁ TUTTI I CLOUD (8)</button>
+                <button class="btn-filter" id="filter-btn-ollama-cloud" data-filter="OLLAMA CLOUD" style="color: #38bdf8; border-color: #0284c7; box-shadow: 0 0 6px rgba(56,189,248,0.3);" onclick="setFilter('OLLAMA CLOUD')">☁ OLLAMA CLOUD (2)</button>
                 <button class="btn-filter" id="filter-btn-nvidia" data-filter="TEAM CLOUD TITANS" style="color: #76b900; border-color: #76b900;" onclick="setFilter('TEAM CLOUD TITANS')">⚡ NVIDIA NIM (3)</button>
                 <button class="btn-filter" id="filter-btn-openrouter" data-filter="TEAM OPENROUTER CLOUD" style="color: #c084fc; border-color: #a855f7; box-shadow: 0 0 6px rgba(168,85,247,0.3);" onclick="setFilter('TEAM OPENROUTER CLOUD')">🌌 OPENROUTER (2)</button>
                 <button class="btn-filter" id="filter-btn-google" data-filter="TEAM GOOGLE AI CLOUD" style="color: #fbbf24; border-color: #f59e0b; box-shadow: 0 0 6px rgba(245,158,11,0.3);" onclick="setFilter('TEAM GOOGLE AI CLOUD')">✨ GOOGLE AI (1)</button>
@@ -2301,6 +2317,8 @@
             'nomotron': API_BASE + '/sprites_agents/NEMOTRON.png',
             'nemotron': API_BASE + '/sprites_agents/NEMOTRON.png',
             'NEMOTRON': API_BASE + '/sprites_agents/NEMOTRON.png',
+            'nemo': API_BASE + '/sprites_agents/nemo.png',
+            'NEMO': API_BASE + '/sprites_agents/nemo.png',
             'google': API_BASE + '/sprites_agents/GEMINI.png',
             'gemini': API_BASE + '/sprites_agents/GEMINI.png',
             'GEMINI': API_BASE + '/sprites_agents/GEMINI.png'
@@ -2631,6 +2649,9 @@
             const ggCount = agents.filter(a => a.provider === 'google' || (a.source && a.source.includes('Google')) || ['google', 'gemini'].includes(a.id)).length;
             const btnGg = document.getElementById('filter-btn-google');
             if (btnGg) btnGg.textContent = `✨ GOOGLE AI (${ggCount})`;
+            const olCloudCount = agents.filter(a => (a.is_cloud || a.id === 'beam' || a.id === 'nemo') && a.provider !== 'nvidia' && a.provider !== 'openrouter' && a.provider !== 'google' && !(a.source && (a.source.includes('NVIDIA') || a.source.includes('OpenRouter') || a.source.includes('Google')))).length;
+            const btnOlCloud = document.getElementById('filter-btn-ollama-cloud');
+            if (btnOlCloud) btnOlCloud.textContent = `☁ OLLAMA CLOUD (${olCloudCount})`;
             const gridHdr = document.getElementById('agents-grid-header-title');
             if (gridHdr) gridHdr.textContent = `GRIGLIA SCHEDE AGENTI HERMES & CLOUD (${agents.length} AGENTI OPERATIVI)`;
 
@@ -3047,6 +3068,8 @@
                 if (ACTIVE_FILTER !== 'all') {
                     if (ACTIVE_FILTER === 'TITANI CLOUD' || ACTIVE_FILTER === 'CLOUD') {
                         if (!agent.is_cloud && agent.id !== 'beam') return;
+                    } else if (ACTIVE_FILTER === 'OLLAMA CLOUD' || ACTIVE_FILTER === 'TEAM OLLAMA CLOUD') {
+                        if ((!agent.is_cloud && agent.id !== 'beam' && agent.id !== 'nemo') || agent.provider === 'nvidia' || agent.provider === 'openrouter' || agent.provider === 'google') return;
                     } else if (ACTIVE_FILTER === 'TEAM CLOUD TITANS' || ACTIVE_FILTER === 'NVIDIA NIM') {
                         if (agent.provider !== 'nvidia' && (!agent.source || !agent.source.includes('NVIDIA')) && agent.id !== 'deepseek' && agent.id !== 'drago') return;
                     } else if (ACTIVE_FILTER === 'TEAM OPENROUTER CLOUD' || ACTIVE_FILTER === 'OPENROUTER') {
@@ -3103,6 +3126,8 @@
                 let groupTagHtml = '';
                 if (agent.group === 'SUPER COORDINATORE' || agent.id === 'beam') {
                     groupTagHtml = `<span class="group-tag tag-cloud" style="background:#081f33; color:#38bdf8; border:1px solid #0284c7;">☁ SUPER COORDINATORE</span>`;
+                } else if (agent.group === 'TEAM OLLAMA CLOUD' || agent.id === 'nemo' || (agent.is_cloud && agent.provider === 'ollama')) {
+                    groupTagHtml = `<span class="group-tag tag-cloud" style="background:#081f33; color:#38bdf8; border:1px solid #0284c7; font-size:9px; padding:2px 5px; box-shadow:0 0 6px rgba(56,189,248,0.3);">☁ OLLAMA CLOUD</span>`;
                 } else if (agent.group === 'TEAM VIDEO & MULTIMEDIA' || agent.id === 'minimax') {
                     groupTagHtml = `<span class="group-tag" style="background:#1d0f2b; color:#ec4899; border:1px solid #db2777; font-size:9px; padding:2px 5px;">🎬 VIDEO & MULTIMEDIA</span>`;
                 } else if (agent.group === 'TEAM CLOUD TITANS' || (agent.source && agent.source.includes('NVIDIA')) || agent.provider === 'nvidia' || agent.id === 'deepseek' || agent.id === 'drago') {
@@ -5109,8 +5134,12 @@
             if (pGgSub) pGgSub.textContent = (googleActive.map(a => `${a.name} • 1M CTX`).join(' + ') || 'NESSUN AGENTE') + ' • 0 VRAM';
             if (pGgHdrRight) pGgHdrRight.textContent = (googleActive.map(a => `${a.name} (${a.model})`).join(' + ') || 'NESSUN AGENTE') + ' • 1M CONTEXT • ULTRA-SPEED TPU';
 
+            const pOlTitle = document.getElementById('hud-portal-title');
             const pOlSub = document.getElementById('hud-portal-sub');
             const pOlHdrRight = document.getElementById('hud-subheader-ollama-cloud-right');
+            if (pOlTitle) {
+                pOlTitle.textContent = `☁ PORTALE VORTICE QUANTICO • ${ollamaActive.length} ${ollamaActive.length === 1 ? 'TITANO' : 'TITANI'} OLLAMA CLOUD`;
+            }
             if (pOlSub) {
                 pOlSub.textContent = (ollamaActive.map(a => `${a.name} ${(a.parameters || '').split(' ')[0]}`).join(' + ') || 'NESSUN AGENTE') + ' • 0 VRAM';
             }

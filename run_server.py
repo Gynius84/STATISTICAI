@@ -699,6 +699,23 @@ MODEL_BENCHMARK_CATALOG = {
         },
         "model_notes": "Google Gemini 3.5 Flash erogato via Google AI Studio Cloud (TPU v6e Cluster). Architettura nativa multimodale (Testo, Visione, Audio, Video e Tool Calling) con finestra di contesto monumentale da 1 Milione di token (1.048.576), latenza ultra-bassa (~135 tok/s) e 0 MB di carico VRAM locale."
     },
+    "nemotron-3-ultra:cloud": {
+        "architecture_type": "MoE Ultra-Flagship (Nemotron-3 Ultra 550B Ollama Cloud)",
+        "architecture_tag": "moe",
+        "parameters": "550B MoE Cloud (55B Active)",
+        "active_parameters": "55B per token",
+        "estimated_speed_tps": "~85 tok/s (Ollama Cloud H100 Cluster)",
+        "tps_value": 85,
+        "benchmarks": {
+            "coding": 96,
+            "reasoning": 98,
+            "knowledge": 98,
+            "agentic": 97,
+            "vision": 25,
+            "throughput": 94
+        },
+        "model_notes": "NVIDIA Nemotron-3 Ultra 550B-A55B erogato via Ollama Cloud Lightning Cluster (0 MB VRAM locale). Supermodello MoE da 550B parametri totali (55B attivi per token) con 256k finestra di contesto nativa (262.144 token), ragionamento estremo (Thinking attivo) e orchestrazione tool calling."
+    },
     "nvidia/nemotron-3-ultra-550b-a55b": {
         "architecture_type": "MoE Ultra-Flagship (Nemotron-3 Ultra 550B-A55B NIM Cloud)",
         "architecture_tag": "moe",
@@ -818,6 +835,8 @@ def resolve_model_benchmarks(model_name, is_cloud=False, agent_id=None):
         return MODEL_BENCHMARK_CATALOG["recursive/flint-v1.0:free"].copy()
     if "gemini" in m_clean or "google" in m_clean or a_clean in ["google", "gemini"]:
         return MODEL_BENCHMARK_CATALOG["models/gemini-3.5-flash"].copy()
+    if "nemotron-3-ultra:cloud" in m_clean or ("nemotron" in m_clean and ":cloud" in m_clean) or a_clean == "nemo":
+        return MODEL_BENCHMARK_CATALOG["nemotron-3-ultra:cloud"].copy()
     if "nemotron-3-ultra" in m_clean or "550b" in m_clean or "a55b" in m_clean or "nemotron" in m_clean or a_clean in ["nomotron", "nemotron", "nemostron"]:
         return MODEL_BENCHMARK_CATALOG["nvidia/nemotron-3-ultra-550b-a55b"].copy()
     if "glm-5" in m_clean or "glm" in m_clean or a_clean == "drago":
@@ -981,6 +1000,11 @@ def auto_discover_hermes_agents():
                 title = "DRAGO"
             if desc in ["Agente Hermes", ""]:
                 desc = "GLM 5.3 Deep Reasoner & Knowledge"
+        elif agent_id == "nemo" or (title and title.lower() == "nemo"):
+            if not title or title.lower() == "nemo":
+                title = "NEMO"
+            if desc in ["Agente Hermes", ""]:
+                desc = "Nemotron-3 Ultra 550B Ollama Cloud Specialist"
         elif agent_id in ["nomotron", "nemotron", "nemostron"] or (title and "nemotron" in title.lower()):
             if not title or title.lower() in ["nomotron", "nemotron", "nemostron"]:
                 title = "NEMOTRON"
@@ -1097,13 +1121,20 @@ def auto_discover_hermes_agents():
             "gemini" in model_name.lower() or
             agent_id in ["google", "gemini"]
         )
+        is_ollama_cloud = (
+            ":cloud" in model_name.lower() or
+            agent_id in ["beam", "nemo", "minimax"] or
+            ("ollama" in (provider or "").lower() and ("cloud" in model_name.lower() or "11434" in (base_url or "")))
+        )
         is_nvidia = (
-            "nvidia" in (provider or "").lower() or 
-            "nvidia.com" in (base_url or "").lower() or 
-            agent_id in ["deepseek", "drago", "nomotron", "nemotron", "nemostron"] or
-            "nemotron" in model_name.lower() or
-            "glm-5" in model_name.lower() or
-            ("deepseek" in model_name.lower() and "flash" in model_name.lower())
+            not is_ollama_cloud and (
+                "nvidia" in (provider or "").lower() or 
+                "nvidia.com" in (base_url or "").lower() or 
+                agent_id in ["deepseek", "drago", "nomotron", "nemotron", "nemostron"] or
+                ("nemotron" in model_name.lower() and ":cloud" not in model_name.lower() and "ollama" not in (provider or "").lower() and "11434" not in (base_url or "")) or
+                "glm-5" in model_name.lower() or
+                ("deepseek" in model_name.lower() and "flash" in model_name.lower())
+            )
         )
         is_cloud = (
             is_google or
@@ -1113,7 +1144,7 @@ def auto_discover_hermes_agents():
             ":cloud" in model_name.lower() or 
             "beam" in model_name.lower() or 
             "minimax" in model_name.lower() or 
-            agent_id in ["beam", "minimax"] or
+            agent_id in ["beam", "nemo", "minimax"] or
             "cloud" in (title or "").lower()
         )
 
@@ -1167,6 +1198,14 @@ def auto_discover_hermes_agents():
                 source_label = "Cloud 501B MoE"
                 group = "SUPER COORDINATORE"
                 color = "#38bdf8"
+            elif agent_id == "nemo" or ("nemotron" in model_name.lower() and ":cloud" in model_name.lower()):
+                provider = "ollama"
+                base_url = "http://127.0.0.1:11434/v1"
+                if context_limit < 262144:
+                    context_limit = 262144
+                source_label = "Ollama Cloud 550B MoE"
+                group = "TEAM OLLAMA CLOUD"
+                color = "#06b6d4"
             elif agent_id == "minimax" or "minimax" in model_name.lower():
                 provider = "ollama"
                 base_url = "http://127.0.0.1:11434/v1"
@@ -1230,6 +1269,9 @@ def auto_discover_hermes_agents():
             candidates.insert(0, "chief architect.png")
         elif agent_id == "oculus" or "ocolus" in title.lower():
             candidates.insert(0, "ocolus.png")
+        elif agent_id == "nemo" or title.lower() == "nemo":
+            candidates.insert(0, "nemo.png")
+            candidates.insert(1, "NEMO.png")
         elif agent_id == "beam":
             candidates.insert(0, "beam.png")
         elif agent_id == "gynbot2":
@@ -1254,6 +1296,10 @@ def auto_discover_hermes_agents():
             group = "SUPER COORDINATORE"
             color = "#38bdf8"
             source_label = "Cloud 501B MoE"
+        elif is_cloud and (agent_id == "nemo" or ("nemotron" in model_name.lower() and ":cloud" in model_name.lower())):
+            group = "TEAM OLLAMA CLOUD"
+            color = "#06b6d4"
+            source_label = "Ollama Cloud 550B MoE"
         elif is_cloud and ("minimax" in t_low or "video" in t_low or agent_id == "minimax"):
             group = "TEAM VIDEO & MULTIMEDIA"
             color = "#ec4899"
@@ -1311,6 +1357,10 @@ def auto_discover_hermes_agents():
         elif is_cloud:
             if "beam" in model_name.lower() or agent_id == "beam":
                 source_label = "Cloud 501B MoE"
+            elif agent_id == "nemo" or ("nemotron" in model_name.lower() and ":cloud" in model_name.lower()):
+                source_label = "Ollama Cloud 550B MoE"
+                group = "TEAM OLLAMA CLOUD"
+                color = "#06b6d4"
             elif "minimax" in model_name.lower() or agent_id == "minimax":
                 source_label = "Cloud MiniMax 3.1"
             else:
