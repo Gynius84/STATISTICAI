@@ -682,6 +682,23 @@ MODEL_BENCHMARK_CATALOG = {
         },
         "model_notes": "MiniMax 3.1 Flash su Cloud Lightning Cluster. Architettura MoE da 456B totali (~45B attivi) specializzata in video generation, scripting multimediale, agentic autonomy e high-throughput reasoning."
     },
+    "models/gemini-3.5-flash": {
+        "architecture_type": "Multimodal MoE Reasoner (Gemini 3.5 Flash Google Cloud)",
+        "architecture_tag": "vlm",
+        "parameters": "MoE Flash Multimodal (1M Ctx)",
+        "active_parameters": "Sparse MoE TPU v6e",
+        "estimated_speed_tps": "~135 tok/s (Google TPU Cloud Cluster)",
+        "tps_value": 135,
+        "benchmarks": {
+            "coding": 95,
+            "reasoning": 96,
+            "knowledge": 96,
+            "agentic": 96,
+            "vision": 98,
+            "throughput": 99
+        },
+        "model_notes": "Google Gemini 3.5 Flash erogato via Google AI Studio Cloud (TPU v6e Cluster). Architettura nativa multimodale (Testo, Visione, Audio, Video e Tool Calling) con finestra di contesto monumentale da 1 Milione di token (1.048.576), latenza ultra-bassa (~135 tok/s) e 0 MB di carico VRAM locale."
+    },
     "nvidia/nemotron-3-ultra-550b-a55b": {
         "architecture_type": "MoE Ultra-Flagship (Nemotron-3 Ultra 550B-A55B NIM Cloud)",
         "architecture_tag": "moe",
@@ -799,6 +816,8 @@ def resolve_model_benchmarks(model_name, is_cloud=False, agent_id=None):
         return MODEL_BENCHMARK_CATALOG["poolside/laguna-s-2.1:free"].copy()
     if "flint" in m_clean or "recursive" in m_clean:
         return MODEL_BENCHMARK_CATALOG["recursive/flint-v1.0:free"].copy()
+    if "gemini" in m_clean or "google" in m_clean or a_clean in ["google", "gemini"]:
+        return MODEL_BENCHMARK_CATALOG["models/gemini-3.5-flash"].copy()
     if "nemotron-3-ultra" in m_clean or "550b" in m_clean or "a55b" in m_clean or "nemotron" in m_clean or a_clean in ["nomotron", "nemotron", "nemostron"]:
         return MODEL_BENCHMARK_CATALOG["nvidia/nemotron-3-ultra-550b-a55b"].copy()
     if "glm-5" in m_clean or "glm" in m_clean or a_clean == "drago":
@@ -987,6 +1006,11 @@ def auto_discover_hermes_agents():
                 title = "LAGUNA"
             if desc in ["Agente Hermes", ""]:
                 desc = "Poolside SWE Autonomous Specialist"
+        elif agent_id in ["google", "gemini"] or (title and "gemini" in title.lower()):
+            if not title or title.lower() in ["google", "gemini"]:
+                title = "GEMINI"
+            if desc in ["Agente Hermes", ""]:
+                desc = "Gemini 3.5 Flash Multimodal Cloud Specialist"
 
         if not title:
             title = agent_id.replace("_", " ").title()
@@ -1067,16 +1091,25 @@ def auto_discover_hermes_agents():
             "thinkingmachines" in model_name.lower() or 
             "recursive" in model_name.lower()
         )
+        is_google = (
+            "google" in (provider or "").lower() or
+            "googleapis.com" in (base_url or "").lower() or
+            "gemini" in model_name.lower() or
+            agent_id in ["google", "gemini"]
+        )
         is_nvidia = (
             "nvidia" in (provider or "").lower() or 
             "nvidia.com" in (base_url or "").lower() or 
-            agent_id in ["deepseek", "drago"] or
+            agent_id in ["deepseek", "drago", "nomotron", "nemotron", "nemostron"] or
+            "nemotron" in model_name.lower() or
             "glm-5" in model_name.lower() or
             ("deepseek" in model_name.lower() and "flash" in model_name.lower())
         )
         is_cloud = (
+            is_google or
             is_openrouter or
             is_nvidia or
+            ((base_url or "").startswith("https://") and "127.0.0.1" not in (base_url or "") and "localhost" not in (base_url or "")) or
             ":cloud" in model_name.lower() or 
             "beam" in model_name.lower() or 
             "minimax" in model_name.lower() or 
@@ -1085,7 +1118,16 @@ def auto_discover_hermes_agents():
         )
 
         # Normalizzazione Provider, Base URL e Context Limit
-        if is_openrouter:
+        if is_google:
+            provider = "google"
+            if not base_url or "11434" in base_url or "9931" in base_url:
+                base_url = "https://generativelanguage.googleapis.com/v1beta/openai"
+            if context_limit < 1048576:
+                context_limit = 1048576
+            source_label = "Google AI Studio Cloud"
+            group = "TEAM GOOGLE AI CLOUD"
+            color = "#f59e0b"
+        elif is_openrouter:
             provider = "openrouter"
             if not base_url or "11434" in base_url or "9931" in base_url:
                 base_url = "https://openrouter.ai/api/v1"
@@ -1157,7 +1199,10 @@ def auto_discover_hermes_agents():
             f"{title.replace(' ', '_')}.png".lower(),
             f"{title.upper()}.png".lower(),
         ]
-        if agent_id == "inkling" or "inkling" in title.lower():
+        if agent_id in ["google", "gemini"] or "gemini" in title.lower():
+            candidates.insert(0, "GEMINI.png")
+            candidates.insert(1, "google.png")
+        elif agent_id == "inkling" or "inkling" in title.lower():
             candidates.insert(0, "inkling.png")
         elif agent_id == "laguna" or "laguna" in title.lower():
             candidates.insert(0, "laguna.png")
@@ -1250,7 +1295,11 @@ def auto_discover_hermes_agents():
             color = "#3b82f6" if agent_id in ["default", "gynbot1"] else ("#fbbf24" if agent_id == "gynbot2" else "#ec4899")
             source_label = "llama.cpp (Disco D:)" if provider == "llamacpp" or "9931" in (base_url or "") else "Ollama (Locale C:)"
 
-        if is_openrouter or agent_id in ["inkling", "laguna"]:
+        if is_google or agent_id in ["google", "gemini"]:
+            source_label = "Google AI Studio Cloud"
+            group = "TEAM GOOGLE AI CLOUD"
+            color = "#f59e0b"
+        elif is_openrouter or agent_id in ["inkling", "laguna"]:
             source_label = "OpenRouter Cloud"
             group = "TEAM OPENROUTER CLOUD"
             color = "#c084fc" if agent_id == "inkling" else "#818cf8"
@@ -1312,7 +1361,7 @@ def auto_discover_hermes_agents():
                 existing["tps_value"] = bench_meta["tps_value"]
                 existing["benchmarks"] = bench_meta["benchmarks"]
                 existing["model_notes"] = bench_meta["model_notes"]
-                existing["architecture"] = "OpenRouter Cloud Router" if is_openrouter else ("NVIDIA NIM Cloud Enterprise" if is_nvidia else ("GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local")))
+                existing["architecture"] = "Google AI Studio TPU Cloud" if is_google else ("OpenRouter Cloud Router" if is_openrouter else ("NVIDIA NIM Cloud Enterprise" if is_nvidia else ("GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local"))))
                 config_changed = True
             new_agents_list.append(existing)
         else:
@@ -1339,7 +1388,7 @@ def auto_discover_hermes_agents():
                 "tps_value": bench_meta["tps_value"],
                 "benchmarks": bench_meta["benchmarks"],
                 "model_notes": bench_meta["model_notes"],
-                "architecture": "OpenRouter Cloud Router" if is_openrouter else ("NVIDIA NIM Cloud Enterprise" if is_nvidia else ("GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local"))),
+                "architecture": "Google AI Studio TPU Cloud" if is_google else ("OpenRouter Cloud Router" if is_openrouter else ("NVIDIA NIM Cloud Enterprise" if is_nvidia else ("GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local")))),
                 "modality": "Vision + Video + Text + Tools" if ("vl" in model_name.lower() or "video" in t_low or "minimax" in t_low or "vision" in t_low) else "Text + Tools",
                 "thinking_level": "Flash Fast" if "flash" in model_name.lower() else ("Extended Thinking" if ("reasoning" in model_name.lower() or "27b" in model_name.lower()) else "Standard")
             }

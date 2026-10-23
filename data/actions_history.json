@@ -1,5 +1,14 @@
 [
   {
+    "timestamp": "2026-10-23 11:27:08",
+    "agent_id": "google",
+    "agent_name": "GEMINI",
+    "action": "CURA_CONTESTO",
+    "status": "ERRORE",
+    "details": "File golden non trovato per profilo google in C:\\Users\\Gyniu\\AppData\\Local\\hermes\\golden_tuning\\profiles\\google\\config.yaml",
+    "backup_path": "C:\\Users\\Gyniu\\OneDrive\\Desktop\\STATISTICAI\\backups\\agent_google_cure_context_20261023_112708"
+  },
+  {
     "timestamp": "2026-10-16 16:02:08",
     "agent_id": "gynbot2",
     "agent_name": "PROGRAMMATORE",

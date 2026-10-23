@@ -354,6 +354,11 @@
             box-shadow: 0 0 14px rgba(118, 185, 0, 0.35), inset 0 0 0 1px #4d7c0f !important;
             background: #081a0e !important;
         }
+        .agent-card.card-google {
+            border-color: #f59e0b !important;
+            box-shadow: 0 0 14px rgba(245, 158, 11, 0.38), inset 0 0 0 1px #d97706 !important;
+            background: #171005 !important;
+        }
 
         /* Card Dettagli Avanzati Espandibili */
         .agent-expand-toggle {
@@ -1804,6 +1809,39 @@
                 </div>
             </div>
 
+            <!-- DIVISIONE 5: INFRASTRUTTURA GOOGLE AI STUDIO CLOUD & QUARTO PORTALE QUANTICO -->
+            <div class="hud-sub-header" id="hud-subheader-google-cloud" style="border-left-color: #f59e0b; color: #fde047; margin-top: 14px;">
+                <span>✨ INFRASTRUTTURA GOOGLE AI STUDIO CLOUD & PORTALE QUANTICO (TPU v6e CLUSTER • 0 MB VRAM)</span>
+                <span id="hud-subheader-google-cloud-right" style="color: #fbbf24; font-size: 9px;">GEMINI 3.5 FLASH MULTIMODAL • 1M CONTEXT (1.048.576 TOK) • ULTRA-SPEED TPU</span>
+            </div>
+            <div class="hud-cloud-tier" id="hud-grid-cloud-google">
+                <!-- GRUPPO: GEMINI CLOUD (GOOGLE AI STUDIO) -->
+                <div class="hud-metric draggable-hud" id="hud-cloud-google" data-hud-id="hud-cloud-google" style="border-color: #f59e0b; background: #191105; box-shadow: 0 0 10px rgba(245, 158, 11, 0.25); flex: 1 1 240px; min-width: 220px; max-width: 360px; box-sizing: border-box;">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ GEMINI CLOUD</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-google', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-google', 1)">▶</button></div></div>
+                    <div class="hud-metric-header">
+                        <span style="color: #fbbf24; font-weight: bold;">✨ GEMINI 3.5 FLASH</span>
+                        <span id="hud-cloud-google-stat" style="color: #fbbf24; font-weight: bold;">100% OPERATIVO (GOOGLE TPU)</span>
+                    </div>
+                    <div class="pixel-bar-container">
+                        <div id="hud-cloud-google-bar" class="pixel-bar-fill" style="width: 100%; background: linear-gradient(90deg, #3b82f6, #f59e0b, #fde047);"></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); margin-top: 3px;" id="hud-cloud-google-members">
+                        Google Gemini 3.5 Flash • Multimodal MoE • 1M Context (1.048.576 tok) • 0 VRAM
+                    </div>
+                </div>
+
+                <!-- ANIMAZIONE QUARTO CLOUD PORTAL TITANI GOOGLE AI STUDIO -->
+                <div class="hud-metric hud-metric-cloud-portal draggable-hud" id="hud-portal-google" data-hud-id="hud-portal-google" style="border-color: #f59e0b; background: #120c04; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 0 14px rgba(245, 158, 11, 0.28); flex: 2 1 480px; min-width: 380px; max-width: 100%; box-sizing: border-box;">
+                    <div class="hud-metric-header" style="margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: nowrap; overflow: hidden;">
+                        <span id="hud-portal-google-title" style="color: #fbbf24; font-weight: bold; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">✨ PORTALE VORTICE QUANTICO • GOOGLE AI STUDIO CLOUD</span>
+                        <span id="hud-portal-google-sub" style="color: #fde047; font-weight: bold; font-size: 10px; white-space: nowrap; flex-shrink: 0;">GEMINI 3.5 FLASH • 1M CTX • 0 VRAM</span>
+                    </div>
+                    <div style="position: relative; width: 100%; height: 86px; overflow: hidden; border: 1px solid #452707; background: #0c0803;">
+                        <canvas id="google-cloud-canvas" style="display: block; width: 100%; height: 100%;"></canvas>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
         <!-- 3. STAGE INTERATTIVO: LE 4 STANZE PIXEL ART (CANVAS) -->
@@ -1844,7 +1882,8 @@
                 <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (9)</button>
                 <button class="btn-filter btn-filter-cloud" id="filter-btn-cloud" data-filter="TITANI CLOUD" onclick="setFilter('TITANI CLOUD')">☁ TUTTI I CLOUD (6)</button>
                 <button class="btn-filter" id="filter-btn-nvidia" data-filter="TEAM CLOUD TITANS" style="color: #76b900; border-color: #76b900;" onclick="setFilter('TEAM CLOUD TITANS')">⚡ NVIDIA NIM (3)</button>
-                <button class="btn-filter" data-filter="TEAM OPENROUTER CLOUD" style="color: #c084fc; border-color: #a855f7; box-shadow: 0 0 6px rgba(168,85,247,0.3);" onclick="setFilter('TEAM OPENROUTER CLOUD')">🌌 OPENROUTER (2)</button>
+                <button class="btn-filter" id="filter-btn-openrouter" data-filter="TEAM OPENROUTER CLOUD" style="color: #c084fc; border-color: #a855f7; box-shadow: 0 0 6px rgba(168,85,247,0.3);" onclick="setFilter('TEAM OPENROUTER CLOUD')">🌌 OPENROUTER (2)</button>
+                <button class="btn-filter" id="filter-btn-google" data-filter="TEAM GOOGLE AI CLOUD" style="color: #fbbf24; border-color: #f59e0b; box-shadow: 0 0 6px rgba(245,158,11,0.3);" onclick="setFilter('TEAM GOOGLE AI CLOUD')">✨ GOOGLE AI (1)</button>
                 <button class="btn-filter" data-filter="llamacpp" style="color: #60a5fa; border-color: #3b82f6;" onclick="setFilter('llamacpp')">🦙 LLAMA.CPP DISCO D: (3)</button>
                 <button class="btn-filter btn-filter-sviluppo" data-filter="TEAM SVILUPPO" onclick="setFilter('TEAM SVILUPPO')">⚒ SVILUPPO</button>
                 <button class="btn-filter btn-filter-marketing" data-filter="TEAM MARKETING" onclick="setFilter('TEAM MARKETING')">📢 MARKETING</button>
@@ -2261,7 +2300,10 @@
             'LAGUNA': API_BASE + '/sprites_agents/Laguna.png',
             'nomotron': API_BASE + '/sprites_agents/NEMOTRON.png',
             'nemotron': API_BASE + '/sprites_agents/NEMOTRON.png',
-            'NEMOTRON': API_BASE + '/sprites_agents/NEMOTRON.png'
+            'NEMOTRON': API_BASE + '/sprites_agents/NEMOTRON.png',
+            'google': API_BASE + '/sprites_agents/GEMINI.png',
+            'gemini': API_BASE + '/sprites_agents/GEMINI.png',
+            'GEMINI': API_BASE + '/sprites_agents/GEMINI.png'
         };
 
         Object.keys(AGENT_SPRITES).forEach(id => {
@@ -2583,6 +2625,12 @@
             const nvCount = agents.filter(a => a.provider === 'nvidia' || (a.source && a.source.includes('NVIDIA')) || ['deepseek', 'drago', 'nomotron', 'nemotron'].includes(a.id)).length;
             const btnNv = document.getElementById('filter-btn-nvidia');
             if (btnNv) btnNv.textContent = `⚡ NVIDIA NIM (${nvCount})`;
+            const orCount = agents.filter(a => a.provider === 'openrouter' || (a.source && a.source.includes('OpenRouter')) || ['inkling', 'laguna'].includes(a.id)).length;
+            const btnOr = document.getElementById('filter-btn-openrouter');
+            if (btnOr) btnOr.textContent = `🌌 OPENROUTER (${orCount})`;
+            const ggCount = agents.filter(a => a.provider === 'google' || (a.source && a.source.includes('Google')) || ['google', 'gemini'].includes(a.id)).length;
+            const btnGg = document.getElementById('filter-btn-google');
+            if (btnGg) btnGg.textContent = `✨ GOOGLE AI (${ggCount})`;
             const gridHdr = document.getElementById('agents-grid-header-title');
             if (gridHdr) gridHdr.textContent = `GRIGLIA SCHEDE AGENTI HERMES & CLOUD (${agents.length} AGENTI OPERATIVI)`;
 
@@ -2698,6 +2746,12 @@
                 badgeParts.push(`🌌 OPENROUTER CLOUD (INKLING 70B + LAGUNA 35B • FREE ROUTER)`);
             } else if (openrouterCloudTitans.length === 1) {
                 badgeParts.push(`🌌 OPENROUTER CLOUD (${openrouterCloudTitans[0].name})`);
+            }
+
+            // Info Cloud Google AI Studio (Gemini 3.5 Flash)
+            const googleCloudTitans = agents.filter(a => a.id === 'google' || a.id === 'gemini' || a.provider === 'google' || (a.source && a.source.includes('Google')) || (a.model && a.model.toLowerCase().includes('gemini')));
+            if (googleCloudTitans.length >= 1) {
+                badgeParts.push(`✨ GOOGLE AI STUDIO (${googleCloudTitans.map(a => a.name).join(' + ')} • 1M CTX TPU)`);
             } else if (cloudAgents.length > 0 && ollamaCloudTitans.length === 0 && nvidiaCloudTitans.length === 0) {
                 badgeParts.push(`☁ CLOUD ENDPOINTS (${cloudAgents.length} AGENTI)`);
             }
@@ -2997,6 +3051,8 @@
                         if (agent.provider !== 'nvidia' && (!agent.source || !agent.source.includes('NVIDIA')) && agent.id !== 'deepseek' && agent.id !== 'drago') return;
                     } else if (ACTIVE_FILTER === 'TEAM OPENROUTER CLOUD' || ACTIVE_FILTER === 'OPENROUTER') {
                         if (agent.provider !== 'openrouter' && (!agent.source || !agent.source.includes('OpenRouter')) && agent.id !== 'inkling' && agent.id !== 'laguna') return;
+                    } else if (ACTIVE_FILTER === 'TEAM GOOGLE AI CLOUD' || ACTIVE_FILTER === 'GOOGLE AI') {
+                        if (agent.provider !== 'google' && (!agent.source || !agent.source.includes('Google')) && agent.id !== 'google' && agent.id !== 'gemini') return;
                     } else if (ACTIVE_FILTER === 'llamacpp') {
                         if (agent.is_cloud || agent.provider !== 'llamacpp') return;
                     } else if (agent.group !== ACTIVE_FILTER) {
@@ -3009,9 +3065,11 @@
                 const isExp = EXPANDED_CARDS.has(agent.id);
 
                 let cardClass = 'agent-card';
-                const isNvidiaCard = (agent.provider === 'nvidia' || (agent.source && agent.source.includes('NVIDIA')) || agent.id === 'deepseek' || agent.id === 'drago');
+                const isGoogleCard = (agent.provider === 'google' || (agent.source && agent.source.includes('Google')) || agent.id === 'google' || agent.id === 'gemini' || (agent.model && agent.model.toLowerCase().includes('gemini')));
+                const isNvidiaCard = (agent.provider === 'nvidia' || (agent.source && agent.source.includes('NVIDIA')) || ['deepseek', 'drago', 'nomotron', 'nemotron'].includes(agent.id));
                 const isOpenRouterCard = (agent.provider === 'openrouter' || (agent.source && agent.source.includes('OpenRouter')) || agent.id === 'inkling' || agent.id === 'laguna');
-                if (isOpenRouterCard) cardClass += ' card-cloud card-openrouter';
+                if (isGoogleCard) cardClass += ' card-cloud card-google';
+                else if (isOpenRouterCard) cardClass += ' card-cloud card-openrouter';
                 else if (isNvidiaCard) cardClass += ' card-cloud card-nvidia';
                 else if (agent.is_cloud || agent.id === 'beam') cardClass += ' card-cloud';
                 else if (hs === 'INFERMERIA') cardClass += ' card-infermeria';
@@ -3024,7 +3082,9 @@
                 const spriteUrl = API_BASE + '/' + agent.sprite.replace(/^(\.\/|\/)/, '');
 
                 let badgeHtml = '';
-                if (isOpenRouterCard) {
+                if (isGoogleCard) {
+                    badgeHtml = `<span class="status-badge" style="background:#261705; color:#fbbf24; border-color:#f59e0b; box-shadow:0 0 8px rgba(245,158,11,0.38);">[ ✨ GOOGLE AI CLOUD • IMMORTALE ]</span>`;
+                } else if (isOpenRouterCard) {
                     badgeHtml = `<span class="status-badge" style="background:#190b2e; color:#c084fc; border-color:#a855f7; box-shadow:0 0 8px rgba(168,85,247,0.35);">[ 🌌 OPENROUTER CLOUD • IMMORTALE ]</span>`;
                 } else if (isNvidiaCard) {
                     badgeHtml = `<span class="status-badge" style="background:#081a0e; color:#76b900; border-color:#76b900; box-shadow:0 0 8px rgba(118,185,0,0.35);">[ ⚡ NVIDIA NIM • IMMORTALE ]</span>`;
@@ -3047,6 +3107,8 @@
                     groupTagHtml = `<span class="group-tag" style="background:#1d0f2b; color:#ec4899; border:1px solid #db2777; font-size:9px; padding:2px 5px;">🎬 VIDEO & MULTIMEDIA</span>`;
                 } else if (agent.group === 'TEAM CLOUD TITANS' || (agent.source && agent.source.includes('NVIDIA')) || agent.provider === 'nvidia' || agent.id === 'deepseek' || agent.id === 'drago') {
                     groupTagHtml = `<span class="group-tag" style="background:#0b2010; color:#76b900; border:1px solid #76b900; font-size:9px; padding:2px 5px;">⚡ NVIDIA NIM CLOUD</span>`;
+                } else if (isGoogleCard || agent.group === 'TEAM GOOGLE AI CLOUD') {
+                    groupTagHtml = `<span class="group-tag" style="background:#261705; color:#fbbf24; border:1px solid #f59e0b; font-size:9px; padding:2px 5px; box-shadow:0 0 6px rgba(245,158,11,0.35);">✨ GOOGLE AI STUDIO CLOUD</span>`;
                 } else if (agent.group === 'TEAM OPENROUTER CLOUD' || agent.provider === 'openrouter' || (agent.source && agent.source.includes('OpenRouter')) || agent.id === 'inkling' || agent.id === 'laguna') {
                     groupTagHtml = `<span class="group-tag" style="background:#190b2e; color:#c084fc; border:1px solid #a855f7; font-size:9px; padding:2px 5px; box-shadow:0 0 6px rgba(168,85,247,0.3);">🌌 OPENROUTER CLOUD</span>`;
                 } else if (agent.group === 'TEAM SVILUPPO') {
@@ -3103,7 +3165,15 @@
                 const ctxPct = agent.context_used_pct || 0;
 
                 let modelInfoHtml = '';
-                if (isOpenRouterCard) {
+                if (isGoogleCard) {
+                    modelInfoHtml = `
+                        <div style="font-size: 10px; color: #fbbf24; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                            MODELLO: <b>${agent.model}</b>
+                            <span style="font-size: 8px; color: #fbbf24; background: #261705; border: 1px solid #f59e0b; padding: 1px 4px; border-radius: 2px; font-weight: bold; box-shadow: 0 0 6px rgba(245,158,11,0.35);">[ ✨ GOOGLE AI STUDIO CLOUD ]</span>
+                        </div>
+                        <div style="font-size: 9px; color: #fde68a; margin-top: 2px;">CARICO: <b>0 MB VRAM Locale</b> • Speed: <b style="color: #fbbf24;">${agent.estimated_speed_tps || 'Cloud'}</b> • DB: <b>${agent.db_size_mb || 0} MB</b></div>
+                    `;
+                } else if (isOpenRouterCard) {
                     modelInfoHtml = `
                         <div style="font-size: 10px; color: #c084fc; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
                             MODELLO: <b>${agent.model}</b>
@@ -4605,7 +4675,8 @@
                 (a.is_cloud || a.id === 'beam') &&
                 a.provider !== 'nvidia' &&
                 a.provider !== 'openrouter' &&
-                !(a.source && (a.source.includes('NVIDIA') || a.source.includes('OpenRouter')))
+                a.provider !== 'google' &&
+                !(a.source && (a.source.includes('NVIDIA') || a.source.includes('OpenRouter') || a.source.includes('Google')))
             );
 
             drawDynamicCloudAgentsOnNuvoletta(cCtx, w, h, cx, cY, t, ollamaCloudAgents, {
@@ -4837,6 +4908,122 @@
             requestAnimationFrame(renderOpenRouterCloud);
         }
 
+        // 4. PORTALE GOOGLE AI STUDIO CLOUD (Dinamico: rileva GEMINI e tutti gli agenti Google Cloud attivi)
+        const googleCanvas = document.getElementById('google-cloud-canvas');
+        const gCtx = googleCanvas ? googleCanvas.getContext('2d') : null;
+        if (gCtx) gCtx.imageSmoothingEnabled = false;
+
+        function renderGoogleCloud() {
+            if (!googleCanvas || !gCtx) return;
+
+            const rect = googleCanvas.getBoundingClientRect();
+            const targetW = Math.max(380, Math.round(rect.width) || 480);
+            const targetH = 86;
+            if (googleCanvas.width !== targetW || googleCanvas.height !== targetH) {
+                googleCanvas.width = targetW;
+                googleCanvas.height = targetH;
+                if (gCtx) gCtx.imageSmoothingEnabled = false;
+            }
+
+            const W = googleCanvas.width;
+            const H = googleCanvas.height;
+            const t = Date.now();
+
+            // Sfondo cosmico ambrato/notturno Google AI
+            gCtx.fillStyle = '#0c0803';
+            gCtx.fillRect(0, 0, W, H);
+
+            // Stelle scintillanti oro solare e azzurro Google
+            for (let s = 0; s < 18; s++) {
+                const sx = ((s * 39 + t * 0.016) % W);
+                const sy = ((s * 21 + (s % 3) * 9) % H);
+                const starAlpha = 0.3 + Math.sin(t * 0.005 + s) * 0.3;
+                gCtx.fillStyle = (s % 2 === 0) ? `rgba(251, 191, 36, ${starAlpha})` : `rgba(96, 165, 250, ${starAlpha})`;
+                gCtx.fillRect(Math.floor(sx), Math.floor(sy), (s % 4 === 0 ? 2 : 1), (s % 4 === 0 ? 2 : 1));
+            }
+
+            const cx = Math.round(W / 2);
+            const cy = 42;
+            const rot = (t * 0.0023) % (Math.PI * 2);
+
+            gCtx.save();
+            gCtx.setLineDash([3, 4]);
+            // Anello solare dorato (frequenza Gemini Flash)
+            gCtx.beginPath();
+            gCtx.ellipse(cx - 14, cy, 78, 24, rot, 0, Math.PI * 2);
+            gCtx.strokeStyle = 'rgba(245, 158, 11, 0.48)';
+            gCtx.lineWidth = 1.5;
+            gCtx.stroke();
+
+            // Anello celeste Google TPU controrotante
+            gCtx.beginPath();
+            gCtx.ellipse(cx + 14, cy, 68, 20, -rot * 1.25, 0, Math.PI * 2);
+            gCtx.strokeStyle = 'rgba(59, 130, 246, 0.45)';
+            gCtx.lineWidth = 1.5;
+            gCtx.stroke();
+            gCtx.setLineDash([]);
+
+            for (let p = 0; p < 10; p++) {
+                const ang = rot * 2 + (p * (Math.PI / 5));
+                const px = cx + Math.cos(ang) * (56 + (p % 2) * 14);
+                const py = cy + Math.sin(ang) * (18 + (p % 2) * 6);
+                gCtx.fillStyle = (p % 2 === 0) ? '#fbbf24' : '#60a5fa';
+                gCtx.fillRect(px - 1, py - 1, 3, 3);
+            }
+
+            // Piattaforma Fluttuante Nuvoletta Pixel Art Solar Gold & Amber
+            const cloudBob = Math.sin(t * 0.003 + 2.1) * 2;
+            const cY = 56 + cloudBob;
+
+            gCtx.fillStyle = 'rgba(180, 83, 9, 0.35)';
+            gCtx.beginPath();
+            gCtx.ellipse(cx, cY + 11, 80, 9, 0, 0, Math.PI * 2);
+            gCtx.fill();
+
+            gCtx.fillStyle = '#78350f';
+            gCtx.fillRect(cx - 72, cY, 144, 10);
+            gCtx.fillRect(cx - 60, cY - 4, 120, 14);
+            gCtx.fillRect(cx - 40, cY - 8, 80, 18);
+
+            gCtx.fillStyle = '#d97706';
+            gCtx.fillRect(cx - 68, cY + 1, 136, 8);
+            gCtx.fillRect(cx - 56, cY - 3, 112, 12);
+            gCtx.fillRect(cx - 36, cY - 7, 72, 16);
+
+            gCtx.fillStyle = '#fef3c7';
+            gCtx.fillRect(cx - 52, cY - 4, 20, 4);
+            gCtx.fillRect(cx - 10, cY - 8, 22, 5);
+            gCtx.fillRect(cx + 32, cY - 4, 20, 4);
+
+            for (let d = -4; d <= 4; d++) {
+                const dx = cx + (d * 16);
+                const dy = cY + 9 + ((t * 0.04 + Math.abs(d) * 12) % 15);
+                gCtx.fillStyle = (d % 2 === 0) ? 'rgba(251, 191, 36, 0.75)' : 'rgba(96, 165, 250, 0.70)';
+                gCtx.fillRect(dx, dy, 2, 3);
+            }
+
+            const allAgents = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents : [
+                { id: 'google', name: 'GEMINI', title: 'Gemini 3.5 Flash Multimodal Cloud Specialist', parameters: 'MoE Flash Multimodal (1M Ctx)', context_limit: 1048576, color: '#f59e0b', is_cloud: true, provider: 'google', estimated_speed_tps: '~135 tok/s (Google TPU Cloud Cluster)' }
+            ];
+            const googleCloudAgents = allAgents.filter(a =>
+                a.provider === 'google' ||
+                (a.source && a.source.includes('Google')) ||
+                ['google', 'gemini'].includes(a.id) ||
+                (a.model && a.model.toLowerCase().includes('gemini'))
+            );
+
+            drawDynamicCloudAgentsOnNuvoletta(gCtx, W, H, cx, cY, t, googleCloudAgents, {
+                primaryColor: '#fbbf24',
+                secondaryColor: '#fde68a',
+                accentColor: '#60a5fa',
+                auraColor: 'rgba(245, 158, 11, 0.55)',
+                tagBg: '#120c04'
+            });
+
+            gCtx.restore();
+            requestAnimationFrame(renderGoogleCloud);
+        }
+
         // -------------------------------------------------------------
         // AUTO-PROVISIONING & AUTO-PRUNING DINAMICO CLOUD CARDS & NUVOLETTA
         // Crea le card quando un agente cloud viene aggiunto e le rimuove da solo
@@ -4871,15 +5058,17 @@
                 const cardId = (a.id === 'beam') ? 'hud-cloud' : `hud-cloud-${a.id}`;
                 let cardEl = document.getElementById(cardId) || document.querySelector(`[data-hud-id="${cardId}"]`);
                 if (!cardEl) {
-                    const targetGrid = a.provider === 'openrouter' ? document.getElementById('hud-grid-cloud-openrouter') :
-                                      (a.provider === 'nvidia' ? document.getElementById('hud-grid-cloud-nvidia') : document.getElementById('hud-grid-cloud'));
+                    let targetGrid = a.provider === 'google' ? document.getElementById('hud-grid-cloud-google') :
+                                     (a.provider === 'openrouter' ? document.getElementById('hud-grid-cloud-openrouter') :
+                                     (a.provider === 'nvidia' ? document.getElementById('hud-grid-cloud-nvidia') :
+                                     (a.provider === 'ollama' || a.id === 'beam' ? document.getElementById('hud-grid-cloud') : document.getElementById(`hud-grid-cloud-${a.provider}`))));
                     if (targetGrid) {
                         const newCard = document.createElement('div');
                         newCard.className = 'hud-metric draggable-hud';
                         newCard.id = cardId;
                         newCard.setAttribute('data-hud-id', cardId);
                         newCard.style.cssText = `border-color: ${a.color || '#38bdf8'}; background: #0c0e18; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); flex: 1 1 210px; min-width: 200px; max-width: 320px; box-sizing: border-box;`;
-                        const iconPrefix = a.provider === 'nvidia' ? '⚡' : (a.provider === 'openrouter' ? '🌌' : '☁');
+                        const iconPrefix = a.provider === 'google' ? '✨' : (a.provider === 'nvidia' ? '⚡' : (a.provider === 'openrouter' ? '🌌' : '☁'));
                         newCard.innerHTML = `
                             <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ ${a.name} CLOUD</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('${cardId}', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('${cardId}', 1)">▶</button></div></div>
                             <div class="hud-metric-header">
@@ -4907,10 +5096,18 @@
                 }
             });
 
-            // 4. Aggiornamento dinamico automatico dei sottotitoli dei 3 Portali Vortice Quantico
-            const ollamaActive = cloudAgents.filter(a => a.provider !== 'nvidia' && a.provider !== 'openrouter' && !(a.source && (a.source.includes('NVIDIA') || a.source.includes('OpenRouter'))));
+            // 4. Aggiornamento dinamico automatico dei sottotitoli dei 4 Portali Vortice Quantico
+            const ollamaActive = cloudAgents.filter(a => a.provider !== 'nvidia' && a.provider !== 'openrouter' && a.provider !== 'google' && !(a.source && (a.source.includes('NVIDIA') || a.source.includes('OpenRouter') || a.source.includes('Google'))));
             const nvidiaActive = cloudAgents.filter(a => a.provider === 'nvidia' || (a.source && a.source.includes('NVIDIA')));
             const openrouterActive = cloudAgents.filter(a => a.provider === 'openrouter' || (a.source && a.source.includes('OpenRouter')));
+            const googleActive = cloudAgents.filter(a => a.provider === 'google' || (a.source && a.source.includes('Google')) || ['google', 'gemini'].includes(a.id));
+
+            const pGgTitle = document.getElementById('hud-portal-google-title');
+            const pGgSub = document.getElementById('hud-portal-google-sub');
+            const pGgHdrRight = document.getElementById('hud-subheader-google-cloud-right');
+            if (pGgTitle) pGgTitle.textContent = `✨ PORTALE VORTICE QUANTICO • GOOGLE AI STUDIO (${googleActive.length} TITANO)`;
+            if (pGgSub) pGgSub.textContent = (googleActive.map(a => `${a.name} • 1M CTX`).join(' + ') || 'NESSUN AGENTE') + ' • 0 VRAM';
+            if (pGgHdrRight) pGgHdrRight.textContent = (googleActive.map(a => `${a.name} (${a.model})`).join(' + ') || 'NESSUN AGENTE') + ' • 1M CONTEXT • ULTRA-SPEED TPU';
 
             const pOlSub = document.getElementById('hud-portal-sub');
             const pOlHdrRight = document.getElementById('hud-subheader-ollama-cloud-right');
@@ -4936,6 +5133,7 @@
         renderBeamCloud();
         renderNvidiaCloud();
         renderOpenRouterCloud();
+        renderGoogleCloud();
 
         /* =============================================================
            STATISTICHEAI v2.1: LAYOUT CONTROLLER (DRAG & DROP + STORAGE)
