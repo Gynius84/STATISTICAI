@@ -1662,13 +1662,13 @@
             </div>
 
             <!-- DIVISIONE 2: INFRASTRUTTURA OLLAMA CLOUD LIGHTNING & PORTALE VORTICE QUANTICO -->
-            <div class="hud-sub-header" style="border-left-color: #38bdf8; color: #7dd3fc; margin-top: 14px;">
+            <div class="hud-sub-header" id="hud-subheader-ollama-cloud" style="border-left-color: #38bdf8; color: #7dd3fc; margin-top: 14px;">
                 <span>☁ INFRASTRUTTURA OLLAMA CLOUD LIGHTNING & PORTALE QUANTICO (0 MB VRAM LOCALE)</span>
-                <span style="color: #fde047; font-size: 9px;">BEAM 501B MoE + MINIMAX 3.1 FLASH 456B • 24H KEEP-ALIVE</span>
+                <span id="hud-subheader-ollama-cloud-right" style="color: #fde047; font-size: 9px;">BEAM 501B MoE (1M CONTEXT) • 24H KEEP-ALIVE</span>
             </div>
             <div class="hud-cloud-tier" id="hud-grid-cloud">
                 <!-- GRUPPO: SUPER COORDINATORE CLOUD (BEAM) -->
-                <div class="hud-metric draggable-hud" data-hud-id="hud-cloud" style="border-color: #0284c7; background: #081524; box-shadow: 0 0 10px rgba(2, 132, 199, 0.2); flex: 1 1 240px; min-width: 220px; max-width: 340px; box-sizing: border-box;">
+                <div class="hud-metric draggable-hud" id="hud-cloud" data-hud-id="hud-cloud" style="border-color: #0284c7; background: #081524; box-shadow: 0 0 10px rgba(2, 132, 199, 0.2); flex: 1 1 240px; min-width: 220px; max-width: 360px; box-sizing: border-box;">
                     <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ BEAM CLOUD</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
                         <span style="color: #38bdf8; font-weight: bold;">☁ SUPER COORDINATORE</span>
@@ -1682,26 +1682,11 @@
                     </div>
                 </div>
 
-                <!-- GRUPPO: VIDEO DEVELOPER CLOUD (MINIMAX) -->
-                <div class="hud-metric draggable-hud" data-hud-id="hud-cloud-minimax" style="border-color: #a855f7; background: #12091e; box-shadow: 0 0 10px rgba(168, 85, 247, 0.2); flex: 1 1 240px; min-width: 220px; max-width: 340px; box-sizing: border-box;">
-                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ MINIMAX CLOUD</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-minimax', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-minimax', 1)">▶</button></div></div>
-                    <div class="hud-metric-header">
-                        <span style="color: #c084fc; font-weight: bold;">☁ VIDEO DEVELOPER</span>
-                        <span id="hud-cloud-minimax-stat" style="color: #c084fc; font-weight: bold;">IMMORTALE (ONLINE)</span>
-                    </div>
-                    <div class="pixel-bar-container">
-                        <div id="hud-cloud-minimax-bar" class="pixel-bar-fill" style="width: 100%; background: linear-gradient(90deg, #9333ea, #c084fc, #ec4899);"></div>
-                    </div>
-                    <div style="font-size: 9px; color: var(--text-muted); margin-top: 3px;" id="hud-cloud-minimax-members">
-                        MiniMax 3.1 Flash • 456B MoE Cloud • 128K Context • 0 VRAM
-                    </div>
-                </div>
-
                 <!-- ANIMAZIONE CLOUD PORTAL TITANI QUANTICI OLLAMA -->
-                <div class="hud-metric hud-metric-cloud-portal draggable-hud" data-hud-id="hud-portal" style="border-color: #0284c7; background: #060e1a; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 0 14px rgba(56, 189, 248, 0.25); flex: 2 1 480px; min-width: 380px; max-width: 100%; box-sizing: border-box;">
+                <div class="hud-metric hud-metric-cloud-portal draggable-hud" id="hud-portal" data-hud-id="hud-portal" style="border-color: #0284c7; background: #060e1a; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 0 14px rgba(56, 189, 248, 0.25); flex: 2 1 480px; min-width: 380px; max-width: 100%; box-sizing: border-box;">
                     <div class="hud-metric-header" style="margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: nowrap; overflow: hidden;">
-                        <span id="hud-portal-title" style="color: #38bdf8; font-weight: bold; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">☁ PORTALE VORTICE QUANTICO • TITANI OLLAMA</span>
-                        <span id="hud-portal-sub" style="color: #fde047; font-weight: bold; font-size: 10px; white-space: nowrap; flex-shrink: 0;">BEAM 501B + MINIMAX 456B • 0 VRAM</span>
+                        <span id="hud-portal-title" style="color: #38bdf8; font-weight: bold; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">☁ PORTALE VORTICE QUANTICO • OLLAMA CLOUD</span>
+                        <span id="hud-portal-sub" style="color: #fde047; font-weight: bold; font-size: 10px; white-space: nowrap; flex-shrink: 0;">BEAM 501B MoE • 1M CTX • 0 VRAM</span>
                     </div>
                     <div style="position: relative; width: 100%; height: 86px; overflow: hidden; border: 1px solid #13273e; background: #050a14;">
                         <canvas id="beam-cloud-canvas" style="display: block; width: 100%; height: 100%;"></canvas>
@@ -1856,8 +1841,8 @@
             <!-- RIGA 1: FILTRO SQUADRE & AZIONI SINCRONIZZAZIONE -->
             <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap; width: 100%; padding-bottom: 6px; border-bottom: 1px dotted rgba(86, 95, 137, 0.35);">
                 <span style="font-weight: bold; color: var(--text-muted); font-size: 10px; text-transform: uppercase;">FILTRA TEAM:</span>
-                <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (10)</button>
-                <button class="btn-filter btn-filter-cloud" id="filter-btn-cloud" data-filter="TITANI CLOUD" onclick="setFilter('TITANI CLOUD')">☁ TUTTI I CLOUD (7)</button>
+                <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (9)</button>
+                <button class="btn-filter btn-filter-cloud" id="filter-btn-cloud" data-filter="TITANI CLOUD" onclick="setFilter('TITANI CLOUD')">☁ TUTTI I CLOUD (6)</button>
                 <button class="btn-filter" id="filter-btn-nvidia" data-filter="TEAM CLOUD TITANS" style="color: #76b900; border-color: #76b900;" onclick="setFilter('TEAM CLOUD TITANS')">⚡ NVIDIA NIM (3)</button>
                 <button class="btn-filter" data-filter="TEAM OPENROUTER CLOUD" style="color: #c084fc; border-color: #a855f7; box-shadow: 0 0 6px rgba(168,85,247,0.3);" onclick="setFilter('TEAM OPENROUTER CLOUD')">🌌 OPENROUTER (2)</button>
                 <button class="btn-filter" data-filter="llamacpp" style="color: #60a5fa; border-color: #3b82f6;" onclick="setFilter('llamacpp')">🦙 LLAMA.CPP DISCO D: (3)</button>
@@ -1897,7 +1882,7 @@
             <div class="box-reorder-header">
                 <span class="box-reorder-title">
                     <span class="drag-handle" title="Trascina per riposizionare l'intera griglia agenti">⠿</span>
-                    <span id="agents-grid-header-title">GRIGLIA SCHEDE AGENTI HERMES & CLOUD (10 AGENTI OPERATIVI)</span>
+                    <span id="agents-grid-header-title">GRIGLIA SCHEDE AGENTI HERMES & CLOUD (9 AGENTI OPERATIVI)</span>
                 </span>
                 <div class="box-reorder-buttons">
                     <button type="button" class="btn-box-reorder" onclick="moveSection('box-agents-grid', -1)" title="Sposta box in alto">▲ SPOSTA SU</button>
@@ -2618,9 +2603,8 @@
             }
             const fCloud = document.getElementById('footer-cloud-text');
             if (fCloud) {
-                const bTok = beamAgent ? (beamAgent.lifetime_tokens || 0).toLocaleString() : '5.033.918';
-                const mTok = minimaxAgent ? (minimaxAgent.lifetime_tokens || 0).toLocaleString() : '1.840.210';
-                fCloud.textContent = `TITANI CLOUD: BEAM (501B, 1M Ctx, ${bTok} tok) + MINIMAX (456B, 128K Ctx, ${mTok} tok) [100% OPERATIVI]`;
+                const activeClouds = agents.filter(a => a.is_cloud || a.id === 'beam');
+                fCloud.textContent = `CLOUD ATTIVI (${activeClouds.length}): ` + activeClouds.map(a => `${a.name} (${(a.lifetime_tokens || 0).toLocaleString()} tok)`).join(' • ') + ' [100% OPERATIVI]';
             }
 
             // Aggiornamento Titolo Dinamico & Workflow Adattivo
@@ -4233,6 +4217,11 @@
             // =========================================================
             if (TELEMETRY_DATA && TELEMETRY_DATA.agents) {
                 TELEMETRY_DATA.agents.forEach((agent, i) => {
+                    if (!SPRITE_IMAGES[agent.id]) {
+                        const img = new Image();
+                        img.src = API_BASE + '/' + (agent.sprite || 'sprites_agents/GynBot1.png').replace(/^(\.\/|\/)/, '');
+                        SPRITE_IMAGES[agent.id] = img;
+                    }
                     if (agent.id === 'beam' || agent.is_cloud) return; // Agenti Cloud nel Portale dedicato nell'HUD
 
                     if (!AGENT_COORDS[agent.id]) {
@@ -4243,11 +4232,6 @@
                             targetY: 190,
                             bob: 0
                         };
-                    }
-                    if (!SPRITE_IMAGES[agent.id]) {
-                        const img = new Image();
-                        img.src = API_BASE + '/' + (agent.sprite || 'sprites_agents/GynBot1.png').replace(/^(\.\/|\/)/, '');
-                        SPRITE_IMAGES[agent.id] = img;
                     }
 
                     const pos = AGENT_COORDS[agent.id];
@@ -4358,8 +4342,175 @@
         }
 
         // -------------------------------------------------------------
-        // ANIMAZIONE VORTICE QUANTICO & CLOUD PORTAL BEAM (HUD CARD ACCANTO)
+        // MOTORE UNIVERSALE DINAMICO NUVOLETTA & VORTICE QUANTICO (AUTO-ADATTIVO)
+        // Si adatta automaticamente a 1, 2, 3+ agenti per ogni Cloud Provider.
+        // Se un agente viene aggiunto o eliminato da Hermes, appare o scompare da solo!
         // -------------------------------------------------------------
+        function drawDynamicCloudAgentsOnNuvoletta(ctx, w, h, cx, cY, t, activeAgents, theme) {
+            const N = activeAgents.length;
+            if (N === 0) {
+                ctx.fillStyle = theme.primaryColor;
+                ctx.font = 'bold 10px monospace';
+                ctx.textAlign = 'center';
+                ctx.fillText('NESSUN AGENTE ATTIVO SU QUESTO CLOUD', cx, 36);
+                return;
+            }
+
+            // Posizionamento dinamico e simmetrico degli avatar sulla nuvoletta (1, 2, 3 o più)
+            const sprW = (N === 1) ? 42 : ((N === 2) ? 38 : 34);
+            const sprH = (N === 1) ? 46 : ((N === 2) ? 42 : 38);
+            const spacing = (N === 1) ? 0 : ((N === 2) ? 50 : Math.min(42, Math.floor(124 / N)));
+            const startX = cx - Math.round(((N - 1) * spacing) / 2) - Math.round(sprW / 2);
+
+            activeAgents.forEach((ag, idx) => {
+                const spr = SPRITE_IMAGES[ag.id] || SPRITE_IMAGES[ag.name] || SPRITE_IMAGES[(ag.id || '').toUpperCase()];
+                const isCenterFlagship = (N === 3 && idx === 1) || (N === 1);
+                const bob = Math.sin(t * 0.004 + idx * 1.1) * 2.4;
+                const drawW = isCenterFlagship && N >= 3 ? sprW + 4 : sprW;
+                const drawH = isCenterFlagship && N >= 3 ? sprH + 4 : sprH;
+                const ax = startX + (idx * spacing) - (isCenterFlagship && N >= 3 ? 2 : 0);
+                const ay = (isCenterFlagship ? 8 : 13) + bob;
+
+                // Aura quantica rotante attorno all'avatar
+                const auraAlpha = 0.42 + Math.sin(t * 0.006 + idx * 1.3) * 0.25;
+                ctx.strokeStyle = ag.color ? hexToRgba(ag.color, auraAlpha) : theme.auraColor;
+                ctx.lineWidth = isCenterFlagship ? 1.8 : 1.5;
+                ctx.setLineDash([3, 3]);
+                ctx.beginPath();
+                ctx.arc(ax + Math.round(drawW / 2), ay + Math.round(drawH / 2), Math.round(drawW / 2) + 2, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                if (spr && spr.complete && spr.naturalWidth > 0) {
+                    ctx.drawImage(spr, ax, ay, drawW, drawH);
+                }
+
+                // Targhetta pixel art con il nome dell'agente sotto l'avatar
+                const label = (ag.name || ag.id || 'AGENT').toUpperCase().substring(0, 10);
+                ctx.font = 'bold 7.5px monospace';
+                ctx.textAlign = 'center';
+                ctx.fillStyle = theme.tagBg || '#050a14';
+                ctx.fillRect(ax - 2, ay + drawH - 2, drawW + 4, 9);
+                ctx.fillStyle = ag.color || theme.primaryColor;
+                ctx.fillText(label, ax + Math.round(drawW / 2), ay + drawH + 5);
+            });
+
+            // Telemetria Reale ai lati della Nuvoletta (auto-adattiva per 1, 2 o 3+ agenti)
+            if (N === 1) {
+                const a = activeAgents[0];
+                const lifeTok = (a.lifetime_tokens || 0).toLocaleString();
+                const usedTok = (a.context_used_tokens || 0).toLocaleString();
+                const ctxK = Math.round((a.context_limit || 131072) / 1024);
+                const ctxLabel = ctxK >= 1000 ? '1M CTX' : `${ctxK}K CTX`;
+                const calls = a.lifetime_api_calls || 0;
+                const tools = a.lifetime_tool_calls || 0;
+
+                // Lato Sinistro: Identità & Architettura del Singolo Titano
+                ctx.textAlign = 'left';
+                ctx.fillStyle = a.color || theme.primaryColor;
+                ctx.font = 'bold 10px monospace';
+                ctx.fillText(`★ ${(a.name || '').toUpperCase()} (${a.parameters || 'CLOUD'})`, 8, 16);
+                ctx.fillStyle = theme.secondaryColor;
+                ctx.font = 'bold 8.5px monospace';
+                ctx.fillText((a.title || 'SUPER COORDINATOR').toUpperCase().substring(0, 26), 8, 29);
+                ctx.fillStyle = '#4ade80';
+                ctx.font = '8px monospace';
+                ctx.fillText(`● ${ctxLabel} • 0 MB VRAM LOCALE`, 8, 43);
+                ctx.fillStyle = '#fde047';
+                ctx.fillText(`★ TURNO: ${usedTok} TOK (${a.context_used_pct || 0}%)`, 8, 57);
+                ctx.fillStyle = theme.accentColor;
+                ctx.fillText(`⚡ ${a.estimated_speed_tps || 'Cloud Speed'}`, 8, 71);
+
+                // Lato Destro: Statistiche Storiche & Operatività
+                ctx.textAlign = 'right';
+                ctx.fillStyle = '#fde047';
+                ctx.font = 'bold 10px monospace';
+                ctx.fillText(`★ ${lifeTok} TOK STORICO`, w - 8, 16);
+                ctx.fillStyle = a.color || theme.primaryColor;
+                ctx.font = 'bold 8.5px monospace';
+                ctx.fillText('STATO: 100% OPERATIVO', w - 8, 29);
+                ctx.fillStyle = '#4ade80';
+                ctx.font = '8px monospace';
+                ctx.fillText(`● SESSIONI: ${a.lifetime_sessions || 1} • MSG: ${a.lifetime_messages || 0}`, w - 8, 43);
+                ctx.fillStyle = '#a7f3d0';
+                ctx.fillText(`🛠 ${tools} TOOLS • ${calls} API CALLS`, w - 8, 57);
+                ctx.fillStyle = theme.secondaryColor;
+                ctx.fillText(`🧠 MEMORIA: ${(a.memory_bytes || 0).toLocaleString()} B`, w - 8, 71);
+            } else if (N === 2) {
+                const a1 = activeAgents[0];
+                const a2 = activeAgents[1];
+                const tok1 = (a1.lifetime_tokens || 0).toLocaleString();
+                const tok2 = (a2.lifetime_tokens || 0).toLocaleString();
+                const ctx1 = Math.round((a1.context_limit || 32768) / 1024);
+                const ctx2 = Math.round((a2.context_limit || 32768) / 1024);
+
+                // Sinistra: Agente 1
+                ctx.textAlign = 'left';
+                ctx.fillStyle = a1.color || theme.primaryColor;
+                ctx.font = 'bold 10px monospace';
+                ctx.fillText(`★ ${(a1.name || '').toUpperCase()} ${(a1.parameters || '').split(' ')[0]}`, 8, 16);
+                ctx.fillStyle = theme.secondaryColor;
+                ctx.font = 'bold 8.5px monospace';
+                ctx.fillText((a1.title || 'CLOUD SPECIALIST').toUpperCase().substring(0, 24), 8, 29);
+                ctx.fillStyle = '#4ade80';
+                ctx.font = '8px monospace';
+                ctx.fillText(`● ${ctx1 >= 1000 ? '1M' : ctx1 + 'K'} CTX • 0 VRAM`, 8, 43);
+                ctx.fillStyle = '#fde047';
+                ctx.fillText(`★ ${tok1} TOK`, 8, 57);
+                ctx.fillStyle = theme.accentColor;
+                ctx.fillText(`⚡ ${a1.tps_value || 60} tok/s • ${a1.lifetime_api_calls || 0} CALLS`, 8, 71);
+
+                // Destra: Agente 2
+                ctx.textAlign = 'right';
+                ctx.fillStyle = a2.color || theme.secondaryColor;
+                ctx.font = 'bold 10px monospace';
+                ctx.fillText(`★ ${(a2.name || '').toUpperCase()} ${(a2.parameters || '').split(' ')[0]}`, w - 8, 16);
+                ctx.fillStyle = theme.accentColor;
+                ctx.font = 'bold 8.5px monospace';
+                ctx.fillText((a2.title || 'CLOUD SPECIALIST').toUpperCase().substring(0, 24), w - 8, 29);
+                ctx.fillStyle = '#4ade80';
+                ctx.font = '8px monospace';
+                ctx.fillText(`● ${ctx2 >= 1000 ? '1M' : ctx2 + 'K'} CTX • 0 VRAM`, w - 8, 43);
+                ctx.fillStyle = '#fde047';
+                ctx.fillText(`★ ${tok2} TOK`, w - 8, 57);
+                ctx.fillStyle = theme.secondaryColor;
+                ctx.fillText(`⚡ ${a2.tps_value || 80} tok/s • ${a2.lifetime_api_calls || 0} CALLS`, w - 8, 71);
+            } else {
+                // 3 o più Titani sul Cloud (es. NVIDIA NIM: DeepSeek + Nemotron + Drago)
+                const leftAgents = activeAgents.slice(0, Math.ceil(N / 2));
+                const rightAgents = activeAgents.slice(Math.ceil(N / 2));
+
+                ctx.textAlign = 'left';
+                leftAgents.forEach((ag, idx) => {
+                    const yBase = 15 + idx * 27;
+                    ctx.fillStyle = ag.color || theme.primaryColor;
+                    ctx.font = 'bold 9.5px monospace';
+                    ctx.fillText(`★ ${(ag.name || '').toUpperCase()} ${(ag.parameters || '').split(' ')[0]}`, 8, yBase);
+                    ctx.fillStyle = '#fde047';
+                    ctx.font = '8px monospace';
+                    ctx.fillText(`● ${(ag.lifetime_tokens || 0).toLocaleString()} TOK (${ag.lifetime_api_calls || 0} CALLS)`, 8, yBase + 12);
+                });
+                ctx.fillStyle = '#86efac';
+                ctx.font = '8px monospace';
+                ctx.fillText(`⚡ 0 MB VRAM LOCALE • 128K CTX`, 8, 72);
+
+                ctx.textAlign = 'right';
+                rightAgents.forEach((ag, idx) => {
+                    const yBase = 15 + idx * 27;
+                    ctx.fillStyle = ag.color || theme.secondaryColor;
+                    ctx.font = 'bold 9.5px monospace';
+                    ctx.fillText(`★ ${(ag.name || '').toUpperCase()} ${(ag.parameters || '').split(' ')[0]}`, w - 8, yBase);
+                    ctx.fillStyle = '#fde047';
+                    ctx.font = '8px monospace';
+                    ctx.fillText(`● ${(ag.lifetime_tokens || 0).toLocaleString()} TOK (${ag.lifetime_api_calls || 0} CALLS)`, w - 8, yBase + 12);
+                });
+                ctx.fillStyle = '#4ade80';
+                ctx.font = '8px monospace';
+                ctx.fillText(`● ${N} TITANI ATTIVI • 100% ONLINE`, w - 8, 72);
+            }
+        }
+
+        // 1. PORTALE OLLAMA CLOUD (Dinamico: rileva BEAM e/o altri agenti Ollama Cloud attivi)
         const cloudCanvas = document.getElementById('beam-cloud-canvas');
         const cCtx = cloudCanvas ? cloudCanvas.getContext('2d') : null;
         if (cCtx) cCtx.imageSmoothingEnabled = false;
@@ -4367,7 +4518,6 @@
         function renderBeamCloud() {
             if (!cloudCanvas || !cCtx) return;
 
-            // STATISTICAI v2.5: Auto-scaling perfetto per riempire il 100% dello spazio orizzontale
             const rect = cloudCanvas.getBoundingClientRect();
             const targetW = Math.max(380, Math.round(rect.width) || 480);
             const targetH = 86;
@@ -4385,7 +4535,6 @@
             const cy = 43;
             const t = Date.now();
 
-            // Sfondo cosmico micro-stelle pixel
             for (let s = 0; s < 18; s++) {
                 const sx = (s * 31 + (s * 13)) % w;
                 const sy = (s * 17 + 5) % h;
@@ -4394,168 +4543,84 @@
                 cCtx.fillRect(sx, sy, 2, 2);
             }
 
-            // Vortice rotante quantico dimensionale dietro la piattaforma
             const rot = t * 0.0022;
             cCtx.save();
             cCtx.setLineDash([3, 4]);
-
-            // Anello ciano (frequenza BEAM)
             cCtx.beginPath();
-            cCtx.ellipse(cx - 16, cy, 78, 24, rot, 0, Math.PI * 2);
-            cCtx.strokeStyle = 'rgba(56, 189, 248, 0.40)';
+            cCtx.ellipse(cx - 12, cy, 76, 24, rot, 0, Math.PI * 2);
+            cCtx.strokeStyle = 'rgba(56, 189, 248, 0.42)';
             cCtx.lineWidth = 1.5;
             cCtx.stroke();
 
-            // Anello viola/magenta (frequenza MINIMAX) controrotante
             cCtx.beginPath();
-            cCtx.ellipse(cx + 16, cy, 68, 20, -rot * 1.25, 0, Math.PI * 2);
-            cCtx.strokeStyle = 'rgba(192, 132, 252, 0.38)';
+            cCtx.ellipse(cx + 12, cy, 66, 20, -rot * 1.25, 0, Math.PI * 2);
+            cCtx.strokeStyle = 'rgba(253, 224, 71, 0.35)';
             cCtx.lineWidth = 1.5;
             cCtx.stroke();
             cCtx.setLineDash([]);
 
-            // Particelle rotanti del doppio vortice quantico
             for (let p = 0; p < 10; p++) {
                 const ang = rot * 2 + (p * (Math.PI / 5));
                 const px = cx + Math.cos(ang) * (56 + (p % 2) * 14);
                 const py = cy + Math.sin(ang) * (18 + (p % 2) * 6);
-                cCtx.fillStyle = (p % 2 === 0) ? '#38bdf8' : '#e879f9';
+                cCtx.fillStyle = (p % 2 === 0) ? '#38bdf8' : '#fde047';
                 cCtx.fillRect(px - 1, py - 1, 3, 3);
             }
 
-            // Piattaforma Fluttuante Nuvoletta Pixel Art (allargata per accogliere entrambi i Titani)
             const cloudBob = Math.sin(t * 0.003) * 2;
             const cY = 56 + cloudBob;
 
-            // Ombra eterea della nuvola espansa
             cCtx.fillStyle = 'rgba(2, 132, 199, 0.28)';
             cCtx.beginPath();
             cCtx.ellipse(cx, cY + 11, 80, 9, 0, 0, Math.PI * 2);
             cCtx.fill();
 
-            // Puffs pixel art della nuvola espansa (base blu profondo)
             cCtx.fillStyle = '#0284c7';
             cCtx.fillRect(cx - 72, cY, 144, 10);
             cCtx.fillRect(cx - 60, cY - 4, 120, 14);
             cCtx.fillRect(cx - 40, cY - 8, 80, 18);
 
-            // Strato intermedio ciano/azzurro
             cCtx.fillStyle = '#38bdf8';
             cCtx.fillRect(cx - 68, cY + 1, 136, 8);
             cCtx.fillRect(cx - 56, cY - 3, 112, 12);
             cCtx.fillRect(cx - 36, cY - 7, 72, 16);
 
-            // Riflessi bianchi superiori in stile pixel 16-bit
             cCtx.fillStyle = '#f0f9ff';
             cCtx.fillRect(cx - 52, cY - 4, 20, 4);
             cCtx.fillRect(cx - 10, cY - 8, 22, 5);
             cCtx.fillRect(cx + 32, cY - 4, 20, 4);
 
-            // Scintille cyber-dati che piovono dalla nuvola
             for (let d = -4; d <= 4; d++) {
                 const dx = cx + (d * 16);
                 const dy = cY + 9 + ((t * 0.04 + Math.abs(d) * 13) % 15);
-                cCtx.fillStyle = (d % 2 === 0) ? 'rgba(125, 211, 252, 0.65)' : 'rgba(244, 114, 182, 0.55)';
+                cCtx.fillStyle = (d % 2 === 0) ? 'rgba(125, 211, 252, 0.65)' : 'rgba(253, 224, 71, 0.55)';
                 cCtx.fillRect(dx, dy, 2, 3);
             }
 
-            // 1. TITANO 1: BEAM (Super Coordinator) - Sinistra della Nuvola
-            const sprBeam = SPRITE_IMAGES['beam'];
-            const bobBeam = Math.sin(t * 0.004) * 2.5;
-            const bW = 38;
-            const bH = 42;
-            const bX = cx - 44;
-            const bY = 12 + bobBeam;
+            // Filtra dinamicamente SOLO gli agenti Ollama Cloud realmente esistenti in TELEMETRY_DATA
+            const allAgents = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents : [
+                { id: 'beam', name: 'BEAM', title: 'Super Coordinatore Cloud', parameters: '501B MoE', context_limit: 1048576, color: '#38bdf8', is_cloud: true, provider: 'ollama', estimated_speed_tps: '~28 tok/s (Cloud H100 Cluster)' }
+            ];
+            const ollamaCloudAgents = allAgents.filter(a =>
+                (a.is_cloud || a.id === 'beam') &&
+                a.provider !== 'nvidia' &&
+                a.provider !== 'openrouter' &&
+                !(a.source && (a.source.includes('NVIDIA') || a.source.includes('OpenRouter')))
+            );
 
-            // Aura celestiale rotante attorno a BEAM
-            const auraBeamAlpha = 0.4 + Math.sin(t * 0.006) * 0.25;
-            cCtx.strokeStyle = `rgba(56, 189, 248, ${auraBeamAlpha})`;
-            cCtx.lineWidth = 1.5;
-            cCtx.setLineDash([3, 3]);
-            cCtx.beginPath();
-            cCtx.arc(bX + Math.round(bW / 2), bY + 20, 22, 0, Math.PI * 2);
-            cCtx.stroke();
-            cCtx.setLineDash([]);
-
-            if (sprBeam && sprBeam.complete) {
-                cCtx.drawImage(sprBeam, bX, bY, bW, bH);
-            }
-
-            // 2. TITANO 2: MINIMAX (Video Developer Flash) - Destra della Nuvola
-            const sprMm = SPRITE_IMAGES['minimax'];
-            const bobMm = Math.sin(t * 0.004 + 1.2) * 2.5;
-            const mW = 38;
-            const mH = 42;
-            const mX = cx + 6;
-            const mY = 12 + bobMm;
-
-            // Aura quantica magenta/viola rotante attorno a MINIMAX
-            const auraMmAlpha = 0.4 + Math.sin(t * 0.006 + 1.5) * 0.25;
-            cCtx.strokeStyle = `rgba(192, 132, 252, ${auraMmAlpha})`;
-            cCtx.lineWidth = 1.5;
-            cCtx.setLineDash([3, 3]);
-            cCtx.beginPath();
-            cCtx.arc(mX + Math.round(mW / 2), mY + 20, 22, 0, Math.PI * 2);
-            cCtx.stroke();
-            cCtx.setLineDash([]);
-
-            if (sprMm && sprMm.complete) {
-                cCtx.drawImage(sprMm, mX, mY, mW, mH);
-            }
-
-            // Dati Telemetria REALI per entrambi i Titani
-            const beamData = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents.find(a => a.id === 'beam') : null;
-            const mmData = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents.find(a => a.id === 'minimax' || (a.model && a.model.toLowerCase().includes('minimax'))) : null;
-
-            const bLifeTok = beamData && beamData.lifetime_tokens ? beamData.lifetime_tokens.toLocaleString() : '5.033.918';
-            const bCalls = beamData ? (beamData.lifetime_api_calls || 1870) : 1870;
-            const bTools = beamData ? (beamData.lifetime_tool_calls || 64) : 64;
-            const bMemB = beamData && beamData.memory_bytes ? beamData.memory_bytes : 3275;
-
-            const mmLifeTok = mmData && mmData.lifetime_tokens ? mmData.lifetime_tokens.toLocaleString() : '1.840.210';
-            const mmCalls = mmData ? (mmData.lifetime_api_calls || 492) : 492;
-            const mmMemB = mmData && mmData.memory_bytes ? mmData.memory_bytes : 1420;
-
-            // Sinistra: Specifiche Cloud BEAM (Ciano / Oro)
-            cCtx.textAlign = 'left';
-            cCtx.fillStyle = '#38bdf8';
-            cCtx.font = 'bold 10px monospace';
-            cCtx.fillText('★ BEAM 501B MoE', 8, 16);
-            cCtx.fillStyle = '#7dd3fc';
-            cCtx.font = 'bold 8.5px monospace';
-            cCtx.fillText('SUPER COORDINATOR', 8, 29);
-            cCtx.fillStyle = '#4ade80';
-            cCtx.font = '8px monospace';
-            cCtx.fillText('● 1M CTX • 0 VRAM', 8, 43);
-            cCtx.fillStyle = '#fde047';
-            cCtx.fillText(`★ ${bLifeTok} TOK`, 8, 57);
-            cCtx.fillStyle = '#a7f3d0';
-            cCtx.fillText(`🛠 ${bTools} TOOLS • ${bCalls} CALLS`, 8, 71);
-
-            // Destra: Specifiche Cloud MINIMAX (Viola / Rosa / Oro)
-            cCtx.textAlign = 'right';
-            cCtx.fillStyle = '#c084fc';
-            cCtx.font = 'bold 10px monospace';
-            cCtx.fillText('★ MINIMAX 456B MoE', w - 8, 16);
-            cCtx.fillStyle = '#f472b6';
-            cCtx.font = 'bold 8.5px monospace';
-            cCtx.fillText('VIDEO DEVELOPER FLASH', w - 8, 29);
-            cCtx.fillStyle = '#4ade80';
-            cCtx.font = '8px monospace';
-            cCtx.fillText('● 128K CTX • 0 VRAM', w - 8, 43);
-            cCtx.fillStyle = '#fde047';
-            cCtx.fillText(`★ ${mmLifeTok} TOK`, w - 8, 57);
-            cCtx.fillStyle = '#e879f9';
-            cCtx.fillText(`🎬 98 VIDEO • ${mmCalls} CALLS`, w - 8, 71);
+            drawDynamicCloudAgentsOnNuvoletta(cCtx, w, h, cx, cY, t, ollamaCloudAgents, {
+                primaryColor: '#38bdf8',
+                secondaryColor: '#7dd3fc',
+                accentColor: '#a7f3d0',
+                auraColor: 'rgba(56, 189, 248, 0.5)',
+                tagBg: '#050a14'
+            });
 
             cCtx.restore();
-
             requestAnimationFrame(renderBeamCloud);
         }
 
-        // -------------------------------------------------------------
-        // ANIMAZIONE VORTICE QUANTICO & CLOUD PORTAL NVIDIA NIM TITANS (DEEPSEEK + DRAGO)
-        // -------------------------------------------------------------
+        // 2. PORTALE NVIDIA NIM CLOUD (Dinamico: rileva tutti gli agenti NVIDIA NIM attivi)
         const nvidiaCanvas = document.getElementById('nvidia-cloud-canvas');
         const nCtx = nvidiaCanvas ? nvidiaCanvas.getContext('2d') : null;
         if (nCtx) nCtx.imageSmoothingEnabled = false;
@@ -4580,7 +4645,6 @@
             const cy = 43;
             const t = Date.now();
 
-            // Sfondo cosmico micro-stelle pixel color smeraldo / cyber green
             for (let s = 0; s < 18; s++) {
                 const sx = (s * 37 + (s * 11)) % w;
                 const sy = (s * 19 + 7) % h;
@@ -4589,19 +4653,15 @@
                 nCtx.fillRect(sx, sy, 2, 2);
             }
 
-            // Vortice rotante quantico dimensionale (verde NVIDIA / smeraldo)
             const rot = t * 0.0024;
             nCtx.save();
             nCtx.setLineDash([3, 4]);
-
-            // Anello verde NVIDIA (frequenza DeepSeek V4.1 Flash)
             nCtx.beginPath();
             nCtx.ellipse(cx - 16, cy, 78, 24, rot, 0, Math.PI * 2);
             nCtx.strokeStyle = 'rgba(118, 185, 0, 0.45)';
             nCtx.lineWidth = 1.5;
             nCtx.stroke();
 
-            // Anello smeraldo Drago (frequenza GLM 5.3) controrotante
             nCtx.beginPath();
             nCtx.ellipse(cx + 16, cy, 68, 20, -rot * 1.2, 0, Math.PI * 2);
             nCtx.strokeStyle = 'rgba(16, 185, 129, 0.42)';
@@ -4609,7 +4669,6 @@
             nCtx.stroke();
             nCtx.setLineDash([]);
 
-            // Particelle rotanti del doppio vortice quantico NIM
             for (let p = 0; p < 10; p++) {
                 const ang = rot * 2 + (p * (Math.PI / 5));
                 const px = cx + Math.cos(ang) * (56 + (p % 2) * 14);
@@ -4618,35 +4677,29 @@
                 nCtx.fillRect(px - 1, py - 1, 3, 3);
             }
 
-            // Piattaforma Fluttuante Nuvoletta Pixel Art Cyber Emerald
             const cloudBob = Math.sin(t * 0.003 + 0.8) * 2;
             const cY = 56 + cloudBob;
 
-            // Ombra eterea
             nCtx.fillStyle = 'rgba(6, 78, 59, 0.35)';
             nCtx.beginPath();
             nCtx.ellipse(cx, cY + 11, 80, 9, 0, 0, Math.PI * 2);
             nCtx.fill();
 
-            // Base pixel nuvola (verde scuro cyber)
             nCtx.fillStyle = '#064e3b';
             nCtx.fillRect(cx - 72, cY, 144, 10);
             nCtx.fillRect(cx - 60, cY - 4, 120, 14);
             nCtx.fillRect(cx - 40, cY - 8, 80, 18);
 
-            // Strato intermedio smeraldo / lime
             nCtx.fillStyle = '#059669';
             nCtx.fillRect(cx - 68, cY + 1, 136, 8);
             nCtx.fillRect(cx - 56, cY - 3, 112, 12);
             nCtx.fillRect(cx - 36, cY - 7, 72, 16);
 
-            // Riflessi pixel superiori
             nCtx.fillStyle = '#ecfdf5';
             nCtx.fillRect(cx - 52, cY - 4, 20, 4);
             nCtx.fillRect(cx - 10, cY - 8, 22, 5);
             nCtx.fillRect(cx + 32, cY - 4, 20, 4);
 
-            // Scintille cyber-dati
             for (let d = -4; d <= 4; d++) {
                 const dx = cx + (d * 16);
                 const dy = cY + 9 + ((t * 0.04 + Math.abs(d) * 11) % 15);
@@ -4654,137 +4707,26 @@
                 nCtx.fillRect(dx, dy, 2, 3);
             }
 
-            // 1. TITANO 1: DEEPSEEK V4.1 FLASH (Sinistra della Nuvola)
-            const sprDs = SPRITE_IMAGES['deepseek'] || SPRITE_IMAGES['DEEPSEEK'];
-            const bobDs = Math.sin(t * 0.004) * 2.2;
-            const dsW = 34;
-            const dsH = 38;
-            const dsX = cx - 58;
-            const dsY = 14 + bobDs;
+            const allAgents = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents : [];
+            const nvidiaCloudAgents = allAgents.filter(a =>
+                a.provider === 'nvidia' ||
+                (a.source && a.source.includes('NVIDIA')) ||
+                ['deepseek', 'drago', 'nomotron', 'nemotron'].includes(a.id)
+            );
 
-            const auraDsAlpha = 0.4 + Math.sin(t * 0.006) * 0.25;
-            nCtx.strokeStyle = `rgba(118, 185, 0, ${auraDsAlpha})`;
-            nCtx.lineWidth = 1.5;
-            nCtx.setLineDash([3, 3]);
-            nCtx.beginPath();
-            nCtx.arc(dsX + Math.round(dsW / 2), dsY + 18, 19, 0, Math.PI * 2);
-            nCtx.stroke();
-            nCtx.setLineDash([]);
-
-            if (sprDs && sprDs.complete) {
-                nCtx.drawImage(sprDs, dsX, dsY, dsW, dsH);
-            }
-
-            // 2. TITANO 2: NEMOTRON-3 ULTRA 550B (Centro della Nuvola - Flagship)
-            const sprNm = SPRITE_IMAGES['nomotron'] || SPRITE_IMAGES['NEMOTRON'] || SPRITE_IMAGES['nemotron'];
-            const bobNm = Math.sin(t * 0.004 + 0.7) * 2.5;
-            const nmW = 38;
-            const nmH = 42;
-            const nmX = cx - 19;
-            const nmY = 8 + bobNm;
-
-            const auraNmAlpha = 0.5 + Math.sin(t * 0.007 + 0.8) * 0.3;
-            nCtx.strokeStyle = `rgba(163, 230, 53, ${auraNmAlpha})`;
-            nCtx.lineWidth = 1.8;
-            nCtx.setLineDash([4, 2]);
-            nCtx.beginPath();
-            nCtx.arc(nmX + Math.round(nmW / 2), nmY + 20, 22, 0, Math.PI * 2);
-            nCtx.stroke();
-            nCtx.setLineDash([]);
-
-            if (sprNm && sprNm.complete) {
-                nCtx.drawImage(sprNm, nmX, nmY, nmW, nmH);
-            }
-
-            // 3. TITANO 3: DRAGO GLM 5.3 (Destra della Nuvola)
-            const sprDr = SPRITE_IMAGES['drago'] || SPRITE_IMAGES['DRAGO'];
-            const bobDr = Math.sin(t * 0.004 + 1.4) * 2.2;
-            const drW = 34;
-            const drH = 38;
-            const drX = cx + 24;
-            const drY = 14 + bobDr;
-
-            const auraDrAlpha = 0.4 + Math.sin(t * 0.006 + 1.5) * 0.25;
-            nCtx.strokeStyle = `rgba(16, 185, 129, ${auraDrAlpha})`;
-            nCtx.lineWidth = 1.5;
-            nCtx.setLineDash([3, 3]);
-            nCtx.beginPath();
-            nCtx.arc(drX + Math.round(drW / 2), drY + 18, 19, 0, Math.PI * 2);
-            nCtx.stroke();
-            nCtx.setLineDash([]);
-
-            if (sprDr && sprDr.complete) {
-                nCtx.drawImage(sprDr, drX, drY, drW, drH);
-            }
-
-            // Targhette pixel art dei 3 Titani NVIDIA NIM sotto gli avatar
-            nCtx.font = 'bold 7.5px monospace';
-            nCtx.textAlign = 'center';
-            nCtx.fillStyle = '#040f07';
-            nCtx.fillRect(dsX - 2, dsY + 36, dsW + 4, 9);
-            nCtx.fillRect(nmX - 2, nmY + 40, nmW + 4, 9);
-            nCtx.fillRect(drX - 2, drY + 36, drW + 4, 9);
-
-            nCtx.fillStyle = '#76b900';
-            nCtx.fillText('DEEPSEEK', dsX + Math.round(dsW / 2), dsY + 43);
-            nCtx.fillStyle = '#fde047';
-            nCtx.fillText('NEMOTRON', nmX + Math.round(nmW / 2), nmY + 47);
-            nCtx.fillStyle = '#10b981';
-            nCtx.fillText('DRAGO', drX + Math.round(drW / 2), drY + 43);
-
-            // Dati Telemetria REALI per tutti i 3 Titani NVIDIA NIM
-            const dsData = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents.find(a => a.id === 'deepseek' || (a.model && a.model.toLowerCase().includes('deepseek-v4.1'))) : null;
-            const drData = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents.find(a => a.id === 'drago' || (a.model && a.model.toLowerCase().includes('glm-5.3'))) : null;
-            const nmData = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents.find(a => a.id === 'nomotron' || a.id === 'nemotron' || (a.model && a.model.toLowerCase().includes('nemotron'))) : null;
-
-            const dsLifeTok = dsData && dsData.lifetime_tokens ? dsData.lifetime_tokens.toLocaleString() : '840.500';
-            const dsCalls = dsData ? (dsData.lifetime_api_calls || 142) : 142;
-            const drLifeTok = drData && drData.lifetime_tokens ? drData.lifetime_tokens.toLocaleString() : '620.100';
-            const drCalls = drData ? (drData.lifetime_api_calls || 98) : 98;
-            const nmLifeTok = nmData && nmData.lifetime_tokens ? nmData.lifetime_tokens.toLocaleString() : '23.930';
-            const nmCalls = nmData ? (nmData.lifetime_api_calls || 1) : 1;
-
-            // Sinistra: Specifiche DeepSeek 410B + Nemotron 550B
-            nCtx.textAlign = 'left';
-            nCtx.fillStyle = '#a3e635';
-            nCtx.font = 'bold 9.5px monospace';
-            nCtx.fillText('★ NEMOTRON 550B MoE', 8, 15);
-            nCtx.fillStyle = '#76b900';
-            nCtx.font = 'bold 8.5px monospace';
-            nCtx.fillText('★ DEEPSEEK 410B FLASH', 8, 28);
-            nCtx.fillStyle = '#4ade80';
-            nCtx.font = '8px monospace';
-            nCtx.fillText(`● NEMOTRON: ${nmLifeTok} TOK (${nmCalls} CALL)`, 8, 42);
-            nCtx.fillStyle = '#fde047';
-            nCtx.fillText(`★ DEEPSEEK: ${dsLifeTok} TOK (${dsCalls} CALL)`, 8, 56);
-            nCtx.fillStyle = '#86efac';
-            nCtx.fillText('⚡ 95-120 tok/s • 128K CTX • 0 VRAM', 8, 70);
-
-            // Destra: Specifiche Drago GLM 5.3 + Cluster NIM Status
-            nCtx.textAlign = 'right';
-            nCtx.fillStyle = '#10b981';
-            nCtx.font = 'bold 9.5px monospace';
-            nCtx.fillText('★ DRAGO 130B DENSE', w - 8, 15);
-            nCtx.fillStyle = '#34d399';
-            nCtx.font = 'bold 8.5px monospace';
-            nCtx.fillText('GLM 5.3 + ULTRA 55B ACT', w - 8, 28);
-            nCtx.fillStyle = '#4ade80';
-            nCtx.font = '8px monospace';
-            nCtx.fillText('● 3 TITANI NIM • 128K CTX', w - 8, 42);
-            nCtx.fillStyle = '#fde047';
-            nCtx.fillText(`★ DRAGO: ${drLifeTok} TOK (${drCalls} CALL)`, w - 8, 56);
-            nCtx.fillStyle = '#6ee7b7';
-            nCtx.fillText('🧠 H200 NIM CLUSTER • 100% ONLINE', w - 8, 70);
+            drawDynamicCloudAgentsOnNuvoletta(nCtx, w, h, cx, cY, t, nvidiaCloudAgents, {
+                primaryColor: '#76b900',
+                secondaryColor: '#10b981',
+                accentColor: '#a3e635',
+                auraColor: 'rgba(118, 185, 0, 0.5)',
+                tagBg: '#040f07'
+            });
 
             nCtx.restore();
-
             requestAnimationFrame(renderNvidiaCloud);
         }
 
-
-        // -------------------------------------------------------------
-        // ANIMAZIONE VORTICE QUANTICO & CLOUD PORTAL OPENROUTER TITANS (INKLING + LAGUNA)
-        // -------------------------------------------------------------
+        // 3. PORTALE OPENROUTER CLOUD (Dinamico: rileva tutti gli agenti OpenRouter attivi)
         const openrouterCanvas = document.getElementById('openrouter-cloud-canvas');
         const oCtx = openrouterCanvas ? openrouterCanvas.getContext('2d') : null;
         if (oCtx) oCtx.imageSmoothingEnabled = false;
@@ -4805,11 +4747,9 @@
             const H = openrouterCanvas.height;
             const t = Date.now();
 
-            // Sfondo galattico indaco profondo
             oCtx.fillStyle = '#07091a';
             oCtx.fillRect(0, 0, W, H);
 
-            // Stelle scintillanti quantiche
             for (let s = 0; s < 18; s++) {
                 const sx = ((s * 37 + t * 0.015) % W);
                 const sy = ((s * 23 + (s % 3) * 11) % H);
@@ -4822,21 +4762,19 @@
             const cy = 40;
             const rot = (t * 0.002) % (Math.PI * 2);
 
-            // Anello galattico viola/lavanda (frequenza INKLING)
+            oCtx.save();
             oCtx.beginPath();
             oCtx.ellipse(cx - 16, cy, 78, 24, rot, 0, Math.PI * 2);
             oCtx.strokeStyle = 'rgba(192, 132, 252, 0.42)';
             oCtx.lineWidth = 1.5;
             oCtx.stroke();
 
-            // Anello indaco/ciano elettrico (frequenza LAGUNA) controrotante
             oCtx.beginPath();
             oCtx.ellipse(cx + 16, cy, 68, 20, -rot * 1.25, 0, Math.PI * 2);
             oCtx.strokeStyle = 'rgba(99, 102, 241, 0.45)';
             oCtx.lineWidth = 1.5;
             oCtx.stroke();
 
-            // Particelle rotanti del doppio vortice quantico
             for (let p = 0; p < 10; p++) {
                 const ang = rot * 2 + (p * (Math.PI / 5));
                 const px = cx + Math.cos(ang) * (56 + (p % 2) * 14);
@@ -4845,41 +4783,34 @@
                 oCtx.fillRect(px - 1, py - 1, 3, 3);
             }
 
-            // Piattaforma Fluttuante Nuvoletta Pixel Art Cosmic Indigo
             const cloudBob = Math.sin(t * 0.003 + 1.6) * 2;
             const cY = 56 + cloudBob;
 
-            // Ombra eterea
             oCtx.fillStyle = 'rgba(49, 46, 129, 0.38)';
             oCtx.beginPath();
             oCtx.ellipse(cx, cY + 11, 80, 9, 0, 0, Math.PI * 2);
             oCtx.fill();
 
-            // Puffs pixel art della nuvola (base indaco scuro)
             oCtx.fillStyle = '#1e1b4b';
             oCtx.fillRect(cx - 72, cY, 144, 10);
             oCtx.fillRect(cx - 60, cY - 4, 120, 14);
             oCtx.fillRect(cx - 40, cY - 8, 80, 18);
 
-            // Strato intermedio viola/indaco
             oCtx.fillStyle = '#6366f1';
             oCtx.fillRect(cx - 68, cY + 1, 136, 8);
             oCtx.fillRect(cx - 56, cY - 3, 112, 12);
             oCtx.fillRect(cx - 36, cY - 7, 72, 16);
 
-            // Riflessi lavanda superiori in stile pixel 16-bit
             oCtx.fillStyle = '#c7d2fe';
             oCtx.fillRect(cx - 52, cY - 4, 20, 4);
             oCtx.fillRect(cx - 10, cY - 8, 22, 5);
             oCtx.fillRect(cx + 32, cY - 4, 20, 4);
 
-            // Glint bianchi di massima luce
             oCtx.fillStyle = '#ffffff';
             oCtx.fillRect(cx - 48, cY - 3, 6, 2);
             oCtx.fillRect(cx - 6, cY - 7, 8, 2);
             oCtx.fillRect(cx + 36, cY - 3, 6, 2);
 
-            // Scintille cyber-dati che piovono dalla nuvola
             for (let d = -4; d <= 4; d++) {
                 const dx = cx + (d * 16);
                 const dy = cY + 9 + ((t * 0.04 + Math.abs(d) * 13) % 15);
@@ -4887,82 +4818,59 @@
                 oCtx.fillRect(dx, dy, 2, 3);
             }
 
-            // 1. TITANO 1: INKLING (Reasoning Specialist) - Sinistra della Nuvola
-            const sprInk = SPRITE_IMAGES['inkling'] || SPRITE_IMAGES['INKLING'];
-            const bobInk = Math.sin(t * 0.004) * 2.5;
-            const inW = 38;
-            const inH = 42;
-            const inX = cx - 44;
-            const inY = 12 + bobInk;
+            const allAgents = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents : [];
+            const openrouterCloudAgents = allAgents.filter(a =>
+                a.provider === 'openrouter' ||
+                (a.source && a.source.includes('OpenRouter')) ||
+                ['inkling', 'laguna'].includes(a.id)
+            );
 
-            // Aura rotante attorno a Inkling
-            const auraInkAlpha = 0.4 + Math.sin(t * 0.006) * 0.25;
-            oCtx.strokeStyle = `rgba(168, 85, 247, ${auraInkAlpha})`;
-            oCtx.lineWidth = 1.5;
-            oCtx.setLineDash([3, 3]);
-            oCtx.beginPath();
-            oCtx.arc(inX + Math.round(inW / 2), inY + 20, 22, 0, Math.PI * 2);
-            oCtx.stroke();
-            oCtx.setLineDash([]);
-
-            if (sprInk && sprInk.complete) {
-                oCtx.drawImage(sprInk, inX, inY, inW, inH);
-            }
-
-            // 2. TITANO 2: LAGUNA (Poolside SWE Specialist) - Destra della Nuvola
-            const sprLag = SPRITE_IMAGES['laguna'] || SPRITE_IMAGES['Laguna'] || SPRITE_IMAGES['LAGUNA'];
-            const bobLag = Math.sin(t * 0.004 + 1.2) * 2.5;
-            const lgW = 38;
-            const lgH = 42;
-            const lgX = cx + 6;
-            const lgY = 12 + bobLag;
-
-            // Aura rotante attorno a Laguna
-            const auraLagAlpha = 0.4 + Math.sin(t * 0.006 + 1.5) * 0.25;
-            oCtx.strokeStyle = `rgba(99, 102, 241, ${auraLagAlpha})`;
-            oCtx.lineWidth = 1.5;
-            oCtx.setLineDash([3, 3]);
-            oCtx.beginPath();
-            oCtx.arc(lgX + Math.round(lgW / 2), lgY + 20, 22, 0, Math.PI * 2);
-            oCtx.stroke();
-            oCtx.setLineDash([]);
-
-            if (sprLag && sprLag.complete) {
-                oCtx.drawImage(sprLag, lgX, lgY, lgW, lgH);
-            }
-
-            // Targhette pixel art dei nomi sotto gli avatar
-            oCtx.font = 'bold 8px monospace';
-            oCtx.textAlign = 'center';
-            oCtx.fillStyle = '#0b0f19';
-            oCtx.fillRect(inX - 1, inY + 39, inW + 2, 10);
-            oCtx.fillRect(lgX - 1, lgY + 39, lgW + 2, 10);
-
-            oCtx.fillStyle = '#c084fc';
-            oCtx.fillText('INKLING', inX + Math.round(inW / 2), inY + 47);
-
-            oCtx.fillStyle = '#818cf8';
-            oCtx.fillText('LAGUNA', lgX + Math.round(lgW / 2), lgY + 47);
+            drawDynamicCloudAgentsOnNuvoletta(oCtx, W, H, cx, cY, t, openrouterCloudAgents, {
+                primaryColor: '#c084fc',
+                secondaryColor: '#818cf8',
+                accentColor: '#d8b4fe',
+                auraColor: 'rgba(168, 85, 247, 0.5)',
+                tagBg: '#0b0f19'
+            });
 
             oCtx.restore();
             requestAnimationFrame(renderOpenRouterCloud);
         }
 
         // -------------------------------------------------------------
-        // AUTO-PROVISIONING DINAMICO CLOUD CARDS & NUVOLETTA ENGINE
+        // AUTO-PROVISIONING & AUTO-PRUNING DINAMICO CLOUD CARDS & NUVOLETTA
+        // Crea le card quando un agente cloud viene aggiunto e le rimuove da solo
+        // quando un agente cloud viene eliminato da Hermes!
         // -------------------------------------------------------------
         function autoProvisionDynamicCloudCards(agents) {
             if (!agents || !Array.isArray(agents)) return;
-            const cloudAgents = agents.filter(a => a.is_cloud);
-            const parentSection = document.getElementById('box-hud');
-            if (!parentSection) return;
+            const cloudAgents = agents.filter(a => a.is_cloud || a.id === 'beam');
+            const activeCloudIds = new Set(cloudAgents.map(a => a.id));
 
-            // Mappatura endpoint per raggruppamento dinamico
-            const knownGroups = ['hud-grid-cloud', 'hud-grid-cloud-nvidia', 'hud-grid-cloud-openrouter'];
+            // 1. Precarica automaticamente gli avatar in SPRITE_IMAGES per tutti gli agenti Cloud
+            cloudAgents.forEach(a => {
+                if (!SPRITE_IMAGES[a.id]) {
+                    const img = new Image();
+                    img.src = API_BASE + '/' + (a.sprite || 'sprites_agents/GynBot1.png').replace(/^(\.\/|\/)/, '');
+                    SPRITE_IMAGES[a.id] = img;
+                }
+            });
+
+            // 2. Auto-Pruning: Rimuove automaticamente le HUD card di agenti cloud che sono stati eliminati
+            document.querySelectorAll('.hud-cloud-tier .hud-metric[data-hud-id]').forEach(el => {
+                const hudId = el.getAttribute('data-hud-id') || '';
+                if (hudId.startsWith('hud-portal')) return; // Non toccare i portali canvas
+                const agId = (hudId === 'hud-cloud') ? 'beam' : hudId.replace('hud-cloud-', '');
+                if (agId && !activeCloudIds.has(agId)) {
+                    el.remove();
+                }
+            });
+
+            // 3. Auto-Provisioning & Live Update per ogni agente Cloud attivo
             cloudAgents.forEach(a => {
                 const cardId = (a.id === 'beam') ? 'hud-cloud' : `hud-cloud-${a.id}`;
-                if (!document.getElementById(cardId) && !document.querySelector(`[data-hud-id="${cardId}"]`)) {
-                    // Genera card dinamica se un nuovo cloud endpoint si connette
+                let cardEl = document.getElementById(cardId) || document.querySelector(`[data-hud-id="${cardId}"]`);
+                if (!cardEl) {
                     const targetGrid = a.provider === 'openrouter' ? document.getElementById('hud-grid-cloud-openrouter') :
                                       (a.provider === 'nvidia' ? document.getElementById('hud-grid-cloud-nvidia') : document.getElementById('hud-grid-cloud'));
                     if (targetGrid) {
@@ -4970,24 +4878,58 @@
                         newCard.className = 'hud-metric draggable-hud';
                         newCard.id = cardId;
                         newCard.setAttribute('data-hud-id', cardId);
-                        newCard.style.cssText = `border-color: ${a.color || '#38bdf8'}; background: #0c0e18; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); flex: 1 1 240px; min-width: 220px; max-width: 340px; box-sizing: border-box;`;
+                        newCard.style.cssText = `border-color: ${a.color || '#38bdf8'}; background: #0c0e18; box-shadow: 0 0 10px rgba(56, 189, 248, 0.2); flex: 1 1 210px; min-width: 200px; max-width: 320px; box-sizing: border-box;`;
+                        const iconPrefix = a.provider === 'nvidia' ? '⚡' : (a.provider === 'openrouter' ? '🌌' : '☁');
                         newCard.innerHTML = `
                             <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ ${a.name} CLOUD</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('${cardId}', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('${cardId}', 1)">▶</button></div></div>
                             <div class="hud-metric-header">
-                                <span style="color: ${a.color || '#38bdf8'}; font-weight: bold;">☁ ${a.name}</span>
-                                <span id="${cardId}-stat" style="color: var(--hp-green); font-weight: bold;">100% OPERATIVO</span>
+                                <span style="color: ${a.color || '#38bdf8'}; font-weight: bold;">${iconPrefix} ${a.name}</span>
+                                <span id="${cardId}-stat" style="color: ${a.color || 'var(--hp-green)'}; font-weight: bold;">100% OPERATIVO</span>
                             </div>
                             <div class="pixel-bar-container">
                                 <div id="${cardId}-bar" class="pixel-bar-fill" style="width: 100%; background: ${a.color || '#38bdf8'};"></div>
                             </div>
                             <div style="font-size: 9px; color: var(--text-muted); margin-top: 3px;" id="${cardId}-members">
-                                ${a.title || 'Agente Cloud'} • ${a.parameters || ''} • ${a.context_limit || 32768} Context • 0 VRAM
+                                ${a.title || 'Agente Cloud'} • Turno: <b>${(a.context_used_tokens || 0).toLocaleString()} tok (${a.context_used_pct || 0}%)</b> • Storico: <b>${(a.lifetime_tokens || 0).toLocaleString()} tok</b>
                             </div>
                         `;
                         targetGrid.insertBefore(newCard, targetGrid.lastElementChild);
                     }
+                } else {
+                    const memEl = document.getElementById(`${cardId}-members`);
+                    if (memEl) {
+                        const ctxPct = a.context_used_pct || 0;
+                        const usedTok = (a.context_used_tokens || 0).toLocaleString();
+                        const lifeTok = (a.lifetime_tokens || 0).toLocaleString();
+                        const calls = a.lifetime_api_calls || 0;
+                        memEl.innerHTML = `${a.name} (${a.parameters || 'Cloud'}) • Turno: <b>${usedTok} tok (${ctxPct}%)</b> • Storico: <b>${lifeTok} tok</b> (${calls} calls • 0 VRAM)`;
+                    }
                 }
             });
+
+            // 4. Aggiornamento dinamico automatico dei sottotitoli dei 3 Portali Vortice Quantico
+            const ollamaActive = cloudAgents.filter(a => a.provider !== 'nvidia' && a.provider !== 'openrouter' && !(a.source && (a.source.includes('NVIDIA') || a.source.includes('OpenRouter'))));
+            const nvidiaActive = cloudAgents.filter(a => a.provider === 'nvidia' || (a.source && a.source.includes('NVIDIA')));
+            const openrouterActive = cloudAgents.filter(a => a.provider === 'openrouter' || (a.source && a.source.includes('OpenRouter')));
+
+            const pOlSub = document.getElementById('hud-portal-sub');
+            const pOlHdrRight = document.getElementById('hud-subheader-ollama-cloud-right');
+            if (pOlSub) {
+                pOlSub.textContent = (ollamaActive.map(a => `${a.name} ${(a.parameters || '').split(' ')[0]}`).join(' + ') || 'NESSUN AGENTE') + ' • 0 VRAM';
+            }
+            if (pOlHdrRight) {
+                pOlHdrRight.textContent = (ollamaActive.map(a => `${a.name} (${a.parameters || 'Cloud'})`).join(' + ') || 'NESSUN AGENTE ATTIVO') + ' • 24H KEEP-ALIVE';
+            }
+
+            const pNvTitle = document.getElementById('hud-portal-nvidia-title');
+            const pNvSub = document.getElementById('hud-portal-nvidia-sub');
+            if (pNvTitle) pNvTitle.textContent = `⚡ PORTALE VORTICE QUANTICO • ${nvidiaActive.length} TITANI NVIDIA NIM`;
+            if (pNvSub) pNvSub.textContent = (nvidiaActive.map(a => `${a.name} ${(a.parameters || '').split(' ')[0]}`).join(' + ') || 'NESSUN AGENTE') + ' • 0 VRAM';
+
+            const pOrTitle = document.getElementById('hud-portal-openrouter-title');
+            const pOrSub = document.getElementById('hud-portal-openrouter-sub');
+            if (pOrTitle) pOrTitle.textContent = `🌌 PORTALE VORTICE QUANTICO • ${openrouterActive.length} TITANI OPENROUTER`;
+            if (pOrSub) pOrSub.textContent = (openrouterActive.map(a => `${a.name} ${(a.parameters || '').split(' ')[0]}`).join(' + ') || 'NESSUN AGENTE') + ' • 0 VRAM';
         }
 
         renderStage();
