@@ -682,6 +682,23 @@ MODEL_BENCHMARK_CATALOG = {
         },
         "model_notes": "MiniMax 3.1 Flash su Cloud Lightning Cluster. Architettura MoE da 456B totali (~45B attivi) specializzata in video generation, scripting multimediale, agentic autonomy e high-throughput reasoning."
     },
+    "nvidia/nemotron-3-ultra-550b-a55b": {
+        "architecture_type": "MoE Ultra-Flagship (Nemotron-3 Ultra 550B-A55B NIM Cloud)",
+        "architecture_tag": "moe",
+        "parameters": "550B MoE NIM (55B Active)",
+        "active_parameters": "55B per token",
+        "estimated_speed_tps": "~95 tok/s (NVIDIA NIM Cluster)",
+        "tps_value": 95,
+        "benchmarks": {
+            "coding": 96,
+            "reasoning": 98,
+            "knowledge": 98,
+            "agentic": 97,
+            "vision": 25,
+            "throughput": 95
+        },
+        "model_notes": "NVIDIA Nemotron-3 Ultra 550B-A55B erogato via cluster enterprise NVIDIA Cloud NIM. Supermodello MoE da 550B parametri totali (55B attivi per token) progettato da NVIDIA per ragionamento scientifico estremo, coding complesso, orchestrazione agentica multi-step e 128k contesto con zero carico VRAM locale."
+    },
     "deepseek-ai/deepseek-v4.1-flash": {
         "architecture_type": "MoE Ultra-Fast (DeepSeek V4.1 Flash NIM Cloud)",
         "architecture_tag": "moe",
@@ -782,6 +799,8 @@ def resolve_model_benchmarks(model_name, is_cloud=False, agent_id=None):
         return MODEL_BENCHMARK_CATALOG["poolside/laguna-s-2.1:free"].copy()
     if "flint" in m_clean or "recursive" in m_clean:
         return MODEL_BENCHMARK_CATALOG["recursive/flint-v1.0:free"].copy()
+    if "nemotron-3-ultra" in m_clean or "550b" in m_clean or "a55b" in m_clean or "nemotron" in m_clean or a_clean in ["nomotron", "nemotron", "nemostron"]:
+        return MODEL_BENCHMARK_CATALOG["nvidia/nemotron-3-ultra-550b-a55b"].copy()
     if "glm-5" in m_clean or "glm" in m_clean or a_clean == "drago":
         return MODEL_BENCHMARK_CATALOG["z-ai/glm-5.3"].copy()
     if ("deepseek-v4.1" in m_clean or "v4.1-flash" in m_clean or ("deepseek" in m_clean and "flash" in m_clean) or a_clean == "deepseek"):
@@ -943,6 +962,11 @@ def auto_discover_hermes_agents():
                 title = "DRAGO"
             if desc in ["Agente Hermes", ""]:
                 desc = "GLM 5.3 Deep Reasoner & Knowledge"
+        elif agent_id in ["nomotron", "nemotron", "nemostron"] or (title and "nemotron" in title.lower()):
+            if not title or title.lower() in ["nomotron", "nemotron", "nemostron"]:
+                title = "NEMOTRON"
+            if desc in ["Agente Hermes", ""]:
+                desc = "Nemotron-3 Ultra 550B NIM Specialist"
         elif agent_id == "minimax":
             if not title or title.lower() in ["video developer", "minimax", "cloud"]:
                 title = "Video Developer"
@@ -1089,6 +1113,8 @@ def auto_discover_hermes_agents():
                 color = "#76b900"
             elif agent_id == "drago" or "drago" in (title + model_name).lower():
                 color = "#10b981"
+            elif agent_id in ["nomotron", "nemotron", "nemostron"] or "nemotron" in (title + model_name).lower():
+                color = "#a3e635"
             else:
                 color = "#76b900"
         elif is_cloud:
@@ -1142,6 +1168,9 @@ def auto_discover_hermes_agents():
         elif agent_id == "drago" or "drago" in title.lower():
             candidates.insert(0, "drago.png")
             candidates.insert(1, "drago.png".lower())
+        elif agent_id in ["nomotron", "nemotron", "nemostron"] or "nemotron" in title.lower():
+            candidates.insert(0, "NEMOTRON.png")
+            candidates.insert(1, "nomotron.png")
         elif agent_id == "coder14b" or "dark" in title.lower():
             candidates.insert(0, "dark coder.png")
         elif agent_id == "minimax" or "video" in title.lower() or "video" in agent_id.lower():
@@ -1184,9 +1213,9 @@ def auto_discover_hermes_agents():
             group = "TEAM VIDEO & MULTIMEDIA"
             color = "#ec4899"
             source_label = "Cloud MiniMax 3.1"
-        elif agent_id in ["deepseek", "drago"] or (is_cloud and is_nvidia and agent_id not in ["coder14b"]):
+        elif agent_id in ["deepseek", "drago", "nomotron", "nemotron", "nemostron"] or (is_cloud and is_nvidia and agent_id not in ["coder14b"]):
             group = "TEAM CLOUD TITANS"
-            color = "#76b900" if (agent_id == "deepseek" or "deepseek" in t_low) else "#10b981"
+            color = "#76b900" if (agent_id == "deepseek" or "deepseek" in t_low) else ("#a3e635" if (agent_id in ["nomotron", "nemotron", "nemostron"] or "nemotron" in t_low) else "#10b981")
             source_label = "NVIDIA NIM Cloud"
         elif "vision" in t_low or "oculus" in t_low or "ocolus" in t_low:
             group = "TEAM VISUAL AUDIT"
@@ -1249,11 +1278,16 @@ def auto_discover_hermes_agents():
                 existing.get("model") != model_name or 
                 existing.get("context_limit") != context_limit or 
                 existing.get("name") != title or 
+                existing.get("title") != desc or
+                existing.get("color") != color or
                 existing.get("sprite") != sprite_path or 
                 existing.get("provider") != provider or
                 existing.get("group") != group or
                 existing.get("source") != source_label or
                 existing.get("is_cloud") != is_cloud or
+                existing.get("parameters") != bench_meta.get("parameters", "Standard") or
+                existing.get("estimated_speed_tps") != bench_meta["estimated_speed_tps"] or
+                existing.get("benchmarks") != bench_meta["benchmarks"] or
                 existing.get("architecture_type") != bench_meta["architecture_type"] or
                 existing.get("architecture_tag") != bench_meta["architecture_tag"] or
                 "benchmarks" not in existing or
@@ -1382,8 +1416,8 @@ def hermes_worker_loop():
                     "architecture_tag": meta["architecture_tag"],
                     "estimated_speed_tps": meta["estimated_speed_tps"],
                     "tps_value": meta["tps_value"],
-                    "benchmarks": agent_def.get("benchmarks") or meta["benchmarks"],
-                    "model_notes": agent_def.get("model_notes") or meta["model_notes"],
+                    "benchmarks": meta["benchmarks"] if meta.get("parameters") != "Standard" else (agent_def.get("benchmarks") or meta["benchmarks"]),
+                    "model_notes": meta["model_notes"] if meta.get("parameters") != "Standard" else (agent_def.get("model_notes") or meta["model_notes"]),
                     "modality": agent_def.get("modality", "Text"),
                     "thinking_level": agent_def.get("thinking_level", "N/D"),
                     "total_sessions": 0,
