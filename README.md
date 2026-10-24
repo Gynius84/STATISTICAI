@@ -1,5 +1,5 @@
-# STATISTICHEAI v2.5 🎮🤖
-### Dashboard Retro Arcade (16-Bit) per Telemetria, Diagnosi, Benchmark Radar OpenCompass e Rilevamento Architetture MoE/Dense (Triple Cloud Titans: Ollama, NVIDIA NIM, OpenRouter Cloud & llama.cpp)
+# STATISTICHEAI v2.7 🎮🤖
+### Dashboard Retro Arcade (16-Bit) per Telemetria, Diagnosi, Benchmark Radar OpenCompass e Rilevamento Architetture MoE/Dense (Penta-Cloud Titans & llama.cpp :9931)
 
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Pure%20Python)-brightgreen.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
@@ -9,6 +9,27 @@
 > **STATISTICHEAI v2.5** trasforma la gestione dei tuoi agenti AI locali e multi-cloud in un videogioco Arcade Pixel Art a 16-bit. Monitora hardware, VRAM, saturazione token, memoria a lungo termine, grafici **Benchmark Radar OpenCompass**, tipo di architettura (**MoE, Dense, VLM, Hybrid Reasoning**) e velocità stimata **TPS** per gli **11 agenti attivi**: 7 modelli locali ultra-ottimizzati su **llama.cpp Router (Disco D: porta 9931)** + 2 modelli cloud massivi su **Ollama Cloud (Beam 501B MoE + MiniMax 3.1 Flash 456B MoE)** + 2 Titani Cloud accelerati su **NVIDIA Cloud NIM Enterprise (DeepSeek V4.1 Flash 410B MoE + Drago GLM 5.3 130B)** con accesso illimitato a 81 modelli NIM e zero consumo di VRAM locale.
 
 ---
+
+## ✨ Novità della Versione 2.7 (14 Agenti, Quinto Portale Quantico OrcaRouter, Modale a 4 Passi, Snapshot Default & Resurrezione Intelligente)
+
+- ⚡ **Nuovo Cloud OrcaRouter & Quinto Portale Quantico (DEEPPO4flash + DEEPPO41flash)**:
+  - Integrazione nativa del nuovo cloud provider OrcaRouter (`https://api.orcarouter.ai/v1`) con i due modelli ultra-veloci `DEEPPO4flash` (DeepSeek V4 Flash) e `DEEPPO41flash` (DeepSeek V4.1 Flash Free, 131K contesto).
+  - Aggiunto il **Quinto Portale Quantico** su canvas retrogame con vortice quantico plasma smeraldo/ciano, stelle ad alta frequenza e nuvoletta pixel art fluttuante con sprite camminanti dedicati.
+- 🦙 **Riparazione NEMOHOUSE e Separazione Rigorosa Motori Locali llama.cpp**:
+  - Risolta l'errata classificazione cloud di `NEMOHOUSE` (Nemotron-3.5-Bolt 4B GGUF) e confermata quella di `GEMMO` (Gemma-4 E4B-it GGUF): ora entrambi operano al 100% come motori locali ad altissima velocità su llama.cpp Router (:9931, Disco D:, 100% VRAM GPU Zero-Swap).
+  - Totale agenti operativi portato a **14** (4 Locali llama.cpp + 10 Titani Penta-Cloud).
+- 📋 **Modale Universale "Collega Nuovo Agente" Ristrutturata in 4 Passi**:
+  - Inserito `llama.cpp Router (:9931)` tra i provider locali di prima classe.
+  - Suddivisione chiara e visiva tra Motori Locali (zero costi, VRAM locale) e Motori Cloud (zero overhead VRAM).
+  - Flusso guidato in 4 passi (1: Provider, 2: Anagrafica & Squadra, 3: Endpoint/Modello/Contesto con test ping live, 4: Avatar Arcade & Petdex).
+- 🛡 **Snapshot "Default" Ottimizzato (Golden Image Immutabile)**:
+  - Creata baseline protetta in `snapshots/default_optimized_20261024/` contenente cataloghi agenti calibrati, configurazioni ottimali (finestre contesto a 64k/128k/1M token per pieno supporto tool calling), manifest `CONTENTS.md` e checksum crittografici SHA-256 (`checksums.sha256`).
+- 🏥 **Sistema di Cura e Resurrezione Intelligente (Agent Doctor)**:
+  - Triage reale su 4 stanze: Casetta (riposo), Ufficio (lavoro attivo), Infermeria (cure mirate sessione/contesto), Cimitero (resurrezione 1-click).
+  - Rimozione automatica di lease orfani, lock spuri e conflitti di admissione (admission_conflict).
+  - Ripristino garantito della Golden Image dallo Snapshot con rollback preventivo automatico in caso di errore.
+- 🚀 **Desktop Shortcut & Hermes Skill v2.7**:
+  - Aggiornato collegamento desktop `start - STATISTICHEAI.lnk` e skill Hermes (`SKILL.md`) sincronizzata in tutte le directory di sistema.
 
 ## ✨ Novità della Versione 2.4 (NVIDIA Cloud NIM 81 Modelli, Doppio Portale Vortice Quantico, Auto-Discovery 2.4)
 

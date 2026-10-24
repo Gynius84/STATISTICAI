@@ -1,0 +1,32 @@
+{
+  "host": "127.0.0.1",
+  "port": 9931,
+  "device": "Vulkan0",
+  "cache_type_k": "q8_0",
+  "cache_type_v": "q8_0",
+  "flash_attn": "on",
+  "default_ctx_size": 32768,
+  "models": [
+    {
+      "alias": "bartowski/Hermes-3-Llama-3.1-8B-GGUF:Q4_K_M",
+      "params": "8.0B",
+      "ctx": 32768
+    },
+    {
+      "alias": "PatataAliena/Qwen2.5-VL-7B-Instruct-Q4_K_M-GGUF:Q4_K_M",
+      "params": "7.6B",
+      "ctx": 32768
+    },
+    {
+      "alias": "ggml-org/gemma-4-E4B-it-GGUF:Q4_0",
+      "params": "4.0B",
+      "ctx": 32768,
+      "spec_type": "draft-mtp"
+    },
+    {
+      "alias": "nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB:Q4_K_M",
+      "params": "4.0B",
+      "ctx": 32768
+    }
+  ]
+}

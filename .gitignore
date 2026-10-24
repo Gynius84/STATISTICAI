@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.bak
+*.bak_*
+backups_progetto/
+.env
+.env.*
 
 # Environment & Server state
 server.pid

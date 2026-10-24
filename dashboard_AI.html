@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STATISTICHEAI v2.5 - Monitor Agenti Hermes & Ollama Cloud & llama.cpp (Triple Cloud Titans & Fast Radar Sorter)</title>
+    <title>STATISTICHEAI v2.7 - Monitor Agenti Hermes & Penta-Cloud Titans & llama.cpp (:9931)</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
         /* -------------------------------------------------------------
@@ -358,6 +358,11 @@
             border-color: #f59e0b !important;
             box-shadow: 0 0 14px rgba(245, 158, 11, 0.38), inset 0 0 0 1px #d97706 !important;
             background: #171005 !important;
+        }
+        .agent-card.card-orcarouter {
+            border-color: #10b981 !important;
+            box-shadow: 0 0 14px rgba(16, 185, 129, 0.38), inset 0 0 0 1px #059669 !important;
+            background: #041a12 !important;
         }
 
         /* Card Dettagli Avanzati Espandibili */
@@ -1492,13 +1497,13 @@
                     <div class="main-title" id="main-header-title">
                         <span style="color: #7aa2f7;">STATISTICHEAI</span>
                         <span style="color: #565f89; margin: 0 4px;">•</span>
-                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 11 AGENTI • LLAMA.CPP (7 D:) + OLLAMA CLOUD (2) + NVIDIA NIM CLOUD (2) (v2.5)</span>
+                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 14 AGENTI • 4 LOCALI (LLAMA.CPP :9931) + 10 TITANI PENTA-CLOUD (v2.7)</span>
                     </div>
                     <div id="title-dynamic-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 11px; margin-top: 3px; flex-wrap: wrap;">
-                        <span id="title-workflow-badge" class="badge" style="background: #0f172a; color: #38bdf8; border-color: #0284c7; padding: 2px 7px; font-size: 10px; cursor: default; letter-spacing: 0.5px;">
-                            🔀 WORKFLOW: 🦙 LLAMA.CPP DISCO D: (7 MODELLI GGUF) + ☁ OLLAMA CLOUD (BEAM + MINIMAX) + ⚡ NVIDIA CLOUD NIM (DEEPSEEK + DRAGO • 81 MODELLI) = 11 AGENTI
+                        <span id="title-workflow-badge" class="badge" style="background: #041f15; color: #34d399; border-color: #10b981; padding: 2px 7px; font-size: 10px; cursor: default; letter-spacing: 0.5px;">
+                            🔀 WORKFLOW: 🦙 LLAMA.CPP :9931 (4 LOCALI) + ☁ OLLAMA CLOUD (2) + ⚡ NVIDIA NIM (3) + 🌌 OPENROUTER (2) + ✨ GOOGLE AI (1) + ⚡ ORCAROUTER (2) = 14 AGENTI
                         </span>
-                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.5: MULTI-CLOUD TITANS (OLLAMA + NVIDIA NIM) • FAST RADAR SORTER • ZERO VRAM OVERHEAD</span>
+                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.7: PENTA-CLOUD TITANS • 4 STANZE PIXEL ART • RADAR OPENCOMPASS • ZERO OVERHEAD</span>
                     </div>
                 </div>
             </div>
@@ -1857,6 +1862,54 @@
                 </div>
             </div>
 
+            <!-- DIVISIONE 6: INFRASTRUTTURA ORCAROUTER CLOUD & QUINTO PORTALE QUANTICO -->
+            <div class="hud-sub-header" id="hud-subheader-orcarouter-cloud" style="border-left-color: #10b981; color: #34d399; margin-top: 14px;">
+                <span>⚡ INFRASTRUTTURA ORCAROUTER CLOUD TITANS & QUINTO PORTALE QUANTICO (ROUTER FREE TIER • 0 MB VRAM)</span>
+                <span id="hud-subheader-orcarouter-cloud-right" style="color: #6ee7b7; font-size: 9px;">DEEPPO4FLASH + DEEPPO41FLASH • 131K CONTEXT • ULTRA-FAST LIGHTNING ROUTER</span>
+            </div>
+            <div class="hud-cloud-tier" id="hud-grid-cloud-orcarouter">
+                <!-- GRUPPO: DEEPPO4FLASH (ORCAROUTER) -->
+                <div class="hud-metric draggable-hud" id="hud-cloud-deeppo4flash" data-hud-id="hud-cloud-deeppo4flash" style="border-color: #10b981; background: #041a12; box-shadow: 0 0 10px rgba(16, 185, 129, 0.22); flex: 1 1 240px; min-width: 220px; max-width: 360px; box-sizing: border-box;">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ DEEPPO4FLASH</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-deeppo4flash', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-deeppo4flash', 1)">▶</button></div></div>
+                    <div class="hud-metric-header">
+                        <span style="color: #34d399; font-weight: bold;">⚡ DEEPPO4FLASH</span>
+                        <span id="hud-cloud-deeppo4flash-stat" style="color: #34d399; font-weight: bold;">IMMORTALE (ONLINE)</span>
+                    </div>
+                    <div class="pixel-bar-container">
+                        <div id="hud-cloud-deeppo4flash-bar" class="pixel-bar-fill" style="width: 100%; background: linear-gradient(90deg, #059669, #10b981, #34d399);"></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); margin-top: 3px;" id="hud-cloud-deeppo4flash-members">
+                        DEEPPO4flash • DeepSeek V4 Flash • 131K Context (131.072 tok) • 0 VRAM
+                    </div>
+                </div>
+
+                <!-- GRUPPO: DEEPPO41FLASH (ORCAROUTER) -->
+                <div class="hud-metric draggable-hud" id="hud-cloud-deeppo4-1flash" data-hud-id="hud-cloud-deeppo4-1flash" style="border-color: #06b6d4; background: #04171a; box-shadow: 0 0 10px rgba(6, 182, 212, 0.22); flex: 1 1 240px; min-width: 220px; max-width: 360px; box-sizing: border-box;">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ DEEPPO41FLASH</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-deeppo4-1flash', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-deeppo4-1flash', 1)">▶</button></div></div>
+                    <div class="hud-metric-header">
+                        <span style="color: #22d3ee; font-weight: bold;">⚡ DEEPPO41FLASH</span>
+                        <span id="hud-cloud-deeppo4-1flash-stat" style="color: #22d3ee; font-weight: bold;">IMMORTALE (ONLINE)</span>
+                    </div>
+                    <div class="pixel-bar-container">
+                        <div id="hud-cloud-deeppo4-1flash-bar" class="pixel-bar-fill" style="width: 100%; background: linear-gradient(90deg, #0891b2, #06b6d4, #67e8f9);"></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); margin-top: 3px;" id="hud-cloud-deeppo4-1flash-members">
+                        DEEPPO41flash • DeepSeek V4.1 Flash • 131K Context (131.072 tok) • 0 VRAM
+                    </div>
+                </div>
+
+                <!-- ANIMAZIONE QUINTO CLOUD PORTAL TITANI ORCAROUTER -->
+                <div class="hud-metric hud-metric-cloud-portal draggable-hud" id="hud-portal-orcarouter" data-hud-id="hud-portal-orcarouter" style="border-color: #10b981; background: #04130c; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 0 14px rgba(16, 185, 129, 0.28); flex: 2 1 480px; min-width: 380px; max-width: 100%; box-sizing: border-box;">
+                    <div class="hud-metric-header" style="margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: nowrap; overflow: hidden;">
+                        <span id="hud-portal-orcarouter-title" style="color: #34d399; font-weight: bold; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">⚡ PORTALE VORTICE QUANTICO • ORCAROUTER CLOUD (2 TITANI)</span>
+                        <span id="hud-portal-orcarouter-sub" style="color: #6ee7b7; font-weight: bold; font-size: 10px; white-space: nowrap; flex-shrink: 0;">DEEPPO4FLASH + DEEPPO41FLASH • 0 VRAM</span>
+                    </div>
+                    <div style="position: relative; width: 100%; height: 86px; overflow: hidden; border: 1px solid #064e3b; background: #021a10;">
+                        <canvas id="orcarouter-cloud-canvas" style="display: block; width: 100%; height: 100%;"></canvas>
+                    </div>
+                </div>
+            </div>
+
         </section>
 
         <!-- 3. STAGE INTERATTIVO: LE 4 STANZE PIXEL ART (CANVAS) -->
@@ -1894,13 +1947,14 @@
             <!-- RIGA 1: FILTRO SQUADRE & AZIONI SINCRONIZZAZIONE -->
             <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap; width: 100%; padding-bottom: 6px; border-bottom: 1px dotted rgba(86, 95, 137, 0.35);">
                 <span style="font-weight: bold; color: var(--text-muted); font-size: 10px; text-transform: uppercase;">FILTRA TEAM:</span>
-                <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (9)</button>
-                <button class="btn-filter btn-filter-cloud" id="filter-btn-cloud" data-filter="TITANI CLOUD" onclick="setFilter('TITANI CLOUD')">☁ TUTTI I CLOUD (8)</button>
+                <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (14)</button>
+                <button class="btn-filter btn-filter-cloud" id="filter-btn-cloud" data-filter="TITANI CLOUD" onclick="setFilter('TITANI CLOUD')">☁ TUTTI I CLOUD (10)</button>
                 <button class="btn-filter" id="filter-btn-ollama-cloud" data-filter="OLLAMA CLOUD" style="color: #38bdf8; border-color: #0284c7; box-shadow: 0 0 6px rgba(56,189,248,0.3);" onclick="setFilter('OLLAMA CLOUD')">☁ OLLAMA CLOUD (2)</button>
                 <button class="btn-filter" id="filter-btn-nvidia" data-filter="TEAM CLOUD TITANS" style="color: #76b900; border-color: #76b900;" onclick="setFilter('TEAM CLOUD TITANS')">⚡ NVIDIA NIM (3)</button>
                 <button class="btn-filter" id="filter-btn-openrouter" data-filter="TEAM OPENROUTER CLOUD" style="color: #c084fc; border-color: #a855f7; box-shadow: 0 0 6px rgba(168,85,247,0.3);" onclick="setFilter('TEAM OPENROUTER CLOUD')">🌌 OPENROUTER (2)</button>
                 <button class="btn-filter" id="filter-btn-google" data-filter="TEAM GOOGLE AI CLOUD" style="color: #fbbf24; border-color: #f59e0b; box-shadow: 0 0 6px rgba(245,158,11,0.3);" onclick="setFilter('TEAM GOOGLE AI CLOUD')">✨ GOOGLE AI (1)</button>
-                <button class="btn-filter" data-filter="llamacpp" style="color: #60a5fa; border-color: #3b82f6;" onclick="setFilter('llamacpp')">🦙 LLAMA.CPP DISCO D: (3)</button>
+                <button class="btn-filter" id="filter-btn-orcarouter" data-filter="TEAM ORCAROUTER CLOUD" style="color: #34d399; border-color: #10b981; box-shadow: 0 0 6px rgba(16,185,129,0.3);" onclick="setFilter('TEAM ORCAROUTER CLOUD')">⚡ ORCAROUTER (2)</button>
+                <button class="btn-filter" data-filter="llamacpp" style="color: #60a5fa; border-color: #3b82f6;" onclick="setFilter('llamacpp')">🦙 LLAMA.CPP DISCO D: (4)</button>
                 <button class="btn-filter btn-filter-sviluppo" data-filter="TEAM SVILUPPO" onclick="setFilter('TEAM SVILUPPO')">⚒ SVILUPPO</button>
                 <button class="btn-filter btn-filter-marketing" data-filter="TEAM MARKETING" onclick="setFilter('TEAM MARKETING')">📢 MARKETING</button>
                 <button class="btn-filter btn-filter-security" data-filter="TEAM SICUREZZA & CODING" onclick="setFilter('TEAM SICUREZZA & CODING')">🛡 SICUREZZA & CODING</button>
@@ -2115,20 +2169,43 @@
                 Collega qualsiasi agente AI locale o cloud (Ollama, LM Studio, Hermes, OpenAI-Compatible, Claude, OpenRouter, vLLM).
             </div>
 
-            <!-- Selezione Provider Rapido -->
-            <div style="margin-top: 6px;">
-                <label class="form-label">SELEZIONA INFRASTRUTTURA / PROVIDER</label>
-                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                    <button type="button" class="btn-provider-tab active" id="tab-ollama" onclick="selectProvider('ollama')">🦙 OLLAMA</button>
-                    <button type="button" class="btn-provider-tab" id="tab-lmstudio" onclick="selectProvider('lmstudio')">🧪 LM STUDIO</button>
-                    <button type="button" class="btn-provider-tab" id="tab-hermes" onclick="selectProvider('hermes')">🏛 HERMES PROFILE</button>
-                    <button type="button" class="btn-provider-tab" id="tab-openai" onclick="selectProvider('openai_compatible')">⚡ OPENAI / vLLM</button>
-                    <button type="button" class="btn-provider-tab" id="tab-cloud" onclick="selectProvider('cloud')">☁ CLOUD / CLAUDE</button>
+            <!-- PASSO 1: Selezione Infrastruttura / Provider (Locale vs Cloud) -->
+            <div style="margin-top: 6px; background: #070913; border: 1px solid #1a233a; padding: 8px;">
+                <div style="font-size: 11px; font-weight: bold; color: #fde047; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+                    <span style="background: #eab308; color: #000; padding: 1px 5px; font-size: 9px; font-weight: bold;">PASSO 1</span>
+                    <span>SELEZIONA INFRASTRUTTURA & MOTORE DI INFERENCE</span>
+                </div>
+                
+                <!-- Provider Locali -->
+                <div style="margin-bottom: 6px;">
+                    <span style="font-size: 9px; color: #34d399; font-weight: bold; text-transform: uppercase;">💻 MOTORI LOCALI (ZERO COSTI • GPU VRAM • ZERO SWAP):</span>
+                    <div style="display: flex; gap: 5px; flex-wrap: wrap; margin-top: 3px;">
+                        <button type="button" class="btn-provider-tab active" id="tab-llamacpp" onclick="selectProvider('llamacpp')">🦙 LLAMA.CPP ROUTER (:9931)</button>
+                        <button type="button" class="btn-provider-tab" id="tab-ollama" onclick="selectProvider('ollama')">🦙 OLLAMA LOCALE (:11434)</button>
+                        <button type="button" class="btn-provider-tab" id="tab-lmstudio" onclick="selectProvider('lmstudio')">🧪 LM STUDIO (:1234)</button>
+                        <button type="button" class="btn-provider-tab" id="tab-hermes" onclick="selectProvider('hermes')">🏛 HERMES PROFILE (DISCO)</button>
+                    </div>
+                </div>
+
+                <!-- Provider Cloud -->
+                <div>
+                    <span style="font-size: 9px; color: #38bdf8; font-weight: bold; text-transform: uppercase;">☁ MOTORI CLOUD (TITANI MoE • 0 MB VRAM OVERHEAD):</span>
+                    <div style="display: flex; gap: 5px; flex-wrap: wrap; margin-top: 3px;">
+                        <button type="button" class="btn-provider-tab" id="tab-orcarouter" onclick="selectProvider('orcarouter')">⚡ ORCAROUTER CLOUD</button>
+                        <button type="button" class="btn-provider-tab" id="tab-nvidia" onclick="selectProvider('nvidia')">⚡ NVIDIA NIM CLOUD</button>
+                        <button type="button" class="btn-provider-tab" id="tab-openrouter" onclick="selectProvider('openrouter')">🌌 OPENROUTER CLOUD</button>
+                        <button type="button" class="btn-provider-tab" id="tab-google" onclick="selectProvider('google')">✨ GOOGLE AI STUDIO</button>
+                        <button type="button" class="btn-provider-tab" id="tab-openai" onclick="selectProvider('openai_compatible')">⚡ OPENAI / vLLM</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Form Dati Agente -->
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 8px;">
+            <!-- PASSO 2: Form Dati Agente -->
+            <div style="font-size: 11px; font-weight: bold; color: #38bdf8; margin-top: 10px; display: flex; align-items: center; gap: 6px;">
+                <span style="background: #0284c7; color: #fff; padding: 1px 5px; font-size: 9px; font-weight: bold;">PASSO 2</span>
+                <span>DATI ANAGRAFICI, RUOLO E SQUADRA</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px;">
                 <div>
                     <label class="form-label">NOME AGENTE *</label>
                     <input type="text" id="add-agent-name" class="form-input" placeholder="Es. DevCoder, ClaudeAnalyst, DeepSeekBot" required />
@@ -2160,8 +2237,12 @@
                 </div>
             </div>
 
-            <!-- Endpoint & Test Connessione -->
-            <div style="margin-top: 8px; background: #080b14; padding: 8px; border: 1px solid #1a2236;">
+            <!-- PASSO 3: Connessione, Endpoint & Parametri Modello -->
+            <div style="font-size: 11px; font-weight: bold; color: #a78bfa; margin-top: 10px; display: flex; align-items: center; gap: 6px;">
+                <span style="background: #7c3aed; color: #fff; padding: 1px 5px; font-size: 9px; font-weight: bold;">PASSO 3</span>
+                <span>CONNESSIONE, ENDPOINT, MODELLO & CONTESTO TOKEN</span>
+            </div>
+            <div style="margin-top: 6px; background: #080b14; padding: 8px; border: 1px solid #1a2236;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                     <label class="form-label" style="margin: 0;">ENDPOINT URL *</label>
                     <button type="button" class="btn-ping-test" id="btn-test-ping" onclick="testAgentEndpoint()">
@@ -2207,8 +2288,12 @@
                 <input type="password" id="add-agent-apikey" class="form-input" placeholder="Bearer sk-..." />
             </div>
 
-            <!-- Scelta Sprite Arcade & Petdex Gallery -->
-            <div style="margin-top: 10px; background: #070912; padding: 8px; border: 1px solid #161c2d;">
+            <!-- PASSO 4: Scelta Sprite Arcade & Petdex Gallery -->
+            <div style="font-size: 11px; font-weight: bold; color: #34d399; margin-top: 10px; display: flex; align-items: center; gap: 6px;">
+                <span style="background: #059669; color: #fff; padding: 1px 5px; font-size: 9px; font-weight: bold;">PASSO 4</span>
+                <span>AVATAR ARCADE 16-BIT & NOUS HERMES PETDEX</span>
+            </div>
+            <div style="margin-top: 6px; background: #070912; padding: 8px; border: 1px solid #161c2d;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px;">
                     <label class="form-label" style="margin: 0;">GALLERIA AVATAR & NOUS HERMES PETDEX (46 AVATAR)</label>
                     <div style="display: flex; gap: 4px;">
@@ -3096,6 +3181,8 @@
                         if (agent.provider !== 'openrouter' && (!agent.source || !agent.source.includes('OpenRouter')) && agent.id !== 'inkling' && agent.id !== 'laguna') return;
                     } else if (ACTIVE_FILTER === 'TEAM GOOGLE AI CLOUD' || ACTIVE_FILTER === 'GOOGLE AI') {
                         if (agent.provider !== 'google' && (!agent.source || !agent.source.includes('Google')) && agent.id !== 'google' && agent.id !== 'gemini') return;
+                    } else if (ACTIVE_FILTER === 'TEAM ORCAROUTER CLOUD' || ACTIVE_FILTER === 'ORCAROUTER') {
+                        if (agent.provider !== 'orcarouter' && (!agent.source || !agent.source.includes('OrcaRouter')) && agent.id !== 'deeppo4flash' && agent.id !== 'deeppo4-1flash') return;
                     } else if (ACTIVE_FILTER === 'llamacpp') {
                         if (agent.is_cloud || agent.provider !== 'llamacpp') return;
                     } else if (agent.group !== ACTIVE_FILTER) {
@@ -3109,9 +3196,11 @@
 
                 let cardClass = 'agent-card';
                 const isGoogleCard = (agent.provider === 'google' || (agent.source && agent.source.includes('Google')) || agent.id === 'google' || agent.id === 'gemini' || (agent.model && agent.model.toLowerCase().includes('gemini')));
+                const isOrcaCard = (agent.provider === 'orcarouter' || (agent.source && agent.source.includes('OrcaRouter')) || agent.id === 'deeppo4flash' || agent.id === 'deeppo4-1flash');
                 const isNvidiaCard = (agent.provider === 'nvidia' || (agent.source && agent.source.includes('NVIDIA')) || ['deepseek', 'drago', 'nomotron', 'nemotron'].includes(agent.id));
                 const isOpenRouterCard = (agent.provider === 'openrouter' || (agent.source && agent.source.includes('OpenRouter')) || agent.id === 'inkling' || agent.id === 'laguna');
                 if (isGoogleCard) cardClass += ' card-cloud card-google';
+                else if (isOrcaCard) cardClass += ' card-cloud card-orcarouter';
                 else if (isOpenRouterCard) cardClass += ' card-cloud card-openrouter';
                 else if (isNvidiaCard) cardClass += ' card-cloud card-nvidia';
                 else if (agent.is_cloud || agent.id === 'beam') cardClass += ' card-cloud';
@@ -3836,32 +3925,61 @@
             SELECTED_PROVIDER = provKey;
             
             // Tab visual state
-            ['ollama', 'lmstudio', 'hermes', 'openai', 'cloud'].forEach(k => {
+            ['llamacpp', 'ollama', 'lmstudio', 'hermes', 'orcarouter', 'nvidia', 'openrouter', 'google', 'openai', 'cloud'].forEach(k => {
                 const tab = document.getElementById('tab-' + k);
                 if (tab) tab.classList.remove('active');
             });
             const activeTab = document.getElementById('tab-' + (provKey === 'openai_compatible' ? 'openai' : provKey));
             if (activeTab) activeTab.classList.add('active');
 
-            // Default endpoint recommendations
+            // Default endpoint & context recommendations
             const epInput = document.getElementById('add-agent-endpoint');
             const hermesBox = document.getElementById('hermes-profile-container');
             const cloudBox = document.getElementById('cloud-api-key-container');
+            const ctxSelect = document.getElementById('add-agent-context');
 
-            if (provKey === 'ollama') {
+            if (provKey === 'llamacpp') {
+                epInput.value = 'http://127.0.0.1:9931/v1';
+                if (hermesBox) hermesBox.style.display = 'none';
+                if (cloudBox) cloudBox.style.display = 'none';
+                if (ctxSelect) ctxSelect.value = '32768';
+            } else if (provKey === 'ollama') {
                 epInput.value = 'http://127.0.0.1:11434';
                 if (hermesBox) hermesBox.style.display = 'none';
                 if (cloudBox) cloudBox.style.display = 'none';
+                if (ctxSelect) ctxSelect.value = '32768';
             } else if (provKey === 'lmstudio') {
-                epInput.value = 'http://127.0.0.1:1234';
+                epInput.value = 'http://127.0.0.1:1234/v1';
                 if (hermesBox) hermesBox.style.display = 'none';
                 if (cloudBox) cloudBox.style.display = 'none';
+                if (ctxSelect) ctxSelect.value = '32768';
             } else if (provKey === 'hermes') {
-                epInput.value = 'http://127.0.0.1:11434';
+                epInput.value = 'http://127.0.0.1:9931/v1';
                 if (hermesBox) hermesBox.style.display = 'block';
                 if (cloudBox) cloudBox.style.display = 'none';
+                if (ctxSelect) ctxSelect.value = '32768';
+            } else if (provKey === 'orcarouter') {
+                epInput.value = 'https://api.orcarouter.ai/v1';
+                if (hermesBox) hermesBox.style.display = 'none';
+                if (cloudBox) cloudBox.style.display = 'block';
+                if (ctxSelect) ctxSelect.value = '131072';
+            } else if (provKey === 'nvidia') {
+                epInput.value = 'https://integrate.api.nvidia.com/v1';
+                if (hermesBox) hermesBox.style.display = 'none';
+                if (cloudBox) cloudBox.style.display = 'block';
+                if (ctxSelect) ctxSelect.value = '131072';
+            } else if (provKey === 'openrouter') {
+                epInput.value = 'https://openrouter.ai/api/v1';
+                if (hermesBox) hermesBox.style.display = 'none';
+                if (cloudBox) cloudBox.style.display = 'block';
+                if (ctxSelect) ctxSelect.value = '131072';
+            } else if (provKey === 'google') {
+                epInput.value = 'https://generativelanguage.googleapis.com/v1beta';
+                if (hermesBox) hermesBox.style.display = 'none';
+                if (cloudBox) cloudBox.style.display = 'block';
+                if (ctxSelect) ctxSelect.value = '1048576';
             } else if (provKey === 'openai_compatible') {
-                epInput.value = 'http://127.0.0.1:8000';
+                epInput.value = 'http://127.0.0.1:8000/v1';
                 if (hermesBox) hermesBox.style.display = 'none';
                 if (cloudBox) cloudBox.style.display = 'block';
             } else if (provKey === 'cloud') {
@@ -3886,14 +4004,18 @@
                 const res = await fetch(API_BASE + '/api/v1/providers/discovery');
                 if (!res.ok) return;
                 const data = await res.json();
-                const disc = data.discovered || {};
+                const disc = data.discovered || data || {};
 
+                const tabLlama = document.getElementById('tab-llamacpp');
+                if (tabLlama && disc.llamacpp && disc.llamacpp.online) {
+                    tabLlama.innerHTML = `🦙 LLAMA.CPP ROUTER <span style="font-size:8px; color:#4ade80;">(ONLINE :9931)</span>`;
+                }
                 const tabOllama = document.getElementById('tab-ollama');
                 if (tabOllama && disc.ollama && disc.ollama.online) {
-                    tabOllama.innerHTML = `🦙 OLLAMA <span style="font-size:8px; color:#4ade80;">(ONLINE)</span>`;
+                    tabOllama.innerHTML = `🦙 OLLAMA LOCALE <span style="font-size:8px; color:#4ade80;">(ONLINE :11434)</span>`;
                 }
                 const tabLM = document.getElementById('tab-lmstudio');
-                if (tabLM && disc.lm_studio && disc.lm_studio.online) {
+                if (tabLM && disc.lmstudio && disc.lmstudio.online) {
                     tabLM.innerHTML = `🧪 LM STUDIO <span style="font-size:8px; color:#4ade80;">(ONLINE)</span>`;
                 }
             } catch (e) {
@@ -5145,6 +5267,120 @@
             requestAnimationFrame(renderGoogleCloud);
         }
 
+
+        // 5. PORTALE ORCAROUTER CLOUD (Dinamico: rileva DEEPPO4flash, DEEPPO41flash e agenti OrcaRouter attivi)
+        const orcaCanvas = document.getElementById('orcarouter-cloud-canvas');
+        const orCtx = orcaCanvas ? orcaCanvas.getContext('2d') : null;
+        if (orCtx) orCtx.imageSmoothingEnabled = false;
+
+        function renderOrcaRouterCloud() {
+            if (!orcaCanvas || !orCtx) return;
+
+            const rect = orcaCanvas.getBoundingClientRect();
+            const targetW = Math.max(380, Math.round(rect.width) || 480);
+            const targetH = 86;
+            if (orcaCanvas.width !== targetW || orcaCanvas.height !== targetH) {
+                orcaCanvas.width = targetW;
+                orcaCanvas.height = targetH;
+                if (orCtx) orCtx.imageSmoothingEnabled = false;
+            }
+
+            const W = orcaCanvas.width;
+            const H = orcaCanvas.height;
+            const t = Date.now();
+
+            // Sfondo cosmico smeraldo scuro notturno OrcaRouter
+            orCtx.fillStyle = '#021a10';
+            orCtx.fillRect(0, 0, W, H);
+
+            // Stelle quantiche smeraldo e ciano plasma
+            for (let s = 0; s < 18; s++) {
+                const sx = ((s * 41 + t * 0.018) % W);
+                const sy = ((s * 23 + (s % 3) * 7) % H);
+                const starAlpha = 0.3 + Math.sin(t * 0.005 + s) * 0.3;
+                orCtx.fillStyle = (s % 2 === 0) ? `rgba(52, 211, 153, ${starAlpha})` : `rgba(34, 211, 238, ${starAlpha})`;
+                orCtx.fillRect(Math.floor(sx), Math.floor(sy), (s % 4 === 0 ? 2 : 1), (s % 4 === 0 ? 2 : 1));
+            }
+
+            const cx = Math.round(W / 2);
+            const cy = 42;
+            const rot = (t * 0.0026) % (Math.PI * 2);
+
+            orCtx.save();
+            orCtx.setLineDash([3, 4]);
+            // Anello quantico smeraldo orca
+            orCtx.beginPath();
+            orCtx.ellipse(cx - 14, cy, 78, 24, rot, 0, Math.PI * 2);
+            orCtx.strokeStyle = 'rgba(16, 185, 129, 0.52)';
+            orCtx.lineWidth = 1.5;
+            orCtx.stroke();
+
+            // Anello ciano plasma controrotante
+            orCtx.beginPath();
+            orCtx.ellipse(cx + 14, cy, 68, 20, -rot * 1.3, 0, Math.PI * 2);
+            orCtx.strokeStyle = 'rgba(6, 182, 212, 0.50)';
+            orCtx.lineWidth = 1.5;
+            orCtx.stroke();
+            orCtx.setLineDash([]);
+
+            for (let p = 0; p < 10; p++) {
+                const ang = rot * 2 + (p * (Math.PI / 5));
+                const px = cx + Math.cos(ang) * (56 + (p % 2) * 14);
+                const py = cy + Math.sin(ang) * (18 + (p % 2) * 6);
+                orCtx.fillStyle = (p % 2 === 0) ? '#34d399' : '#22d3ee';
+                orCtx.fillRect(px - 1, py - 1, 3, 3);
+            }
+
+            // Piattaforma Fluttuante Nuvoletta Pixel Art Emerald & Mint
+            const cloudBob = Math.sin(t * 0.003 + 3.2) * 2;
+            const cY = 56 + cloudBob;
+
+            orCtx.fillStyle = 'rgba(5, 150, 105, 0.35)';
+            orCtx.beginPath();
+            orCtx.ellipse(cx, cY + 11, 80, 9, 0, 0, Math.PI * 2);
+            orCtx.fill();
+
+            orCtx.fillStyle = '#064e3b';
+            orCtx.fillRect(cx - 72, cY, 144, 10);
+            orCtx.fillRect(cx - 60, cY - 4, 120, 14);
+            orCtx.fillRect(cx - 40, cY - 8, 80, 18);
+
+            orCtx.fillStyle = '#059669';
+            orCtx.fillRect(cx - 68, cY + 1, 136, 8);
+            orCtx.fillRect(cx - 56, cY - 3, 112, 12);
+            orCtx.fillRect(cx - 36, cY - 7, 72, 16);
+
+            orCtx.fillStyle = '#a7f3d0';
+            orCtx.fillRect(cx - 52, cY - 4, 20, 4);
+            orCtx.fillRect(cx - 10, cY - 8, 22, 5);
+            orCtx.fillRect(cx + 32, cY - 4, 20, 4);
+
+            for (let d = -4; d <= 4; d++) {
+                const dx = cx + (d * 16);
+                const dy = cY + 9 + ((t * 0.04 + Math.abs(d) * 12) % 15);
+                orCtx.fillStyle = (d % 2 === 0) ? 'rgba(52, 211, 153, 0.75)' : 'rgba(34, 211, 238, 0.70)';
+                orCtx.fillRect(dx, dy, 2, 3);
+            }
+
+            const allAgents = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents : [];
+            const orcaCloudAgents = allAgents.filter(a =>
+                a.provider === 'orcarouter' ||
+                (a.source && a.source.includes('OrcaRouter')) ||
+                ['deeppo4flash', 'deeppo4-1flash'].includes(a.id)
+            );
+
+            drawDynamicCloudAgentsOnNuvoletta(orCtx, W, H, cx, cY, t, orcaCloudAgents, {
+                primaryColor: '#34d399',
+                secondaryColor: '#6ee7b7',
+                accentColor: '#22d3ee',
+                auraColor: 'rgba(16, 185, 129, 0.55)',
+                tagBg: '#021a10'
+            });
+
+            orCtx.restore();
+            requestAnimationFrame(renderOrcaRouterCloud);
+        }
+
         // -------------------------------------------------------------
         // AUTO-PROVISIONING & AUTO-PRUNING DINAMICO CLOUD CARDS & NUVOLETTA
         // Crea le card quando un agente cloud viene aggiunto e le rimuove da solo
@@ -5179,10 +5415,11 @@
                 const cardId = (a.id === 'beam') ? 'hud-cloud' : `hud-cloud-${a.id}`;
                 let cardEl = document.getElementById(cardId) || document.querySelector(`[data-hud-id="${cardId}"]`);
                 if (!cardEl) {
-                    let targetGrid = a.provider === 'google' ? document.getElementById('hud-grid-cloud-google') :
+                    let targetGrid = a.provider === 'orcarouter' ? document.getElementById('hud-grid-cloud-orcarouter') :
+                                     (a.provider === 'google' ? document.getElementById('hud-grid-cloud-google') :
                                      (a.provider === 'openrouter' ? document.getElementById('hud-grid-cloud-openrouter') :
                                      (a.provider === 'nvidia' ? document.getElementById('hud-grid-cloud-nvidia') :
-                                     (a.provider === 'ollama' || a.id === 'beam' ? document.getElementById('hud-grid-cloud') : document.getElementById(`hud-grid-cloud-${a.provider}`))));
+                                     (a.provider === 'ollama' || a.id === 'beam' ? document.getElementById('hud-grid-cloud') : document.getElementById(`hud-grid-cloud-${a.provider}`)))));
                     if (targetGrid) {
                         const newCard = document.createElement('div');
                         newCard.className = 'hud-metric draggable-hud';
@@ -5222,6 +5459,14 @@
             const nvidiaActive = cloudAgents.filter(a => a.provider === 'nvidia' || (a.source && a.source.includes('NVIDIA')));
             const openrouterActive = cloudAgents.filter(a => a.provider === 'openrouter' || (a.source && a.source.includes('OpenRouter')));
             const googleActive = cloudAgents.filter(a => a.provider === 'google' || (a.source && a.source.includes('Google')) || ['google', 'gemini'].includes(a.id));
+            const orcarouterActive = cloudAgents.filter(a => a.provider === 'orcarouter' || (a.source && a.source.includes('OrcaRouter')) || ['deeppo4flash', 'deeppo4-1flash'].includes(a.id));
+
+            const pOrkTitle = document.getElementById('hud-portal-orcarouter-title');
+            const pOrkSub = document.getElementById('hud-portal-orcarouter-sub');
+            const pOrkHdrRight = document.getElementById('hud-subheader-orcarouter-cloud-right');
+            if (pOrkTitle) pOrkTitle.textContent = `⚡ PORTALE VORTICE QUANTICO • ORCAROUTER CLOUD (${orcarouterActive.length} TITANI)`;
+            if (pOrkSub) pOrkSub.textContent = (orcarouterActive.map(a => `${a.name} • 131K CTX`).join(' + ') || 'NESSUN AGENTE') + ' • 0 VRAM';
+            if (pOrkHdrRight) pOrkHdrRight.textContent = (orcarouterActive.map(a => `${a.name} (${a.model})`).join(' + ') || 'NESSUN AGENTE') + ' • 131K CONTEXT • ULTRA-FAST LIGHTNING ROUTER';
 
             const pGgTitle = document.getElementById('hud-portal-google-title');
             const pGgSub = document.getElementById('hud-portal-google-sub');
@@ -5259,6 +5504,7 @@
         renderNvidiaCloud();
         renderOpenRouterCloud();
         renderGoogleCloud();
+        renderOrcaRouterCloud();
 
         /* =============================================================
            STATISTICHEAI v2.1: LAYOUT CONTROLLER (DRAG & DROP + STORAGE)

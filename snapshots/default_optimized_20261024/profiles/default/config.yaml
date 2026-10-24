@@ -1,0 +1,43 @@
+model:
+  api_mode: chat_completions
+  default: bartowski/Hermes-3-Llama-3.1-8B-GGUF:Q4_K_M
+  streaming: false
+  provider: llamacpp
+  base_url: http://127.0.0.1:9931/v1
+  context_length: 32768
+providers:
+  llamacpp:
+    name: Llama.cpp
+    base_url: http://127.0.0.1:9931/v1
+    api_mode: chat_completions
+    model: bartowski/Hermes-3-Llama-3.1-8B-GGUF:Q4_K_M
+    context_length: 32768
+    discover_models: true
+    models:
+      bartowski/Hermes-3-Llama-3.1-8B-GGUF:Q4_K_M:
+        context_length: 32768
+toolsets:
+- terminal
+- file
+- code_execution
+- computer_use
+- web
+- vision
+- skills
+- todo
+- memory
+- hermes-cli
+_config_version: 51
+agent:
+  max_turns: 500
+  reasoning_effort: none
+  tool_use_enforcement: true
+  fast_auto_seconds: 60
+terminal:
+  backend: local
+  cwd: C:\Users\Gyniu
+  timeout: 180
+compression:
+  enabled: true
+  threshold: 0.8
+  target_ratio: 0.2

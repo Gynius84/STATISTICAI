@@ -1,0 +1,521 @@
+_config_version: 52
+agent:
+  execution_guidance: true
+  fast_auto_seconds: 60
+  max_turns: 500
+  personalities: {}
+  reasoning_effort: low
+  service_tier: fast
+  tool_use_enforcement: true
+  verbose: false
+attachments:
+  storage: hermes-home
+auth:
+  adopt_external_logins: true
+  codex_login_flow: device_code
+auxiliary:
+  title_generation:
+    enabled: false
+    model_upgrade_enabled: false
+browser:
+  inactivity_timeout: 120
+code_execution:
+  max_tool_calls: 50
+  timeout: 300
+compression:
+  checkpoint_required: false
+  codex_app_server_auto: native
+  codex_gpt55_autoraise: true
+  codex_responses_compact_threshold: 200000
+  codex_responses_native: false
+  enabled: true
+  hygiene_max_turn_hold_seconds: 10
+  idle_compact_after_seconds: 0
+  max_attempts: 3
+  min_tail_user_messages: 1
+  proactive_prune_min_reclaim_tokens: 4096
+  proactive_prune_min_result_chars: 8000
+  proactive_prune_tokens: 0
+  progress_notices: false
+  protect_first_n: 3
+  protect_last_n: 20
+  target_ratio: 0.2
+  threshold: 0.85
+context:
+  engine: compressor
+cron:
+  catch_up_missed: true
+database:
+  journal_mode: wal
+delegation:
+  max_iterations: 250
+display:
+  background_process_notifications: concise
+  bell_on_complete: false
+  bell_on_prompt: false
+  busy_input_mode: interrupt
+  cleanup_progress: false
+  compact: false
+  skin: default
+  streaming: true
+  suppress_warning_notifications: false
+gateway:
+  allow_all_users: false
+  auto_multiplex_migration: true
+  bot_loop_guard:
+    cooldown_seconds: 600
+    enabled: true
+    max_events: 20
+    window_seconds: 300
+  delivery_ledger: true
+  loop_watchdog: true
+  loop_watchdog_max_strikes: 3
+  loop_watchdog_probe_interval_s: 30
+  loop_watchdog_probe_timeout_s: 10
+  max_inbound_media_bytes: 134217728
+  media_delivery_allow_dirs: []
+  message_timestamps:
+    enabled: false
+  platform_connect_timeout: 30
+  respawn_storm:
+    max_starts: 5
+    window_seconds: 120
+  restart_loop_guard:
+    max_gap_seconds: 300
+    max_restarts: 3
+    window_seconds: 60
+  scale_to_zero:
+    idle_timeout_minutes: 2
+  signal_interrupt_grace_timeout: 1
+  startup_watchdog: true
+  startup_watchdog_timeout_seconds: 300
+  strict: false
+  trust_env: true
+  trust_recent_files: true
+  trust_recent_files_seconds: 600
+  write_sessions_json: true
+group_sessions_per_user: true
+hosted_rooms:
+  profiles:
+    vision7b: 'C:\Users\Gyniu\AppData\Local\hermes\profiles\vision7b'
+kanban:
+  review_dispatch: true
+known_builtin_toolsets:
+  cli:
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - connections
+    - context_engine
+    - cronjob
+    - delegation
+    - discord
+    - discord_admin
+    - file
+    - image_gen
+    - kanban
+    - memory
+    - session_search
+    - skills
+    - stt
+    - terminal
+    - todo
+    - tts
+    - video
+    - video_gen
+    - vision
+    - web
+    - x_search
+    - yuanbao
+known_plugin_toolsets:
+  cli:
+    - a2a
+max_concurrent_sessions: 0
+memory:
+  memory_char_limit: 2200
+  memory_enabled: true
+  nudge_interval: 10
+  prefetch_spill_enabled: false
+  user_char_limit: 1375
+  user_profile_enabled: true
+moa:
+  aggregator:
+    model: anthropic/claude-opus-4.8
+    provider: openrouter
+  degraded_reference_policy: loud
+  enabled: false
+  fanout: user_turn
+  presets:
+    default:
+      degraded_reference_policy: loud
+      enabled: false
+      fanout: user_turn
+      reference_models:
+        - enabled: true
+          model: gpt-5.5
+          provider: openai-codex
+        - enabled: true
+          model: deepseek/deepseek-v4-pro
+          provider: openrouter
+  reference_models:
+    - enabled: true
+      model: gpt-5.5
+      provider: openai-codex
+    - enabled: true
+      model: deepseek/deepseek-v4-pro
+      provider: openrouter
+model:
+  api_mode: chat_completions
+  default: deepseek-ai/deepseek-v4.1-flash
+  streaming: true
+  provider: nvidia
+  base_url: https://integrate.api.nvidia.com/v1
+  key_env: NVIDIA_API_KEY
+  max_tokens: 4096
+  temperature: 1.0
+  top_p: 0.95
+onboarding:
+  seen:
+    profile_build_offered: true
+platform_toolsets:
+  cli:
+    - a2a
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - connections
+    - cronjob
+    - delegation
+    - file
+    - image_gen
+    - kanban
+    - memory
+    - session_search
+    - skills
+    - terminal
+    - todo
+    - tts
+    - video
+    - video_gen
+    - vision
+    - web
+  discord:
+    - hermes-discord
+  google_chat:
+    - hermes-google_chat
+  qqbot:
+    - hermes-qqbot
+  signal:
+    - hermes-signal
+  slack:
+    - hermes-slack
+  teams:
+    - hermes-teams
+  telegram:
+    - hermes-telegram
+  whatsapp:
+    - hermes-whatsapp
+  yuanbao:
+    - hermes-yuanbao
+plugins:
+  clone_timeout_seconds: 300
+  disabled: []
+  enabled:
+    - disk-cleanup
+    - security-guidance
+prompt_caching:
+  cache_ttl: 5m
+runtime:
+  nofile_soft_limit: 4096
+skills:
+  creation_nudge_interval: 15
+  disabled: []
+streaming:
+  enabled: true
+stt:
+  enabled: true
+  language: en
+  local:
+    model: base
+  openai:
+    language: ""
+    max_retries: 1
+    model: whisper-1
+    timeout: 60
+telemetry:
+  shared_metrics:
+    enabled: true
+    offer_version: 2
+    send: false
+terminal:
+  backend: local
+  container_cpu: 1
+  container_disk: 51200
+  container_memory: 5120
+  container_persistent: true
+  cwd: C:\Users\Gyniu
+  docker_mount_cwd_to_workspace: false
+  home_mode: auto
+  lifetime_seconds: 300
+  timeout: 180
+tool_loop_guardrails:
+  hard_stop_after:
+    exact_failure: 5
+    idempotent_no_progress: 5
+    same_tool_failure: 8
+  hard_stop_enabled: false
+  non_interactive_hard_stop_enabled: true
+  warn_after:
+    exact_failure: 2
+    idempotent_no_progress: 2
+    same_tool_failure: 3
+  warnings_enabled: true
+tool_output:
+  max_bytes: 50000
+toolsets:
+  - terminal
+  - file
+  - code_execution
+  - computer_use
+  - web
+  - vision
+  - skills
+  - todo
+  - memory
+  - hermes-cli
+update:
+  installs:
+    60a8dacfd0bd5e61:
+      channel: main
+      path: C:\Users\Gyniu\AppData\Local\hermes\hermes-agent
+updates:
+  backup_keep: 5
+  check: true
+  non_interactive_local_changes: stash
+  pre_update_backup: false
+voice:
+  voice_chat_mode: chained
+providers:
+  llamacpp:
+    name: Llama.cpp
+    base_url: http://127.0.0.1:9931/v1
+    api_mode: chat_completions
+    model: bartowski/Hermes-3-Llama-3.1-8B-GGUF:Q4_K_M
+    context_length: 65536
+    discover_models: true
+    models:
+      bartowski/Hermes-3-Llama-3.1-8B-GGUF:Q4_K_M:
+        context_length: 65536
+      PatataAliena/Qwen2.5-VL-7B-Instruct-Q4_K_M-GGUF:Q4_K_M:
+        context_length: 65536
+  ollama-list:
+    name: Ollama
+    base_url: http://127.0.0.1:11434/v1
+    model: beam:cloud
+    discover_models: true
+    api_mode: chat_completions
+    request_timeout_seconds: 300
+    models:
+      beam:cloud:
+        context_length: 131072
+      minimax-m3.1-flash:cloud: {}
+    context_length: 131072
+    key_env: HERMES_CUSTOM_OLLAMA_LIST_API_KEY
+  nvidia-lancio:
+    name: Nvidia
+    base_url: https://integrate.api.nvidia.com/v1
+    model: deepseek-ai/deepseek-v4.1-flash
+    discover_models: true
+    api_mode: chat_completions
+    request_timeout_seconds: 300
+    models:
+      01-ai/yi-large: {}
+      adept/fuyu-8b: {}
+      ai21labs/jamba-1.5-large-instruct: {}
+      aisingapore/sea-lion-7b-instruct: {}
+      bigcode/starcoder2-15b: {}
+      databricks/dbrx-instruct: {}
+      deepseek-ai/deepseek-coder-6.7b-instruct: {}
+      deepseek-ai/deepseek-v4.1-flash:
+        context_length: 131072
+      google/codegemma-1.1-7b: {}
+      google/codegemma-7b: {}
+      google/deplot: {}
+      google/diffusiongemma-26b-a4b-it: {}
+      google/gemma-2b: {}
+      google/gemma-3-12b-it: {}
+      google/gemma-3-4b-it: {}
+      google/gemma-4-31b-it: {}
+      google/recurrentgemma-2b: {}
+      ibm/granite-3.0-3b-a800m-instruct: {}
+      ibm/granite-3.0-8b-instruct: {}
+      ibm/granite-34b-code-instruct: {}
+      ibm/granite-8b-code-instruct: {}
+      meta/codellama-70b: {}
+      meta/llama-3.2-11b-vision-instruct: {}
+      meta/llama-3.2-90b-vision-instruct: {}
+      meta/llama-guard-4-12b: {}
+      meta/llama2-70b: {}
+      meta/muse-glimmer-30b: {}
+      microsoft/kosmos-2: {}
+      microsoft/phi-3-vision-128k-instruct: {}
+      microsoft/phi-3.5-moe-instruct: {}
+      mistralai/codestral-22b-instruct-v0.1: {}
+      mistralai/mistral-7b-instruct-v0.3: {}
+      mistralai/mistral-large: {}
+      mistralai/mistral-large-2-instruct: {}
+      mistralai/mixtral-8x22b-v0.1: {}
+      moonshotai/kimi-k2.6: {}
+      nv-mistralai/mistral-nemo-12b-instruct: {}
+      nvidia/ai-synthetic-video-detector: {}
+      nvidia/cosmos-reason2-8b: {}
+      nvidia/embed-qa-4: {}
+      nvidia/ising-calibration-1.5-31b: {}
+      nvidia/llama-3.1-nemoguard-8b-content-safety: {}
+      nvidia/llama-3.1-nemoguard-8b-topic-control: {}
+      nvidia/llama-3.1-nemotron-51b-instruct: {}
+      nvidia/llama-3.1-nemotron-70b-instruct: {}
+      nvidia/llama-3.1-nemotron-safety-guard-8b-v3: {}
+      nvidia/llama-3.1-nemotron-ultra-253b-v1: {}
+      nvidia/llama-3.2-nemoretriever-1b-vlm-embed-v1: {}
+      nvidia/llama-3.2-nv-embedqa-1b-v1: {}
+      nvidia/llama-nemotron-embed-vl-1b-v2: {}
+      nvidia/llama3-chatqa-1.5-70b: {}
+      nvidia/mistral-nemo-minitron-8b-8k-instruct: {}
+      nvidia/nemotron-3-embed-1b: {}
+      nvidia/nemotron-3-nano-omni-30b-a3b-reasoning: {}
+      nvidia/nemotron-3-super-120b-a12b: {}
+      nvidia/nemotron-3-ultra-550b-a55b: {}
+      nvidia/nemotron-3.5-content-safety: {}
+      nvidia/nemotron-3.5-lightning-30b-a3b: {}
+      nvidia/nemotron-3.5-super-vl-120b-a12b: {}
+      nvidia/nemotron-4-340b-instruct: {}
+      nvidia/nemotron-4-340b-reward: {}
+      nvidia/nemotron-nano-3-30b-a3b: {}
+      nvidia/nemotron-parse: {}
+      nvidia/nemotron-parse-2.0: {}
+      nvidia/neva-22b: {}
+      nvidia/nv-embedqa-mistral-7b-v2: {}
+      nvidia/nvclip: {}
+      nvidia/riva-translate-4b-instruct: {}
+      nvidia/riva-translate-4b-instruct-v2: {}
+      nvidia/vila: {}
+      openai/gpt-oss-20b: {}
+      poolside/laguna-xs-2.1: {}
+      snowflake/arctic-embed-l: {}
+      stepfun-ai/step-5-preview: {}
+      writer/palmyra-creative-122b: {}
+      writer/palmyra-fin-70b-32k: {}
+      writer/palmyra-med-70b: {}
+      writer/palmyra-med-70b-32k: {}
+      z-ai/glm-5.3: {}
+      z-ai/glm-5.3-flash: {}
+      zyphra/zamba2-7b-instruct: {}
+    context_length: 131072
+    key_env: HERMES_CUSTOM_NVIDIA_LANCIO_API_KEY
+  nvidia:
+    name: Nvidia
+    base_url: https://integrate.api.nvidia.com/v1
+    model: deepseek-ai/deepseek-v4.1-flash
+    discover_models: true
+    api_mode: chat_completions
+    request_timeout_seconds: 360
+    models:
+      01-ai/yi-large: {}
+      adept/fuyu-8b: {}
+      ai21labs/jamba-1.5-large-instruct: {}
+      aisingapore/sea-lion-7b-instruct: {}
+      bigcode/starcoder2-15b: {}
+      databricks/dbrx-instruct: {}
+      deepseek-ai/deepseek-coder-6.7b-instruct: {}
+      deepseek-ai/deepseek-v4.1-flash:
+        context_length: 131072
+        max_tokens: 4096
+        timeout_seconds: 360
+      google/codegemma-1.1-7b: {}
+      google/codegemma-7b: {}
+      google/deplot: {}
+      google/diffusiongemma-26b-a4b-it: {}
+      google/gemma-2b: {}
+      google/gemma-3-12b-it: {}
+      google/gemma-3-4b-it: {}
+      google/gemma-4-31b-it: {}
+      google/recurrentgemma-2b: {}
+      ibm/granite-3.0-3b-a800m-instruct: {}
+      ibm/granite-3.0-8b-instruct: {}
+      ibm/granite-34b-code-instruct: {}
+      ibm/granite-8b-code-instruct: {}
+      meta/codellama-70b: {}
+      meta/llama-3.2-11b-vision-instruct: {}
+      meta/llama-3.2-90b-vision-instruct: {}
+      meta/llama-guard-4-12b: {}
+      meta/llama2-70b: {}
+      meta/muse-glimmer-30b: {}
+      microsoft/kosmos-2: {}
+      microsoft/phi-3-vision-128k-instruct: {}
+      microsoft/phi-3.5-moe-instruct: {}
+      mistralai/codestral-22b-instruct-v0.1: {}
+      mistralai/mistral-7b-instruct-v0.3: {}
+      mistralai/mistral-large: {}
+      mistralai/mistral-large-2-instruct: {}
+      mistralai/mixtral-8x22b-v0.1: {}
+      moonshotai/kimi-k2.6: {}
+      nv-mistralai/mistral-nemo-12b-instruct: {}
+      nvidia/ai-synthetic-video-detector: {}
+      nvidia/cosmos-reason2-8b: {}
+      nvidia/embed-qa-4: {}
+      nvidia/ising-calibration-1.5-31b: {}
+      nvidia/llama-3.1-nemoguard-8b-content-safety: {}
+      nvidia/llama-3.1-nemoguard-8b-topic-control: {}
+      nvidia/llama-3.1-nemotron-51b-instruct: {}
+      nvidia/llama-3.1-nemotron-70b-instruct: {}
+      nvidia/llama-3.1-nemotron-safety-guard-8b-v3: {}
+      nvidia/llama-3.1-nemotron-ultra-253b-v1: {}
+      nvidia/llama-3.2-nemoretriever-1b-vlm-embed-v1: {}
+      nvidia/llama-3.2-nv-embedqa-1b-v1: {}
+      nvidia/llama-nemotron-embed-vl-1b-v2: {}
+      nvidia/llama3-chatqa-1.5-70b: {}
+      nvidia/mistral-nemo-minitron-8b-8k-instruct: {}
+      nvidia/nemotron-3-embed-1b: {}
+      nvidia/nemotron-3-nano-omni-30b-a3b-reasoning: {}
+      nvidia/nemotron-3-super-120b-a12b: {}
+      nvidia/nemotron-3-ultra-550b-a55b: {}
+      nvidia/nemotron-3.5-content-safety: {}
+      nvidia/nemotron-3.5-lightning-30b-a3b: {}
+      nvidia/nemotron-3.5-super-vl-120b-a12b: {}
+      nvidia/nemotron-4-340b-instruct: {}
+      nvidia/nemotron-4-340b-reward: {}
+      nvidia/nemotron-nano-3-30b-a3b: {}
+      nvidia/nemotron-parse: {}
+      nvidia/nemotron-parse-2.0: {}
+      nvidia/neva-22b: {}
+      nvidia/nv-embedqa-mistral-7b-v2: {}
+      nvidia/nvclip: {}
+      nvidia/riva-translate-4b-instruct: {}
+      nvidia/riva-translate-4b-instruct-v2: {}
+      nvidia/vila: {}
+      openai/gpt-oss-20b: {}
+      poolside/laguna-xs-2.1: {}
+      snowflake/arctic-embed-l: {}
+      stepfun-ai/step-5-preview: {}
+      writer/palmyra-creative-122b: {}
+      writer/palmyra-fin-70b-32k: {}
+      writer/palmyra-med-70b: {}
+      writer/palmyra-med-70b-32k: {}
+      z-ai/glm-5.3: {}
+      z-ai/glm-5.3-flash:
+        max_tokens: 4096
+        context_length: 131072
+        timeout_seconds: 360
+      zyphra/zamba2-7b-instruct: {}
+    context_length: 131072
+    key_env: NVIDIA_API_KEY
+sessions:
+  auto_archive: true
+approvals:
+  timeout: 2000
+command_allowlist:
+  - script execution via -e/-c flag
+  - script execution via heredoc

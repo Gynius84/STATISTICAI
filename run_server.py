@@ -400,6 +400,74 @@ def llamacpp_worker_loop():
 # Catalogo Benchmark & Architetture Modelli (OpenCompass / VLMEvalKit & TPS RTX 4060)
 # ---------------------------------------------------------------------------
 MODEL_BENCHMARK_CATALOG = {
+    "nvidia/nvidia-nemotron-3.5-bolt-e4b-4gb:q4_k_m": {
+        "architecture_type": "Bolt Dense Transformer (4.0B GGUF Q4_K_M)",
+        "architecture_tag": "dense",
+        "parameters": "4.0B GGUF",
+        "active_parameters": "4.0B (100% VRAM GPU RTX 4060)",
+        "estimated_speed_tps": "~52 tok/s (100% VRAM GPU Zero-Swap)",
+        "tps_value": 52,
+        "benchmarks": {
+            "coding": 88,
+            "reasoning": 90,
+            "knowledge": 88,
+            "agentic": 94,
+            "vision": 20,
+            "throughput": 96
+        },
+        "model_notes": "NVIDIA Nemotron-3.5 Bolt E4B: ultra-veloce, 100% in VRAM GPU (0 swap) su porta 9931 (llama.cpp router), ottimizzato per function calling e workflow autonomi."
+    },
+    "ggml-org/gemma-4-e4b-it-gguf:q4_0": {
+        "architecture_type": "Dense Canonical Transformer (Gemma 4 E4B Q4_0)",
+        "architecture_tag": "dense",
+        "parameters": "4.0B GGUF",
+        "active_parameters": "4.0B (100% VRAM GPU RTX 4060)",
+        "estimated_speed_tps": "~55 tok/s (100% VRAM GPU Draft-MTP)",
+        "tps_value": 55,
+        "benchmarks": {
+            "coding": 86,
+            "reasoning": 89,
+            "knowledge": 89,
+            "agentic": 92,
+            "vision": 20,
+            "throughput": 95
+        },
+        "model_notes": "Google Gemma 4 E4B-it GGUF con decodifica speculativa nativa draft-mtp su router llama.cpp (porta 9931), 32k contesto e reattività estrema."
+    },
+    "deepseek/deepseek-v4-flash-free": {
+        "architecture_type": "MoE Ultra-Fast (DeepSeek V4 Flash OrcaRouter Cloud)",
+        "architecture_tag": "moe",
+        "parameters": "410B MoE Orca",
+        "active_parameters": "~28B per token",
+        "estimated_speed_tps": "~110 tok/s (OrcaRouter Cloud Cluster)",
+        "tps_value": 110,
+        "benchmarks": {
+            "coding": 96,
+            "reasoning": 95,
+            "knowledge": 94,
+            "agentic": 96,
+            "vision": 20,
+            "throughput": 98
+        },
+        "model_notes": "DeepSeek V4 Flash erogato via OrcaRouter Cloud Cluster (https://api.orcarouter.ai/v1). Architettura MoE ultra-rapida con 128k contesto e zero consumo VRAM locale."
+    },
+    "deepseek/deepseek-v4.1-flash-free": {
+        "architecture_type": "MoE Ultra-Fast (DeepSeek V4.1 Flash OrcaRouter Cloud)",
+        "architecture_tag": "moe",
+        "parameters": "410B MoE Orca",
+        "active_parameters": "~28B per token",
+        "estimated_speed_tps": "~125 tok/s (OrcaRouter Cloud Cluster)",
+        "tps_value": 125,
+        "benchmarks": {
+            "coding": 97,
+            "reasoning": 96,
+            "knowledge": 95,
+            "agentic": 97,
+            "vision": 20,
+            "throughput": 99
+        },
+        "model_notes": "DeepSeek V4.1 Flash erogato via OrcaRouter Cloud Cluster (https://api.orcarouter.ai/v1). Architettura MoE avanzata con 128k contesto nativo, latenza minima e zero carico locale."
+    },
     "beam:cloud": {
         "architecture_type": "MoE (Mixture of Experts - 501B)",
         "architecture_tag": "moe",
@@ -834,6 +902,15 @@ def resolve_model_benchmarks(model_name, is_cloud=False, agent_id=None):
     m_clean = (model_name or "").lower().strip()
     a_clean = (agent_id or "").lower().strip()
 
+    if "bolt" in m_clean or a_clean == "nemohouse" or "nemotron-3.5-bolt" in m_clean:
+        return MODEL_BENCHMARK_CATALOG["nvidia/nvidia-nemotron-3.5-bolt-e4b-4gb:q4_k_m"].copy()
+    if "gemma-4" in m_clean or a_clean == "gemmo" or "gemma-4-e4b" in m_clean:
+        return MODEL_BENCHMARK_CATALOG["ggml-org/gemma-4-e4b-it-gguf:q4_0"].copy()
+    if "deepseek-v4.1-flash-free" in m_clean or a_clean in ["deeppo4-1flash", "deeppo41flash"]:
+        return MODEL_BENCHMARK_CATALOG["deepseek/deepseek-v4.1-flash-free"].copy()
+    if "deepseek-v4-flash-free" in m_clean or a_clean == "deeppo4flash":
+        return MODEL_BENCHMARK_CATALOG["deepseek/deepseek-v4-flash-free"].copy()
+
     if "inkling" in m_clean or a_clean == "inkling" or "thinkingmachines" in m_clean:
         return MODEL_BENCHMARK_CATALOG["thinkingmachines/inkling:free"].copy()
     if "laguna" in m_clean or a_clean == "laguna" or "poolside" in m_clean:
@@ -1047,6 +1124,26 @@ def auto_discover_hermes_agents():
                 title = "GEMINI"
             if desc in ["Agente Hermes", ""]:
                 desc = "Gemini 3.5 Flash Multimodal Cloud Specialist"
+        elif agent_id == "nemohouse":
+            if not title:
+                title = "NEMOHOUSE"
+            if desc in ["Agente Hermes", ""]:
+                desc = "Bolt Local Specialist"
+        elif agent_id == "gemmo":
+            if not title:
+                title = "GEMMO"
+            if desc in ["Agente Hermes", ""]:
+                desc = "Gemma-4 Specialist"
+        elif agent_id == "deeppo4flash":
+            if not title:
+                title = "DEEPPO4flash"
+            if desc in ["Agente Hermes", ""]:
+                desc = "DeepSeek V4 Flash OrcaRouter Cloud Specialist"
+        elif agent_id in ["deeppo4-1flash", "deeppo41flash"]:
+            if not title:
+                title = "DEEPPO41flash"
+            if desc in ["Agente Hermes", ""]:
+                desc = "DeepSeek V4.1 Flash OrcaRouter Cloud Specialist"
 
         if not title:
             title = agent_id.replace("_", " ").title()
@@ -1121,51 +1218,82 @@ def auto_discover_hermes_agents():
             except Exception:
                 pass
 
-        # Rilevamento Cloud Model (Ollama Cloud, NVIDIA NIM Cloud o OpenRouter Cloud)
-        is_openrouter = (
-            "openrouter" in (provider or "").lower() or 
-            "openrouter.ai" in (base_url or "").lower() or 
-            ":free" in model_name.lower() or 
-            agent_id in ["inkling", "laguna"] or
-            "poolside" in model_name.lower() or 
-            "thinkingmachines" in model_name.lower() or 
-            "recursive" in model_name.lower()
+        # Rilevamento tipologia agente e provider
+        is_llamacpp = (
+            "llamacpp" in (provider or "").lower() or
+            "9931" in (base_url or "") or
+            agent_id in ["default", "gynbot1", "vision7b", "gemmo", "nemohouse"] or
+            prof_id in ["default", "vision7b", "gemmo", "nemohouse"]
+        )
+        is_orcarouter = (
+            not is_llamacpp and (
+                "orca" in (provider or "").lower() or
+                "orcarouter" in (base_url or "").lower() or
+                agent_id in ["deeppo4flash", "deeppo4-1flash", "deeppo41flash"] or
+                prof_id in ["deeppo4flash", "deeppo4-1flash"]
+            )
         )
         is_google = (
-            "google" in (provider or "").lower() or
-            "googleapis.com" in (base_url or "").lower() or
-            "gemini" in model_name.lower() or
-            agent_id in ["google", "gemini"]
+            not is_llamacpp and not is_orcarouter and (
+                "google" in (provider or "").lower() or
+                "googleapis.com" in (base_url or "").lower() or
+                "gemini" in model_name.lower() or
+                agent_id in ["google", "gemini"]
+            )
+        )
+        is_openrouter = (
+            not is_llamacpp and not is_orcarouter and not is_google and (
+                "openrouter" in (provider or "").lower() or 
+                "openrouter.ai" in (base_url or "").lower() or 
+                ":free" in model_name.lower() or 
+                agent_id in ["inkling", "laguna"] or
+                "poolside" in model_name.lower() or 
+                "thinkingmachines" in model_name.lower() or 
+                "recursive" in model_name.lower()
+            )
         )
         is_ollama_cloud = (
-            ":cloud" in model_name.lower() or
-            agent_id in ["beam", "nemo", "minimax"] or
-            ("ollama" in (provider or "").lower() and ("cloud" in model_name.lower() or "11434" in (base_url or "")))
+            not is_llamacpp and not is_orcarouter and not is_google and not is_openrouter and (
+                ":cloud" in model_name.lower() or
+                agent_id in ["beam", "nemo"] or
+                ("ollama" in (provider or "").lower() and ("cloud" in model_name.lower() or "11434" in (base_url or "")))
+            )
         )
         is_nvidia = (
-            not is_ollama_cloud and (
+            not is_llamacpp and not is_orcarouter and not is_google and not is_openrouter and not is_ollama_cloud and (
                 "nvidia" in (provider or "").lower() or 
                 "nvidia.com" in (base_url or "").lower() or 
                 agent_id in ["deepseek", "drago", "nomotron", "nemotron", "nemostron"] or
                 ("nemotron" in model_name.lower() and ":cloud" not in model_name.lower() and "ollama" not in (provider or "").lower() and "11434" not in (base_url or "")) or
-                "glm-5" in model_name.lower() or
-                ("deepseek" in model_name.lower() and "flash" in model_name.lower())
+                "glm-5" in model_name.lower()
             )
         )
         is_cloud = (
-            is_google or
-            is_openrouter or
-            is_nvidia or
-            ((base_url or "").startswith("https://") and "127.0.0.1" not in (base_url or "") and "localhost" not in (base_url or "")) or
-            ":cloud" in model_name.lower() or 
-            "beam" in model_name.lower() or 
-            "minimax" in model_name.lower() or 
-            agent_id in ["beam", "nemo", "minimax"] or
-            "cloud" in (title or "").lower()
+            not is_llamacpp and (
+                is_orcarouter or
+                is_google or
+                is_openrouter or
+                is_nvidia or
+                is_ollama_cloud or
+                ((base_url or "").startswith("https://") and "127.0.0.1" not in (base_url or "") and "localhost" not in (base_url or "")) or
+                ":cloud" in model_name.lower() or 
+                "beam" in model_name.lower() or 
+                agent_id in ["beam", "nemo"] or
+                "cloud" in (title or "").lower()
+            )
         )
 
         # Normalizzazione Provider, Base URL e Context Limit
-        if is_google:
+        if is_orcarouter:
+            provider = "orcarouter"
+            if not base_url or "11434" in base_url or "9931" in base_url:
+                base_url = "https://api.orcarouter.ai/v1"
+            if context_limit < 65536:
+                context_limit = 131072
+            source_label = "OrcaRouter Cloud"
+            group = "TEAM ORCAROUTER CLOUD"
+            color = "#10b981"
+        elif is_google:
             provider = "google"
             if not base_url or "11434" in base_url or "9931" in base_url:
                 base_url = "https://generativelanguage.googleapis.com/v1beta/openai"
@@ -1235,10 +1363,23 @@ def auto_discover_hermes_agents():
                 source_label = "Cloud Lightning Cluster"
                 group = "TEAM CLOUD"
                 color = "#a855f7"
-        elif "llamacpp" in provider.lower() or "9931" in base_url or agent_id in ["coder14b", "mistral24b", "qwen", "vision7b", "gynbot2", "gynbox3", "mark2"]:
+        elif is_llamacpp or "llamacpp" in provider.lower() or "9931" in base_url or agent_id in ["default", "gynbot1", "vision7b", "gemmo", "nemohouse", "coder14b", "mistral24b", "qwen"]:
             provider = "llamacpp"
             base_url = "http://127.0.0.1:9931/v1"
             source_label = "llama.cpp (Disco D:)"
+            is_cloud = False
+            if agent_id == "nemohouse":
+                group = "TEAM SVILUPPO"
+                color = "#34d399"
+            elif agent_id == "gemmo":
+                group = "TEAM SVILUPPO"
+                color = "#ec4899"
+            elif agent_id == "vision7b":
+                group = "TEAM VISUAL AUDIT"
+                color = "#0ea5e9"
+            else:
+                group = "TEAM SVILUPPO"
+                color = "#3b82f6"
         else:
             provider = "ollama"
             base_url = "http://127.0.0.1:11434/v1"
@@ -2015,13 +2156,23 @@ class FastStatHandler(http.server.BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(history).encode("utf-8"))
             return
 
-        # 7. Providers Auto-Discovery (Ollama, LM Studio, Hermes, OpenAI)
+        # 7. Providers Auto-Discovery (llama.cpp, Ollama, LM Studio, Hermes, OpenAI)
         if path == "/api/v1/providers/discovery":
             results = {
+                "llamacpp": {"online": False, "endpoint": "http://127.0.0.1:9931/v1", "models": []},
                 "ollama": {"online": False, "endpoint": "http://127.0.0.1:11434", "models": []},
                 "lmstudio": {"online": False, "endpoint": "http://127.0.0.1:1234/v1", "models": []},
                 "hermes": {"online": False, "profiles": []}
             }
+            # Check llama.cpp Router
+            try:
+                req = urllib.request.Request("http://127.0.0.1:9931/v1/models")
+                with urllib.request.urlopen(req, timeout=0.8) as r:
+                    d = json.loads(r.read().decode())
+                    results["llamacpp"]["online"] = True
+                    results["llamacpp"]["models"] = [m["id"] for m in d.get("data", [])]
+            except Exception:
+                pass
             # Check Ollama
             try:
                 req = urllib.request.Request("http://127.0.0.1:11434/api/tags")
@@ -2295,6 +2446,29 @@ class FastStatHandler(http.server.BaseHTTPRequestHandler):
                         res = {"ok": True, "latency_ms": lat, "models": ["hermes-agent"], "message": f"Profilo Hermes rilevato con successo ({'database state.db attivo' if has_db else 'profilo valido'})"}
                     else:
                         res = {"ok": False, "latency_ms": 1, "message": f"Profilo Hermes non trovato sul disco: {p_path}"}
+                elif provider == "llamacpp":
+                    ep = endpoint or "http://127.0.0.1:9931/v1"
+                    url = ep.rstrip("/") + ("/models" if ep.endswith("/v1") else "/v1/models")
+                    req = urllib.request.Request(url)
+                    with urllib.request.urlopen(req, timeout=2.5) as r:
+                        d = json.loads(r.read().decode())
+                        raw_models = d.get("data", [])
+                        models = [m.get("id") for m in raw_models]
+                        lat = round((time.time() - t0) * 1000)
+                        res = {"ok": True, "latency_ms": lat, "models": models, "message": f"Connesso a llama.cpp Router (:9931) ({len(models)} modelli GGUF disponibili)"}
+                elif provider == "orcarouter":
+                    ep = endpoint or "https://api.orcarouter.ai/v1"
+                    url = ep.rstrip("/") + ("/models" if ep.endswith("/v1") else "/v1/models")
+                    req = urllib.request.Request(url)
+                    orca_key = api_key or os.environ.get("HERMES_CUSTOM_ORCA_LANCIO_API_KEY", "")
+                    if orca_key:
+                        req.add_header("Authorization", f"Bearer {orca_key}")
+                    with urllib.request.urlopen(req, timeout=3.5) as r:
+                        d = json.loads(r.read().decode())
+                        raw_models = d.get("data", [])
+                        models = [m.get("id") for m in raw_models[:35]]
+                        lat = round((time.time() - t0) * 1000)
+                        res = {"ok": True, "latency_ms": lat, "models": models, "message": f"Connesso a OrcaRouter Cloud ({len(raw_models)} modelli disponibili)"}
                 elif provider == "ollama":
                     ep = endpoint or "http://127.0.0.1:11434"
                     url = ep.rstrip("/") + "/api/tags"
@@ -2364,7 +2538,9 @@ class FastStatHandler(http.server.BaseHTTPRequestHandler):
                 new_id = f"{base_id}_{counter}"
 
             provider = payload.get("provider", "ollama")
-            is_cloud = bool(payload.get("is_cloud", False) or provider == "cloud")
+            is_cloud = bool(payload.get("is_cloud", False) or provider in ["cloud", "orcarouter", "nvidia", "openrouter", "google"])
+            if provider == "llamacpp":
+                is_cloud = False
             new_agent = {
                 "id": new_id,
                 "name": name,

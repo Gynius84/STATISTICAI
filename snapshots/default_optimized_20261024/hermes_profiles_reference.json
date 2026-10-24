@@ -1,0 +1,100 @@
+{
+  "default": {
+    "name": "GynBot1",
+    "model": "bartowski/Hermes-3-Llama-3.1-8B-GGUF:Q4_K_M",
+    "provider": "llamacpp",
+    "endpoint": "http://127.0.0.1:9931/v1",
+    "context_limit": 32768
+  },
+  "vision7b": {
+    "name": "VISION",
+    "model": "PatataAliena/Qwen2.5-VL-7B-Instruct-Q4_K_M-GGUF:Q4_K_M",
+    "provider": "llamacpp",
+    "endpoint": "http://127.0.0.1:9931/v1",
+    "context_limit": 32768
+  },
+  "gemmo": {
+    "name": "GEMMO",
+    "model": "ggml-org/gemma-4-E4B-it-GGUF:Q4_0",
+    "provider": "llamacpp",
+    "endpoint": "http://127.0.0.1:9931/v1",
+    "context_limit": 32768
+  },
+  "nemohouse": {
+    "name": "NEMOHOUSE",
+    "model": "nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB:Q4_K_M",
+    "provider": "llamacpp",
+    "endpoint": "http://127.0.0.1:9931/v1",
+    "context_limit": 32768
+  },
+  "beam": {
+    "name": "BEAM",
+    "model": "beam:cloud",
+    "provider": "ollama",
+    "endpoint": "http://127.0.0.1:11434",
+    "context_limit": 1048576
+  },
+  "nemo": {
+    "name": "NEMO",
+    "model": "nemotron-3-ultra:cloud",
+    "provider": "ollama",
+    "endpoint": "http://127.0.0.1:11434",
+    "context_limit": 262144
+  },
+  "nomotron": {
+    "name": "NEMOTRON",
+    "model": "nvidia/nemotron-3-ultra-550b-a55b",
+    "provider": "nvidia",
+    "endpoint": "https://integrate.api.nvidia.com/v1",
+    "context_limit": 131072
+  },
+  "deepseek": {
+    "name": "DEEPSEEK",
+    "model": "deepseek-ai/deepseek-v4.1-flash",
+    "provider": "nvidia",
+    "endpoint": "https://integrate.api.nvidia.com/v1",
+    "context_limit": 131072
+  },
+  "drago": {
+    "name": "DRAGO",
+    "model": "z-ai/glm-5.3-flash",
+    "provider": "nvidia",
+    "endpoint": "https://integrate.api.nvidia.com/v1",
+    "context_limit": 65536
+  },
+  "google": {
+    "name": "GEMINI",
+    "model": "models/gemini-3.5-flash",
+    "provider": "google",
+    "endpoint": "https://generativelanguage.googleapis.com/v1beta",
+    "context_limit": 1048576
+  },
+  "inkling": {
+    "name": "INKLING",
+    "model": "thinkingmachines/inkling:free",
+    "provider": "openrouter",
+    "endpoint": "https://openrouter.ai/api/v1",
+    "context_limit": 131072
+  },
+  "laguna": {
+    "name": "LAGUNA",
+    "model": "poolside/laguna-s-2.1:free",
+    "provider": "openrouter",
+    "endpoint": "https://openrouter.ai/api/v1",
+    "context_limit": 131072
+  },
+  "deeppo4flash": {
+    "name": "DEEPPO4flash",
+    "model": "deepseek/deepseek-v4-flash-free",
+    "provider": "orcarouter",
+    "endpoint": "https://api.orcarouter.ai/v1",
+    "context_limit": 131072
+  },
+  "deeppo4-1flash": {
+    "name": "DEEPPO41flash",
+    "model": "deepseek/deepseek-v4.1-flash-free",
+    "provider": "orcarouter",
+    "endpoint": "https://api.orcarouter.ai/v1",
+    "context_limit": 131072
+  }
+}

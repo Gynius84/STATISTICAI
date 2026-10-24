@@ -30,6 +30,8 @@ HISTORY_FILE = DATA_DIR / "actions_history.json"
 HERMES_ROOT = Path(r"C:\Users\Gyniu\AppData\Local\hermes")
 MANIFEST_FILE = HERMES_ROOT / "golden_tuning" / "tuning_manifest.json"
 HERMES_PYTHON = Path(r"C:\Users\Gyniu\AppData\Local\hermes\tools\python-3.14.7+20260901-win32-x64\python.exe")
+SNAPSHOT_DIR = BASE_DIR / "snapshots" / "default_optimized_20261024"
+SNAPSHOT_PROFILES_DIR = SNAPSHOT_DIR / "profiles"
 
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 WIN_FLAGS = 0x08000000 if sys.platform == "win32" else 0
@@ -421,62 +423,101 @@ def diagnose_agent(agent_id: str, profile_name: str, model_name: str, context_li
 
 
 def cure_session(agent_id: str, agent_name: str, profile_name: str) -> dict:
-    """Cura SOLO la sessione dell'agente (pulisce lease orfani e registra timestamp di cura)."""
+    """Cura SOLO la sessione dell'agente (pulisce lease orfani, conflitti di admissione e registra timestamp di cura)."""
     b_path = backup_agent(agent_id, profile_name, "cure_session")
     p_dir = get_profile_path(profile_name)
 
-    # 1. Pulisce lease orfani
-    rt_file = p_dir / "runtime" / "active_sessions.json"
     cleaned_count = 0
+    # 1. Pulisce lease orfani e sessioni attive in active_sessions.json
+    rt_file = p_dir / "runtime" / "active_sessions.json"
     if rt_file.exists():
         try:
             data = json.loads(rt_file.read_text(encoding="utf-8"))
             entries = data.get("entries", [])
-            cleaned_count = len(entries)
+            cleaned_count += len(entries)
             data["entries"] = []
             rt_file.write_text(json.dumps(data, indent=2), encoding="utf-8")
         except Exception:
             pass
 
-    # 2. Registra timestamp di cura per ignorare errori log precedenti alla cura manuale
+    # 2. Pulisce eventuali file di lock o lease residui (risolve admission_conflict)
+    rt_dir = p_dir / "runtime"
+    if rt_dir.exists():
+        for lk in rt_dir.glob("*.lock"):
+            try:
+                lk.unlink(missing_ok=True)
+                cleaned_count += 1
+            except Exception:
+                pass
+        for ls in rt_dir.glob("*.lease"):
+            try:
+                ls.unlink(missing_ok=True)
+                cleaned_count += 1
+            except Exception:
+                pass
+
+    # 3. Checkpoint SQLite se presente state.db per liberare lock WAL
+    db_file = p_dir / "state.db"
+    if db_file.exists():
+        try:
+            conn = sqlite3.connect(str(db_file), timeout=1.5)
+            conn.execute("PRAGMA wal_checkpoint(TRUNCATE);")
+            conn.close()
+        except Exception:
+            pass
+
+    # 4. Registra timestamp di cura per ignorare errori log precedenti alla cura manuale
     cured_map = _load_json(CURED_FILE, {})
     cured_map[agent_id] = time.time()
     _save_json(CURED_FILE, cured_map)
 
-    # 3. Rimuove simulazione sessione se presente
+    # 5. Rimuove simulazione sessione se presente
     sims = get_simulated_states()
-    if agent_id in sims and sims[agent_id].get("type") == "session":
-        del sims[agent_id]
+    if agent_id in sims and sims[agent_id].get("type") in ["session", "cemetery"]:
+        if sims[agent_id].get("type") == "session":
+            del sims[agent_id]
+        else:
+            sims[agent_id]["type"] = "context"
         _save_json(SIMULATED_FILE, sims)
 
-    msg = f"Sessione curata con successo: ripuliti lease attivi ({cleaned_count}) e resettato stato diagnostico."
+    msg = f"Sessione curata con successo: ripuliti lease orfani e sbloccati conflitti ({cleaned_count} oggetti) per {agent_name}."
     log_action(agent_id, agent_name, "CURA_SESSIONE", "SUCCESSO", msg, str(b_path))
     return {"ok": True, "message": msg, "backup_path": str(b_path)}
 
 
 def cure_context(agent_id: str, agent_name: str, profile_name: str) -> dict:
-    """Cura SOLO il contesto dell'agente ripristinando il file di configurazione golden calibrato."""
+    """Cura SOLO il contesto dell'agente ripristinando la configurazione golden dallo Snapshot Default Ottimizzato."""
     b_path = backup_agent(agent_id, profile_name, "cure_context")
     p_dir = get_profile_path(profile_name)
 
-    # File golden testato e verificato
-    golden_dir = HERMES_ROOT / "golden_tuning" / "profiles"
-    golden_cfg = golden_dir / "default" / "config.yaml" if profile_name == "default" else golden_dir / profile_name / "config.yaml"
+    # 1. Ricerca configurazione nello Snapshot Ufficiale di Default (Step 5)
+    golden_cfg = SNAPSHOT_PROFILES_DIR / profile_name / "config.yaml"
+    if not golden_cfg.exists():
+        # Fallback secondario su golden_tuning se presente
+        golden_dir = HERMES_ROOT / "golden_tuning" / "profiles"
+        golden_cfg = golden_dir / "default" / "config.yaml" if profile_name == "default" else golden_dir / profile_name / "config.yaml"
 
     if golden_cfg.exists():
         shutil.copy2(golden_cfg, p_dir / "config.yaml")
+        if profile_name == "default":
+            sub_def = HERMES_ROOT / "profiles" / "default" / "config.yaml"
+            if sub_def.exists():
+                shutil.copy2(golden_cfg, sub_def)
     else:
-        err = f"File golden non trovato per profilo {profile_name} in {golden_cfg}"
+        err = f"File snapshot default non trovato per profilo '{profile_name}' in {golden_cfg}"
         log_action(agent_id, agent_name, "CURA_CONTESTO", "ERRORE", err, str(b_path))
         return {"ok": False, "error": err}
 
     # Rimuove simulazione contesto se presente
     sims = get_simulated_states()
-    if agent_id in sims and sims[agent_id].get("type") == "context":
-        del sims[agent_id]
+    if agent_id in sims and sims[agent_id].get("type") in ["context", "cemetery"]:
+        if sims[agent_id].get("type") == "context":
+            del sims[agent_id]
+        else:
+            sims[agent_id]["type"] = "session"
         _save_json(SIMULATED_FILE, sims)
 
-    msg = f"Contesto curato con successo: ripristinata configurazione golden calibrata per {agent_name}."
+    msg = f"Contesto curato con successo: ripristinata configurazione golden calibrata per {agent_name} dallo Snapshot Default Ottimizzato."
     log_action(agent_id, agent_name, "CURA_CONTESTO", "SUCCESSO", msg, str(b_path))
     return {"ok": True, "message": msg, "backup_path": str(b_path)}
 
