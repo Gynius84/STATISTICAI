@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STATISTICHEAI v2.7 - Monitor Agenti Hermes & Penta-Cloud Titans & llama.cpp (:9931)</title>
+    <title>STATISTICHEAI v2.8 - Monitor Agenti Hermes & Penta-Cloud Titans & llama.cpp (:9931)</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
         /* -------------------------------------------------------------
@@ -1497,13 +1497,13 @@
                     <div class="main-title" id="main-header-title">
                         <span style="color: #7aa2f7;">STATISTICHEAI</span>
                         <span style="color: #565f89; margin: 0 4px;">•</span>
-                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 14 AGENTI • 4 LOCALI (LLAMA.CPP :9931) + 10 TITANI PENTA-CLOUD (v2.7)</span>
+                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 15 AGENTI • 5 LOCALI (LLAMA.CPP :9931) + 10 TITANI PENTA-CLOUD (v2.8)</span>
                     </div>
                     <div id="title-dynamic-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 11px; margin-top: 3px; flex-wrap: wrap;">
                         <span id="title-workflow-badge" class="badge" style="background: #041f15; color: #34d399; border-color: #10b981; padding: 2px 7px; font-size: 10px; cursor: default; letter-spacing: 0.5px;">
-                            🔀 WORKFLOW: 🦙 LLAMA.CPP :9931 (4 LOCALI) + ☁ OLLAMA CLOUD (2) + ⚡ NVIDIA NIM (3) + 🌌 OPENROUTER (2) + ✨ GOOGLE AI (1) + ⚡ ORCAROUTER (2) = 14 AGENTI
+                            🔀 WORKFLOW: 🦙 LLAMA.CPP :9931 (5 LOCALI DISCO D:) + ☁ OLLAMA CLOUD (2) + ⚡ NVIDIA NIM (3) + 🌌 OPENROUTER (2) + ✨ GOOGLE AI (1) + ⚡ ORCAROUTER (2) = 15 AGENTI
                         </span>
-                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.7: PENTA-CLOUD TITANS • 4 STANZE PIXEL ART • RADAR OPENCOMPASS • ZERO OVERHEAD</span>
+                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.8: PENTA-CLOUD TITANS • 4 STANZE PIXEL ART • RADAR OPENCOMPASS • ZERO OVERHEAD</span>
                     </div>
                 </div>
             </div>
@@ -1551,8 +1551,8 @@
 
             <!-- DIVISIONE 1: METRICHE HARDWARE LOCALE & MOTORI -->
             <div class="hud-sub-header" style="border-left-color: #38bdf8; color: #7dd3fc;">
-                <span>⚡ TELEMETRIA HARDWARE LOCALE & MOTORI INFERENCE (RTX 4060 • DISCO D: 9931 • OLLAMA C:)</span>
-                <span style="color: var(--text-muted); font-size: 9px;">9 METRICHE LOCALI</span>
+                <span>⚡ TELEMETRIA HARDWARE LOCALE & MOTORI INFERENCE (RTX 4060 • LLAMA.CPP DISCO D: :9931 • OLLAMA CLOUD :11434)</span>
+                <span style="color: var(--text-muted); font-size: 9px;">HARDWARE & CLUSTER</span>
             </div>
             <div class="hud-grid" id="hud-grid-system">
                 <!-- CPU -->
@@ -1603,15 +1603,15 @@
                     </div>
                 </div>
 
-                <!-- OLLAMA STATUS (DISCO C:) -->
+                <!-- OLLAMA STATUS (GATEWAY CLOUD) -->
                 <div class="hud-metric draggable-hud" data-hud-id="hud-ollama">
                     <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ OLLAMA</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-ollama', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-ollama', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
-                        <span style="color: #6ee7b7; font-weight: bold;">🦙 OLLAMA (DISCO C:)</span>
+                        <span style="color: #6ee7b7; font-weight: bold;">☁ OLLAMA (GATEWAY CLOUD)</span>
                         <span id="hud-ollama-val">CONNESSO</span>
                     </div>
                     <div style="font-size: 10px; color: var(--text-bright); margin-top: 4px;" id="hud-ollama-sub">
-                        MODELLI IN VRAM: 0 | MODELLI ATTIVI: 5 LOCALI (DISCO C:)
+                        MODELLI LOCALI: 0 | GATEWAY CLOUD (BEAM 501B • NEMO 550B • 0 MB VRAM)
                     </div>
                 </div>
 
@@ -1623,7 +1623,7 @@
                         <span id="hud-llamacpp-val" style="color: var(--hp-green);">PORTA 9931</span>
                     </div>
                     <div style="font-size: 10px; color: var(--text-bright); margin-top: 4px;" id="hud-llamacpp-sub">
-                        MODELLI ATTIVI: 4 GGUF (ROUTER DISCO D:)
+                        MODELLI ATTIVI: 5 GGUF (ROUTER DISCO D:) • 100% VRAM GPU
                     </div>
                 </div>
 
@@ -1644,28 +1644,28 @@
                     <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ SVILUPPO</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-sviluppo', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-sviluppo', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
                         <span style="color: #fbbf24; font-weight: bold;">⚒ TEAM SVILUPPO</span>
-                        <span id="hud-sviluppo-stat" style="color: var(--hp-green); font-weight: bold;">3/3 OPERATIVI</span>
+                        <span id="hud-sviluppo-stat" style="color: var(--hp-green); font-weight: bold;">4/4 OPERATIVI</span>
                     </div>
                     <div class="pixel-bar-container">
                         <div id="hud-sviluppo-bar" class="pixel-bar-fill" style="width: 100%; background-color: #fbbf24;"></div>
                     </div>
                     <div style="font-size: 9px; color: var(--text-muted); margin-top: 3px;" id="hud-sviluppo-members">
-                        GynBot1 (Regista) • PROGRAMMATORE • QUALITY CHEKER
+                        GynBot1 (Regista) • GEMMO • NEMOHOUSE • CEH
                     </div>
                 </div>
 
-                <!-- GRUPPO: TEAM MARKETING -->
-                <div class="hud-metric draggable-hud" data-hud-id="hud-marketing" style="border-color: #3f2257;">
-                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ MARKETING</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-marketing', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-marketing', 1)">▶</button></div></div>
+                <!-- GRUPPO: TEAM VISUAL AUDIT -->
+                <div class="hud-metric draggable-hud" data-hud-id="hud-audit" style="border-color: #0284c7;">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ AUDIT</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-audit', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-audit', 1)">▶</button></div></div>
                     <div class="hud-metric-header">
-                        <span style="color: #c084fc; font-weight: bold;">📢 TEAM MARKETING</span>
-                        <span id="hud-marketing-stat" style="color: var(--hp-green); font-weight: bold;">3/3 OPERATIVI</span>
+                        <span style="color: #38bdf8; font-weight: bold;">👁️ AUDIT & VISION</span>
+                        <span id="hud-audit-stat" style="color: var(--hp-green); font-weight: bold;">1/1 OPERATIVO</span>
                     </div>
                     <div class="pixel-bar-container">
-                        <div id="hud-marketing-bar" class="pixel-bar-fill" style="width: 100%; background-color: #c084fc;"></div>
+                        <div id="hud-audit-bar" class="pixel-bar-fill" style="width: 100%; background-color: #38bdf8;"></div>
                     </div>
-                    <div style="font-size: 9px; color: var(--text-muted); margin-top: 3px;" id="hud-marketing-members">
-                        Direttore Marketing • Copywriter • Growth Hacker
+                    <div style="font-size: 9px; color: var(--text-muted); margin-top: 3px;" id="hud-audit-members">
+                        VISION (Qwen2.5-VL 7B Multimodal • Disco D:)
                     </div>
                 </div>
 
@@ -1947,20 +1947,18 @@
             <!-- RIGA 1: FILTRO SQUADRE & AZIONI SINCRONIZZAZIONE -->
             <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap; width: 100%; padding-bottom: 6px; border-bottom: 1px dotted rgba(86, 95, 137, 0.35);">
                 <span style="font-weight: bold; color: var(--text-muted); font-size: 10px; text-transform: uppercase;">FILTRA TEAM:</span>
-                <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (14)</button>
+                <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (15)</button>
+                <button class="btn-filter" data-filter="llamacpp" style="color: #60a5fa; border-color: #3b82f6; box-shadow: 0 0 6px rgba(96,165,250,0.3);" onclick="setFilter('llamacpp')">🦙 LLAMA.CPP DISCO D: (5)</button>
                 <button class="btn-filter btn-filter-cloud" id="filter-btn-cloud" data-filter="TITANI CLOUD" onclick="setFilter('TITANI CLOUD')">☁ TUTTI I CLOUD (10)</button>
                 <button class="btn-filter" id="filter-btn-ollama-cloud" data-filter="OLLAMA CLOUD" style="color: #38bdf8; border-color: #0284c7; box-shadow: 0 0 6px rgba(56,189,248,0.3);" onclick="setFilter('OLLAMA CLOUD')">☁ OLLAMA CLOUD (2)</button>
                 <button class="btn-filter" id="filter-btn-nvidia" data-filter="TEAM CLOUD TITANS" style="color: #76b900; border-color: #76b900;" onclick="setFilter('TEAM CLOUD TITANS')">⚡ NVIDIA NIM (3)</button>
                 <button class="btn-filter" id="filter-btn-openrouter" data-filter="TEAM OPENROUTER CLOUD" style="color: #c084fc; border-color: #a855f7; box-shadow: 0 0 6px rgba(168,85,247,0.3);" onclick="setFilter('TEAM OPENROUTER CLOUD')">🌌 OPENROUTER (2)</button>
                 <button class="btn-filter" id="filter-btn-google" data-filter="TEAM GOOGLE AI CLOUD" style="color: #fbbf24; border-color: #f59e0b; box-shadow: 0 0 6px rgba(245,158,11,0.3);" onclick="setFilter('TEAM GOOGLE AI CLOUD')">✨ GOOGLE AI (1)</button>
                 <button class="btn-filter" id="filter-btn-orcarouter" data-filter="TEAM ORCAROUTER CLOUD" style="color: #34d399; border-color: #10b981; box-shadow: 0 0 6px rgba(16,185,129,0.3);" onclick="setFilter('TEAM ORCAROUTER CLOUD')">⚡ ORCAROUTER (2)</button>
-                <button class="btn-filter" data-filter="llamacpp" style="color: #60a5fa; border-color: #3b82f6;" onclick="setFilter('llamacpp')">🦙 LLAMA.CPP DISCO D: (4)</button>
-                <button class="btn-filter btn-filter-sviluppo" data-filter="TEAM SVILUPPO" onclick="setFilter('TEAM SVILUPPO')">⚒ SVILUPPO</button>
-                <button class="btn-filter btn-filter-marketing" data-filter="TEAM MARKETING" onclick="setFilter('TEAM MARKETING')">📢 MARKETING</button>
-                <button class="btn-filter btn-filter-security" data-filter="TEAM SICUREZZA & CODING" onclick="setFilter('TEAM SICUREZZA & CODING')">🛡 SICUREZZA & CODING</button>
-                <button class="btn-filter" data-filter="TEAM RAGIONAMENTO" style="color: #f59e0b; border-color: #d97706;" onclick="setFilter('TEAM RAGIONAMENTO')">🧠 RAGIONAMENTO</button>
-                <button class="btn-filter" data-filter="TEAM DEEP THINKING" style="color: #06b6d4; border-color: #0891b2;" onclick="setFilter('TEAM DEEP THINKING')">🔮 DEEP THINKING</button>
-                <button class="btn-filter" data-filter="TEAM VISUAL AUDIT" style="color: #38bdf8; border-color: #0284c7;" onclick="setFilter('TEAM VISUAL AUDIT')">👁 VISUAL AUDIT</button>
+                <button class="btn-filter btn-filter-sviluppo" data-filter="TEAM SVILUPPO" onclick="setFilter('TEAM SVILUPPO')">⚒ SVILUPPO (4)</button>
+                <button class="btn-filter" data-filter="TEAM VISUAL AUDIT" style="color: #38bdf8; border-color: #0284c7;" onclick="setFilter('TEAM VISUAL AUDIT')">👁 VISUAL AUDIT (1)</button>
+                <button class="btn-filter" data-filter="SUPER COORDINATORE" style="color: #38bdf8; border-color: #0284c7;" onclick="setFilter('SUPER COORDINATORE')">☁ COORDINATORE (1)</button>
+                <button class="btn-filter" data-filter="TEAM DEEP THINKING" style="color: #06b6d4; border-color: #0891b2;" onclick="setFilter('TEAM DEEP THINKING')">🔮 DEEP THINKING (2)</button>
 
                 <div style="margin-left: auto; display: flex; gap: 6px;">
                     <button class="btn-sync-agent" id="btn-sync-agents" onclick="triggerAgentDiscovery()" title="Rileva e sincronizza istantaneamente profili Hermes ed endpoint">
@@ -2044,9 +2042,9 @@
                 </div>
                 <div class="footer-services">
                     <span class="srv-badge srv-ok" id="footer-hermes-status">[ HERMES GATEWAY :42000 OK ]</span>
-                    <span class="srv-badge srv-ok" id="footer-ollama-status">[ OLLAMA :11434 (DISCO C:) OK ]</span>
-                    <span class="srv-badge srv-ok" id="footer-llamacpp-status">[ LLAMA.CPP :9931 (DISCO D:) OK ]</span>
-                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (v2.5) OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-ollama-status">[ OLLAMA :11434 (GATEWAY CLOUD) OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-llamacpp-status">[ LLAMA.CPP :9931 (5 MODELLI D:) OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (v2.8) OK ]</span>
                 </div>
             </div>
 
@@ -2055,17 +2053,17 @@
                     <span class="team-footer-chip chip-sviluppo">
                         <span class="chip-icon">⚒</span>
                         <b>TEAM SVILUPPO:</b>
-                        <span id="footer-sviluppo-text">3/3 Agenti Operativi (GynBot1, PROGRAMMATORE, QUALITY CHEKER)</span>
+                        <span id="footer-sviluppo-text">4/4 Agenti Operativi (GynBot1, GEMMO, NEMOHOUSE, CEH)</span>
                     </span>
-                    <span class="team-footer-chip chip-marketing">
-                        <span class="chip-icon">📢</span>
-                        <b>TEAM MARKETING:</b>
-                        <span id="footer-marketing-text">3/3 Agenti Operativi (Direttore, Copywriter, Growth Hacker)</span>
+                    <span class="team-footer-chip chip-audit" style="border: 1px solid #0284c7; background: #081f33; color: #38bdf8;">
+                        <span class="chip-icon">👁</span>
+                        <b>AUDIT & VISION:</b>
+                        <span id="footer-audit-text">VISION (Qwen2.5-VL 7B Multimodal • Disco D:)</span>
                     </span>
-                    <span class="team-footer-chip chip-security">
-                        <span class="chip-icon">🛡</span>
-                        <b>SICUREZZA & CODING:</b>
-                        <span id="footer-security-text">DARK CODER, IQ, MIND, VISION Operativi</span>
+                    <span class="team-footer-chip chip-cloud" style="border: 1px solid #76b900; background: #091a0c; color: #76b900;">
+                        <span class="chip-icon">⚡</span>
+                        <b>TITANI PENTA-CLOUD:</b>
+                        <span id="footer-cloud-titans-text">10 Titani Attivi (Ollama, NIM, OpenRouter, Google AI, OrcaRouter)</span>
                     </span>
                     <span class="team-footer-chip chip-cloud" style="border: 1px solid #38bdf8; background: #082136; color: #38bdf8;">
                         <span class="chip-icon">☁</span>
@@ -2220,10 +2218,14 @@
                 <div>
                     <label class="form-label">GRUPPO DI APPARTENENZA</label>
                     <select id="add-agent-group-select" class="form-input" onchange="checkCustomGroup(this.value)">
-                        <option value="TEAM SVILUPPO">⚒ TEAM SVILUPPO</option>
-                        <option value="TEAM MARKETING">📢 TEAM MARKETING</option>
-                        <option value="SICUREZZA">🛡 SICUREZZA</option>
-                        <option value="SUPER COORDINATORE">☁ SUPER COORDINATORE</option>
+                        <option value="TEAM SVILUPPO">⚒ TEAM SVILUPPO (Locale D:)</option>
+                        <option value="TEAM VISUAL AUDIT">👁 TEAM VISUAL AUDIT (Locale D:)</option>
+                        <option value="SUPER COORDINATORE">☁ SUPER COORDINATORE (Ollama Cloud)</option>
+                        <option value="TEAM OLLAMA CLOUD">☁ TEAM OLLAMA CLOUD</option>
+                        <option value="TEAM CLOUD TITANS">⚡ TEAM CLOUD TITANS (NVIDIA NIM)</option>
+                        <option value="TEAM OPENROUTER CLOUD">🌌 TEAM OPENROUTER CLOUD</option>
+                        <option value="TEAM GOOGLE AI CLOUD">✨ TEAM GOOGLE AI CLOUD</option>
+                        <option value="TEAM DEEP THINKING">🔮 TEAM DEEP THINKING (OrcaRouter)</option>
                         <option value="__NEW__">+ NUOVO GRUPPO PERSONALIZZATO...</option>
                     </select>
                     <input type="text" id="add-agent-custom-group" class="form-input" style="display: none; margin-top: 4px;" placeholder="Nome nuovo gruppo..." />
@@ -2391,6 +2393,10 @@
             'oculus': API_BASE + '/sprites_agents/OCOLUS.png',
             'qwen': API_BASE + '/sprites_agents/MIND.png',
             'vision7b': API_BASE + '/sprites_agents/VISION.png',
+            'ceh': API_BASE + '/sprites_agents/CEH.png',
+            'CEH': API_BASE + '/sprites_agents/CEH.png',
+            'gemmo': API_BASE + '/sprites_agents/GEMMO.png',
+            'nemohouse': API_BASE + '/sprites_agents/NEMOHOUSE.png',
             'deepseek': API_BASE + '/sprites_agents/deepseek.png',
             'DEEPSEEK': API_BASE + '/sprites_agents/deepseek.png',
             'drago': API_BASE + '/sprites_agents/drago.png',
@@ -2507,14 +2513,14 @@
             document.getElementById('hud-vram-bar').style.width = vramPct + '%';
 
             const runningCount = (ol.running_models || []).length;
-            const ollamaCount = ol.local_models_count || ol.active_models_count || ol.installed_models_count || 5;
+            const ollamaCount = ol.local_models_count ?? ol.installed_models_count ?? 0;
             document.getElementById('hud-ollama-val').textContent = ol.status === 'online' ? 'CONNESSO' : 'OFFLINE/SLOW';
             document.getElementById('hud-ollama-sub').textContent = 
-                'MODELLI IN VRAM: ' + runningCount + ' | MODELLI ATTIVI: ' + ollamaCount + ' LOCALI (DISCO C:)';
+                'MODELLI LOCALI: ' + ollamaCount + ' | GATEWAY CLOUD (BEAM 501B • NEMO 550B • 0 MB VRAM)';
             const fOlStatus = document.getElementById('footer-ollama-status');
             if (fOlStatus) {
                 fOlStatus.className = ol.status === 'online' ? 'srv-badge srv-ok' : 'srv-badge srv-err';
-                fOlStatus.textContent = ol.status === 'online' ? `[ OLLAMA :11434 (${ollamaCount} MODELLI C:) OK ]` : '[ OLLAMA :11434 OFFLINE ]';
+                fOlStatus.textContent = ol.status === 'online' ? `[ OLLAMA :11434 (GATEWAY CLOUD) OK ]` : '[ OLLAMA :11434 OFFLINE ]';
             }
 
             let sani = 0, infermeria = 0, cimitero = 0;
@@ -2529,9 +2535,14 @@
                 'SANI: ' + sani + ' | INFERMERIA: ' + infermeria + ' | CIMITERO: ' + cimitero;
 
             // Statistiche dedicate: TEAM SVILUPPO
-            const sv = grpSummary['TEAM SVILUPPO'] || { total: 3, sani: 3, infermeria: 0, cimitero: 0 };
+            const sv = grpSummary['TEAM SVILUPPO'] || { total: 4, sani: 4, infermeria: 0, cimitero: 0 };
             const svStat = document.getElementById('hud-sviluppo-stat');
             const svBar = document.getElementById('hud-sviluppo-bar');
+            const svMembersEl = document.getElementById('hud-sviluppo-members');
+            if (svMembersEl) {
+                const svMembers = agents.filter(a => a.group === 'TEAM SVILUPPO').map(a => a.name || a.title || a.id);
+                svMembersEl.textContent = svMembers.length > 0 ? svMembers.join(' • ') : 'GynBot1 (Regista) • GEMMO • NEMOHOUSE • CEH';
+            }
             if (svStat && svBar) {
                 if (sv.cimitero > 0) {
                     svStat.textContent = sv.cimitero + ' CRASH';
@@ -2551,26 +2562,30 @@
                 }
             }
 
-            // Statistiche dedicate: TEAM MARKETING
-            const mk = grpSummary['TEAM MARKETING'] || { total: 3, sani: 3, infermeria: 0, cimitero: 0 };
-            const mkStat = document.getElementById('hud-marketing-stat');
-            const mkBar = document.getElementById('hud-marketing-bar');
-            if (mkStat && mkBar) {
-                if (mk.cimitero > 0) {
-                    mkStat.textContent = mk.cimitero + ' CRASH';
-                    mkStat.style.color = 'var(--cemetery-purple)';
-                    mkBar.style.backgroundColor = 'var(--cemetery-purple)';
-                    mkBar.style.width = '30%';
-                } else if (mk.infermeria > 0) {
-                    mkStat.textContent = mk.infermeria + ' IN CURA';
-                    mkStat.style.color = 'var(--hp-yellow)';
-                    mkBar.style.backgroundColor = 'var(--hp-yellow)';
-                    mkBar.style.width = '65%';
+            // Statistiche dedicate: TEAM VISUAL AUDIT
+            const aud = grpSummary['TEAM VISUAL AUDIT'] || { total: 1, sani: 1, infermeria: 0, cimitero: 0 };
+            const audStat = document.getElementById('hud-audit-stat');
+            const audBar = document.getElementById('hud-audit-bar');
+            const audMembersEl = document.getElementById('hud-audit-members');
+            if (audMembersEl) {
+                audMembersEl.textContent = 'VISION (Qwen2.5-VL 7B Multimodal • Disco D:)';
+            }
+            if (audStat && audBar) {
+                if (aud.cimitero > 0) {
+                    audStat.textContent = aud.cimitero + ' CRASH';
+                    audStat.style.color = 'var(--cemetery-purple)';
+                    audBar.style.backgroundColor = 'var(--cemetery-purple)';
+                    audBar.style.width = '30%';
+                } else if (aud.infermeria > 0) {
+                    audStat.textContent = aud.infermeria + ' IN CURA';
+                    audStat.style.color = 'var(--hp-yellow)';
+                    audBar.style.backgroundColor = 'var(--hp-yellow)';
+                    audBar.style.width = '65%';
                 } else {
-                    mkStat.textContent = mk.sani + '/' + mk.total + ' OPERATIVI';
-                    mkStat.style.color = 'var(--hp-green)';
-                    mkBar.style.backgroundColor = '#c084fc';
-                    mkBar.style.width = '100%';
+                    audStat.textContent = aud.sani + '/' + aud.total + ' OPERATIVO';
+                    audStat.style.color = 'var(--hp-green)';
+                    audBar.style.backgroundColor = '#38bdf8';
+                    audBar.style.width = '100%';
                 }
             }
 
@@ -2583,8 +2598,8 @@
                 if (lc.status === 'online') {
                     lcVal.textContent = 'ONLINE (PORTA 9931)';
                     lcVal.style.color = 'var(--hp-green)';
-                    const count = lc.models_count || (lc.models ? lc.models.length : 4);
-                    lcSub.textContent = `MODELLI ATTIVI: ${count} GGUF (ROUTER DISCO D:)`;
+                    const count = lc.models_count || (lc.models ? lc.models.length : 5);
+                    lcSub.textContent = `MODELLI ATTIVI: ${count} GGUF (ROUTER DISCO D:) • 100% VRAM GPU`;
                     if (fLcStatus) {
                         fLcStatus.className = 'srv-badge srv-ok';
                         fLcStatus.textContent = `[ LLAMA.CPP :9931 (${count} MODELLI D:) OK ]`;
@@ -2765,23 +2780,24 @@
 
             autoProvisionDynamicCloudCards(agents);
 
-            // Aggiornamento Ticker nel Footer in tempo reale
+            // Aggiornamento Ticker nel Footer in tempo reale (v2.8)
             const fSv = document.getElementById('footer-sviluppo-text');
             if (fSv) {
-                fSv.textContent = `${sv.sani}/${sv.total} Operativi [${sv.sani === sv.total ? 'OK' : 'ATTENZIONE'}] (GynBot1, PROGRAMMATORE, QUALITY CHEKER)`;
+                fSv.textContent = `${sv.sani}/${sv.total} Operativi [${sv.sani === sv.total ? 'OK' : 'ATTENZIONE'}] (GynBot1, GEMMO, NEMOHOUSE, CEH)`;
             }
-            const fMk = document.getElementById('footer-marketing-text');
-            if (fMk) {
-                fMk.textContent = `${mk.sani}/${mk.total} Operativi [${mk.sani === mk.total ? 'OK' : 'ATTENZIONE'}] (Direttore, Copywriter, Growth Hacker)`;
+            const fAud = document.getElementById('footer-audit-text');
+            if (fAud) {
+                fAud.textContent = `VISION Operativo [OK] (Qwen2.5-VL 7B Multimodal • Disco D:)`;
             }
-            const fSc = document.getElementById('footer-security-text');
-            if (fSc) {
-                fSc.textContent = `DARK CODER, IQ, MIND, VISION Operativi [OK] (Router Disco D: porta 9931)`;
+            const fCloudTitans = document.getElementById('footer-cloud-titans-text');
+            if (fCloudTitans) {
+                const activeClouds = agents.filter(a => a.is_cloud || a.id === 'beam');
+                fCloudTitans.textContent = `${activeClouds.length} Titani Attivi (Ollama Cloud, NIM, OpenRouter, Google AI, OrcaRouter) [100% OPERATIVI]`;
             }
             const fCloud = document.getElementById('footer-cloud-text');
             if (fCloud) {
-                const activeClouds = agents.filter(a => a.is_cloud || a.id === 'beam');
-                fCloud.textContent = `CLOUD ATTIVI (${activeClouds.length}): ` + activeClouds.map(a => `${a.name} (${(a.lifetime_tokens || 0).toLocaleString()} tok)`).join(' • ') + ' [100% OPERATIVI]';
+                const beamAg = agents.find(a => a.id === 'beam');
+                fCloud.textContent = beamAg ? `BEAM (501B Cloud, 1M Context, Zero VRAM) Attivo [${(beamAg.lifetime_tokens || 0).toLocaleString()} tok]` : 'BEAM (501B Cloud, 1M Context) Attivo';
             }
 
             // Aggiornamento Titolo Dinamico & Workflow Adattivo
@@ -2816,39 +2832,25 @@
                 else providers.add('ollama');
             });
 
-            // 1. Titolo Principale Adattivo
+            // 1. Titolo Principale Adattivo (v2.8)
             let titleText = '';
-            const hasLlamaCpp = providers.has('llamacpp') || (lc && lc.status === 'online');
-            if (hermesAgents.length > 0) {
-                if (hasLlamaCpp && cloudAgents.length > 0) {
-                    titleText = `HERMES ${hermesAgents.length} AGENTI • OLLAMA (C:) + LLAMA.CPP (D:) + CLOUD (${agents.length} TOTALI)`;
-                } else if (cloudAgents.length > 0) {
-                    titleText = `HERMES ${hermesAgents.length} AGENTI & OLLAMA + ${cloudAgents.length} CLOUD (${agents.length} TOTALI)`;
-                } else {
-                    titleText = `HERMES ${hermesAgents.length} AGENTI & OLLAMA (${agents.length} TOTALI)`;
-                }
-            } else {
-                let provList = Array.from(providers).map(p => p.toUpperCase()).join(' • ');
-                titleText = `${provList || 'MULTI-ENGINE'} (${agents.length} AGENTI)`;
-            }
+            const localAgents = agents.filter(a => !a.is_cloud);
+            const cloudAgentsList = agents.filter(a => a.is_cloud);
+            titleText = `HERMES ${agents.length} AGENTI • ${localAgents.length} LOCALI (LLAMA.CPP :9931) + ${cloudAgentsList.length} TITANI PENTA-CLOUD (v2.8)`;
             dynamicTitleEl.textContent = titleText;
             document.title = `STATISTICHEAI • ${titleText}`;
 
             // 2. Badge Dettagliato Workflow e Modelli (Locali & Cloud)
             let badgeParts = [];
             
-            // Info Ollama Locale C:
-            if (ol && ol.status === 'online') {
-                const locCount = ol.installed_models_count || (ol.models ? ol.models.length : 2);
-                badgeParts.push(`🦙 OLLAMA LOCALE C: (${locCount} MODELLI)`);
-            } else if (providers.has('ollama')) {
-                badgeParts.push(`🦙 OLLAMA LOCALE C:`);
-            }
+            // Info llama.cpp Locale D: (5 modelli GGUF)
+            const lcCount = lc.models_count || (lc.models ? lc.models.length : 5);
+            badgeParts.push(`🦙 LLAMA.CPP :9931 (${lcCount} LOCALI DISCO D:)`);
 
-            // Info llama.cpp Locale D:
-            if (lc.status === 'online' || providers.has('llamacpp')) {
-                const lcCount = lc.models_count || (lc.models ? lc.models.length : 7);
-                badgeParts.push(`🦙 LLAMA.CPP DISCO D: (${lcCount} MODELLI GGUF)`);
+            // Info Ollama Locale C: (Ollama non ha modelli locali in questa configurazione)
+            const olLocCount = ol?.local_models_count ?? ol?.installed_models_count ?? 0;
+            if (olLocCount > 0) {
+                badgeParts.push(`🦙 OLLAMA LOCALE C: (${olLocCount} MODELLI)`);
             }
 
             // Info Cloud Ollama (BEAM + MiniMax)

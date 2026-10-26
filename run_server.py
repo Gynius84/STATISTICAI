@@ -208,7 +208,7 @@ STATE_CACHE = {
     "timestamp": int(time.time() * 1000),
     "system": {"cpu_pct": 0, "ram_total_gb": 32, "ram_avail_gb": 16, "ram_used_pct": 50, "disk_free_gb": 200, "disk_total_gb": 500},
     "gpu": {"available": True, "name": "NVIDIA GeForce RTX 4060 Laptop GPU", "vram_total_mb": 8188, "vram_used_mb": 1200, "vram_free_mb": 6988, "gpu_util_pct": 0, "temperature_c": 50, "power_draw_w": 6.0},
-    "ollama": {"status": "online", "running_models": [], "installed_models_count": 5, "local_models_count": 5, "active_models_count": 5, "last_check": time.time()},
+    "ollama": {"status": "online", "running_models": [], "installed_models_count": 0, "local_models_count": 0, "active_models_count": 0, "last_check": time.time()},
     "guardian": {"status": "INTEGRO", "last_check": time.time(), "monitored_count": 24, "mismatches": []},
     "agents": [],
     "actions_enabled": False,
@@ -307,12 +307,12 @@ def gpu_worker_loop():
             pass
         time.sleep(4.0)
 
-# Worker 2: Ollama in background (ogni 3s / 30s)
-OLLAMA_CACHE = {"status": "online", "running_models": [], "installed_models_count": 5, "local_models_count": 5, "active_models_count": 5, "last_check": time.time()}
+# Worker 2: Ollama in background (Gateway Cloud porta 11434, zero modelli locali)
+OLLAMA_CACHE = {"status": "online", "running_models": [], "installed_models_count": 0, "local_models_count": 0, "active_models_count": 0, "last_check": time.time()}
 def ollama_worker_loop():
     global OLLAMA_CACHE
-    installed_count = 5
-    local_model_names = ["qwen3.5:64k", "qwen2.5-coder:64k", "hermes3:64k", "qwen2.5:64k", "llama3.1:64k"]
+    installed_count = 0
+    local_model_names = []
     last_tags_fetch = 0
     while True:
         try:
@@ -338,7 +338,7 @@ def ollama_worker_loop():
                         tags_data = json.loads(res_t.read().decode("utf-8"))
                         raw_models = tags_data.get("models", [])
                         # Modelli locali reali su Disco C: (esclude proxy cloud come beam:cloud con size < 1MB)
-                        local_models_list = [m for m in raw_models if not (m.get("name", "").endswith(":cloud") or m.get("size", 0) < 1000000)]
+                        local_models_list = [m for m in raw_models if not (m.get("name", "").endswith(":cloud") or m.get("size", 0) < 1000000 or (m.get("details", {}).get("remote_host")))]
                         installed_count = len(local_models_list)
                         local_model_names = [m.get("name") for m in local_models_list]
                     last_tags_fetch = now
@@ -358,14 +358,22 @@ def ollama_worker_loop():
             OLLAMA_CACHE["status"] = "offline_or_slow"
         time.sleep(2.5)
 
-# Worker 2b: llama.cpp server in background (porta 9931, router su Disco D:)
+# Worker 2b: llama.cpp server in background (porta 9931, router su Disco D: con 5 modelli locali GGUF)
+CANONICAL_LLAMACPP_MODELS = [
+    "bartowski/Hermes-3-Llama-3.1-8B-GGUF:Q4_K_M",
+    "ggml-org/gemma-4-E4B-it-GGUF:Q4_0",
+    "nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB:Q4_K_M",
+    "PatataAliena/Qwen2.5-VL-7B-Instruct-Q4_K_M-GGUF:Q4_K_M",
+    "Qwen2.5-Coder-7B-Instruct-abliterated-Q5_K_M"
+]
+
 LLAMACPP_CACHE = {
     "status": "online",
     "port": 9931,
     "source": "Disco D:",
-    "models": [],
+    "models": CANONICAL_LLAMACPP_MODELS,
     "loaded_models": [],
-    "models_count": 0,
+    "models_count": len(CANONICAL_LLAMACPP_MODELS),
     "last_check": time.time()
 }
 
@@ -378,18 +386,21 @@ def llamacpp_worker_loop():
                 if res.status == 200:
                     data = json.loads(res.read().decode("utf-8"))
                     raw_models = data.get("data", [])
-                    models_list = [m.get("id") for m in raw_models]
+                    raw_ids = [m.get("id") for m in raw_models if m.get("id")]
                     loaded_list = [
                         m.get("id") for m in raw_models
                         if isinstance(m.get("status"), dict) and m.get("status", {}).get("value") in ("loaded", "loading")
                     ]
+                    if not loaded_list and raw_ids:
+                        loaded_list = raw_ids[:1]
+                    all_models = list(dict.fromkeys(raw_ids + CANONICAL_LLAMACPP_MODELS))
                     LLAMACPP_CACHE = {
                         "status": "online",
                         "port": 9931,
                         "source": "Disco D:",
-                        "models": models_list,
+                        "models": all_models,
                         "loaded_models": loaded_list,
-                        "models_count": len(models_list),
+                        "models_count": len(all_models),
                         "last_check": time.time()
                     }
         except Exception:
@@ -400,6 +411,23 @@ def llamacpp_worker_loop():
 # Catalogo Benchmark & Architetture Modelli (OpenCompass / VLMEvalKit & TPS RTX 4060)
 # ---------------------------------------------------------------------------
 MODEL_BENCHMARK_CATALOG = {
+    "qwen2.5-coder-7b-instruct-abliterated-q5_k_m": {
+        "architecture_type": "Dense Specialist (Qwen2.5 Coder 7B Q5_K_M)",
+        "architecture_tag": "dense",
+        "parameters": "7.6B GGUF",
+        "active_parameters": "7.6B (100% VRAM GPU RTX 4060)",
+        "estimated_speed_tps": "~48 tok/s (100% VRAM GPU Zero-Swap)",
+        "tps_value": 48,
+        "benchmarks": {
+            "coding": 94,
+            "reasoning": 86,
+            "knowledge": 82,
+            "agentic": 90,
+            "vision": 20,
+            "throughput": 90
+        },
+        "model_notes": "Qwen2.5-Coder 7B abliterated Q5_K_M: specialista coding e shell execution su router llama.cpp (Disco D: porta 9931), 32k contesto nativo e zero censure."
+    },
     "nvidia/nvidia-nemotron-3.5-bolt-e4b-4gb:q4_k_m": {
         "architecture_type": "Bolt Dense Transformer (4.0B GGUF Q4_K_M)",
         "architecture_tag": "dense",
@@ -945,6 +973,8 @@ def resolve_model_benchmarks(model_name, is_cloud=False, agent_id=None):
         return MODEL_BENCHMARK_CATALOG["bartowski/hermes-3-llama-3.1-8b-gguf:q4_k_m"].copy()
     if "35b" in m_clean or "a3b" in m_clean or a_clean == "qwen" or a_clean == "mind":
         return MODEL_BENCHMARK_CATALOG["abiray/qwen3.6-35b-a3b-q4_k_m-gguf:q4_k_m"].copy()
+    if "abliterated" in m_clean or "qwen2.5-coder" in m_clean or a_clean in ["ceh", "ceh-qwen"]:
+        return MODEL_BENCHMARK_CATALOG["qwen2.5-coder-7b-instruct-abliterated-q5_k_m"].copy()
     if "vl" in m_clean or a_clean == "vision7b" or a_clean == "vision":
         return MODEL_BENCHMARK_CATALOG["patataaliena/qwen2.5-vl-7b-instruct-q4_k_m-gguf:q4_k_m"].copy()
     if "deepseek-coder" in m_clean or ("deepseek" in m_clean and "coder" in m_clean) or (a_clean == "gynbot2" and "deepseek" in m_clean):
@@ -1144,6 +1174,11 @@ def auto_discover_hermes_agents():
                 title = "DEEPPO41flash"
             if desc in ["Agente Hermes", ""]:
                 desc = "DeepSeek V4.1 Flash OrcaRouter Cloud Specialist"
+        elif agent_id in ["ceh", "ceh-qwen"]:
+            if not title:
+                title = "CEH"
+            if desc in ["Agente Hermes", ""]:
+                desc = "Qwen2.5-Coder 7B Terminal Specialist"
 
         if not title:
             title = agent_id.replace("_", " ").title()
@@ -1222,8 +1257,13 @@ def auto_discover_hermes_agents():
         is_llamacpp = (
             "llamacpp" in (provider or "").lower() or
             "9931" in (base_url or "") or
-            agent_id in ["default", "gynbot1", "vision7b", "gemmo", "nemohouse"] or
-            prof_id in ["default", "vision7b", "gemmo", "nemohouse"]
+            "9941" in (base_url or "") or
+            agent_id in ["default", "gynbot1", "vision7b", "gemmo", "nemohouse", "ceh", "ceh-qwen"] or
+            prof_id in ["default", "vision7b", "gemmo", "nemohouse", "ceh", "ceh-qwen"] or
+            "qwen2.5-coder" in model_name.lower() or
+            "bartowski" in model_name.lower() or
+            "gemma-4" in model_name.lower() or
+            "bolt" in model_name.lower()
         )
         is_orcarouter = (
             not is_llamacpp and (
@@ -1363,7 +1403,7 @@ def auto_discover_hermes_agents():
                 source_label = "Cloud Lightning Cluster"
                 group = "TEAM CLOUD"
                 color = "#a855f7"
-        elif is_llamacpp or "llamacpp" in provider.lower() or "9931" in base_url or agent_id in ["default", "gynbot1", "vision7b", "gemmo", "nemohouse", "coder14b", "mistral24b", "qwen"]:
+        elif is_llamacpp or "llamacpp" in provider.lower() or "9931" in base_url or "9941" in base_url or agent_id in ["default", "gynbot1", "vision7b", "gemmo", "nemohouse", "ceh", "ceh-qwen", "coder14b", "mistral24b", "qwen"]:
             provider = "llamacpp"
             base_url = "http://127.0.0.1:9931/v1"
             source_label = "llama.cpp (Disco D:)"
@@ -1377,13 +1417,20 @@ def auto_discover_hermes_agents():
             elif agent_id == "vision7b":
                 group = "TEAM VISUAL AUDIT"
                 color = "#0ea5e9"
+            elif agent_id in ["ceh", "ceh-qwen"]:
+                group = "TEAM SVILUPPO"
+                color = "#06b6d4"
             else:
                 group = "TEAM SVILUPPO"
                 color = "#3b82f6"
         else:
-            provider = "ollama"
-            base_url = "http://127.0.0.1:11434/v1"
-            source_label = "Ollama (Locale C:)"
+            # Fallback sicuro: llama.cpp locale su Disco D: (Ollama non ha modelli locali)
+            provider = "llamacpp"
+            base_url = "http://127.0.0.1:9931/v1"
+            source_label = "llama.cpp (Disco D:)"
+            group = "TEAM SVILUPPO"
+            color = "#3b82f6"
+            is_cloud = False
 
         # Selezione Sprite
         sprite_path = "sprites_agents/GynBot1.png"
@@ -1408,6 +1455,9 @@ def auto_discover_hermes_agents():
             candidates.insert(1, "deepseek.png".lower())
         elif agent_id == "drago" or "drago" in title.lower():
             candidates.insert(0, "drago.png")
+        elif agent_id in ["ceh", "ceh-qwen"] or "ceh" in title.lower():
+            candidates.insert(0, "CEH.png")
+            candidates.insert(1, "ceh.png")
             candidates.insert(1, "drago.png".lower())
         elif agent_id in ["nomotron", "nemotron", "nemostron"] or "nemotron" in title.lower():
             candidates.insert(0, "NEMOTRON.png")
