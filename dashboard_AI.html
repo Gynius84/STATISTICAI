@@ -2817,9 +2817,9 @@
             const badgeEl = document.getElementById('title-workflow-badge');
             if (!dynamicTitleEl || !badgeEl) return;
 
-            // Rilevamento agenti locali vs cloud
-            const localAgents = agents.filter(a => !a.is_cloud && a.id !== 'beam');
-            const cloudAgents = agents.filter(a => a.is_cloud || a.id === 'beam');
+            // Rilevamento agenti locali vs cloud (v2.8: 5 Locali llama.cpp Disco D: + 10 Titani Cloud)
+            const localAgents = agents.filter(a => !a.is_cloud);
+            const cloudAgents = agents.filter(a => a.is_cloud);
 
             // Rilevamento profili Hermes
             const hermesAgents = agents.filter(a => a.profile && a.profile !== 'beam');
@@ -2833,10 +2833,7 @@
             });
 
             // 1. Titolo Principale Adattivo (v2.8)
-            let titleText = '';
-            const localAgents = agents.filter(a => !a.is_cloud);
-            const cloudAgentsList = agents.filter(a => a.is_cloud);
-            titleText = `HERMES ${agents.length} AGENTI • ${localAgents.length} LOCALI (LLAMA.CPP :9931) + ${cloudAgentsList.length} TITANI PENTA-CLOUD (v2.8)`;
+            let titleText = `HERMES ${agents.length} AGENTI • ${localAgents.length} LOCALI (LLAMA.CPP :9931) + ${cloudAgents.length} TITANI PENTA-CLOUD (v2.8)`;
             dynamicTitleEl.textContent = titleText;
             document.title = `STATISTICHEAI • ${titleText}`;
 
