@@ -3221,7 +3221,9 @@
                 card.setAttribute('draggable', 'true');
                 setupCardDragEvents(card);
 
-                const spriteUrl = API_BASE + '/' + agent.sprite.replace(/^(\.\/|\/)/, '');
+                const spriteUrl = (agent.id === 'ceh' || agent.id === 'ceh-qwen')
+                    ? (API_BASE + '/sprites_agents/CEH.png')
+                    : (API_BASE + '/' + (agent.sprite || 'sprites_agents/GynBot1.png').replace(/^(\.\/|\/)/, ''));
 
                 const roomStateLabel = (agent.room === 'ufficio') ? '⚡ IN LAVORO (UFFICIO)' : '💤 A RIPOSO (CASETTA)';
                 let badgeHtml = '';

@@ -1458,7 +1458,6 @@ def auto_discover_hermes_agents():
         elif agent_id in ["ceh", "ceh-qwen"] or "ceh" in title.lower():
             candidates.insert(0, "CEH.png")
             candidates.insert(1, "ceh.png")
-            candidates.insert(1, "drago.png".lower())
         elif agent_id in ["nomotron", "nemotron", "nemostron"] or "nemotron" in title.lower():
             candidates.insert(0, "NEMOTRON.png")
             candidates.insert(1, "nomotron.png")
