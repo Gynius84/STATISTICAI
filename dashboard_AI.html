@@ -1783,7 +1783,7 @@
             </div>
             <!-- DIVISIONE 4: INFRASTRUTTURA OPENROUTER CLOUD TITANS & TERZO PORTALE QUANTICO -->
             <div class="hud-sub-header" style="border-left-color: #818cf8; color: #a5b4fc; margin-top: 14px;">
-                <span>🌌 INFRASTRUTTURA OPENROUTER CLOUD TITANS & PORTALE QUANTICO (ROUTER FREE TIER • 0 MB VRAM)</span>
+                <span>🌌 INFRASTRUTTURA TEAM NOUS RESEARCH & PORTALE QUANTICO (ENDPOINT NOUS)</span>
                 <span style="color: #c084fc; font-size: 9px;">INKLING REASONER 70B + LAGUNA SWE 35B MoE • HIGH-SPEED MULTI-CLOUD ROUTER</span>
             </div>
             <div class="hud-cloud-tier" id="hud-grid-cloud-openrouter">
@@ -1830,11 +1830,11 @@
             </div>
 
             <!-- DIVISIONE 5: INFRASTRUTTURA GOOGLE AI STUDIO CLOUD & QUARTO PORTALE QUANTICO -->
-            <div class="hud-sub-header" id="hud-subheader-google-cloud" style="border-left-color: #f59e0b; color: #fde047; margin-top: 14px;">
+            <div class="hud-sub-header" id="hud-subheader-google-cloud" style="border-left-color: #f59e0b; color: #fde047; margin-top: 14px; display:none;">
                 <span>✨ INFRASTRUTTURA GOOGLE AI STUDIO CLOUD & PORTALE QUANTICO (TPU v6e CLUSTER • 0 MB VRAM)</span>
                 <span id="hud-subheader-google-cloud-right" style="color: #fbbf24; font-size: 9px;">GEMINI 3.5 FLASH MULTIMODAL • 1M CONTEXT (1.048.576 TOK) • ULTRA-SPEED TPU</span>
             </div>
-            <div class="hud-cloud-tier" id="hud-grid-cloud-google">
+            <div class="hud-cloud-tier" id="hud-grid-cloud-google" style="display:none;">
                 <!-- GRUPPO: GEMINI CLOUD (GOOGLE AI STUDIO) -->
                 <div class="hud-metric draggable-hud" id="hud-cloud-google" data-hud-id="hud-cloud-google" style="border-color: #f59e0b; background: #191105; box-shadow: 0 0 10px rgba(245, 158, 11, 0.25); flex: 1 1 240px; min-width: 220px; max-width: 360px; box-sizing: border-box;">
                     <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ GEMINI CLOUD</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-google', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-google', 1)">▶</button></div></div>
@@ -2833,7 +2833,7 @@
             });
 
             // 1. Titolo Principale Adattivo (v2.8)
-            let titleText = `HERMES ${agents.length} AGENTI • ${localAgents.length} LOCALI (LLAMA.CPP :9931) + ${cloudAgents.length} TITANI PENTA-CLOUD (v2.8)`;
+            let titleText = `HERMES ${agents.length} AGENTI • OLLAMA LOCALE C: (${localAgents.length} MODELLI) + CLOUD ENDP (BEAM/BEAMO/NEMO) (v2.8)`;
             dynamicTitleEl.textContent = titleText;
             document.title = `STATISTICHEAI • ${titleText}`;
 
@@ -4940,12 +4940,9 @@
             ];
             const ollamaCloudAgents = allAgents.filter(a =>
                 (a.is_cloud || a.id === 'beam' || a.id === 'nemo') &&
-                a.provider !== 'nvidia' &&
-                a.provider !== 'openrouter' &&
-                a.provider !== 'google' &&
-                a.provider !== 'orcarouter' &&
-                !['deeppo4flash', 'deeppo4-1flash'].includes(a.id) &&
-                !(a.source && (a.source.includes('NVIDIA') || a.source.includes('OpenRouter') || a.source.includes('Google') || a.source.includes('OrcaRouter')))
+                a.provider !== 'nous' &&
+                !['deeppo4flash', 'deeppo4-1flash', 'beamu'].includes(a.id) &&
+                !(a.source && (a.source.includes('NVIDIA') || a.source.includes('OpenRouter') || a.source.includes('Google') || a.source.includes('OrcaRouter') || a.source.includes('Nous')))
             );
 
             drawDynamicCloudAgentsOnNuvoletta(cCtx, w, h, cx, cY, t, ollamaCloudAgents, {
@@ -5159,11 +5156,7 @@
             }
 
             const allAgents = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents : [];
-            const openrouterCloudAgents = allAgents.filter(a =>
-                a.provider === 'openrouter' ||
-                (a.source && a.source.includes('OpenRouter')) ||
-                ['inkling', 'laguna'].includes(a.id)
-            );
+            const openrouterCloudAgents = allAgents.filter(a => a.id === 'beamu');
 
             drawDynamicCloudAgentsOnNuvoletta(oCtx, W, H, cx, cY, t, openrouterCloudAgents, {
                 primaryColor: '#c084fc',
@@ -5482,12 +5475,9 @@
 
             // 4. Aggiornamento dinamico automatico dei sottotitoli dei 4 Portali Vortice Quantico
             const ollamaActive = cloudAgents.filter(a =>
-                a.provider !== 'nvidia' &&
-                a.provider !== 'openrouter' &&
-                a.provider !== 'google' &&
-                a.provider !== 'orcarouter' &&
-                !['deeppo4flash', 'deeppo4-1flash'].includes(a.id) &&
-                !(a.source && (a.source.includes('NVIDIA') || a.source.includes('OpenRouter') || a.source.includes('Google') || a.source.includes('OrcaRouter')))
+                a.provider !== 'nous' &&
+                !['deeppo4flash', 'deeppo4-1flash', 'beamu'].includes(a.id) &&
+                !(a.source && (a.source.includes('NVIDIA') || a.source.includes('OpenRouter') || a.source.includes('Google') || a.source.includes('OrcaRouter') || a.source.includes('Nous')))
             );
             const nvidiaActive = cloudAgents.filter(a => a.provider === 'nvidia' || (a.source && a.source.includes('NVIDIA')));
             const openrouterActive = cloudAgents.filter(a => a.provider === 'openrouter' || (a.source && a.source.includes('OpenRouter')));

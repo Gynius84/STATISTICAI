@@ -1,5 +1,5 @@
 # STATO DEL PROGETTO STATISTICHEAI v2.7
-Ultimo aggiornamento: 2026-10-24
+Ultimo aggiornamento: 2026-10-31
 
 ## Riepilogo Funzionale
 - **Versione Corrente**: v2.7 (Penta-Cloud Titans & llama.cpp :9931)
@@ -11,3 +11,4 @@ Ultimo aggiornamento: 2026-10-24
 - **Snapshot Default**: `snapshots/default_optimized_20261024/` con checksums SHA-256
 - **Doctor Engine**: Ripristino sessioni/admission_conflict, cura contesti e resurrezione 1-click
 - **Integrazione**: Desktop shortcut `.lnk` e skill Hermes (`statistiche`) aggiornate e allineate
+- **Test**: `tests/validate.js` (4/4 JSON ok) + `test_server.py` PASS (2026-10-31, full suite re-run)

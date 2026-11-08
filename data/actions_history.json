@@ -1,5 +1,23 @@
 [
   {
+    "timestamp": "2026-11-07 22:16:11",
+    "agent_id": "deeppo4-1flash",
+    "agent_name": "DEEPPO41flash",
+    "action": "CURA_SESSIONE",
+    "status": "SUCCESSO",
+    "details": "Sessione curata con successo: ripuliti lease orfani e sbloccati conflitti (1 oggetti) per DEEPPO41flash.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICAI\\backups\\agent_deeppo4-1flash_cure_session_20261107_221611"
+  },
+  {
+    "timestamp": "2026-11-07 22:15:28",
+    "agent_id": "deeppo4flash",
+    "agent_name": "DEEPPO4flash",
+    "action": "CURA_SESSIONE",
+    "status": "SUCCESSO",
+    "details": "Sessione curata con successo: ripuliti lease orfani e sbloccati conflitti (1 oggetti) per DEEPPO4flash.",
+    "backup_path": "C:\\Users\\Gyniu\\Desktop\\progetti ai\\STATISTICAI\\backups\\agent_deeppo4flash_cure_session_20261107_221528"
+  },
+  {
     "timestamp": "2026-10-23 11:27:08",
     "agent_id": "google",
     "agent_name": "GEMINI",

@@ -1281,11 +1281,15 @@ def auto_discover_hermes_agents():
                 agent_id in ["google", "gemini"]
             )
         )
+        is_nous = (
+            agent_id == "beamu" or "nousresearch.com" in (base_url or "").lower() or "nousresearch" in (base_url or "").lower() or "nous" in model_name.lower()
+        )
+
         is_openrouter = (
             not is_llamacpp and not is_orcarouter and not is_google and (
                 "openrouter" in (provider or "").lower() or 
                 "openrouter.ai" in (base_url or "").lower() or 
-                ":free" in model_name.lower() or 
+                ":free" in model_name.lower() and agent_id != "beamu" or
                 agent_id in ["inkling", "laguna"] or
                 "poolside" in model_name.lower() or 
                 "thinkingmachines" in model_name.lower() or 
@@ -1296,7 +1300,7 @@ def auto_discover_hermes_agents():
             not is_llamacpp and not is_orcarouter and not is_google and not is_openrouter and (
                 ":cloud" in model_name.lower() or
                 agent_id in ["beam", "nemo"] or
-                ("ollama" in (provider or "").lower() and ("cloud" in model_name.lower() or "11434" in (base_url or "")))
+                ("ollama" in (provider or "").lower() and ("cloud" in model_name.lower() or "11434" in (base_url or ""))) and agent_id != "hacker" and "hacker" not in model_name.lower()
             )
         )
         is_nvidia = (
@@ -1374,6 +1378,15 @@ def auto_discover_hermes_agents():
                 color = "#a3e635"
             else:
                 color = "#76b900"
+        elif is_nous:
+            provider = "nous"
+            if not base_url or "11434" in base_url or "9931" in base_url:
+                base_url = "https://inference-api.nousresearch.com/v1"
+            if context_limit < 32768:
+                context_limit = 32768
+            source_label = "Nous Research Cloud"
+            group = "TEAM NOUS RESEARCH"
+            color = "#818cf8"
         elif is_cloud:
             if agent_id == "beam" or "beam" in model_name.lower():
                 provider = "beam" if provider == "beam" else "ollama"
@@ -1498,7 +1511,11 @@ def auto_discover_hermes_agents():
 
         # Gruppo, Colore e Sorgente
         t_low = (title + " " + desc + " " + agent_id).lower()
-        if is_cloud and ("beam" in t_low or agent_id == "beam"):
+        if is_nous:
+            group = "TEAM NOUS RESEARCH"
+            color = "#818cf8"
+            source_label = "Nous Research Cloud"
+        elif is_cloud and ("beam" in t_low or agent_id == "beam"):
             group = "SUPER COORDINATORE"
             color = "#38bdf8"
             source_label = "Cloud 501B MoE"
@@ -1561,7 +1578,11 @@ def auto_discover_hermes_agents():
         elif provider == "llamacpp" or "9931" in (base_url or ""):
             source_label = "llama.cpp (Disco D:)"
         elif is_cloud:
-            if "beam" in model_name.lower() or agent_id == "beam":
+            if is_nous:
+                group = "TEAM NOUS RESEARCH"
+                source_label = "Nous Research Cloud"
+                color = "#818cf8"
+            elif "beam" in model_name.lower() or agent_id == "beam":
                 source_label = "Cloud 501B MoE"
             elif agent_id == "nemo" or ("nemotron" in model_name.lower() and ":cloud" in model_name.lower()):
                 source_label = "Ollama Cloud 550B MoE"
@@ -2026,7 +2047,8 @@ def master_cache_loop():
                 "TEAM SVILUPPO": {"total": 0, "sani": 0, "infermeria": 0, "cimitero": 0, "members": []},
                 "TEAM MARKETING": {"total": 0, "sani": 0, "infermeria": 0, "cimitero": 0, "members": []},
                 "SICUREZZA": {"total": 0, "sani": 0, "infermeria": 0, "cimitero": 0, "members": []},
-                "SUPER COORDINATORE": {"total": 0, "sani": 0, "infermeria": 0, "cimitero": 0, "members": []}
+                "SUPER COORDINATORE": {"total": 0, "sani": 0, "infermeria": 0, "cimitero": 0, "members": []},
+                "TEAM NOUS RESEARCH": {"total": 0, "sani": 0, "infermeria": 0, "cimitero": 0, "members": []}
             }
             for a in AGENTS_CACHE:
                 grp = a.get("group", "ALTRI")
