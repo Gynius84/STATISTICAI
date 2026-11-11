@@ -1,5 +1,5 @@
 """
-STATISTICHEAI v2.8 - Native Desktop App & Hermes Bridge Launcher
+STATISTICHEAI v2.9 - Native Desktop App & Hermes Bridge Launcher
 Avvia il server in background (se non attivo) e apre la dashboard in modalità
 finestra "App Nativa" standalone (frameless, zero barre browser, stile desktop app).
 """
@@ -39,7 +39,7 @@ def is_server_online(timeout=0.8):
 def start_server_daemon():
     online, count = is_server_online(timeout=0.5)
     if online:
-        return True, count, "Server v2.8 gia' online su porta 8888"
+        return True, count, "Server v2.9 gia' online su porta 8888"
 
     py_exe = HERMES_PYTHONW if os.path.exists(HERMES_PYTHONW) else (
         HERMES_PYTHON if os.path.exists(HERMES_PYTHON) else sys.executable
@@ -68,7 +68,7 @@ def start_server_daemon():
         time.sleep(0.3)
         online, count = is_server_online(timeout=0.5)
         if online:
-            return True, count, "Server v2.8 avviato con successo in background (porta 8888)"
+            return True, count, "Server v2.9 avviato con successo in background (porta 8888)"
 
     return False, 0, "Timeout durante l'avvio del server"
 
@@ -120,11 +120,11 @@ def main():
     app_ok, app_msg = launch_native_window()
     result = {
         "ok": True,
-        "version": "2.6",
+        "version": "2.9",
         "agents_monitored": count,
         "mode": "native_app" if "App Nativa" in app_msg else "browser",
         "url": URL,
-        "message": f"STATISTICHEAI v2.8 attivo. {app_msg}. {count} agenti monitorati (3 Locali llama.cpp :9931 + 8 Cloud su Ollama, NVIDIA NIM, OpenRouter, Google AI Studio)."
+        "message": f"STATISTICHEAI v2.9 attivo. {app_msg}. {count} agenti monitorati (3 Locali llama.cpp :9931 + 8 Cloud su Ollama, NVIDIA NIM, OpenRouter, Google AI Studio)."
     }
     print(json.dumps(result, indent=2))
     return 0

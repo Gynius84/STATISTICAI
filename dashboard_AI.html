@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STATISTICHEAI v2.8 - Monitor Agenti Hermes & Penta-Cloud Titans & llama.cpp (:9931)</title>
+    <title>STATISTICHEAI v2.9 - Monitor Universale Agenti Hermes & Hexa-Cloud Titans & Ollama / llama.cpp</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
         /* -------------------------------------------------------------
@@ -343,6 +343,12 @@
             border-color: #38bdf8;
             box-shadow: 0 0 12px rgba(56, 189, 248, 0.25), inset 0 0 0 1px #0369a1;
             background: #091322;
+        }
+
+        .agent-card.card-nous {
+            border-color: #818cf8 !important;
+            box-shadow: 0 0 14px rgba(129, 140, 248, 0.35), inset 0 0 0 1px #4f46e5 !important;
+            background: #12122a !important;
         }
         .agent-card.card-openrouter {
             border-color: #a855f7 !important;
@@ -1282,6 +1288,115 @@
             box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
         }
 
+        
+        /* STATISTICHEAI v2.9: Gestione Visibilità e Miniaturizzazione Box */
+        .draggable-box.box-collapsed > :not(.box-reorder-header) {
+            display: none !important;
+        }
+        .draggable-box.box-collapsed {
+            min-height: unset !important;
+            height: auto !important;
+            padding-bottom: 4px !important;
+            margin-bottom: 6px !important;
+            border-style: dashed !important;
+            opacity: 0.92;
+        }
+        .draggable-box.box-hidden {
+            display: none !important;
+        }
+        .btn-box-collapse {
+            background: #1e1b4b;
+            color: #c7d2fe;
+            border: 1px solid #4f46e5;
+            font-family: inherit;
+            font-size: 9px;
+            font-weight: bold;
+            padding: 2px 7px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .btn-box-collapse:hover {
+            background: #312e81;
+            color: #ffffff;
+            box-shadow: 0 0 8px rgba(99, 102, 241, 0.4);
+        }
+        .btn-box-hide {
+            background: #2a1215;
+            color: #fca5a5;
+            border: 1px solid #dc2626;
+            font-family: inherit;
+            font-size: 9px;
+            font-weight: bold;
+            padding: 2px 7px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .btn-box-hide:hover {
+            background: #451a1a;
+            color: #ffffff;
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+        }
+        .boxes-manager-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            background: #080c18;
+            border: 1px solid #1e263d;
+            box-shadow: 0 0 12px rgba(129, 140, 248, 0.2);
+            padding: 8px 12px;
+            margin-bottom: 8px;
+        }
+        .btn-box-mgmt {
+            background: #141a29;
+            color: #93c5fd;
+            border: 1px solid #3b82f6;
+            font-family: inherit;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 4px 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.15s ease;
+        }
+        .btn-box-mgmt:hover {
+            background: #1e2a47;
+            color: #ffffff;
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+        }
+        .box-pill-toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #0f1322;
+            border: 1px solid #28334f;
+            padding: 3px 8px;
+            font-size: 9px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.15s ease;
+        }
+        .box-pill-toggle:hover {
+            filter: brightness(1.2);
+        }
+        .box-pill-toggle.is-active {
+            border-color: #22c55e;
+            color: #86efac;
+            background: #052011;
+        }
+        .box-pill-toggle.is-hidden {
+            border-color: #ef4444;
+            color: #fca5a5;
+            background: #240b0e;
+            text-decoration: line-through;
+        }
+        .box-pill-toggle.is-collapsed {
+            border-color: #eab308;
+            color: #fde047;
+            background: #231904;
+        }
+
         /* Header riordino sezioni */
         .box-reorder-header {
             display: flex;
@@ -1497,18 +1612,21 @@
                     <div class="main-title" id="main-header-title">
                         <span style="color: #7aa2f7;">STATISTICHEAI</span>
                         <span style="color: #565f89; margin: 0 4px;">•</span>
-                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 15 AGENTI • 5 LOCALI (LLAMA.CPP :9931) + 10 TITANI PENTA-CLOUD (v2.8)</span>
+                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 15 AGENTI • 5 LOCALI (OLLAMA :11434) + 10 TITANI HEXA-CLOUD (v2.9)</span>
                     </div>
                     <div id="title-dynamic-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 11px; margin-top: 3px; flex-wrap: wrap;">
                         <span id="title-workflow-badge" class="badge" style="background: #041f15; color: #34d399; border-color: #10b981; padding: 2px 7px; font-size: 10px; cursor: default; letter-spacing: 0.5px;">
-                            🔀 WORKFLOW: 🦙 LLAMA.CPP :9931 (5 LOCALI DISCO D:) + ☁ OLLAMA CLOUD (2) + ⚡ NVIDIA NIM (3) + 🌌 OPENROUTER (2) + ✨ GOOGLE AI (1) + ⚡ ORCAROUTER (2) = 15 AGENTI
+                            🔀 WORKFLOW: 🦙 OLLAMA :11434 (5 LOCALI C:) + ☁ OLLAMA CLOUD (2) + ⚡ NVIDIA NIM (3) + 🌌 OPENROUTER (2) + ✨ GOOGLE AI (1) + ⚡ ORCAROUTER (2) + ✨ NOUS RESEARCH (1) = 15 AGENTI
                         </span>
-                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.8: PENTA-CLOUD TITANS • 4 STANZE PIXEL ART • RADAR OPENCOMPASS • ZERO OVERHEAD</span>
+                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.9: HEXA-CLOUD TITANS (OLLAMA • NVIDIA NIM • OPENROUTER • GOOGLE AI • ORCAROUTER • NOUS RESEARCH) • 4 STANZE PIXEL ART • RADAR OPENCOMPASS • GESTIONE BOX (HIDE/MINIMIZE)</span>
                     </div>
                 </div>
             </div>
 
             <div class="badge-group">
+                <div id="boxes-control-btn" class="badge" onclick="toggleBoxesToolbar()" title="Gestione visibilità e riduzione box (v2.9)" style="cursor: pointer; background: #1a1b2e; color: #a5b4fc; border-color: #818cf8; user-select: none;">
+                    [ 📦 GESTIONE BOX <span id="header-hidden-count" style="display:none; color:#f87171;">(0 NASCOSTI)</span> ]
+                </div>
                 <div id="layout-toggle-btn" class="badge" onclick="toggleLayoutEditor()" title="Personalizza e sposta i box e le schede" style="cursor: pointer; background: #1f2335; color: #fde047; border-color: #eab308; user-select: none;">
                     [ 📐 PERSONALIZZA LAYOUT ]
                 </div>
@@ -1522,6 +1640,24 @@
         </header>
 
         <!-- BANNER MODALITÀ PERSONALIZZAZIONE LAYOUT (VERSIONE 2.1) -->
+        
+        <!-- TOOLBAR GESTIONE VISIBILITÀ & MINIATURIZZAZIONE BOX (VERSIONE 2.9) -->
+        <div id="boxes-manager-toolbar" class="boxes-manager-toolbar" style="display: none;">
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; width: 100%; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <span style="color: #a5b4fc; font-weight: bold; font-size: 11px;">📦 GESTIONE BOX (v2.9):</span>
+                    <button type="button" class="btn-box-mgmt" onclick="collapseAllBoxes()" title="Riduci tutti i box a sola barra titolo">[-] RIDUCI TUTTI</button>
+                    <button type="button" class="btn-box-mgmt" onclick="expandAllBoxes()" title="Espandi tutti i box al 100%">[+] ESPANDI TUTTI</button>
+                    <button type="button" class="btn-box-mgmt" style="border-color: #22c55e; color: #86efac;" onclick="showAllBoxes()" title="Mostra tutti i box attualmente nascosti">👁 MOSTRA TUTTI I BOX (<span id="hidden-boxes-count">0</span> nascosti)</button>
+                </div>
+                <button type="button" class="btn-box-mgmt" style="border-color: #ef4444; color: #fca5a5;" onclick="toggleBoxesToolbar()" title="Chiudi questa barra">✕ CHIUDI</button>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 6px; width: 100%; border-top: 1px dashed #242b45; padding-top: 6px;">
+                <span style="font-size: 9px; color: var(--text-muted);">CLICCA SUI BOX PER NASCONDERLI O MOSTRARLI:</span>
+                <div id="box-pills-container" style="display: flex; gap: 6px; flex-wrap: wrap;"></div>
+            </div>
+        </div>
+
         <div id="layout-editor-banner" class="layout-editor-banner" style="display: none;">
             <div class="banner-left">
                 <span class="banner-icon">📐</span>
@@ -1544,6 +1680,8 @@
                     <span>HUD STATISTICHE DI SISTEMA & VRAM</span>
                 </span>
                 <div class="box-reorder-buttons">
+                    <button type="button" class="btn-box-collapse" id="btn-collapse-box-hud-metrics" onclick="toggleBoxCollapse('box-hud-metrics')" title="Miniaturizza / Espandi questo box">[-] RIDUCI</button>
+                    <button type="button" class="btn-box-hide" onclick="toggleBoxHide('box-hud-metrics', true)" title="Nascondi questo box dalla visualizzazione">✕ NASCONDI</button>
                     <button type="button" class="btn-box-reorder" onclick="moveSection('box-hud-metrics', -1)" title="Sposta box in alto">▲ SPOSTA SU</button>
                     <button type="button" class="btn-box-reorder" onclick="moveSection('box-hud-metrics', 1)" title="Sposta box in basso">▼ SPOSTA GIÙ</button>
                 </div>
@@ -1910,6 +2048,40 @@
                 </div>
             </div>
 
+            <!-- DIVISIONE 7: INFRASTRUTTURA NOUS RESEARCH CLOUD & SESTO PORTALE QUANTICO (VERSIONE 2.9) -->
+            <div class="hud-sub-header" id="hud-subheader-nous-cloud" style="border-left-color: #818cf8; color: #a5b4fc; margin-top: 14px;">
+                <span>⚡ INFRASTRUTTURA NOUS RESEARCH CLOUD & SESTO PORTALE QUANTICO (NOUS INFERENCE API • 0 MB VRAM)</span>
+                <span id="hud-subheader-nous-cloud-right" style="color: #c084fc; font-size: 9px;">LONGCAT • 131K CONTEXT (131.072 tok) • MEITUAN LONGCAT 2.5 FREE</span>
+            </div>
+            <div class="hud-cloud-tier" id="hud-grid-cloud-nous">
+                <!-- GRUPPO: LONGCAT (NOUS RESEARCH CLOUD) -->
+                <div class="hud-metric draggable-hud" id="hud-cloud-longcat" data-hud-id="hud-cloud-longcat" style="border-color: #818cf8; background: #0c0a20; box-shadow: 0 0 10px rgba(129, 140, 248, 0.22); flex: 1 1 240px; min-width: 220px; max-width: 360px; box-sizing: border-box;">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ LONGCAT</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-longcat', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-longcat', 1)">▶</button></div></div>
+                    <div class="hud-metric-header">
+                        <span style="color: #a5b4fc; font-weight: bold;">⚡ LONGCAT</span>
+                        <span id="hud-cloud-longcat-stat" style="color: #818cf8; font-weight: bold;">IMMORTALE (ONLINE)</span>
+                    </div>
+                    <div class="pixel-bar-container">
+                        <div id="hud-cloud-longcat-bar" class="pixel-bar-fill" style="width: 100%; background: linear-gradient(90deg, #4f46e5, #818cf8, #c084fc);"></div>
+                    </div>
+                    <div style="font-size: 9px; color: var(--text-muted); margin-top: 3px;" id="hud-cloud-longcat-members">
+                        LONGCAT • Meituan LongCat 2.5 Free • 131K Context (131.072 tok) • 0 VRAM
+                    </div>
+                </div>
+
+                <!-- ANIMAZIONE SESTO CLOUD PORTAL TITANI NOUS RESEARCH -->
+                <div class="hud-metric hud-metric-cloud-portal draggable-hud" id="hud-portal-nous" data-hud-id="hud-portal-nous" style="border-color: #818cf8; background: #0c0a1f; padding: 8px 12px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; box-shadow: 0 0 14px rgba(129, 140, 248, 0.28); flex: 2 1 480px; min-width: 380px; max-width: 100%; box-sizing: border-box;">
+                    <div class="hud-metric-header" style="margin-bottom: 4px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: nowrap; overflow: hidden;">
+                        <span id="hud-portal-nous-title" style="color: #a5b4fc; font-weight: bold; font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">⚡ PORTALE VORTICE QUANTICO • NOUS RESEARCH CLOUD (1 TITANO)</span>
+                        <span id="hud-portal-nous-sub" style="color: #c084fc; font-weight: bold; font-size: 10px; white-space: nowrap; flex-shrink: 0;">LONGCAT (131K) • 0 VRAM</span>
+                    </div>
+                    <div style="position: relative; width: 100%; height: 86px; overflow: hidden; border: 1px solid #312e81; background: #080616;">
+                        <canvas id="nous-cloud-canvas" style="display: block; width: 100%; height: 100%;"></canvas>
+                    </div>
+                </div>
+            </div>
+
+
         </section>
 
         <!-- 3. STAGE INTERATTIVO: LE 4 STANZE PIXEL ART (CANVAS) -->
@@ -1920,6 +2092,8 @@
                     <span>STAGE INTERATTIVO RETROGAME (CANVAS 16-BIT)</span>
                 </span>
                 <div class="box-reorder-buttons">
+                    <button type="button" class="btn-box-collapse" id="btn-collapse-box-stage" onclick="toggleBoxCollapse('box-stage')" title="Miniaturizza / Espandi questo box">[-] RIDUCI</button>
+                    <button type="button" class="btn-box-hide" onclick="toggleBoxHide('box-stage', true)" title="Nascondi questo box dalla visualizzazione">✕ NASCONDI</button>
                     <button type="button" class="btn-box-reorder" onclick="moveSection('box-stage', -1)" title="Sposta box in alto">▲ SPOSTA SU</button>
                     <button type="button" class="btn-box-reorder" onclick="moveSection('box-stage', 1)" title="Sposta box in basso">▼ SPOSTA GIÙ</button>
                 </div>
@@ -1939,6 +2113,8 @@
                     <span>FILTRI SQUADRE & ORDINAMENTO RAPIDO BENCHMARK RADAR</span>
                 </span>
                 <div class="box-reorder-buttons">
+                    <button type="button" class="btn-box-collapse" id="btn-collapse-box-filter-bar" onclick="toggleBoxCollapse('box-filter-bar')" title="Miniaturizza / Espandi questo box">[-] RIDUCI</button>
+                    <button type="button" class="btn-box-hide" onclick="toggleBoxHide('box-filter-bar', true)" title="Nascondi questo box dalla visualizzazione">✕ NASCONDI</button>
                     <button type="button" class="btn-box-reorder" onclick="moveSection('box-filter-bar', -1)" title="Sposta box in alto">▲ SPOSTA SU</button>
                     <button type="button" class="btn-box-reorder" onclick="moveSection('box-filter-bar', 1)" title="Sposta box in basso">▼ SPOSTA GIÙ</button>
                 </div>
@@ -1992,6 +2168,8 @@
                     <span id="agents-grid-header-title">GRIGLIA SCHEDE AGENTI HERMES & CLOUD (9 AGENTI OPERATIVI)</span>
                 </span>
                 <div class="box-reorder-buttons">
+                    <button type="button" class="btn-box-collapse" id="btn-collapse-box-agents-grid" onclick="toggleBoxCollapse('box-agents-grid')" title="Miniaturizza / Espandi questo box">[-] RIDUCI</button>
+                    <button type="button" class="btn-box-hide" onclick="toggleBoxHide('box-agents-grid', true)" title="Nascondi questo box dalla visualizzazione">✕ NASCONDI</button>
                     <button type="button" class="btn-box-reorder" onclick="moveSection('box-agents-grid', -1)" title="Sposta box in alto">▲ SPOSTA SU</button>
                     <button type="button" class="btn-box-reorder" onclick="moveSection('box-agents-grid', 1)" title="Sposta box in basso">▼ SPOSTA GIÙ</button>
                 </div>
@@ -2009,6 +2187,8 @@
                     <span>REGISTRO STORICO CURE, AZIONI E RESURREZIONI</span>
                 </span>
                 <div class="box-reorder-buttons">
+                    <button type="button" class="btn-box-collapse" id="btn-collapse-box-history" onclick="toggleBoxCollapse('box-history')" title="Miniaturizza / Espandi questo box">[-] RIDUCI</button>
+                    <button type="button" class="btn-box-hide" onclick="toggleBoxHide('box-history', true)" title="Nascondi questo box dalla visualizzazione">✕ NASCONDI</button>
                     <button type="button" class="btn-box-reorder" onclick="moveSection('box-history', -1)" title="Sposta box in alto">▲ SPOSTA SU</button>
                     <button type="button" class="btn-box-reorder" onclick="moveSection('box-history', 1)" title="Sposta box in basso">▼ SPOSTA GIÙ</button>
                 </div>
@@ -2044,7 +2224,7 @@
                     <span class="srv-badge srv-ok" id="footer-hermes-status">[ HERMES GATEWAY :42000 OK ]</span>
                     <span class="srv-badge srv-ok" id="footer-ollama-status">[ OLLAMA :11434 (GATEWAY CLOUD) OK ]</span>
                     <span class="srv-badge srv-ok" id="footer-llamacpp-status">[ LLAMA.CPP :9931 (5 MODELLI D:) OK ]</span>
-                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (v2.8) OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8888 (v2.9) OK ]</span>
                 </div>
             </div>
 
@@ -3193,6 +3373,8 @@
                         if (agent.provider !== 'google' && (!agent.source || !agent.source.includes('Google')) && agent.id !== 'google' && agent.id !== 'gemini') return;
                     } else if (ACTIVE_FILTER === 'TEAM ORCAROUTER CLOUD' || ACTIVE_FILTER === 'ORCAROUTER') {
                         if (agent.provider !== 'orcarouter' && (!agent.source || !agent.source.includes('OrcaRouter')) && agent.id !== 'deeppo4flash' && agent.id !== 'deeppo4-1flash') return;
+                    } else if (ACTIVE_FILTER === 'TEAM NOUS RESEARCH' || ACTIVE_FILTER === 'NOUS RESEARCH' || ACTIVE_FILTER === 'NOUS') {
+                        if (agent.provider !== 'nous' && (!agent.source || !agent.source.includes('Nous')) && agent.id !== 'longcat' && agent.id !== 'beamu') return;
                     } else if (ACTIVE_FILTER === 'llamacpp') {
                         if (agent.is_cloud || agent.provider !== 'llamacpp') return;
                     } else if (agent.group !== ACTIVE_FILTER) {
@@ -3207,11 +3389,15 @@
                 let cardClass = 'agent-card';
                 const isGoogleCard = (agent.provider === 'google' || (agent.source && agent.source.includes('Google')) || agent.id === 'google' || agent.id === 'gemini' || (agent.model && agent.model.toLowerCase().includes('gemini')));
                 const isOrcaCard = (agent.provider === 'orcarouter' || (agent.source && agent.source.includes('OrcaRouter')) || agent.id === 'deeppo4flash' || agent.id === 'deeppo4-1flash');
-                const isNvidiaCard = (agent.provider === 'nvidia' || (agent.source && agent.source.includes('NVIDIA')) || ['deepseek', 'drago', 'nomotron', 'nemotron'].includes(agent.id));
+                const isNvidiaCard = (agent.provider === 'nvidia' || (agent.source && agent.source.includes('NVIDIA')) || ['deepseek', 'drago', 'nomotron', 'nemotron', 'mistral'].includes(agent.id));
                 const isOpenRouterCard = (agent.provider === 'openrouter' || (agent.source && agent.source.includes('OpenRouter')) || agent.id === 'inkling' || agent.id === 'laguna');
+                const isNousCard = ((agent.provider === 'nous' || (agent.source && agent.source.includes('Nous')) || agent.id === 'longcat' || agent.id === 'beamu') && agent.id !== 'vision7b' && agent.id !== 'vision');
+                const isOllamaLocal = (!agent.is_cloud && (agent.provider === 'ollama' || (agent.source && agent.source.includes('Ollama')) || ['gynbot1', 'gemmo', 'nemohouse', 'hacker', 'vision7b'].includes(agent.id)));
+                const isLlamaCppLocal = (!agent.is_cloud && !isOllamaLocal && (agent.provider === 'llamacpp' || (agent.source && agent.source.includes('llama.cpp')) || ['ceh', 'ceh-qwen'].includes(agent.id)));
                 if (isGoogleCard) cardClass += ' card-cloud card-google';
                 else if (isOrcaCard) cardClass += ' card-cloud card-orcarouter';
                 else if (isOpenRouterCard) cardClass += ' card-cloud card-openrouter';
+                else if (isNousCard) cardClass += ' card-cloud card-nous';
                 else if (isNvidiaCard) cardClass += ' card-cloud card-nvidia';
                 else if (agent.is_cloud || agent.id === 'beam') cardClass += ' card-cloud';
                 if (hs === 'INFERMERIA') cardClass += ' card-infermeria';
@@ -3221,9 +3407,14 @@
                 card.setAttribute('draggable', 'true');
                 setupCardDragEvents(card);
 
-                const spriteUrl = (agent.id === 'ceh' || agent.id === 'ceh-qwen')
-                    ? (API_BASE + '/sprites_agents/CEH.png')
-                    : (API_BASE + '/' + (agent.sprite || 'sprites_agents/GynBot1.png').replace(/^(\.\/|\/)/, ''));
+                let spriteUrl = API_BASE + '/' + (agent.sprite || 'sprites_agents/GynBot1.png').replace(/^(\.\/|\/)/, '');
+                if (agent.id === 'ceh' || agent.id === 'ceh-qwen') {
+                    spriteUrl = API_BASE + '/sprites_agents/CEH.png';
+                } else if (agent.id === 'longcat') {
+                    spriteUrl = API_BASE + '/sprites_agents/Longcat.png';
+                } else if (agent.id === 'vision7b' || agent.id === 'vision') {
+                    spriteUrl = API_BASE + '/sprites_agents/VISION.png';
+                }
 
                 const roomStateLabel = (agent.room === 'ufficio') ? '⚡ IN LAVORO (UFFICIO)' : '💤 A RIPOSO (CASETTA)';
                 let badgeHtml = '';
@@ -3238,6 +3429,8 @@
                     badgeHtml = `<span class="status-badge" style="background:#022c22; color:#34d399; border-color:#059669; box-shadow:0 0 8px rgba(16,185,129,0.35);">[ ⚡ ORCAROUTER • ${roomStateLabel} ]</span>`;
                 } else if (isOpenRouterCard) {
                     badgeHtml = `<span class="status-badge" style="background:#190b2e; color:#c084fc; border-color:#a855f7; box-shadow:0 0 8px rgba(168,85,247,0.35);">[ 🌌 OPENROUTER • ${roomStateLabel} ]</span>`;
+                } else if (isNousCard) {
+                    badgeHtml = `<span class="status-badge" style="background:#1e1b4b; color:#818cf8; border-color:#818cf8; box-shadow:0 0 8px rgba(129,140,248,0.35);">[ ✨ NOUS RESEARCH • ${roomStateLabel} ]</span>`;
                 } else if (isNvidiaCard) {
                     badgeHtml = `<span class="status-badge" style="background:#081a0e; color:#76b900; border-color:#76b900; box-shadow:0 0 8px rgba(118,185,0,0.35);">[ ⚡ NVIDIA NIM • ${roomStateLabel} ]</span>`;
                 } else if (agent.is_cloud || agent.id === 'beam') {
@@ -3299,7 +3492,7 @@
                         : '💤 CLOUD PRONTO A RIPOSO (CASETTA) • 0 VRAM ★';
                     actionsHtml = `
                         <div style="display:flex; width:100%; gap:4px;">
-                            <button class="btn-act" style="background:#0c2333; color:#38bdf8; border-color:#38bdf8; flex:1; cursor:default;" onclick="event.stopPropagation();">
+                            <button class="btn-act" style="background:#0c2333; color:${isNousCard ? '#818cf8' : '#38bdf8'}; border-color:${isNousCard ? '#818cf8' : '#38bdf8'}; flex:1; cursor:default;" onclick="event.stopPropagation();">
                                 ${cloudStateBtn}
                             </button>
                             <button class="btn-act btn-delete-agent" onclick="deleteAgent('${agent.id}', '${agent.name}'); event.stopPropagation();" title="Rimuovi dal monitoraggio">✕</button>
@@ -3310,7 +3503,7 @@
                     actionsHtml += `<button class="btn-act btn-delete-agent" onclick="deleteAgent('${agent.id}', '${agent.name}'); event.stopPropagation();" title="Rimuovi dal monitoraggio">✕</button>`;
                 }
 
-                let hpColor = (hs === 'INFERMERIA') ? 'var(--hp-yellow)' : ((hs === 'CIMITERO') ? 'var(--hp-red)' : ((agent.is_cloud || agent.id === 'beam') ? '#38bdf8' : 'var(--hp-green)'));
+                let hpColor = (hs === 'INFERMERIA') ? 'var(--hp-yellow)' : ((hs === 'CIMITERO') ? 'var(--hp-red)' : (isNousCard ? '#818cf8' : ((agent.is_cloud || agent.id === 'beam') ? '#38bdf8' : 'var(--hp-green)')));
                 if (hs === 'SANO' && !agent.is_cloud && agent.id !== 'beam') {
                     if (agent.hp <= 30) hpColor = 'var(--hp-red)';
                     else if (agent.hp <= 60) hpColor = 'var(--hp-yellow)';
@@ -3343,6 +3536,14 @@
                         </div>
                         <div style="font-size: 9px; color: #6ee7b7; margin-top: 2px;">CARICO: <b>0 MB VRAM Locale</b> • Speed: <b style="color: #34d399;">${agent.estimated_speed_tps || 'Cloud'}</b> • DB: <b>${agent.db_size_mb || 0} MB</b></div>
                     `;
+                } else if (isNousCard) {
+                    modelInfoHtml = `
+                        <div style="font-size: 10px; color: #818cf8; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                            MODELLO: <b>${agent.model}</b>
+                            <span style="font-size: 8px; color: #818cf8; background: #1e1b4b; border: 1px solid #818cf8; padding: 1px 4px; border-radius: 2px; font-weight: bold; box-shadow: 0 0 6px rgba(129,140,248,0.35);">[ ✨ NOUS RESEARCH CLOUD ]</span>
+                        </div>
+                        <div style="font-size: 9px; color: #a5b4fc; margin-top: 2px;">CARICO: <b>0 MB VRAM Locale</b> • Speed: <b style="color: #818cf8;">${agent.estimated_speed_tps || 'Cloud'}</b> • DB: <b>${agent.db_size_mb || 0} MB</b></div>
+                    `;
                 } else if (isOpenRouterCard) {
                     modelInfoHtml = `
                         <div style="font-size: 10px; color: #c084fc; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
@@ -3369,17 +3570,17 @@
                     `;
                 } else {
                     modelInfoHtml = `
-                        <div style="font-size: 10px; color: #7aa2f7; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                        <div style="font-size: 10px; color: ${isOllamaLocal ? '#34d399' : '#7aa2f7'}; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
                             MODELLO: <b>${agent.model}</b>
-                            <span style="font-size: 8px; color: #60a5fa; background: #0e172a; border: 1px solid #3b82f6; padding: 1px 4px; border-radius: 2px; font-weight: bold;">[ 🦙 LLAMA.CPP DISCO D: ]</span>
+                            <span style="font-size: 8px; color: ${isOllamaLocal ? '#34d399' : '#60a5fa'}; background: ${isOllamaLocal ? '#041f15' : '#0e172a'}; border: 1px solid ${isOllamaLocal ? '#10b981' : '#3b82f6'}; padding: 1px 4px; border-radius: 2px; font-weight: bold; box-shadow: 0 0 6px ${isOllamaLocal ? 'rgba(16,185,129,0.3)' : 'rgba(59,130,246,0.3)'};">[ ${isOllamaLocal ? '🦙 OLLAMA LOCALE (C:)' : '🦙 LLAMA.CPP DISCO D:'} ]</span>
                         </div>
-                        <div style="font-size: 9px; color: #94a3b8; margin-top: 2px;">VRAM: <b>${agent.vram_mb || 0} MB</b> • DB: <b>${agent.db_size_mb || 0} MB</b> • SESS: <b>${agent.lifetime_sessions || agent.total_sessions || 0}</b></div>
+                        <div style="font-size: 9px; color: ${isOllamaLocal ? '#6ee7b7' : '#94a3b8'}; margin-top: 2px;">VRAM: <b>${agent.vram_mb || 0} MB</b> • DB: <b>${agent.db_size_mb || 0} MB</b> • SESS: <b>${agent.lifetime_sessions || agent.total_sessions || 0}</b></div>
                     `;
                 }
 
                 card.innerHTML = `
                     <div class="agent-header">
-                        <img src="${spriteUrl}" class="agent-sprite" alt="${agent.name}" style="${isOrcaCard ? 'border-color: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);' : (isGoogleCard ? 'border-color: #f59e0b; box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);' : (isOpenRouterCard ? 'border-color: #a855f7; box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);' : (isNvidiaCard ? 'border-color: #76b900; box-shadow: 0 0 8px rgba(118, 185, 0, 0.4);' : ((agent.is_cloud || agent.id === 'beam') ? 'border-color: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);' : ''))))}" />
+                        <img src="${spriteUrl}" class="agent-sprite" alt="${agent.name}" style="${isOrcaCard ? 'border-color: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);' : (isGoogleCard ? 'border-color: #f59e0b; box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);' : (isOpenRouterCard ? 'border-color: #a855f7; box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);' : (isNvidiaCard ? 'border-color: #76b900; box-shadow: 0 0 8px rgba(118, 185, 0, 0.4);' : (isNousCard ? 'border-color: #818cf8; box-shadow: 0 0 8px rgba(129, 140, 248, 0.4);' : ((agent.is_cloud || agent.id === 'beam') ? 'border-color: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);' : '')))))}" />
                         <div class="agent-title-box">
                             <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 6px; flex-wrap: wrap;">
                                 <span class="agent-name">${agent.name}</span>
@@ -3407,11 +3608,11 @@
                             <span style="font-weight: bold; color: var(--text-bright);">${(agent.context_used_tokens || 0).toLocaleString()} / ${(agent.context_limit || 0).toLocaleString()} tok (${ctxPct}%)</span>
                         </div>
                         <div class="pixel-bar-container">
-                            <div class="pixel-bar-fill" style="width: ${Math.min(100, ctxPct)}%; background: ${isOrcaCard ? 'linear-gradient(90deg, #059669, #34d399)' : (isGoogleCard ? 'linear-gradient(90deg, #d97706, #fbbf24)' : (isOpenRouterCard ? 'linear-gradient(90deg, #7c3aed, #c084fc)' : (isNvidiaCard ? 'linear-gradient(90deg, #15803d, #76b900)' : ((agent.is_cloud || agent.id === 'beam') ? 'linear-gradient(90deg, #0284c7, #38bdf8)' : (ctxPct > 85 ? 'var(--hp-red)' : 'var(--vram-cyan)')))))};"></div>
+                            <div class="pixel-bar-fill" style="width: ${Math.min(100, ctxPct)}%; background: ${isOrcaCard ? 'linear-gradient(90deg, #059669, #34d399)' : (isGoogleCard ? 'linear-gradient(90deg, #d97706, #fbbf24)' : (isOpenRouterCard ? 'linear-gradient(90deg, #7c3aed, #c084fc)' : (isNvidiaCard ? 'linear-gradient(90deg, #15803d, #76b900)' : (isNousCard ? 'linear-gradient(90deg, #4338ca, #818cf8)' : ((agent.is_cloud || agent.id === 'beam') ? 'linear-gradient(90deg, #0284c7, #38bdf8)' : (ctxPct > 85 ? 'var(--hp-red)' : 'var(--vram-cyan)'))))))};"></div>
                         </div>
 
                         <!-- 1. Sessione Attiva / Più Recente -->
-                        <div style="display: flex; justify-content: space-between; font-size: 9px; color: var(--text-muted); margin-top: 3px; background: #070912; padding: 3px 5px; border-left: 2px solid #38bdf8;">
+                        <div style="display: flex; justify-content: space-between; font-size: 9px; color: var(--text-muted); margin-top: 3px; background: #070912; padding: 3px 5px; border-left: 2px solid ${isNousCard ? '#818cf8' : '#38bdf8'};">
                             <span>SESSIONE ATTIVA: <b style="color: var(--text-bright);">${(agent.session_total_tokens || agent.input_tokens || 0).toLocaleString()} tok</b></span>
                             <span>CALLS: <b style="color: var(--text-bright);">${agent.api_call_count || 1}</b> • MSG: <b style="color: var(--text-bright);">${agent.active_session_msgs || 0}</b></span>
                         </div>
@@ -3549,7 +3750,7 @@
                             </div>
                         ` : ''}
                         <div style="font-size: 9px; color: var(--text-muted); margin-top: 4px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px;">
-                            <span>PROFILO: <b style="color:var(--text-main);">${agent.profile}</b></span>
+                            <span>ENDPOINT: <b style="color:var(--text-main);">${isOrcaCard ? 'https://api.orcarouter.ai/v1' : (isGoogleCard ? 'Google AI Studio API' : (isOpenRouterCard ? 'https://openrouter.ai/api/v1' : (isNvidiaCard ? 'https://integrate.api.nvidia.com/v1' : (isNousCard ? 'https://inference-api.nousresearch.com/v1' : ((agent.is_cloud || agent.id === 'beam') ? 'Ollama Cloud API' : (agent.base_url || '127.0.0.1:11434'))))))}</b></span>
                             <span>ENDPOINT: <b style="color:var(--text-main);">${isOrcaCard ? 'https://api.orcarouter.ai/v1' : (isGoogleCard ? 'Google AI Studio API' : (isOpenRouterCard ? 'https://openrouter.ai/api/v1' : (isNvidiaCard ? 'https://integrate.api.nvidia.com/v1' : ((agent.is_cloud || agent.id === 'beam') ? 'Ollama Cloud API' : (agent.base_url || '127.0.0.1:11434')))))}</b></span>
                             <span>PERSISTENZA: <b style="color:#4ade80;">100% GARANTITA</b></span>
                         </div>
@@ -5292,6 +5493,120 @@
         const orCtx = orcaCanvas ? orcaCanvas.getContext('2d') : null;
         if (orCtx) orCtx.imageSmoothingEnabled = false;
 
+        
+        // 6. PORTALE NOUS RESEARCH CLOUD (Dinamico: rileva LONGCAT e agenti Nous Research Cloud attivi)
+        const nousCanvas = document.getElementById('nous-cloud-canvas');
+        const nsCtx = nousCanvas ? nousCanvas.getContext('2d') : null;
+        if (nsCtx) nsCtx.imageSmoothingEnabled = false;
+
+        function renderNousResearchCloud() {
+            if (!nousCanvas || !nsCtx) return;
+
+            const rect = nousCanvas.getBoundingClientRect();
+            const targetW = Math.max(380, Math.round(rect.width) || 480);
+            const targetH = 86;
+            if (nousCanvas.width !== targetW || nousCanvas.height !== targetH) {
+                nousCanvas.width = targetW;
+                nousCanvas.height = targetH;
+                if (nsCtx) nsCtx.imageSmoothingEnabled = false;
+            }
+
+            const W = nousCanvas.width;
+            const H = nousCanvas.height;
+            const t = Date.now();
+
+            // Sfondo cosmico viola scuro ametista notturno Nous Research
+            nsCtx.fillStyle = '#0c0a20';
+            nsCtx.fillRect(0, 0, W, H);
+
+            // Stelle quantiche indaco e lavanda plasma
+            for (let s = 0; s < 18; s++) {
+                const sx = ((s * 39 + t * 0.016) % W);
+                const sy = ((s * 25 + (s % 3) * 8) % H);
+                const starAlpha = 0.3 + Math.sin(t * 0.005 + s) * 0.3;
+                nsCtx.fillStyle = (s % 2 === 0) ? `rgba(129, 140, 248, ${starAlpha})` : `rgba(192, 132, 252, ${starAlpha})`;
+                nsCtx.fillRect(Math.floor(sx), Math.floor(sy), (s % 4 === 0 ? 2 : 1), (s % 4 === 0 ? 2 : 1));
+            }
+
+            const cx = Math.round(W / 2);
+            const cy = 42;
+            const rot = (t * 0.0024) % (Math.PI * 2);
+
+            nsCtx.save();
+            nsCtx.setLineDash([3, 4]);
+            // Anello quantico indaco nous
+            nsCtx.beginPath();
+            nsCtx.ellipse(cx - 14, cy, 78, 24, rot, 0, Math.PI * 2);
+            nsCtx.strokeStyle = 'rgba(129, 140, 248, 0.55)';
+            nsCtx.lineWidth = 1.5;
+            nsCtx.stroke();
+
+            // Anello magenta ametista controrotante
+            nsCtx.beginPath();
+            nsCtx.ellipse(cx + 14, cy, 68, 20, -rot * 1.3, 0, Math.PI * 2);
+            nsCtx.strokeStyle = 'rgba(192, 132, 252, 0.50)';
+            nsCtx.lineWidth = 1.5;
+            nsCtx.stroke();
+            nsCtx.setLineDash([]);
+
+            for (let p = 0; p < 10; p++) {
+                const ang = rot * 2 + (p * (Math.PI / 5));
+                const px = cx + Math.cos(ang) * (56 + (p % 2) * 14);
+                const py = cy + Math.sin(ang) * (18 + (p % 2) * 6);
+                nsCtx.fillStyle = (p % 2 === 0) ? '#818cf8' : '#c084fc';
+                nsCtx.fillRect(px - 1, py - 1, 3, 3);
+            }
+
+            // Piattaforma Fluttuante Nuvoletta Pixel Art Indaco & Lavanda
+            const cloudBob = Math.sin(t * 0.003 + 4.1) * 2;
+            const cY = 56 + cloudBob;
+
+            nsCtx.fillStyle = 'rgba(79, 70, 229, 0.35)';
+            nsCtx.beginPath();
+            nsCtx.ellipse(cx, cY + 11, 80, 9, 0, 0, Math.PI * 2);
+            nsCtx.fill();
+
+            nsCtx.fillStyle = '#1e1b4b';
+            nsCtx.fillRect(cx - 72, cY, 144, 10);
+            nsCtx.fillRect(cx - 60, cY - 4, 120, 14);
+            nsCtx.fillRect(cx - 40, cY - 8, 80, 18);
+
+            nsCtx.fillStyle = '#4338ca';
+            nsCtx.fillRect(cx - 68, cY + 1, 136, 8);
+            nsCtx.fillRect(cx - 56, cY - 3, 112, 12);
+            nsCtx.fillRect(cx - 36, cY - 7, 72, 16);
+
+            nsCtx.fillStyle = '#c7d2fe';
+            nsCtx.fillRect(cx - 52, cY - 4, 20, 4);
+            nsCtx.fillRect(cx - 10, cY - 8, 22, 5);
+            nsCtx.fillRect(cx + 32, cY - 4, 20, 4);
+
+            for (let d = -4; d <= 4; d++) {
+                const dx = cx + (d * 16);
+                const dy = cY + 9 + ((t * 0.04 + Math.abs(d) * 12) % 15);
+                nsCtx.fillStyle = (d % 2 === 0) ? 'rgba(129, 140, 248, 0.75)' : 'rgba(192, 132, 252, 0.70)';
+                nsCtx.fillRect(dx, dy, 2, 3);
+            }
+
+            const allAgents = (TELEMETRY_DATA && TELEMETRY_DATA.agents) ? TELEMETRY_DATA.agents : [];
+            const nousCloudAgents = allAgents.filter(a =>
+                a.provider === 'nous' ||
+                (a.source && a.source.includes('Nous')) ||
+                ['longcat', 'beamu'].includes(a.id)
+            );
+
+            drawDynamicCloudAgentsOnNuvoletta(nsCtx, W, H, cx, cY, t, nousCloudAgents, {
+                primaryColor: '#818cf8',
+                secondaryColor: '#a5b4fc',
+                accentColor: '#c084fc',
+                auraColor: 'rgba(129, 140, 248, 0.55)',
+                tagBg: '#0c0a20'
+            });
+
+            nsCtx.restore();
+            requestAnimationFrame(renderNousResearchCloud);
+        }
+
         function renderOrcaRouterCloud() {
             if (!orcaCanvas || !orCtx) return;
 
@@ -5528,6 +5843,7 @@
         renderOpenRouterCloud();
         renderGoogleCloud();
         renderOrcaRouterCloud();
+        renderNousResearchCloud();
 
         /* =============================================================
            STATISTICHEAI v2.1: LAYOUT CONTROLLER (DRAG & DROP + STORAGE)
@@ -5723,10 +6039,169 @@
             }
         }
 
+        
+        // =============================================================
+        // STATISTICHEAI v2.9: Gestione Visibilità e Miniaturizzazione Box
+        // =============================================================
+        const BOX_NAMES = {
+            'box-hud-metrics': '1. HUD TELEMETRIA & CLOUD PORTALS',
+            'box-stage': '2. STAGE RETROGAME INTERATTIVO (CANVAS)',
+            'box-filter-bar': '3. FILTRI SQUADRE & RADAR SORT',
+            'box-agents-grid': '4. ROSTER SCHEDE AGENTI',
+            'box-history': '5. REGISTRO STORICO AZIONI & CURE'
+        };
+
+        function getBoxCollapsedState() {
+            try {
+                return JSON.parse(localStorage.getItem('statistiche_boxes_collapsed') || '{}');
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function getBoxHiddenState() {
+            try {
+                return JSON.parse(localStorage.getItem('statistiche_boxes_hidden') || '{}');
+            } catch (e) {
+                return {};
+            }
+        }
+
+        function saveBoxCollapsedState(state) {
+            try {
+                localStorage.setItem('statistiche_boxes_collapsed', JSON.stringify(state));
+            } catch (e) {}
+        }
+
+        function saveBoxHiddenState(state) {
+            try {
+                localStorage.setItem('statistiche_boxes_hidden', JSON.stringify(state));
+            } catch (e) {}
+        }
+
+        function updateBoxUIIndicators() {
+            const collapsed = getBoxCollapsedState();
+            const hidden = getBoxHiddenState();
+            let hiddenCount = 0;
+
+            Object.keys(BOX_NAMES).forEach(boxId => {
+                const el = document.getElementById(boxId);
+                if (!el) return;
+
+                // Apply collapsed
+                const isCol = !!collapsed[boxId];
+                el.classList.toggle('box-collapsed', isCol);
+                const colBtn = document.getElementById('btn-collapse-' + boxId);
+                if (colBtn) {
+                    colBtn.textContent = isCol ? '[+] ESPANDI' : '[-] RIDUCI';
+                    colBtn.title = isCol ? 'Espandi questo box' : 'Miniaturizza / Riduci questo box';
+                    colBtn.style.color = isCol ? '#fde047' : '#c7d2fe';
+                    colBtn.style.borderColor = isCol ? '#eab308' : '#4f46e5';
+                }
+
+                // Apply hidden
+                const isHid = !!hidden[boxId];
+                el.classList.toggle('box-hidden', isHid);
+                if (isHid) hiddenCount++;
+            });
+
+            // Update counts in header and toolbar
+            const countEl = document.getElementById('header-hidden-count');
+            if (countEl) {
+                if (hiddenCount > 0) {
+                    countEl.style.display = 'inline';
+                    countEl.textContent = `(${hiddenCount} NASCOSTI)`;
+                } else {
+                    countEl.style.display = 'none';
+                }
+            }
+            const pillCountEl = document.getElementById('hidden-boxes-count');
+            if (pillCountEl) pillCountEl.textContent = hiddenCount;
+
+            renderBoxPills();
+        }
+
+        function toggleBoxCollapse(boxId) {
+            const state = getBoxCollapsedState();
+            state[boxId] = !state[boxId];
+            saveBoxCollapsedState(state);
+            updateBoxUIIndicators();
+            showToast(state[boxId] ? `Box ${BOX_NAMES[boxId] || boxId} miniaturizzato!` : `Box ${BOX_NAMES[boxId] || boxId} espanso!`);
+        }
+
+        function toggleBoxHide(boxId, forceHide) {
+            const state = getBoxHiddenState();
+            if (forceHide !== undefined) {
+                state[boxId] = forceHide;
+            } else {
+                state[boxId] = !state[boxId];
+            }
+            saveBoxHiddenState(state);
+            updateBoxUIIndicators();
+            showToast(state[boxId] ? `Box ${BOX_NAMES[boxId] || boxId} nascosto!` : `Box ${BOX_NAMES[boxId] || boxId} mostrato!`);
+        }
+
+        function collapseAllBoxes() {
+            const state = {};
+            Object.keys(BOX_NAMES).forEach(id => { state[id] = true; });
+            saveBoxCollapsedState(state);
+            updateBoxUIIndicators();
+            showToast('Tutti i box sono stati miniaturizzati!');
+        }
+
+        function expandAllBoxes() {
+            saveBoxCollapsedState({});
+            updateBoxUIIndicators();
+            showToast('Tutti i box sono stati espansi!');
+        }
+
+        function showAllBoxes() {
+            saveBoxHiddenState({});
+            updateBoxUIIndicators();
+            showToast('Tutti i box nascosti sono stati ripristinati e visibili!');
+        }
+
+        function toggleBoxesToolbar() {
+            const bar = document.getElementById('boxes-manager-toolbar');
+            if (bar) {
+                bar.style.display = (bar.style.display === 'none' || bar.style.display === '') ? 'flex' : 'none';
+            }
+        }
+
+        function renderBoxPills() {
+            const container = document.getElementById('box-pills-container');
+            if (!container) return;
+            const collapsed = getBoxCollapsedState();
+            const hidden = getBoxHiddenState();
+
+            container.innerHTML = '';
+            Object.entries(BOX_NAMES).forEach(([id, name]) => {
+                const isHid = !!hidden[id];
+                const isCol = !!collapsed[id];
+                const pill = document.createElement('div');
+                let cls = 'box-pill-toggle ';
+                if (isHid) cls += 'is-hidden';
+                else if (isCol) cls += 'is-collapsed';
+                else cls += 'is-active';
+                pill.className = cls;
+                pill.innerHTML = `
+                    <span>${isHid ? '👁‍🗨' : (isCol ? '➖' : '👁')} ${name}</span>
+                    <button type="button" style="background:none; border:none; cursor:pointer; color:inherit; font-size:10px;" title="${isHid ? 'Mostra' : 'Nascondi'}">${isHid ? 'MOSTRA' : 'NASCONDI'}</button>
+                `;
+                pill.onclick = (e) => {
+                    toggleBoxHide(id);
+                };
+                container.appendChild(pill);
+            });
+        }
+
         function resetLayout() {
             localStorage.removeItem('statistiche_sections_order');
             localStorage.removeItem('statistiche_agents_order');
             localStorage.removeItem('statistiche_hud_order');
+            localStorage.removeItem('statistiche_boxes_collapsed');
+            localStorage.removeItem('statistiche_boxes_hidden');
+            updateBoxUIIndicators();
 
             // Ripristina ordine sezioni default
             const defaultBoxIds = ['box-hud-metrics', 'box-stage', 'box-filter-bar', 'box-agents-grid', 'box-history'];

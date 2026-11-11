@@ -24,3 +24,9 @@ data/archive/*
 .idea/
 .DS_Store
 Thumbs.db
+
+# Runtime data & User action logs (No personal paths/data)
+data/actions_history.json
+data/cured_states.json
+data/*.json
+!data/.gitkeep

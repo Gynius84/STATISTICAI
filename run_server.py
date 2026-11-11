@@ -1026,6 +1026,7 @@ def auto_discover_hermes_agents():
     Rileva nuovi profili, sincronizza modelli/contesti modificati, e rimuove profili eliminati (auto-pruning).
     Sincronizza config.json e aggiorna AGENTS_DEF in tempo reale.
     """
+    print(f"[DEBUG] auto_discover_hermes_agents called", flush=True)
     global CONFIG, AGENTS_DEF
     if not os.path.exists(HERMES_ROOT):
         return []
@@ -1078,6 +1079,7 @@ def auto_discover_hermes_agents():
     new_agents_list = []
 
     for agent_id, prof_id, prof_dir, default_title in prof_list:
+        print(f"[DEBUG LOOP] agent_id={agent_id}, prof_id={prof_id}", flush=True)
         cfg_yaml = os.path.join(prof_dir, "config.yaml")
         prof_yaml = os.path.join(prof_dir, "profile.yaml")
 
@@ -1253,67 +1255,114 @@ def auto_discover_hermes_agents():
             except Exception:
                 pass
 
-        # Rilevamento tipologia agente e provider
-        is_llamacpp = (
-            "llamacpp" in (provider or "").lower() or
-            "9931" in (base_url or "") or
-            "9941" in (base_url or "") or
-            agent_id in ["default", "gynbot1", "vision7b", "gemmo", "nemohouse", "ceh", "ceh-qwen"] or
-            prof_id in ["default", "vision7b", "gemmo", "nemohouse", "ceh", "ceh-qwen"] or
-            "qwen2.5-coder" in model_name.lower() or
-            "bartowski" in model_name.lower() or
-            "gemma-4" in model_name.lower() or
-            "bolt" in model_name.lower()
+                # Rilevamento tipologia agente e provider (v2.9)
+        is_longcat = (
+            agent_id == "longcat" or
+            prof_id == "longcat" or
+            "longcat" in model_name.lower() or
+            "longcat" in (title or "").lower()
         )
+
+        is_vision = (
+            not is_longcat and (
+                agent_id in ["vision7b", "vision"] or
+                prof_id in ["vision7b", "vision"] or
+                "vision" in (title or "").lower() or
+                "qwen2.5-vl" in model_name.lower() or
+                "vision7b" in model_name.lower()
+            )
+        )
+
+        is_mistral_nvidia = (
+            agent_id == "mistral" or
+            "mistral-large" in model_name.lower() or
+            ("mistral" in (title or "").lower() and agent_id != "mistral24b")
+        )
+
         is_orcarouter = (
-            not is_llamacpp and (
+            not is_vision and not is_longcat and (
                 "orca" in (provider or "").lower() or
                 "orcarouter" in (base_url or "").lower() or
                 agent_id in ["deeppo4flash", "deeppo4-1flash", "deeppo41flash"] or
                 prof_id in ["deeppo4flash", "deeppo4-1flash"]
             )
         )
+
         is_google = (
-            not is_llamacpp and not is_orcarouter and (
+            not is_vision and not is_longcat and not is_orcarouter and (
                 "google" in (provider or "").lower() or
                 "googleapis.com" in (base_url or "").lower() or
                 "gemini" in model_name.lower() or
                 agent_id in ["google", "gemini"]
             )
         )
+
         is_nous = (
-            agent_id == "beamu" or "nousresearch.com" in (base_url or "").lower() or "nousresearch" in (base_url or "").lower() or "nous" in model_name.lower()
+            is_longcat or (
+                not is_vision and (
+                    agent_id == "beamu" or
+                    "nousresearch.com" in (base_url or "").lower() or
+                    "nousresearch" in (base_url or "").lower() or
+                    ("nous" in (provider or "").lower() and not is_vision)
+                )
+            )
         )
 
         is_openrouter = (
-            not is_llamacpp and not is_orcarouter and not is_google and (
+            not is_vision and not is_longcat and not is_orcarouter and not is_google and not is_mistral_nvidia and not is_nous and (
                 "openrouter" in (provider or "").lower() or 
                 "openrouter.ai" in (base_url or "").lower() or 
-                ":free" in model_name.lower() and agent_id != "beamu" or
+                (":free" in model_name.lower() and agent_id != "beamu" and not is_longcat) or
                 agent_id in ["inkling", "laguna"] or
                 "poolside" in model_name.lower() or 
                 "thinkingmachines" in model_name.lower() or 
                 "recursive" in model_name.lower()
             )
         )
+
         is_ollama_cloud = (
-            not is_llamacpp and not is_orcarouter and not is_google and not is_openrouter and (
+            not is_vision and not is_longcat and not is_orcarouter and not is_google and not is_openrouter and not is_nous and (
                 ":cloud" in model_name.lower() or
-                agent_id in ["beam", "nemo"] or
-                ("ollama" in (provider or "").lower() and ("cloud" in model_name.lower() or "11434" in (base_url or ""))) and agent_id != "hacker" and "hacker" not in model_name.lower()
+                agent_id in ["beam", "nemo", "beamo"] or
+                ("ollama" in (provider or "").lower() and "cloud" in model_name.lower())
             )
         )
+
         is_nvidia = (
-            not is_llamacpp and not is_orcarouter and not is_google and not is_openrouter and not is_ollama_cloud and (
-                "nvidia" in (provider or "").lower() or 
-                "nvidia.com" in (base_url or "").lower() or 
+            not is_vision and not is_longcat and not is_orcarouter and not is_google and not is_openrouter and not is_ollama_cloud and not is_nous and (
+                is_mistral_nvidia or
+                "nvidia" in (provider or "").lower() or
+                "nvidia.com" in (base_url or "").lower() or
                 agent_id in ["deepseek", "drago", "nomotron", "nemotron", "nemostron"] or
                 ("nemotron" in model_name.lower() and ":cloud" not in model_name.lower() and "ollama" not in (provider or "").lower() and "11434" not in (base_url or "")) or
                 "glm-5" in model_name.lower()
             )
         )
+
+        # Agenti Locali: 5 modelli Ollama (:11434) + eventuale llama.cpp (:9931)
+        is_local_ollama = (
+            is_vision or (
+                not is_longcat and not is_orcarouter and not is_google and not is_openrouter and not is_nvidia and not is_ollama_cloud and (
+                    agent_id in ["default", "gynbot1", "gemmo", "nemohouse", "hacker"] or
+                    prof_id in ["default", "gemmo", "nemohouse", "hacker"] or
+                    ("11434" in (base_url or "") and ":cloud" not in model_name.lower() and agent_id not in ["beam", "beamo", "nemo"])
+                )
+            )
+        )
+
+        is_llamacpp = (
+            not is_local_ollama and not is_vision and (
+                "9931" in (base_url or "") or
+                "9941" in (base_url or "") or
+                agent_id in ["ceh", "ceh-qwen", "coder14b", "mistral24b"] or
+                ("llamacpp" in (provider or "").lower() and not is_local_ollama)
+            )
+        )
+
         is_cloud = (
-            not is_llamacpp and (
+            not is_local_ollama and not is_llamacpp and (
+                is_longcat or
+                is_nous or
                 is_orcarouter or
                 is_google or
                 is_openrouter or
@@ -1322,13 +1371,33 @@ def auto_discover_hermes_agents():
                 ((base_url or "").startswith("https://") and "127.0.0.1" not in (base_url or "") and "localhost" not in (base_url or "")) or
                 ":cloud" in model_name.lower() or 
                 "beam" in model_name.lower() or 
-                agent_id in ["beam", "nemo"] or
+                agent_id in ["beam", "nemo", "beamo"] or
                 "cloud" in (title or "").lower()
             )
         )
 
-        # Normalizzazione Provider, Base URL e Context Limit
-        if is_orcarouter:
+        # Normalizzazione Provider, Base URL e Context Limit (v2.9)
+        if is_longcat:
+            provider = "nous"
+            base_url = "https://inference-api.nousresearch.com/v1"
+            if context_limit < 131072:
+                context_limit = 131072
+            source_label = "Nous Research Cloud"
+            group = "TEAM NOUS RESEARCH"
+            color = "#818cf8"
+            is_cloud = True
+            model_name = "meituan/longcat-2.5:free"
+        elif is_vision:
+            provider = "ollama"
+            base_url = "http://127.0.0.1:11434/v1"
+            if context_limit < 65536:
+                context_limit = 65536
+            source_label = "Ollama (Locale C:)"
+            group = "TEAM VISUAL AUDIT"
+            color = "#0ea5e9"
+            is_cloud = False
+            model_name = "vision7b:latest"
+        elif is_orcarouter:
             provider = "orcarouter"
             if not base_url or "11434" in base_url or "9931" in base_url:
                 base_url = "https://api.orcarouter.ai/v1"
@@ -1337,6 +1406,7 @@ def auto_discover_hermes_agents():
             source_label = "OrcaRouter Cloud"
             group = "TEAM ORCAROUTER CLOUD"
             color = "#10b981"
+            is_cloud = True
         elif is_google:
             provider = "google"
             if not base_url or "11434" in base_url or "9931" in base_url:
@@ -1346,6 +1416,7 @@ def auto_discover_hermes_agents():
             source_label = "Google AI Studio Cloud"
             group = "TEAM GOOGLE AI CLOUD"
             color = "#f59e0b"
+            is_cloud = True
         elif is_openrouter:
             provider = "openrouter"
             if not base_url or "11434" in base_url or "9931" in base_url:
@@ -1354,14 +1425,8 @@ def auto_discover_hermes_agents():
                 context_limit = 32768
             source_label = "OpenRouter Cloud"
             group = "TEAM OPENROUTER CLOUD"
-            if agent_id == "inkling" or "inkling" in (title + model_name).lower():
-                color = "#a855f7"
-            elif agent_id == "laguna" or "laguna" in (title + model_name).lower():
-                color = "#6366f1"
-            elif agent_id in ["default", "gynbot1"]:
-                color = "#818cf8"
-            else:
-                color = "#818cf8"
+            color = "#818cf8"
+            is_cloud = True
         elif is_nvidia:
             provider = "nvidia"
             if not base_url or "11434" in base_url or "9931" in base_url:
@@ -1370,81 +1435,74 @@ def auto_discover_hermes_agents():
                 context_limit = 131072
             source_label = "NVIDIA NIM Cloud"
             group = "TEAM CLOUD TITANS"
-            if agent_id == "deepseek" or "deepseek" in (title + model_name).lower():
-                color = "#76b900"
-            elif agent_id == "drago" or "drago" in (title + model_name).lower():
-                color = "#10b981"
-            elif agent_id in ["nomotron", "nemotron", "nemostron"] or "nemotron" in (title + model_name).lower():
-                color = "#a3e635"
+            if agent_id == "mistral" or "mistral" in model_name.lower():
+                color = "#e0e7ff"
             else:
                 color = "#76b900"
+            is_cloud = True
         elif is_nous:
             provider = "nous"
-            if not base_url or "11434" in base_url or "9931" in base_url:
-                base_url = "https://inference-api.nousresearch.com/v1"
-            if context_limit < 32768:
-                context_limit = 32768
+            base_url = "https://inference-api.nousresearch.com/v1"
+            if context_limit < 131072:
+                context_limit = 131072
             source_label = "Nous Research Cloud"
             group = "TEAM NOUS RESEARCH"
             color = "#818cf8"
-        elif is_cloud:
-            if agent_id == "beam" or "beam" in model_name.lower():
-                provider = "beam" if provider == "beam" else "ollama"
-                base_url = "http://127.0.0.1:11434/v1"
+            is_cloud = True
+        elif is_ollama_cloud or (is_cloud and (agent_id in ["beam", "beamo", "nemo"] or ":cloud" in model_name.lower())):
+            provider = "ollama"
+            base_url = "http://127.0.0.1:11434/v1"
+            is_cloud = True
+            if agent_id in ["beam", "beamo"] or "beam" in model_name.lower():
                 context_limit = 1048576
                 source_label = "Cloud 501B MoE"
                 group = "SUPER COORDINATORE"
                 color = "#38bdf8"
-            elif agent_id == "nemo" or ("nemotron" in model_name.lower() and ":cloud" in model_name.lower()):
-                provider = "ollama"
-                base_url = "http://127.0.0.1:11434/v1"
+            elif agent_id == "nemo" or "nemotron" in model_name.lower():
                 if context_limit < 262144:
                     context_limit = 262144
                 source_label = "Ollama Cloud 550B MoE"
                 group = "TEAM OLLAMA CLOUD"
                 color = "#06b6d4"
-            elif agent_id == "minimax" or "minimax" in model_name.lower():
-                provider = "ollama"
-                base_url = "http://127.0.0.1:11434/v1"
-                context_limit = 131072
-                source_label = "Cloud MiniMax 3.1"
-                group = "TEAM VIDEO & MULTIMEDIA"
-                color = "#ec4899"
             else:
-                provider = "ollama"
-                base_url = "http://127.0.0.1:11434/v1"
                 source_label = "Cloud Lightning Cluster"
                 group = "TEAM CLOUD"
                 color = "#a855f7"
-        elif is_llamacpp or "llamacpp" in provider.lower() or "9931" in base_url or "9941" in base_url or agent_id in ["default", "gynbot1", "vision7b", "gemmo", "nemohouse", "ceh", "ceh-qwen", "coder14b", "mistral24b", "qwen"]:
-            provider = "llamacpp"
-            base_url = "http://127.0.0.1:9931/v1"
-            source_label = "llama.cpp (Disco D:)"
+        elif is_local_ollama:
+            provider = "ollama"
+            base_url = "http://127.0.0.1:11434/v1"
+            source_label = "Ollama (Locale C:)"
             is_cloud = False
-            if agent_id == "nemohouse":
+            if agent_id in ["vision7b", "vision"]:
+                group = "TEAM VISUAL AUDIT"
+                color = "#0ea5e9"
+            elif agent_id == "nemohouse":
                 group = "TEAM SVILUPPO"
                 color = "#34d399"
             elif agent_id == "gemmo":
                 group = "TEAM SVILUPPO"
                 color = "#ec4899"
-            elif agent_id == "vision7b":
-                group = "TEAM VISUAL AUDIT"
-                color = "#0ea5e9"
-            elif agent_id in ["ceh", "ceh-qwen"]:
+            elif agent_id == "hacker":
                 group = "TEAM SVILUPPO"
-                color = "#06b6d4"
+                color = "#10b981"
             else:
                 group = "TEAM SVILUPPO"
                 color = "#3b82f6"
-        else:
-            # Fallback sicuro: llama.cpp locale su Disco D: (Ollama non ha modelli locali)
+        elif is_llamacpp:
             provider = "llamacpp"
             base_url = "http://127.0.0.1:9931/v1"
             source_label = "llama.cpp (Disco D:)"
+            is_cloud = False
+            group = "TEAM SVILUPPO"
+            color = "#06b6d4"
+        else:
+            # Default fallback: Ollama Locale
+            provider = "ollama"
+            base_url = "http://127.0.0.1:11434/v1"
+            source_label = "Ollama (Locale C:)"
             group = "TEAM SVILUPPO"
             color = "#3b82f6"
             is_cloud = False
-
         # Selezione Sprite
         sprite_path = "sprites_agents/GynBot1.png"
         candidates = [
@@ -1482,8 +1540,15 @@ def auto_discover_hermes_agents():
             candidates.insert(0, "iq.png")
         elif agent_id == "qwen" or title.lower() == "mind":
             candidates.insert(0, "mind.png")
-        elif agent_id == "vision7b" or title.lower() == "vision":
-            candidates.insert(0, "vision.png")
+        elif agent_id == "longcat" or "longcat" in title.lower():
+            candidates.insert(0, "Longcat.png")
+            candidates.insert(1, "longcat.png")
+        elif agent_id in ["ceh", "ceh-qwen"] or "ceh" in title.lower():
+            candidates.insert(0, "CEH.png")
+            candidates.insert(1, "ceh.png")
+        elif agent_id in ["vision7b", "vision"] or "vision" in title.lower():
+            candidates.insert(0, "VISION.png")
+            candidates.insert(1, "vision.png")
         elif agent_id == "mentor" or "architect" in title.lower():
             candidates.insert(0, "chief architect.png")
         elif agent_id == "oculus" or "ocolus" in title.lower():
