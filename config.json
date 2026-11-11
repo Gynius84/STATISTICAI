@@ -29,7 +29,7 @@
       "base_model": "nemotronbolt",
       "context_limit": 32768,
       "compress_threshold": 0.85,
-      "sprite": "sprites_agents/GynBot1.png",
+      "sprite": "sprites_agents/gynbot1.png",
       "is_cloud": false,
       "source": "Ollama (Locale C:)",
       "parameters": "4.0B GGUF",
@@ -46,10 +46,11 @@
         "throughput": 96
       },
       "model_notes": "NVIDIA Nemotron-3.5 Bolt E4B: ultra-veloce, 100% in VRAM GPU (0 swap) su porta 9931 (llama.cpp router), ottimizzato per function calling e workflow autonomi.",
-      "architecture": "GGUF Ollama (Locale C:)",
+      "architecture": "Ollama Local",
       "modality": "Text + Tools",
       "thinking_level": "Standard",
-      "active_parameters": "4.0B (100% VRAM GPU RTX 4060)"
+      "active_parameters": "4.0B (100% VRAM GPU RTX 4060)",
+      "section_name": "LOCALI"
     },
     {
       "id": "beam",
@@ -84,7 +85,8 @@
       "architecture": "Cloud Lightning MoE",
       "modality": "Text + Tools",
       "thinking_level": "Standard",
-      "active_parameters": "~39B per token"
+      "active_parameters": "~39B per token",
+      "section_name": "STANDBY"
     },
     {
       "id": "beamo",
@@ -99,7 +101,7 @@
       "base_model": "beam",
       "context_limit": 1048576,
       "compress_threshold": 0.85,
-      "sprite": "sprites_agents/BEAMO.png",
+      "sprite": "sprites_agents/beamo.png",
       "is_cloud": true,
       "source": "Cloud 501B MoE",
       "parameters": "501B MoE",
@@ -119,7 +121,8 @@
       "architecture": "Cloud Lightning MoE",
       "modality": "Text + Tools",
       "thinking_level": "Standard",
-      "active_parameters": "~39B per token"
+      "active_parameters": "~39B per token",
+      "section_name": "STANDBY"
     },
     {
       "id": "deeppo4-1flash",
@@ -169,7 +172,7 @@
       "base_model": "deepseek-v4-flash-free",
       "context_limit": 131072,
       "compress_threshold": 0.85,
-      "sprite": "sprites_agents/deeppo4flash.png",
+      "sprite": "sprites_agents/DEEPPO4flash.png",
       "is_cloud": true,
       "source": "Cloud Lightning Cluster",
       "parameters": "410B MoE Orca",
@@ -189,7 +192,8 @@
       "architecture": "Cloud Lightning MoE",
       "modality": "Text + Tools",
       "thinking_level": "Standard",
-      "active_parameters": "~28B per token"
+      "active_parameters": "~28B per token",
+      "section_name": ""
     },
     {
       "id": "gemmo",
@@ -294,7 +298,8 @@
       "architecture": "Cloud Lightning MoE",
       "modality": "Text + Tools",
       "thinking_level": "Standard",
-      "active_parameters": "N/D"
+      "active_parameters": "N/D",
+      "section_name": ""
     },
     {
       "id": "mistral",
@@ -344,7 +349,7 @@
       "base_model": "nemotron-3-ultra",
       "context_limit": 262144,
       "compress_threshold": 0.85,
-      "sprite": "sprites_agents/nemo.png",
+      "sprite": "sprites_agents/NEMO.png",
       "is_cloud": true,
       "source": "Ollama Cloud 550B MoE",
       "parameters": "550B MoE Cloud (55B Active)",
@@ -364,7 +369,8 @@
       "architecture": "Cloud Lightning MoE",
       "modality": "Text + Tools",
       "thinking_level": "Extended Thinking (256K)",
-      "active_parameters": "55B per token"
+      "active_parameters": "55B per token",
+      "section_name": "STANDBY"
     },
     {
       "id": "nemohouse",
@@ -379,7 +385,7 @@
       "base_model": "nemotronbolt",
       "context_limit": 65536,
       "compress_threshold": 0.85,
-      "sprite": "sprites_agents/nemohouse.png",
+      "sprite": "sprites_agents/NEMOHOUSE.png",
       "is_cloud": false,
       "source": "Ollama (Locale C:)",
       "parameters": "4.0B GGUF",
@@ -399,7 +405,8 @@
       "architecture": "Ollama Local",
       "modality": "Text + Tools",
       "thinking_level": "Standard",
-      "active_parameters": "4.0B (100% VRAM GPU RTX 4060)"
+      "active_parameters": "4.0B (100% VRAM GPU RTX 4060)",
+      "section_name": "LOCALI"
     },
     {
       "id": "nomotron",

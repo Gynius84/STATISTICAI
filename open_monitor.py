@@ -120,11 +120,11 @@ def main():
     app_ok, app_msg = launch_native_window()
     result = {
         "ok": True,
-        "version": "2.9",
+        "version": "2.9.1",
         "agents_monitored": count,
         "mode": "native_app" if "App Nativa" in app_msg else "browser",
         "url": URL,
-        "message": f"STATISTICHEAI v2.9 attivo. {app_msg}. {count} agenti monitorati (3 Locali llama.cpp :9931 + 8 Cloud su Ollama, NVIDIA NIM, OpenRouter, Google AI Studio)."
+        "message": f"STATISTICAI v2.9.1 attivo. {app_msg}. {count} agenti monitorati (5 Locali Ollama C: + 8 Titani Cloud)."
     }
     print(json.dumps(result, indent=2))
     return 0

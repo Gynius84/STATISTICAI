@@ -348,6 +348,36 @@ def diagnose_agent(agent_id: str, profile_name: str, model_name: str, context_li
     context_issue_detail = ""
     is_working_now = False
 
+    # 0. Controllo STANDBY in profile.yaml di Hermes (modelli Cloud Ollama a pagamento / quota 429)
+    p_yaml = p_dir / "profile.yaml"
+    is_standby = False
+    if p_yaml.exists():
+        try:
+            p_txt = p_yaml.read_text(encoding="utf-8", errors="ignore")
+            if re.search(r"sectionName:\s*STANDBY", p_txt, re.IGNORECASE):
+                is_standby = True
+        except Exception:
+            pass
+
+    if not sim and (is_standby or (agent_id in ["beam", "beamo", "nemo"] and is_cloud)):
+        session_blocked = True
+        session_issue_detail = "Cloud Ollama a pagamento (Quota 429 • In STANDBY)"
+        return {
+            "agent_id": agent_id,
+            "profile": profile_name,
+            "health_status": "CIMITERO",
+            "room": "cimitero",
+            "is_working_now": False,
+            "session_blocked": True,
+            "session_issue_detail": session_issue_detail,
+            "context_overflow": False,
+            "context_issue_detail": "",
+            "is_simulated": False,
+            "can_cure_session": False,
+            "can_cure_context": False,
+            "can_resurrect": True
+        }
+
     # 1. Controlli simulati (se presenti)
     if sim:
         sim_type = sim.get("type")
@@ -566,6 +596,12 @@ def resurrect_agent(agent_id: str, agent_name: str, profile_name: str) -> dict:
         )
 
         out_text = (probe_res.stdout or "").strip()
+        err_text = (probe_res.stderr or "").strip()
+        combined_text = f"{out_text} {err_text}".strip()
+
+        if "429" in combined_text or "quota" in combined_text.lower() or "credit" in combined_text.lower():
+            raise RuntimeError("Crediti Ollama Cloud esauriti (Errore 429 Quota). È necessario aggiungere credito sul profilo Ollama prima di poter completare la resurrezione.")
+
         keywords = ["OK", "RISUSCITATO", "RESUSCITATO", "PRONTO", "CIAO"]
         success = probe_res.returncode == 0 and (any(w in out_text.upper() for w in keywords) or len(out_text) > 0)
 

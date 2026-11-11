@@ -3,10 +3,11 @@ setlocal
 cd /d "%~dp0"
 
 echo ======================================================================
-echo  STATISTICHEAI v2.9 - Monitor Universale Agenti AI (16-Bit Retrogame)
-echo  15 Agenti: 5 Locali llama.cpp (:9931 Disco D:) + 10 Titani Penta-Cloud
-echo  Cloud: Ollama Cloud (Gateway), NVIDIA NIM, OpenRouter, Google AI Studio, OrcaRouter
+echo  STATISTICAI v2.9.1 - Monitor Universale Agenti AI (16-Bit Retrogame)
+echo  13 Agenti Hermes: 5 Locali Ollama (C:) + 8 Titani Cloud
+echo  Cloud: Ollama Cloud, NVIDIA NIM, OrcaRouter, Nous Research
 echo  Stanze Live: Casetta (Riposo), Ufficio (Lavoro), Infermeria, Cimitero
+echo  Funzionalita': Box & Card Minimization, Auto-Hide Vortici, Doctor 1-Click
 echo ======================================================================
 
 set "PYTHON_EXE=C:\Users\Gyniu\AppData\Local\hermes\tools\python-3.14.7+20260901-win32-x64\python.exe"

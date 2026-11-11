@@ -1087,6 +1087,7 @@ def auto_discover_hermes_agents():
         desc = "Agente Hermes"
 
         # Lettura profile.yaml (inclusi campi annidati in ui_meta)
+        section_name = ""
         if os.path.exists(prof_yaml):
             try:
                 with open(prof_yaml, "r", encoding="utf-8", errors="ignore") as f:
@@ -1101,6 +1102,11 @@ def auto_discover_hermes_agents():
                         raw_d = m_desc.group(1).strip().strip("\"'")
                         if raw_d and raw_d.lower() not in ["", "none", "null"]:
                             desc = raw_d
+                    m_sec = re.search(r"sectionName:\s*([^\r\n]+)", p_content)
+                    if m_sec:
+                        raw_s = m_sec.group(1).strip().strip("\"'")
+                        if raw_s:
+                            section_name = raw_s
             except Exception:
                 pass
 
@@ -1704,6 +1710,7 @@ def auto_discover_hermes_agents():
                 existing["benchmarks"] = bench_meta["benchmarks"]
                 existing["model_notes"] = bench_meta["model_notes"]
                 existing["architecture"] = "Google AI Studio TPU Cloud" if is_google else ("OpenRouter Cloud Router" if is_openrouter else ("NVIDIA NIM Cloud Enterprise" if is_nvidia else ("GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local"))))
+                existing["section_name"] = section_name
                 config_changed = True
             new_agents_list.append(existing)
         else:
@@ -1723,6 +1730,7 @@ def auto_discover_hermes_agents():
                 "sprite": sprite_path,
                 "is_cloud": is_cloud,
                 "source": source_label,
+                "section_name": section_name,
                 "parameters": bench_meta.get("parameters", "501B" if is_cloud else ("35B" if "35b" in model_name.lower() else ("27B" if "27b" in model_name.lower() else ("24B" if "24b" in model_name.lower() else ("14B" if "14b" in model_name.lower() else ("9B" if "9b" in model_name.lower() else ("7B" if "7b" in model_name.lower() else "4B"))))))),
                 "architecture_type": bench_meta["architecture_type"],
                 "architecture_tag": bench_meta["architecture_tag"],
@@ -2074,7 +2082,19 @@ def hermes_worker_loop():
                 is_working_now = bool(diag.get("is_working_now") if is_hermes else False) or is_recent_turn or is_local_vram_active
                 stat_res["is_working_now"] = is_working_now
 
-                if stat_res.get("health_status") == "CIMITERO":
+                is_standby_agent = (agent_def.get("section_name", "").upper() == "STANDBY") or (agent_def.get("id") in ["beam", "beamo", "nemo"] and is_cloud_agent)
+                if is_standby_agent:
+                    stat_res["health_status"] = "CIMITERO"
+                    stat_res["room"] = "cimitero"
+                    stat_res["status"] = "deceduto"
+                    stat_res["hp"] = 0
+                    stat_res["session_blocked"] = True
+                    stat_res["session_issue_detail"] = "Cloud Ollama a pagamento (Errore 429 • In STANDBY)"
+                    stat_res["can_cure_session"] = False
+                    stat_res["can_cure_context"] = False
+                    stat_res["can_resurrect"] = True
+                    stat_res["is_working_now"] = False
+                elif stat_res.get("health_status") == "CIMITERO":
                     stat_res["room"] = "cimitero"
                     stat_res["status"] = "deceduto"
                     stat_res["hp"] = 0
@@ -2253,6 +2273,7 @@ class FastStatHandler(http.server.BaseHTTPRequestHandler):
             self.send_security_headers("application/json")
             res = {
                 "status": "healthy",
+                "version": "2.9.1",
                 "mode": "read_only",
                 "actions_enabled": ACTIONS_ENABLED,
                 "csrf_token": CSRF_TOKEN,

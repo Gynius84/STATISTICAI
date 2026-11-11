@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STATISTICHEAI v2.9 - Monitor Universale Agenti Hermes & Hexa-Cloud Titans & Ollama / llama.cpp</title>
+    <title>STATISTICAI v2.9.1 - Monitor Universale Agenti Hermes & Hexa-Cloud Titans & Ollama</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
         /* -------------------------------------------------------------
@@ -337,6 +337,48 @@
             border-color: var(--cemetery-purple);
             box-shadow: inset 0 0 0 1px #311b47;
             background: #100e1c;
+        }
+
+        /* STATISTICAI v2.9.1: Card-level Minimization & Hiding */
+        .agent-card.card-minimized {
+            gap: 2px !important;
+            padding: 5px 8px !important;
+        }
+        .agent-card.card-minimized .card-body-collapsible {
+            display: none !important;
+        }
+        .agent-card.card-minimized .agent-header {
+            margin-bottom: 0 !important;
+            padding-bottom: 0 !important;
+        }
+        .agent-card.card-minimized .agent-sprite {
+            width: 32px !important;
+            height: 34px !important;
+        }
+        .agent-card.card-hidden {
+            display: none !important;
+        }
+        .btn-card-ctrl {
+            background: #090e18;
+            border: 1px solid #1e293b;
+            color: #94a3b8;
+            font-family: 'Press Start 2P', monospace, sans-serif;
+            font-size: 7.5px;
+            padding: 2px 5px;
+            cursor: pointer;
+            border-radius: 2px;
+            line-height: 1;
+            transition: all 0.15s;
+        }
+        .btn-card-ctrl:hover {
+            background: #1e293b;
+            color: #f8fafc;
+            border-color: #38bdf8;
+        }
+        .btn-card-ctrl.btn-card-close:hover {
+            background: #450a0a;
+            color: #fca5a5;
+            border-color: #ef4444;
         }
 
         .agent-card.card-cloud {
@@ -1610,22 +1652,22 @@
                 </svg>
                 <div>
                     <div class="main-title" id="main-header-title">
-                        <span style="color: #7aa2f7;">STATISTICHEAI</span>
+                        <span style="color: #7aa2f7;">STATISTICAI</span>
                         <span style="color: #565f89; margin: 0 4px;">•</span>
-                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 15 AGENTI • 5 LOCALI (OLLAMA :11434) + 10 TITANI HEXA-CLOUD (v2.9)</span>
+                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 13 AGENTI • 5 LOCALI OLLAMA C: + 8 CLOUD TITANS (v2.9.1)</span>
                     </div>
                     <div id="title-dynamic-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 11px; margin-top: 3px; flex-wrap: wrap;">
                         <span id="title-workflow-badge" class="badge" style="background: #041f15; color: #34d399; border-color: #10b981; padding: 2px 7px; font-size: 10px; cursor: default; letter-spacing: 0.5px;">
-                            🔀 WORKFLOW: 🦙 OLLAMA :11434 (5 LOCALI C:) + ☁ OLLAMA CLOUD (2) + ⚡ NVIDIA NIM (3) + 🌌 OPENROUTER (2) + ✨ GOOGLE AI (1) + ⚡ ORCAROUTER (2) + ✨ NOUS RESEARCH (1) = 15 AGENTI
+                            🔀 WORKFLOW: 🦙 OLLAMA LOCALE C: (5 MODELLI) + ☁ OLLAMA CLOUD (3 IN STANDBY) + ⚡ NVIDIA NIM (2) + ⚡ ORCAROUTER (2) + ✨ NOUS RESEARCH (1) = 13 AGENTI
                         </span>
-                        <span style="color: var(--text-muted);">MONITOR RETRO RPG v2.9: HEXA-CLOUD TITANS (OLLAMA • NVIDIA NIM • OPENROUTER • GOOGLE AI • ORCAROUTER • NOUS RESEARCH) • 4 STANZE PIXEL ART • RADAR OPENCOMPASS • GESTIONE BOX (HIDE/MINIMIZE)</span>
+                        <span id="dashboard-subtitle" style="color: var(--text-muted);">MONITOR RETRO RPG v2.9.1: HEXA-CLOUD TITANS • 4 STANZE PIXEL ART • RADAR OPENCOMPASS • GESTIONE BOX & CARD (HIDE/MINIMIZE)</span>
                     </div>
                 </div>
             </div>
 
             <div class="badge-group">
-                <div id="boxes-control-btn" class="badge" onclick="toggleBoxesToolbar()" title="Gestione visibilità e riduzione box (v2.9)" style="cursor: pointer; background: #1a1b2e; color: #a5b4fc; border-color: #818cf8; user-select: none;">
-                    [ 📦 GESTIONE BOX <span id="header-hidden-count" style="display:none; color:#f87171;">(0 NASCOSTI)</span> ]
+                <div id="boxes-control-btn" class="badge" onclick="toggleBoxesToolbar()" title="Gestione visibilità e riduzione box & card (v2.9.1)" style="cursor: pointer; background: #1a1b2e; color: #a5b4fc; border-color: #818cf8; user-select: none;">
+                    [ 📦 GESTIONE BOX & CARD <span id="header-hidden-count" style="display:none; color:#f87171;">(0 NASCOSTI)</span> ]
                 </div>
                 <div id="layout-toggle-btn" class="badge" onclick="toggleLayoutEditor()" title="Personalizza e sposta i box e le schede" style="cursor: pointer; background: #1f2335; color: #fde047; border-color: #eab308; user-select: none;">
                     [ 📐 PERSONALIZZA LAYOUT ]
@@ -1641,20 +1683,30 @@
 
         <!-- BANNER MODALITÀ PERSONALIZZAZIONE LAYOUT (VERSIONE 2.1) -->
         
-        <!-- TOOLBAR GESTIONE VISIBILITÀ & MINIATURIZZAZIONE BOX (VERSIONE 2.9) -->
+        <!-- TOOLBAR GESTIONE VISIBILITÀ & MINIATURIZZAZIONE BOX & CARD (VERSIONE 2.9.1) -->
         <div id="boxes-manager-toolbar" class="boxes-manager-toolbar" style="display: none;">
             <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; width: 100%; justify-content: space-between;">
                 <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                    <span style="color: #a5b4fc; font-weight: bold; font-size: 11px;">📦 GESTIONE BOX (v2.9):</span>
-                    <button type="button" class="btn-box-mgmt" onclick="collapseAllBoxes()" title="Riduci tutti i box a sola barra titolo">[-] RIDUCI TUTTI</button>
-                    <button type="button" class="btn-box-mgmt" onclick="expandAllBoxes()" title="Espandi tutti i box al 100%">[+] ESPANDI TUTTI</button>
-                    <button type="button" class="btn-box-mgmt" style="border-color: #22c55e; color: #86efac;" onclick="showAllBoxes()" title="Mostra tutti i box attualmente nascosti">👁 MOSTRA TUTTI I BOX (<span id="hidden-boxes-count">0</span> nascosti)</button>
+                    <span style="color: #a5b4fc; font-weight: bold; font-size: 11px;">📦 BOX:</span>
+                    <button type="button" class="btn-box-mgmt" onclick="collapseAllBoxes()" title="Riduci tutti i box a sola barra titolo">[-] RIDUCI BOX</button>
+                    <button type="button" class="btn-box-mgmt" onclick="expandAllBoxes()" title="Espandi tutti i box al 100%">[+] ESPANDI BOX</button>
+                    <button type="button" class="btn-box-mgmt" style="border-color: #22c55e; color: #86efac;" onclick="showAllBoxes()" title="Mostra tutti i box attualmente nascosti">👁 MOSTRA TUTTI I BOX (<span id="hidden-boxes-count">0</span>)</button>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <span style="color: #38bdf8; font-weight: bold; font-size: 11px;">👥 SCHEDE AGENTI:</span>
+                    <button type="button" class="btn-box-mgmt" onclick="collapseAllCards()" title="Compatta tutte le schede agenti">[-] COMPATTA SCHEDE</button>
+                    <button type="button" class="btn-box-mgmt" onclick="expandAllCards()" title="Espandi tutte le schede agenti al 100%">[+] ESPANDI SCHEDE</button>
+                    <button type="button" class="btn-box-mgmt" style="border-color: #38bdf8; color: #7dd3fc;" onclick="showAllCards()" title="Mostra tutte le schede agenti nascoste">👁 MOSTRA TUTTE LE SCHEDE (<span id="hidden-cards-count">0</span>)</button>
                 </div>
                 <button type="button" class="btn-box-mgmt" style="border-color: #ef4444; color: #fca5a5;" onclick="toggleBoxesToolbar()" title="Chiudi questa barra">✕ CHIUDI</button>
             </div>
             <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 6px; width: 100%; border-top: 1px dashed #242b45; padding-top: 6px;">
-                <span style="font-size: 9px; color: var(--text-muted);">CLICCA SUI BOX PER NASCONDERLI O MOSTRARLI:</span>
+                <span style="font-size: 9px; color: var(--text-muted);">VISIBILITÀ BOX (CLICCA PER NASCONDERE/MOSTRARE):</span>
                 <div id="box-pills-container" style="display: flex; gap: 6px; flex-wrap: wrap;"></div>
+            </div>
+            <div id="cards-pills-wrapper" style="display: none; align-items: center; gap: 6px; flex-wrap: wrap; margin-top: 6px; width: 100%; border-top: 1px dashed #1e293b; padding-top: 6px;">
+                <span style="font-size: 9px; color: #f87171;">SCHEDE AGENTI NASCOSTE (CLICCA PER RIPRISTINARE):</span>
+                <div id="cards-pills-container" style="display: flex; gap: 6px; flex-wrap: wrap;"></div>
             </div>
         </div>
 
@@ -1858,7 +1910,7 @@
             </div>
 
             <!-- DIVISIONE 3: INFRASTRUTTURA NVIDIA CLOUD NIM TITANS & SECONDO PORTALE QUANTICO -->
-            <div class="hud-sub-header" style="border-left-color: #76b900; color: #a3e635; margin-top: 14px;">
+            <div class="hud-sub-header" id="hud-subheader-nvidia" style="border-left-color: #76b900; color: #a3e635; margin-top: 14px;">
                 <span>⚡ INFRASTRUTTURA NVIDIA CLOUD NIM TITANS & PORTALE QUANTICO (81 MODELLI NIM • 0 MB VRAM)</span>
                 <span style="color: #76b900; font-size: 9px;">NEMOTRON-3 ULTRA 550B MoE + DEEPSEEK V4.1 FLASH 410B MoE + DRAGO GLM 5.3 130B • ENTERPRISE NIM CLUSTER</span>
             </div>
@@ -1920,11 +1972,11 @@
                 </div>
             </div>
             <!-- DIVISIONE 4: INFRASTRUTTURA OPENROUTER CLOUD TITANS & TERZO PORTALE QUANTICO -->
-            <div class="hud-sub-header" style="border-left-color: #818cf8; color: #a5b4fc; margin-top: 14px;">
-                <span>🌌 INFRASTRUTTURA TEAM NOUS RESEARCH & PORTALE QUANTICO (ENDPOINT NOUS)</span>
-                <span style="color: #c084fc; font-size: 9px;">INKLING REASONER 70B + LAGUNA SWE 35B MoE • HIGH-SPEED MULTI-CLOUD ROUTER</span>
+            <div class="hud-sub-header" id="hud-subheader-openrouter" style="border-left-color: #a855f7; color: #c084fc; margin-top: 14px; display: none;">
+                <span>🌌 INFRASTRUTTURA OPENROUTER CLOUD TITANS & TERZO PORTALE QUANTICO</span>
+                <span id="hud-subheader-openrouter-right" style="color: #c084fc; font-size: 9px;">INKLING REASONER 70B + LAGUNA SWE 35B MoE • HIGH-SPEED MULTI-CLOUD ROUTER</span>
             </div>
-            <div class="hud-cloud-tier" id="hud-grid-cloud-openrouter">
+            <div class="hud-cloud-tier" id="hud-grid-cloud-openrouter" style="display: none;">
                 <!-- GRUPPO: INKLING CLOUD (OPENROUTER) -->
                 <div class="hud-metric draggable-hud" data-hud-id="hud-cloud-inkling" style="border-color: #a855f7; background: #160a24; box-shadow: 0 0 10px rgba(168, 85, 247, 0.2); flex: 1 1 240px; min-width: 220px; max-width: 340px; box-sizing: border-box;">
                     <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ INKLING CLOUD</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-inkling', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-cloud-inkling', 1)">▶</button></div></div>
@@ -2990,94 +3042,79 @@
         function updateDynamicHeaderTitle(data) {
             if (!data) return;
             const agents = data.agents || [];
-            const ol = data.ollama || {};
-            const lc = data.llamacpp || {};
-
             const dynamicTitleEl = document.getElementById('title-dynamic-agents');
             const badgeEl = document.getElementById('title-workflow-badge');
             if (!dynamicTitleEl || !badgeEl) return;
 
-            // Rilevamento agenti locali vs cloud (v2.8: 5 Locali llama.cpp Disco D: + 10 Titani Cloud)
+            // Rilevamento agenti locali vs cloud (v2.9.1)
             const localAgents = agents.filter(a => !a.is_cloud);
             const cloudAgents = agents.filter(a => a.is_cloud);
+            const ollamaLocals = localAgents.filter(a => a.provider === 'ollama' || (a.source && a.source.includes('Ollama')));
+            const llamaLocals = localAgents.filter(a => a.provider === 'llamacpp' || (a.source && a.source.includes('llama.cpp')));
 
-            // Rilevamento profili Hermes
-            const hermesAgents = agents.filter(a => a.profile && a.profile !== 'beam');
-
-            // Rilevamento provider attivi
-            const providers = new Set();
-            agents.forEach(a => {
-                if (a.provider) providers.add(a.provider.toLowerCase());
-                else if (a.is_cloud || a.id === 'beam') providers.add('cloud');
-                else providers.add('ollama');
-            });
-
-            // 1. Titolo Principale Adattivo (v2.8)
-            let titleText = `HERMES ${agents.length} AGENTI • OLLAMA LOCALE C: (${localAgents.length} MODELLI) + CLOUD ENDP (BEAM/BEAMO/NEMO) (v2.8)`;
+            // 1. Titolo Principale Adattivo (v2.9.1)
+            let titleText = `HERMES ${agents.length} AGENTI • ${ollamaLocals.length} LOCALI OLLAMA C: + ${cloudAgents.length} CLOUD TITANS (v2.9.1)`;
             dynamicTitleEl.textContent = titleText;
-            document.title = `STATISTICHEAI • ${titleText}`;
+            document.title = `STATISTICAI • ${titleText}`;
 
-            // 2. Badge Dettagliato Workflow e Modelli (Locali & Cloud)
+            // Sottotitolo
+            const subTitleEl = document.getElementById('dashboard-subtitle');
+            if (subTitleEl) {
+                subTitleEl.textContent = 'MONITOR RETRO RPG v2.9.1: HEXA-CLOUD TITANS • 4 STANZE PIXEL ART • RADAR OPENCOMPASS • GESTIONE BOX & CARD (HIDE/MINIMIZE)';
+            }
+
+            // 2. Badge Dettagliato Workflow Reale (Solo provider con agenti presenti!)
             let badgeParts = [];
             
-            // Info llama.cpp Locale D: (5 modelli GGUF)
-            const lcCount = lc.models_count || (lc.models ? lc.models.length : 5);
-            badgeParts.push(`🦙 LLAMA.CPP :9931 (${lcCount} LOCALI DISCO D:)`);
-
-            // Info Ollama Locale C: (Ollama non ha modelli locali in questa configurazione)
-            const olLocCount = ol?.local_models_count ?? ol?.installed_models_count ?? 0;
-            if (olLocCount > 0) {
-                badgeParts.push(`🦙 OLLAMA LOCALE C: (${olLocCount} MODELLI)`);
+            // Info Ollama Locale C: (5 modelli reali)
+            if (ollamaLocals.length > 0) {
+                badgeParts.push(`🦙 OLLAMA LOCALE C: (${ollamaLocals.length} MODELLI)`);
             }
 
-            // Info Cloud Ollama (BEAM + MiniMax)
-            const ollamaCloudTitans = agents.filter(a => a.id === 'beam' || a.id === 'minimax' || (a.model && (a.model.toLowerCase().includes('beam') || a.model.toLowerCase().includes('minimax'))));
-            if (ollamaCloudTitans.length >= 2) {
-                badgeParts.push(`☁ OLLAMA CLOUD (BEAM 501B + MINIMAX 3.1 456B)`);
-            } else if (ollamaCloudTitans.length === 1) {
-                badgeParts.push(`☁ OLLAMA CLOUD (${ollamaCloudTitans[0].name})`);
+            // Info llama.cpp Locale D: (solo se ha agenti)
+            if (llamaLocals.length > 0) {
+                badgeParts.push(`🦙 LLAMA.CPP :9931 (${llamaLocals.length} LOCALI DISCO D:)`);
             }
 
-            // Info Cloud NVIDIA NIM (Nemotron + DeepSeek + Drago)
-            const nvidiaCloudTitans = agents.filter(a => ['deepseek', 'drago', 'nomotron', 'nemotron'].includes(a.id) || a.provider === 'nvidia' || (a.source && a.source.includes('NVIDIA')) || (a.model && (a.model.toLowerCase().includes('deepseek-v4.1') || a.model.toLowerCase().includes('glm-5.3') || a.model.toLowerCase().includes('nemotron'))));
-            if (nvidiaCloudTitans.length >= 3) {
-                badgeParts.push(`⚡ NVIDIA CLOUD NIM (NEMOTRON 550B + DEEPSEEK 410B + DRAGO 130B • 81 MODELLI NIM)`);
-            } else if (nvidiaCloudTitans.length === 2) {
-                badgeParts.push(`⚡ NVIDIA CLOUD NIM (DEEPSEEK 4.1 FLASH + DRAGO GLM-5.3 • 81 MODELLI NIM)`);
-            } else if (nvidiaCloudTitans.length === 1) {
-                badgeParts.push(`⚡ NVIDIA CLOUD NIM (${nvidiaCloudTitans[0].name})`);
+            // Info Cloud Ollama (BEAM, BEAMO, NEMO in standby/cimitero)
+            const ollamaCloudTitans = agents.filter(a => ['beam', 'beamo', 'nemo'].includes(a.id) || (a.provider === 'ollama' && a.is_cloud));
+            if (ollamaCloudTitans.length > 0) {
+                const standbyCount = ollamaCloudTitans.filter(a => a.health_status === 'CIMITERO' || a.room === 'cimitero').length;
+                if (standbyCount > 0) {
+                    badgeParts.push(`☁ OLLAMA CLOUD (${ollamaCloudTitans.length} IN STANDBY/CIMITERO)`);
+                } else {
+                    badgeParts.push(`☁ OLLAMA CLOUD (${ollamaCloudTitans.map(a => a.name).join(' + ')})`);
+                }
             }
 
-            // Info Cloud OpenRouter (Inkling + Laguna)
-            const openrouterCloudTitans = agents.filter(a => a.id === 'inkling' || a.id === 'laguna' || a.provider === 'openrouter' || (a.source && a.source.includes('OpenRouter')) || (a.model && (a.model.toLowerCase().includes('inkling') || a.model.toLowerCase().includes('laguna') || a.model.toLowerCase().includes(':free'))));
-            if (openrouterCloudTitans.length >= 2) {
-                badgeParts.push(`🌌 OPENROUTER CLOUD (INKLING 70B + LAGUNA 35B • FREE ROUTER)`);
-            } else if (openrouterCloudTitans.length === 1) {
-                badgeParts.push(`🌌 OPENROUTER CLOUD (${openrouterCloudTitans[0].name})`);
-            }
-
-            // Info Cloud Google AI Studio (Gemini 3.5 Flash)
-            const googleCloudTitans = agents.filter(a => a.id === 'google' || a.id === 'gemini' || a.provider === 'google' || (a.source && a.source.includes('Google')) || (a.model && a.model.toLowerCase().includes('gemini')));
-            if (googleCloudTitans.length >= 1) {
-                badgeParts.push(`✨ GOOGLE AI STUDIO (${googleCloudTitans.map(a => a.name).join(' + ')} • 1M CTX TPU)`);
+            // Info Cloud NVIDIA NIM
+            const nvidiaCloudTitans = agents.filter(a => a.provider === 'nvidia' || (a.source && a.source.includes('NVIDIA')) || ['deepseek', 'drago', 'nomotron', 'nemotron', 'mistral'].includes(a.id));
+            if (nvidiaCloudTitans.length > 0) {
+                badgeParts.push(`⚡ NVIDIA CLOUD NIM (${nvidiaCloudTitans.map(a => a.name).join(' + ')})`);
             }
 
             // Info Cloud OrcaRouter (DEEPPO4flash + DEEPPO41flash)
-            const orcaCloudTitans = agents.filter(a => a.id === 'deeppo4flash' || a.id === 'deeppo4-1flash' || a.provider === 'orcarouter' || (a.source && a.source.includes('OrcaRouter')) || (a.model && a.model.toLowerCase().includes('deeppo')));
-            if (orcaCloudTitans.length >= 2) {
-                badgeParts.push(`⚡ ORCAROUTER CLOUD (DEEPPO4 + DEEPPO4.1 • 131K CTX)`);
-            } else if (orcaCloudTitans.length === 1) {
-                badgeParts.push(`⚡ ORCAROUTER CLOUD (${orcaCloudTitans[0].name})`);
-            } else if (cloudAgents.length > 0 && ollamaCloudTitans.length === 0 && nvidiaCloudTitans.length === 0) {
-                badgeParts.push(`☁ CLOUD ENDPOINTS (${cloudAgents.length} AGENTI)`);
+            const orcaCloudTitans = agents.filter(a => a.id === 'deeppo4flash' || a.id === 'deeppo4-1flash' || a.provider === 'orcarouter' || (a.source && a.source.includes('OrcaRouter')));
+            if (orcaCloudTitans.length > 0) {
+                badgeParts.push(`⚡ ORCAROUTER CLOUD (${orcaCloudTitans.map(a => a.name).join(' + ')} • 131K CTX)`);
             }
 
-            // Altri provider (LM Studio, vLLM, OpenAI, ecc.)
-            if (providers.has('lmstudio')) {
-                badgeParts.push(`🧪 LM STUDIO`);
+            // Info Cloud Nous Research (LONGCAT)
+            const nousCloudTitans = agents.filter(a => a.id === 'longcat' || a.provider === 'nous' || (a.source && a.source.includes('Nous')));
+            if (nousCloudTitans.length > 0) {
+                badgeParts.push(`✨ NOUS RESEARCH CLOUD (${nousCloudTitans.map(a => a.name).join(' + ')} • 131K CTX)`);
             }
-            if (providers.has('openai_compatible') || providers.has('openai')) {
-                badgeParts.push(`⚡ OPENAI/vLLM`);
+
+            // Info Cloud OpenRouter (solo se ha agenti)
+            const openrouterCloudTitans = agents.filter(a => a.provider === 'openrouter' || (a.source && a.source.includes('OpenRouter')) || ['inkling', 'laguna'].includes(a.id));
+            if (openrouterCloudTitans.length > 0) {
+                badgeParts.push(`🌌 OPENROUTER CLOUD (${openrouterCloudTitans.map(a => a.name).join(' + ')})`);
+            }
+
+            // Info Cloud Google AI Studio (solo se ha agenti)
+            const googleCloudTitans = agents.filter(a => a.provider === 'google' || (a.source && a.source.includes('Google')) || ['google', 'gemini'].includes(a.id));
+            if (googleCloudTitans.length > 0) {
+                badgeParts.push(`✨ GOOGLE AI STUDIO (${googleCloudTitans.map(a => a.name).join(' + ')} • 1M CTX TPU)`);
             }
 
             badgeEl.textContent = '🔀 WORKFLOW: ' + (badgeParts.length > 0 ? badgeParts.join(' + ') : 'MULTI-TIER AI');
@@ -3358,6 +3395,8 @@
             }
 
             grid.innerHTML = '';
+            const cardsCollapsed = getCardsCollapsedState();
+            const cardsHidden = getCardsHiddenState();
 
             agents.forEach(agent => {
                 if (ACTIVE_FILTER !== 'all') {
@@ -3402,6 +3441,10 @@
                 else if (agent.is_cloud || agent.id === 'beam') cardClass += ' card-cloud';
                 if (hs === 'INFERMERIA') cardClass += ' card-infermeria';
                 else if (hs === 'CIMITERO') cardClass += ' card-cimitero';
+                const isCardCollapsed = !!cardsCollapsed[agent.id];
+                const isCardHidden = !!cardsHidden[agent.id];
+                if (isCardHidden) cardClass += ' card-hidden';
+                if (isCardCollapsed) cardClass += ' card-minimized';
                 card.className = cardClass;
                 card.setAttribute('data-agent-id', agent.id);
                 card.setAttribute('draggable', 'true');
@@ -3579,6 +3622,15 @@
                 }
 
                 card.innerHTML = `
+                    <div class="card-reorder-bar" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; padding-bottom:3px; border-bottom:1px solid #1a2238;">
+                        <span class="card-drag-handle" style="font-size:9px; color:var(--text-muted); cursor:grab;" title="Trascina per ordinare">⠿ ${agent.name}</span>
+                        <div style="display:flex; gap:3px;">
+                            <button type="button" class="btn-card-ctrl" onclick="toggleCardCollapse('${agent.id}'); event.stopPropagation();" title="${isCardCollapsed ? 'Espandi scheda' : 'Riduci scheda'}">${isCardCollapsed ? '[+] ESPANDI' : '[-] RIDUCI'}</button>
+                            <button type="button" class="btn-card-ctrl btn-card-close" onclick="toggleCardHide('${agent.id}', true); event.stopPropagation();" title="Nascondi questa scheda">✕ CHIUDI</button>
+                            <button type="button" class="btn-card-ctrl" onclick="moveCard('${agent.id}', -1); event.stopPropagation();" title="Sposta a sinistra">◀</button>
+                            <button type="button" class="btn-card-ctrl" onclick="moveCard('${agent.id}', 1); event.stopPropagation();" title="Sposta a destra">▶</button>
+                        </div>
+                    </div>
                     <div class="agent-header">
                         <img src="${spriteUrl}" class="agent-sprite" alt="${agent.name}" style="${isOrcaCard ? 'border-color: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);' : (isGoogleCard ? 'border-color: #f59e0b; box-shadow: 0 0 8px rgba(245, 158, 11, 0.4);' : (isOpenRouterCard ? 'border-color: #a855f7; box-shadow: 0 0 8px rgba(168, 85, 247, 0.4);' : (isNvidiaCard ? 'border-color: #76b900; box-shadow: 0 0 8px rgba(118, 185, 0, 0.4);' : (isNousCard ? 'border-color: #818cf8; box-shadow: 0 0 8px rgba(129, 140, 248, 0.4);' : ((agent.is_cloud || agent.id === 'beam') ? 'border-color: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);' : '')))))}" />
                         <div class="agent-title-box">
@@ -3594,6 +3646,7 @@
                         </div>
                     </div>
 
+                    <div class="card-body-collapsible" style="${isCardCollapsed ? 'display:none;' : ''}">
                     <div style="display: flex; flex-direction: column; gap: 4px; background: #0b0d16; padding: 6px; border: 1px solid #1f2438;">
                         <div class="agent-stat-row">
                             <span style="color: var(--text-muted);">${(agent.is_cloud || agent.id === 'beam') ? 'STATO SALUTE & STANZA:' : 'ENERGIA HP & STANZA:'}</span>
@@ -3755,10 +3808,13 @@
                             <span>PERSISTENZA: <b style="color:#4ade80;">100% GARANTITA</b></span>
                         </div>
                     </div>
+                    </div>
                 `;
 
                 grid.appendChild(card);
             });
+
+            updateCardsUIIndicators();
 
             // Disegna o aggiorna tutti i grafici radar delle schede attualmente espanse (Versione 2.2)
             EXPANDED_CARDS.forEach(expId => {
@@ -5835,6 +5891,53 @@
             const pOrSub = document.getElementById('hud-portal-openrouter-sub');
             if (pOrTitle) pOrTitle.textContent = `🌌 PORTALE VORTICE QUANTICO • ${openrouterActive.length} TITANI OPENROUTER`;
             if (pOrSub) pOrSub.textContent = (openrouterActive.map(a => `${a.name} ${(a.parameters || '').split(' ')[0]}`).join(' + ') || 'NESSUN AGENTE') + ' • 0 VRAM';
+
+            // =============================================================
+            // STATISTICAI v2.9.1: Auto-Hide Vortici Quantici non utilizzati
+            // =============================================================
+            // 1. OpenRouter (nascondi se 0 agenti)
+            const orHdr = document.getElementById('hud-subheader-openrouter');
+            const orGrid = document.getElementById('hud-grid-cloud-openrouter');
+            if (orHdr) orHdr.style.display = (openrouterActive.length > 0) ? 'flex' : 'none';
+            if (orGrid) orGrid.style.display = (openrouterActive.length > 0) ? 'flex' : 'none';
+
+            // 2. Google AI Studio (nascondi se 0 agenti)
+            const ggHdr = document.getElementById('hud-subheader-google-cloud');
+            const ggGrid = document.getElementById('hud-grid-cloud-google');
+            if (ggHdr) ggHdr.style.display = (googleActive.length > 0) ? 'flex' : 'none';
+            if (ggGrid) ggGrid.style.display = (googleActive.length > 0) ? 'flex' : 'none';
+
+            // 3. OrcaRouter (visibile se > 0)
+            const orcaHdr = document.getElementById('hud-subheader-orcarouter-cloud');
+            const orcaGrid = document.getElementById('hud-grid-cloud-orcarouter');
+            if (orcaHdr) orcaHdr.style.display = (orcarouterActive.length > 0) ? 'flex' : 'none';
+            if (orcaGrid) orcaGrid.style.display = (orcarouterActive.length > 0) ? 'flex' : 'none';
+
+            // 4. Nous Research Cloud (visibile con LONGCAT)
+            const nousActive = cloudAgents.filter(a => a.provider === 'nous' || (a.source && a.source.includes('Nous')) || a.id === 'longcat');
+            const nousHdr = document.getElementById('hud-subheader-nous-cloud');
+            const nousGrid = document.getElementById('hud-grid-cloud-nous');
+            if (nousHdr) nousHdr.style.display = (nousActive.length > 0) ? 'flex' : 'none';
+            if (nousGrid) nousGrid.style.display = (nousActive.length > 0) ? 'flex' : 'none';
+
+            const pNsTitle = document.getElementById('hud-portal-nous-title');
+            const pNsSub = document.getElementById('hud-portal-nous-sub');
+            const pNsHdrRight = document.getElementById('hud-subheader-nous-cloud-right');
+            if (pNsTitle) pNsTitle.textContent = `⚡ PORTALE VORTICE QUANTICO • NOUS RESEARCH CLOUD (${nousActive.length} TITANO)`;
+            if (pNsSub) pNsSub.textContent = (nousActive.map(a => `${a.name} (131K)`).join(' + ') || 'NESSUN AGENTE') + ' • 0 VRAM';
+            if (pNsHdrRight) pNsHdrRight.textContent = (nousActive.map(a => `${a.name} • 131K CTX (${a.model})`).join(' + ') || 'NESSUN AGENTE') + ' • MEITUAN LONGCAT 2.5 FREE';
+
+            // 5. NVIDIA NIM (visibile se > 0)
+            const nvHdr = document.getElementById('hud-subheader-nvidia');
+            const nvGrid = document.getElementById('hud-grid-cloud-nvidia');
+            if (nvHdr) nvHdr.style.display = (nvidiaActive.length > 0) ? 'flex' : 'none';
+            if (nvGrid) nvGrid.style.display = (nvidiaActive.length > 0) ? 'flex' : 'none';
+
+            // 6. Ollama Cloud: rimane visibile per esplicita richiesta utente (anche in standby/cimitero)
+            const olHdr = document.getElementById('hud-subheader-ollama-cloud');
+            const olGrid = document.getElementById('hud-grid-cloud');
+            if (olHdr) olHdr.style.display = 'flex';
+            if (olGrid) olGrid.style.display = 'flex';
         }
 
         renderStage();
@@ -6195,12 +6298,131 @@
             });
         }
 
-        function resetLayout() {
+                // =============================================================
+        // STATISTICAI v2.9.1: Gestione Visibilità & Riduzione Schede Agenti
+        // =============================================================
+        function getCardsCollapsedState() {
+            try {
+                return JSON.parse(localStorage.getItem('statistiche_cards_collapsed')) || {};
+            } catch (e) {
+                return {};
+            }
+        }
+        function saveCardsCollapsedState(state) {
+            try {
+                localStorage.setItem('statistiche_cards_collapsed', JSON.stringify(state));
+            } catch (e) {}
+        }
+        function getCardsHiddenState() {
+            try {
+                return JSON.parse(localStorage.getItem('statistiche_cards_hidden')) || {};
+            } catch (e) {
+                return {};
+            }
+        }
+        function saveCardsHiddenState(state) {
+            try {
+                localStorage.setItem('statistiche_cards_hidden', JSON.stringify(state));
+            } catch (e) {}
+        }
+
+        function toggleCardCollapse(agentId) {
+            const state = getCardsCollapsedState();
+            state[agentId] = !state[agentId];
+            saveCardsCollapsedState(state);
+            const card = document.querySelector(`.agent-card[data-agent-id="${agentId}"]`);
+            if (card) {
+                card.classList.toggle('card-minimized', !!state[agentId]);
+                const body = card.querySelector('.card-body-collapsible');
+                if (body) body.style.display = state[agentId] ? 'none' : '';
+                const btn = card.querySelector('.btn-card-ctrl');
+                if (btn) btn.innerHTML = state[agentId] ? '[+] ESPANDI' : '[-] RIDUCI';
+            }
+            showToast(state[agentId] ? `Scheda ${agentId.toUpperCase()} miniaturizzata!` : `Scheda ${agentId.toUpperCase()} espansa!`);
+        }
+
+        function toggleCardHide(agentId, forceHide) {
+            const state = getCardsHiddenState();
+            if (forceHide !== undefined) {
+                state[agentId] = forceHide;
+            } else {
+                state[agentId] = !state[agentId];
+            }
+            saveCardsHiddenState(state);
+            const card = document.querySelector(`.agent-card[data-agent-id="${agentId}"]`);
+            if (card) {
+                card.classList.toggle('card-hidden', !!state[agentId]);
+            }
+            updateCardsUIIndicators();
+            showToast(state[agentId] ? `Scheda ${agentId.toUpperCase()} nascosta!` : `Scheda ${agentId.toUpperCase()} mostrata!`);
+        }
+
+        function showAllCards() {
+            saveCardsHiddenState({});
+            document.querySelectorAll('.agent-card').forEach(c => c.classList.remove('card-hidden'));
+            updateCardsUIIndicators();
+            showToast('Tutte le schede agenti sono ora visibili!');
+        }
+
+        function collapseAllCards() {
+            const state = {};
+            document.querySelectorAll('.agent-card').forEach(c => {
+                const id = c.getAttribute('data-agent-id');
+                if (id) state[id] = true;
+                c.classList.add('card-minimized');
+                const body = c.querySelector('.card-body-collapsible');
+                if (body) body.style.display = 'none';
+                const btn = c.querySelector('.btn-card-ctrl');
+                if (btn) btn.innerHTML = '[+] ESPANDI';
+            });
+            saveCardsCollapsedState(state);
+            showToast('Tutte le schede agenti miniaturizzate!');
+        }
+
+        function expandAllCards() {
+            saveCardsCollapsedState({});
+            document.querySelectorAll('.agent-card').forEach(c => {
+                c.classList.remove('card-minimized');
+                const body = c.querySelector('.card-body-collapsible');
+                if (body) body.style.display = '';
+                const btn = c.querySelector('.btn-card-ctrl');
+                if (btn) btn.innerHTML = '[-] RIDUCI';
+            });
+            showToast('Tutte le schede agenti espanse!');
+        }
+
+        function updateCardsUIIndicators() {
+            const hidden = getCardsHiddenState();
+            const hiddenKeys = Object.keys(hidden).filter(k => hidden[k]);
+            const countEl = document.getElementById('hidden-cards-count');
+            if (countEl) countEl.textContent = hiddenKeys.length;
+            const container = document.getElementById('cards-pills-container');
+            const wrapper = document.getElementById('cards-pills-wrapper');
+            if (!container) return;
+            container.innerHTML = '';
+            if (hiddenKeys.length === 0) {
+                if (wrapper) wrapper.style.display = 'none';
+                return;
+            }
+            if (wrapper) wrapper.style.display = 'flex';
+            hiddenKeys.forEach(id => {
+                const pill = document.createElement('div');
+                pill.style.cssText = 'background: #0f172a; border: 1px solid #38bdf8; color: #7dd3fc; font-size: 9px; padding: 2px 7px; border-radius: 3px; cursor: pointer; display: flex; align-items: center; gap: 4px;';
+                pill.innerHTML = `<span>👥 ${id.toUpperCase()}</span> <span style="color:#4ade80;">[MOSTRA]</span>`;
+                pill.title = `Clicca per mostrare la scheda di ${id}`;
+                pill.onclick = () => toggleCardHide(id, false);
+                container.appendChild(pill);
+            });
+        }
+
+function resetLayout() {
             localStorage.removeItem('statistiche_sections_order');
             localStorage.removeItem('statistiche_agents_order');
             localStorage.removeItem('statistiche_hud_order');
             localStorage.removeItem('statistiche_boxes_collapsed');
             localStorage.removeItem('statistiche_boxes_hidden');
+            localStorage.removeItem('statistiche_cards_collapsed');
+            localStorage.removeItem('statistiche_cards_hidden');
             updateBoxUIIndicators();
 
             // Ripristina ordine sezioni default
