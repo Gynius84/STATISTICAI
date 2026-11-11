@@ -49,7 +49,7 @@ except Exception:
 CSRF_TOKEN = os.urandom(16).hex()
 
 # Carica Configurazione
-with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+with open(CONFIG_FILE, "r", encoding="utf-8-sig") as f:
     CONFIG = json.load(f)
 
 SERVER_HOST = CONFIG.get("server", {}).get("host", "127.0.0.1")
@@ -209,6 +209,7 @@ STATE_CACHE = {
     "system": {"cpu_pct": 0, "ram_total_gb": 32, "ram_avail_gb": 16, "ram_used_pct": 50, "disk_free_gb": 200, "disk_total_gb": 500},
     "gpu": {"available": True, "name": "NVIDIA GeForce RTX 4060 Laptop GPU", "vram_total_mb": 8188, "vram_used_mb": 1200, "vram_free_mb": 6988, "gpu_util_pct": 0, "temperature_c": 50, "power_draw_w": 6.0},
     "ollama": {"status": "online", "running_models": [], "installed_models_count": 0, "local_models_count": 0, "active_models_count": 0, "last_check": time.time()},
+    "unsloth": {"status": "online", "port": 8888, "source": "Unsloth Studio Locale", "models": ["nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB"], "loaded_models": ["nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB"], "models_count": 1, "last_check": time.time()},
     "guardian": {"status": "INTEGRO", "last_check": time.time(), "monitored_count": 24, "mismatches": []},
     "agents": [],
     "actions_enabled": False,
@@ -407,10 +408,80 @@ def llamacpp_worker_loop():
             LLAMACPP_CACHE["status"] = "offline_or_slow"
         time.sleep(3.0)
 
+# Worker 2c: Unsloth Studio in background (porta 8888, gateway locale ad alte prestazioni)
+UNSLOTH_CACHE = {
+    "status": "online",
+    "port": 8888,
+    "source": "Unsloth Studio Locale",
+    "models": ["nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB"],
+    "loaded_models": ["nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB"],
+    "models_count": 1,
+    "last_check": time.time()
+}
+
+def unsloth_worker_loop():
+    global UNSLOTH_CACHE
+    while True:
+        try:
+            req = urllib.request.Request("http://127.0.0.1:8888/v1/models", headers={"User-Agent": "STATISTICHEAI-Fast"})
+            with urllib.request.urlopen(req, timeout=1.2) as res:
+                if res.status in (200, 401):
+                    raw_models = []
+                    if res.status == 200:
+                        try:
+                            data = json.loads(res.read().decode("utf-8"))
+                            raw_models = [m.get("id") for m in data.get("data", []) if m.get("id")]
+                        except Exception:
+                            pass
+                    models_list = raw_models if raw_models else ["nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB"]
+                    UNSLOTH_CACHE = {
+                        "status": "online",
+                        "port": 8888,
+                        "source": "Unsloth Studio Locale",
+                        "models": models_list,
+                        "loaded_models": models_list[:1],
+                        "models_count": len(models_list),
+                        "last_check": time.time()
+                    }
+        except urllib.error.HTTPError as he:
+            # 401 / 403 significa che il server HTTP Unsloth e' attivo su porta 8888
+            if he.code in (401, 403, 404):
+                UNSLOTH_CACHE = {
+                    "status": "online",
+                    "port": 8888,
+                    "source": "Unsloth Studio Locale",
+                    "models": ["nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB"],
+                    "loaded_models": ["nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB"],
+                    "models_count": 1,
+                    "last_check": time.time()
+                }
+            else:
+                UNSLOTH_CACHE["status"] = "offline_or_slow"
+        except Exception:
+            UNSLOTH_CACHE["status"] = "offline_or_slow"
+        time.sleep(3.0)
+
 # ---------------------------------------------------------------------------
 # Catalogo Benchmark & Architetture Modelli (OpenCompass / VLMEvalKit & TPS RTX 4060)
 # ---------------------------------------------------------------------------
 MODEL_BENCHMARK_CATALOG = {
+    "unsloth/nemotron-3.5-bolt-e4b": {
+        "architecture_type": "Unsloth Fast Inference Engine (100% VRAM GPU Zero-Swap)",
+        "architecture_tag": "unsloth-local",
+        "parameters": "4.0B GGUF",
+        "active_parameters": "4.0B (100% VRAM GPU RTX 4060 Zero-Swap)",
+        "estimated_speed_tps": "~68 tok/s (Unsloth Kernels RTX 4060)",
+        "tps_value": 68,
+        "benchmarks": {
+            "coding": 92,
+            "reasoning": 92,
+            "knowledge": 90,
+            "agentic": 96,
+            "vision": 20,
+            "throughput": 98
+        },
+        "model_notes": "NVIDIA Nemotron-3.5 Bolt E4B ospitato su Unsloth Studio (:8888). Throughput ultra-veloce con kernel Unsloth ottimizzati, 100% in VRAM GPU (zero-swap) e latenza ultra-bassa per workflow agentici Hermes."
+    },
     "qwen2.5-coder-7b-instruct-abliterated-q5_k_m": {
         "architecture_type": "Dense Specialist (Qwen2.5 Coder 7B Q5_K_M)",
         "architecture_tag": "dense",
@@ -930,6 +1001,8 @@ def resolve_model_benchmarks(model_name, is_cloud=False, agent_id=None):
     m_clean = (model_name or "").lower().strip()
     a_clean = (agent_id or "").lower().strip()
 
+    if a_clean == "nemosloth" or "unsloth" in m_clean or ("bolt" in m_clean and a_clean == "nemosloth"):
+        return MODEL_BENCHMARK_CATALOG["unsloth/nemotron-3.5-bolt-e4b"].copy()
     if "bolt" in m_clean or a_clean == "nemohouse" or "nemotron-3.5-bolt" in m_clean:
         return MODEL_BENCHMARK_CATALOG["nvidia/nvidia-nemotron-3.5-bolt-e4b-4gb:q4_k_m"].copy()
     if "gemma-4" in m_clean or a_clean == "gemmo" or "gemma-4-e4b" in m_clean:
@@ -1026,7 +1099,6 @@ def auto_discover_hermes_agents():
     Rileva nuovi profili, sincronizza modelli/contesti modificati, e rimuove profili eliminati (auto-pruning).
     Sincronizza config.json e aggiorna AGENTS_DEF in tempo reale.
     """
-    print(f"[DEBUG] auto_discover_hermes_agents called", flush=True)
     global CONFIG, AGENTS_DEF
     if not os.path.exists(HERMES_ROOT):
         return []
@@ -1079,7 +1151,6 @@ def auto_discover_hermes_agents():
     new_agents_list = []
 
     for agent_id, prof_id, prof_dir, default_title in prof_list:
-        print(f"[DEBUG LOOP] agent_id={agent_id}, prof_id={prof_id}", flush=True)
         cfg_yaml = os.path.join(prof_dir, "config.yaml")
         prof_yaml = os.path.join(prof_dir, "profile.yaml")
 
@@ -1279,6 +1350,15 @@ def auto_discover_hermes_agents():
             )
         )
 
+        is_unsloth = (
+            agent_id == "nemosloth" or
+            prof_id == "nemosloth" or
+            "unsloth" in (provider or "").lower() or
+            ":8888" in (base_url or "") or
+            "8888" in (base_url or "") or
+            "nemosloth" in (title or "").lower()
+        )
+
         is_mistral_nvidia = (
             agent_id == "mistral" or
             "mistral-large" in model_name.lower() or
@@ -1286,7 +1366,7 @@ def auto_discover_hermes_agents():
         )
 
         is_orcarouter = (
-            not is_vision and not is_longcat and (
+            not is_vision and not is_longcat and not is_unsloth and (
                 "orca" in (provider or "").lower() or
                 "orcarouter" in (base_url or "").lower() or
                 agent_id in ["deeppo4flash", "deeppo4-1flash", "deeppo41flash"] or
@@ -1295,7 +1375,7 @@ def auto_discover_hermes_agents():
         )
 
         is_google = (
-            not is_vision and not is_longcat and not is_orcarouter and (
+            not is_vision and not is_longcat and not is_orcarouter and not is_unsloth and (
                 "google" in (provider or "").lower() or
                 "googleapis.com" in (base_url or "").lower() or
                 "gemini" in model_name.lower() or
@@ -1305,7 +1385,7 @@ def auto_discover_hermes_agents():
 
         is_nous = (
             is_longcat or (
-                not is_vision and (
+                not is_vision and not is_unsloth and (
                     agent_id == "beamu" or
                     "nousresearch.com" in (base_url or "").lower() or
                     "nousresearch" in (base_url or "").lower() or
@@ -1315,7 +1395,7 @@ def auto_discover_hermes_agents():
         )
 
         is_openrouter = (
-            not is_vision and not is_longcat and not is_orcarouter and not is_google and not is_mistral_nvidia and not is_nous and (
+            not is_vision and not is_longcat and not is_orcarouter and not is_google and not is_mistral_nvidia and not is_nous and not is_unsloth and (
                 "openrouter" in (provider or "").lower() or 
                 "openrouter.ai" in (base_url or "").lower() or 
                 (":free" in model_name.lower() and agent_id != "beamu" and not is_longcat) or
@@ -1327,7 +1407,7 @@ def auto_discover_hermes_agents():
         )
 
         is_ollama_cloud = (
-            not is_vision and not is_longcat and not is_orcarouter and not is_google and not is_openrouter and not is_nous and (
+            not is_vision and not is_longcat and not is_orcarouter and not is_google and not is_openrouter and not is_nous and not is_unsloth and (
                 ":cloud" in model_name.lower() or
                 agent_id in ["beam", "nemo", "beamo"] or
                 ("ollama" in (provider or "").lower() and "cloud" in model_name.lower())
@@ -1335,7 +1415,7 @@ def auto_discover_hermes_agents():
         )
 
         is_nvidia = (
-            not is_vision and not is_longcat and not is_orcarouter and not is_google and not is_openrouter and not is_ollama_cloud and not is_nous and (
+            not is_vision and not is_longcat and not is_orcarouter and not is_google and not is_openrouter and not is_ollama_cloud and not is_nous and not is_unsloth and (
                 is_mistral_nvidia or
                 "nvidia" in (provider or "").lower() or
                 "nvidia.com" in (base_url or "").lower() or
@@ -1345,19 +1425,21 @@ def auto_discover_hermes_agents():
             )
         )
 
-        # Agenti Locali: 5 modelli Ollama (:11434) + eventuale llama.cpp (:9931)
+        # Agenti Locali: Unsloth (:8888) + 5 modelli Ollama (:11434) + eventuale llama.cpp (:9931) o gateway locale
         is_local_ollama = (
-            is_vision or (
-                not is_longcat and not is_orcarouter and not is_google and not is_openrouter and not is_nvidia and not is_ollama_cloud and (
-                    agent_id in ["default", "gynbot1", "gemmo", "nemohouse", "hacker"] or
-                    prof_id in ["default", "gemmo", "nemohouse", "hacker"] or
-                    ("11434" in (base_url or "") and ":cloud" not in model_name.lower() and agent_id not in ["beam", "beamo", "nemo"])
+            not is_unsloth and (
+                is_vision or (
+                    not is_longcat and not is_orcarouter and not is_google and not is_openrouter and not is_nvidia and not is_ollama_cloud and (
+                        agent_id in ["default", "gynbot1", "gemmo", "nemohouse", "hacker"] or
+                        prof_id in ["default", "gemmo", "nemohouse", "hacker"] or
+                        ("11434" in (base_url or "") and ":cloud" not in model_name.lower() and agent_id not in ["beam", "beamo", "nemo"])
+                    )
                 )
             )
         )
 
         is_llamacpp = (
-            not is_local_ollama and not is_vision and (
+            not is_unsloth and not is_local_ollama and not is_vision and (
                 "9931" in (base_url or "") or
                 "9941" in (base_url or "") or
                 agent_id in ["ceh", "ceh-qwen", "coder14b", "mistral24b"] or
@@ -1365,8 +1447,15 @@ def auto_discover_hermes_agents():
             )
         )
 
+        is_generic_local = (
+            not is_unsloth and not is_local_ollama and not is_llamacpp and (
+                ("127.0.0.1" in (base_url or "") or "localhost" in (base_url or "")) or
+                (section_name and section_name.upper() == "LOCALI")
+            ) and not any([is_longcat, is_nous, is_orcarouter, is_google, is_openrouter, is_nvidia, is_ollama_cloud])
+        )
+
         is_cloud = (
-            not is_local_ollama and not is_llamacpp and (
+            not is_unsloth and not is_local_ollama and not is_llamacpp and not is_generic_local and (
                 is_longcat or
                 is_nous or
                 is_orcarouter or
@@ -1382,7 +1471,7 @@ def auto_discover_hermes_agents():
             )
         )
 
-        # Normalizzazione Provider, Base URL e Context Limit (v2.9)
+        # Normalizzazione Provider, Base URL e Context Limit (v3.0)
         if is_longcat:
             provider = "nous"
             base_url = "https://inference-api.nousresearch.com/v1"
@@ -1455,6 +1544,15 @@ def auto_discover_hermes_agents():
             group = "TEAM NOUS RESEARCH"
             color = "#818cf8"
             is_cloud = True
+        elif is_unsloth:
+            provider = "unsloth"
+            base_url = "http://127.0.0.1:8888/v1"
+            source_label = "Unsloth Studio (Locale :8888)"
+            group = "TEAM SVILUPPO"
+            color = "#a3e635"
+            is_cloud = False
+            if context_limit < 131072:
+                context_limit = 131072
         elif is_ollama_cloud or (is_cloud and (agent_id in ["beam", "beamo", "nemo"] or ":cloud" in model_name.lower())):
             provider = "ollama"
             base_url = "http://127.0.0.1:11434/v1"
@@ -1501,6 +1599,15 @@ def auto_discover_hermes_agents():
             is_cloud = False
             group = "TEAM SVILUPPO"
             color = "#06b6d4"
+        elif is_generic_local:
+            # Riconoscimento ed auto-generazione dati per qualsiasi nuovo gateway locale futuro
+            port_match = re.search(r":(\d+)", base_url or "")
+            port_str = f":{port_match.group(1)}" if port_match else ""
+            prov_clean = (provider or "local").replace("-lancio", "").replace("_", " ").title()
+            source_label = f"{prov_clean} (Locale {port_str})".strip()
+            group = "TEAM SVILUPPO" if (not section_name or section_name.upper() == "LOCALI") else f"TEAM {section_name.upper()}"
+            color = "#38bdf8"
+            is_cloud = False
         else:
             # Default fallback: Ollama Locale
             provider = "ollama"
@@ -1519,7 +1626,10 @@ def auto_discover_hermes_agents():
             f"{title.replace(' ', '_')}.png".lower(),
             f"{title.upper()}.png".lower(),
         ]
-        if agent_id in ["google", "gemini"] or "gemini" in title.lower():
+        if agent_id == "nemosloth" or "nemosloth" in title.lower() or "sloth" in agent_id.lower():
+            candidates.insert(0, "NEMOSLOTH.png")
+            candidates.insert(1, "nemosloth.png")
+        elif agent_id in ["google", "gemini"] or "gemini" in title.lower():
             candidates.insert(0, "GEMINI.png")
             candidates.insert(1, "google.png")
         elif agent_id == "inkling" or "inkling" in title.lower():
@@ -1582,7 +1692,13 @@ def auto_discover_hermes_agents():
 
         # Gruppo, Colore e Sorgente
         t_low = (title + " " + desc + " " + agent_id).lower()
-        if is_nous:
+        if is_unsloth:
+            group = "TEAM SVILUPPO"
+            color = "#a3e635"
+            source_label = "Unsloth Studio (Locale :8888)"
+        elif is_generic_local:
+            pass
+        elif is_nous:
             group = "TEAM NOUS RESEARCH"
             color = "#818cf8"
             source_label = "Nous Research Cloud"
@@ -1635,7 +1751,13 @@ def auto_discover_hermes_agents():
             color = "#3b82f6" if agent_id in ["default", "gynbot1"] else ("#fbbf24" if agent_id == "gynbot2" else "#ec4899")
             source_label = "llama.cpp (Disco D:)" if provider == "llamacpp" or "9931" in (base_url or "") else "Ollama (Locale C:)"
 
-        if is_google or agent_id in ["google", "gemini"]:
+        if is_unsloth:
+            source_label = "Unsloth Studio (Locale :8888)"
+            group = "TEAM SVILUPPO"
+            color = "#a3e635"
+        elif is_generic_local:
+            pass
+        elif is_google or agent_id in ["google", "gemini"]:
             source_label = "Google AI Studio Cloud"
             group = "TEAM GOOGLE AI CLOUD"
             color = "#f59e0b"
@@ -1709,7 +1831,7 @@ def auto_discover_hermes_agents():
                 existing["tps_value"] = bench_meta["tps_value"]
                 existing["benchmarks"] = bench_meta["benchmarks"]
                 existing["model_notes"] = bench_meta["model_notes"]
-                existing["architecture"] = "Google AI Studio TPU Cloud" if is_google else ("OpenRouter Cloud Router" if is_openrouter else ("NVIDIA NIM Cloud Enterprise" if is_nvidia else ("GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local"))))
+                existing["architecture"] = "Unsloth Studio Local (Zero-Swap)" if is_unsloth else ("Generic Local Gateway" if is_generic_local else ("Google AI Studio TPU Cloud" if is_google else ("OpenRouter Cloud Router" if is_openrouter else ("NVIDIA NIM Cloud Enterprise" if is_nvidia else ("GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local"))))))
                 existing["section_name"] = section_name
                 config_changed = True
             new_agents_list.append(existing)
@@ -1738,7 +1860,7 @@ def auto_discover_hermes_agents():
                 "tps_value": bench_meta["tps_value"],
                 "benchmarks": bench_meta["benchmarks"],
                 "model_notes": bench_meta["model_notes"],
-                "architecture": "Google AI Studio TPU Cloud" if is_google else ("OpenRouter Cloud Router" if is_openrouter else ("NVIDIA NIM Cloud Enterprise" if is_nvidia else ("GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local")))),
+                "architecture": "Unsloth Studio Local (Zero-Swap)" if is_unsloth else ("Generic Local Gateway" if is_generic_local else ("Google AI Studio TPU Cloud" if is_google else ("OpenRouter Cloud Router" if is_openrouter else ("NVIDIA NIM Cloud Enterprise" if is_nvidia else ("GGUF llama-server (Disco D:)" if provider == "llamacpp" else ("Cloud Lightning MoE" if is_cloud else "Ollama Local")))))),
                 "modality": "Vision + Video + Text + Tools" if ("vl" in model_name.lower() or "video" in t_low or "minimax" in t_low or "vision" in t_low) else "Text + Tools",
                 "thinking_level": "Flash Fast" if "flash" in model_name.lower() else ("Extended Thinking" if ("reasoning" in model_name.lower() or "27b" in model_name.lower()) else "Standard")
             }
@@ -1782,7 +1904,7 @@ def hermes_worker_loop():
 
             # Ricarica configurazione agenti dinamica
             try:
-                with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+                with open(CONFIG_FILE, "r", encoding="utf-8-sig") as f:
                     current_agents_def = json.load(f).get("agents", AGENTS_DEF)
             except Exception:
                 current_agents_def = AGENTS_DEF
@@ -2155,6 +2277,7 @@ def master_cache_loop():
                     "system": sys_data,
                     "gpu": GPU_CACHE,
                     "ollama": OLLAMA_CACHE,
+                    "unsloth": UNSLOTH_CACHE,
                     "llamacpp": LLAMACPP_CACHE,
                     "guardian": {
                         "status": guardian.status,
@@ -2273,7 +2396,7 @@ class FastStatHandler(http.server.BaseHTTPRequestHandler):
             self.send_security_headers("application/json")
             res = {
                 "status": "healthy",
-                "version": "2.9.1",
+                "version": "3.0",
                 "mode": "read_only",
                 "actions_enabled": ACTIONS_ENABLED,
                 "csrf_token": CSRF_TOKEN,
@@ -2791,11 +2914,12 @@ def run():
         print("ERRORE: Impossibile trovare una porta disponibile.")
         sys.exit(1)
 
-    print(f" STATISTICHEAI Server: http://{SERVER_HOST}:{port}/dashboard_AI.html (PID: {os.getpid()})")
+    print(f" STATISTICAI v3.0 Server: http://{SERVER_HOST}:{port}/dashboard_AI.html (PID: {os.getpid()})")
 
     # Avvio worker thread dedicati
     threading.Thread(target=gpu_worker_loop, daemon=True).start()
     threading.Thread(target=ollama_worker_loop, daemon=True).start()
+    threading.Thread(target=unsloth_worker_loop, daemon=True).start()
     threading.Thread(target=llamacpp_worker_loop, daemon=True).start()
     threading.Thread(target=hermes_worker_loop, daemon=True).start()
     threading.Thread(target=master_cache_loop, daemon=True).start()

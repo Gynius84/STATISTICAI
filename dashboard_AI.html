@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STATISTICAI v2.9.1 - Monitor Universale Agenti Hermes & Hexa-Cloud Titans & Ollama</title>
+    <title>STATISTICAI v3.0 - Monitor Universale Agenti Hermes & Dual Local Gateway (Ollama + Unsloth) & Hexa-Cloud Titans</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <style>
         /* -------------------------------------------------------------
@@ -339,7 +339,7 @@
             background: #100e1c;
         }
 
-        /* STATISTICAI v2.9.1: Card-level Minimization & Hiding */
+        /* STATISTICAI v3.0: Card-level Minimization & Hiding */
         .agent-card.card-minimized {
             gap: 2px !important;
             padding: 5px 8px !important;
@@ -411,6 +411,11 @@
             border-color: #10b981 !important;
             box-shadow: 0 0 14px rgba(16, 185, 129, 0.38), inset 0 0 0 1px #059669 !important;
             background: #041a12 !important;
+        }
+        .agent-card.card-unsloth {
+            border-color: #a3e635 !important;
+            box-shadow: 0 0 14px rgba(163, 230, 53, 0.35), inset 0 0 0 1px #65a30d !important;
+            background: #0f1c08 !important;
         }
 
         /* Card Dettagli Avanzati Espandibili */
@@ -1331,7 +1336,7 @@
         }
 
         
-        /* STATISTICHEAI v2.9: Gestione Visibilità e Miniaturizzazione Box */
+        /* STATISTICAI v3.0: Gestione Visibilità e Miniaturizzazione Box */
         .draggable-box.box-collapsed > :not(.box-reorder-header) {
             display: none !important;
         }
@@ -1654,19 +1659,19 @@
                     <div class="main-title" id="main-header-title">
                         <span style="color: #7aa2f7;">STATISTICAI</span>
                         <span style="color: #565f89; margin: 0 4px;">•</span>
-                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 13 AGENTI • 5 LOCALI OLLAMA C: + 8 CLOUD TITANS (v2.9.1)</span>
+                        <span id="title-dynamic-agents" style="color: #fde047;">HERMES 14 AGENTI • LOCALI (5 OLLAMA C: + 1 UNSLOTH :8888) + 8 CLOUD TITANS (v3.0)</span>
                     </div>
                     <div id="title-dynamic-subtitle" style="display: flex; align-items: center; gap: 8px; font-size: 11px; margin-top: 3px; flex-wrap: wrap;">
                         <span id="title-workflow-badge" class="badge" style="background: #041f15; color: #34d399; border-color: #10b981; padding: 2px 7px; font-size: 10px; cursor: default; letter-spacing: 0.5px;">
-                            🔀 WORKFLOW: 🦙 OLLAMA LOCALE C: (5 MODELLI) + ☁ OLLAMA CLOUD (3 IN STANDBY) + ⚡ NVIDIA NIM (2) + ⚡ ORCAROUTER (2) + ✨ NOUS RESEARCH (1) = 13 AGENTI
+                            🔀 WORKFLOW: 🦙 OLLAMA LOCALE C: (5) + 🦥 UNSLOTH :8888 (1 NEMOSLOTH) + ☁ OLLAMA CLOUD (3 IN STANDBY) + ⚡ NVIDIA NIM (2) + ⚡ ORCAROUTER (2) + ✨ NOUS RESEARCH (1) = 14 AGENTI
                         </span>
-                        <span id="dashboard-subtitle" style="color: var(--text-muted);">MONITOR RETRO RPG v2.9.1: HEXA-CLOUD TITANS • 4 STANZE PIXEL ART • RADAR OPENCOMPASS • GESTIONE BOX & CARD (HIDE/MINIMIZE)</span>
+                        <span id="dashboard-subtitle" style="color: var(--text-muted);">MONITOR RETRO RPG v3.0: DUAL LOCAL GATEWAY (OLLAMA + UNSLOTH) • HEXA-CLOUD TITANS • 4 STANZE PIXEL ART • BOX & CARD CONTROLS</span>
                     </div>
                 </div>
             </div>
 
             <div class="badge-group">
-                <div id="boxes-control-btn" class="badge" onclick="toggleBoxesToolbar()" title="Gestione visibilità e riduzione box & card (v2.9.1)" style="cursor: pointer; background: #1a1b2e; color: #a5b4fc; border-color: #818cf8; user-select: none;">
+                <div id="boxes-control-btn" class="badge" onclick="toggleBoxesToolbar()" title="Gestione visibilità e riduzione box & card (v3.0)" style="cursor: pointer; background: #1a1b2e; color: #a5b4fc; border-color: #818cf8; user-select: none;">
                     [ 📦 GESTIONE BOX & CARD <span id="header-hidden-count" style="display:none; color:#f87171;">(0 NASCOSTI)</span> ]
                 </div>
                 <div id="layout-toggle-btn" class="badge" onclick="toggleLayoutEditor()" title="Personalizza e sposta i box e le schede" style="cursor: pointer; background: #1f2335; color: #fde047; border-color: #eab308; user-select: none;">
@@ -1814,6 +1819,18 @@
                     </div>
                     <div style="font-size: 10px; color: var(--text-bright); margin-top: 4px;" id="hud-llamacpp-sub">
                         MODELLI ATTIVI: 5 GGUF (ROUTER DISCO D:) • 100% VRAM GPU
+                    </div>
+                </div>
+
+                <!-- UNSLOTH STATUS (:8888 LOCALE) -->
+                <div class="hud-metric draggable-hud" data-hud-id="hud-unsloth" style="border-color: #84cc16;">
+                    <div class="hud-reorder-bar"><span class="hud-drag-handle" title="Trascina metrica">⠿ UNSLOTH</span><div style="display:flex;gap:2px;"><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-unsloth', -1)">◀</button><button type="button" class="btn-hud-reorder" onclick="moveHud('hud-unsloth', 1)">▶</button></div></div>
+                    <div class="hud-metric-header">
+                        <span style="color: #a3e635; font-weight: bold;">🦥 UNSLOTH STUDIO (:8888)</span>
+                        <span id="hud-unsloth-val" style="color: #a3e635;">PORTA 8888</span>
+                    </div>
+                    <div style="font-size: 10px; color: var(--text-bright); margin-top: 4px;" id="hud-unsloth-sub">
+                        MODELLI ATTIVI: 1 LOCALE (NEMOSLOTH) • ZERO-SWAP RTX 4060
                     </div>
                 </div>
 
@@ -2175,7 +2192,8 @@
             <!-- RIGA 1: FILTRO SQUADRE & AZIONI SINCRONIZZAZIONE -->
             <div style="display: flex; gap: 6px; align-items: center; flex-wrap: wrap; width: 100%; padding-bottom: 6px; border-bottom: 1px dotted rgba(86, 95, 137, 0.35);">
                 <span style="font-weight: bold; color: var(--text-muted); font-size: 10px; text-transform: uppercase;">FILTRA TEAM:</span>
-                <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (15)</button>
+                <button class="btn-filter active" id="filter-btn-all" data-filter="all" onclick="setFilter('all')">TUTTI (14)</button>
+                <button class="btn-filter" id="filter-btn-unsloth" data-filter="unsloth" style="color: #a3e635; border-color: #84cc16; box-shadow: 0 0 6px rgba(163,230,53,0.3);" onclick="setFilter('unsloth')">🦥 UNSLOTH :8888 (1)</button>
                 <button class="btn-filter" data-filter="llamacpp" style="color: #60a5fa; border-color: #3b82f6; box-shadow: 0 0 6px rgba(96,165,250,0.3);" onclick="setFilter('llamacpp')">🦙 LLAMA.CPP DISCO D: (5)</button>
                 <button class="btn-filter btn-filter-cloud" id="filter-btn-cloud" data-filter="TITANI CLOUD" onclick="setFilter('TITANI CLOUD')">☁ TUTTI I CLOUD (10)</button>
                 <button class="btn-filter" id="filter-btn-ollama-cloud" data-filter="OLLAMA CLOUD" style="color: #38bdf8; border-color: #0284c7; box-shadow: 0 0 6px rgba(56,189,248,0.3);" onclick="setFilter('OLLAMA CLOUD')">☁ OLLAMA CLOUD (2)</button>
@@ -2274,9 +2292,10 @@
                 </div>
                 <div class="footer-services">
                     <span class="srv-badge srv-ok" id="footer-hermes-status">[ HERMES GATEWAY :42000 OK ]</span>
-                    <span class="srv-badge srv-ok" id="footer-ollama-status">[ OLLAMA :11434 (GATEWAY CLOUD) OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-ollama-status">[ OLLAMA :11434 (5 LOCALI C:) OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-unsloth-status">[ UNSLOTH :8888 (STUDIO LOCALE) OK ]</span>
                     <span class="srv-badge srv-ok" id="footer-llamacpp-status">[ LLAMA.CPP :9931 (5 MODELLI D:) OK ]</span>
-                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8787 (v2.9.1) OK ]</span>
+                    <span class="srv-badge srv-ok" id="footer-server-status">[ MONITOR SERVER :8787 (v3.0) OK ]</span>
                 </div>
             </div>
 
@@ -2847,6 +2866,32 @@
                 }
             }
 
+            // Unsloth Studio Telemetry (Locale porta 8888)
+            const us = data.unsloth || {};
+            const usVal = document.getElementById('hud-unsloth-val');
+            const usSub = document.getElementById('hud-unsloth-sub');
+            const fUsStatus = document.getElementById('footer-unsloth-status');
+            if (usVal && usSub) {
+                if (us.status === 'online') {
+                    usVal.textContent = 'ONLINE (PORTA 8888)';
+                    usVal.style.color = '#a3e635';
+                    const count = us.models_count || 1;
+                    usSub.textContent = `MODELLI ATTIVI: ${count} LOCALE (NEMOSLOTH) • ZERO-SWAP RTX 4060`;
+                    if (fUsStatus) {
+                        fUsStatus.className = 'srv-badge srv-ok';
+                        fUsStatus.textContent = `[ UNSLOTH :8888 (STUDIO LOCALE) OK ]`;
+                    }
+                } else {
+                    usVal.textContent = 'OFFLINE / NON ATTIVO';
+                    usVal.style.color = 'var(--hp-red)';
+                    usSub.textContent = 'Unsloth Studio su porta 8888 non raggiungibile';
+                    if (fUsStatus) {
+                        fUsStatus.className = 'srv-badge srv-err';
+                        fUsStatus.textContent = '[ UNSLOTH :8888 OFFLINE ]';
+                    }
+                }
+            }
+
             function applyCloudHudState(ag, statEl, barEl, defaultColor, providerTag) {
                 if (!statEl) return;
                 if (!ag) {
@@ -2989,6 +3034,9 @@
             // Aggiorna contatori dinamici pulsanti filtro e titolo griglia
             const btnAll = document.getElementById('filter-btn-all');
             if (btnAll) btnAll.textContent = `TUTTI (${agents.length})`;
+            const unslothLocalsCount = agents.filter(a => !a.is_cloud && (a.provider === 'unsloth' || (a.source && a.source.toLowerCase().includes('unsloth')) || a.id === 'nemosloth')).length;
+            const btnUnsloth = document.getElementById('filter-btn-unsloth');
+            if (btnUnsloth) btnUnsloth.textContent = `🦥 UNSLOTH :8888 (${unslothLocalsCount})`;
             const cloudCount = agents.filter(a => a.is_cloud || a.id === 'beam').length;
             const btnCloud = document.getElementById('filter-btn-cloud');
             if (btnCloud) btnCloud.textContent = `☁ TUTTI I CLOUD (${cloudCount})`;
@@ -3012,19 +3060,19 @@
 
             autoProvisionDynamicCloudCards(agents);
 
-            // Aggiornamento Ticker nel Footer in tempo reale (v2.8)
+            // Aggiornamento Ticker nel Footer in tempo reale (v3.0)
             const fSv = document.getElementById('footer-sviluppo-text');
             if (fSv) {
-                fSv.textContent = `${sv.sani}/${sv.total} Operativi [${sv.sani === sv.total ? 'OK' : 'ATTENZIONE'}] (GynBot1, GEMMO, NEMOHOUSE, CEH)`;
+                fSv.textContent = `${sv.sani}/${sv.total} Operativi [${sv.sani === sv.total ? 'OK' : 'ATTENZIONE'}] (GynBot1, GEMMO, NEMOHOUSE, NEMOSLOTH, CEH)`;
             }
             const fAud = document.getElementById('footer-audit-text');
             if (fAud) {
-                fAud.textContent = `VISION Operativo [OK] (Qwen2.5-VL 7B Multimodal • Disco D:)`;
+                fAud.textContent = `VISION Operativo [OK] (Qwen2.5-VL 7B Multimodal • Ollama Locale C:)`;
             }
             const fCloudTitans = document.getElementById('footer-cloud-titans-text');
             if (fCloudTitans) {
                 const activeClouds = agents.filter(a => a.is_cloud || a.id === 'beam');
-                fCloudTitans.textContent = `${activeClouds.length} Titani Attivi (Ollama Cloud, NIM, OpenRouter, Google AI, OrcaRouter) [100% OPERATIVI]`;
+                fCloudTitans.textContent = `${activeClouds.length} Titani Attivi (Ollama Cloud, NIM, OpenRouter, Google AI, OrcaRouter, Nous Research) [100% OPERATIVI]`;
             }
             const fCloud = document.getElementById('footer-cloud-text');
             if (fCloud) {
@@ -3037,7 +3085,7 @@
         }
 
         // -------------------------------------------------------------
-        // Titolo & Sottotitolo Dinamico Adattivo Multi-Workflow
+        // Titolo & Sottotitolo Dinamico Adattivo Multi-Workflow (v3.0)
         // -------------------------------------------------------------
         function updateDynamicHeaderTitle(data) {
             if (!data) return;
@@ -3046,34 +3094,46 @@
             const badgeEl = document.getElementById('title-workflow-badge');
             if (!dynamicTitleEl || !badgeEl) return;
 
-            // Rilevamento agenti locali vs cloud (v2.9.1)
+            // Rilevamento agenti locali vs cloud (v3.0)
             const localAgents = agents.filter(a => !a.is_cloud);
             const cloudAgents = agents.filter(a => a.is_cloud);
-            const ollamaLocals = localAgents.filter(a => a.provider === 'ollama' || (a.source && a.source.includes('Ollama')));
-            const llamaLocals = localAgents.filter(a => a.provider === 'llamacpp' || (a.source && a.source.includes('llama.cpp')));
+            const unslothLocals = localAgents.filter(a => a.provider === 'unsloth' || (a.source && a.source.toLowerCase().includes('unsloth')) || a.id === 'nemosloth');
+            const ollamaLocals = localAgents.filter(a => (a.provider === 'ollama' || (a.source && a.source.includes('Ollama'))) && !unslothLocals.includes(a));
+            const llamaLocals = localAgents.filter(a => (a.provider === 'llamacpp' || (a.source && a.source.includes('llama.cpp'))) && !unslothLocals.includes(a));
 
-            // 1. Titolo Principale Adattivo (v2.9.1)
-            let titleText = `HERMES ${agents.length} AGENTI • ${ollamaLocals.length} LOCALI OLLAMA C: + ${cloudAgents.length} CLOUD TITANS (v2.9.1)`;
+            // 1. Titolo Principale Adattivo (v3.0)
+            let localSummary = [];
+            if (ollamaLocals.length > 0) localSummary.push(`${ollamaLocals.length} OLLAMA C:`);
+            if (unslothLocals.length > 0) localSummary.push(`${unslothLocals.length} UNSLOTH :8888`);
+            if (llamaLocals.length > 0) localSummary.push(`${llamaLocals.length} LLAMA.CPP D:`);
+            let localText = localSummary.join(' + ') || `${localAgents.length} LOCALI`;
+
+            let titleText = `HERMES ${agents.length} AGENTI • LOCALI (${localText}) + ${cloudAgents.length} CLOUD TITANS (v3.0)`;
             dynamicTitleEl.textContent = titleText;
             document.title = `STATISTICAI • ${titleText}`;
 
-            // Sottotitolo
+            // Sottotitolo v3.0
             const subTitleEl = document.getElementById('dashboard-subtitle');
             if (subTitleEl) {
-                subTitleEl.textContent = 'MONITOR RETRO RPG v2.9.1: HEXA-CLOUD TITANS • 4 STANZE PIXEL ART • RADAR OPENCOMPASS • GESTIONE BOX & CARD (HIDE/MINIMIZE)';
+                subTitleEl.textContent = 'MONITOR RETRO RPG v3.0: DUAL LOCAL GATEWAY (OLLAMA + UNSLOTH) • HEXA-CLOUD TITANS • 4 STANZE PIXEL ART • BOX & CARD CONTROLS';
             }
 
-            // 2. Badge Dettagliato Workflow Reale (Solo provider con agenti presenti!)
+            // 2. Badge Dettagliato Workflow Reale (v3.0)
             let badgeParts = [];
             
             // Info Ollama Locale C: (5 modelli reali)
             if (ollamaLocals.length > 0) {
-                badgeParts.push(`🦙 OLLAMA LOCALE C: (${ollamaLocals.length} MODELLI)`);
+                badgeParts.push(`🦙 OLLAMA LOCALE C: (${ollamaLocals.length})`);
             }
 
-            // Info llama.cpp Locale D: (solo se ha agenti)
+            // Info Unsloth Studio Locale :8888
+            if (unslothLocals.length > 0) {
+                badgeParts.push(`🦥 UNSLOTH :8888 (${unslothLocals.map(a => a.name).join(' + ')})`);
+            }
+
+            // Info llama.cpp Locale D: (se ha agenti)
             if (llamaLocals.length > 0) {
-                badgeParts.push(`🦙 LLAMA.CPP :9931 (${llamaLocals.length} LOCALI DISCO D:)`);
+                badgeParts.push(`🦙 LLAMA.CPP :9931 (${llamaLocals.length} LOCALI D:)`);
             }
 
             // Info Cloud Ollama (BEAM, BEAMO, NEMO in standby/cimitero)
@@ -3416,6 +3476,8 @@
                         if (agent.provider !== 'nous' && (!agent.source || !agent.source.includes('Nous')) && agent.id !== 'longcat' && agent.id !== 'beamu') return;
                     } else if (ACTIVE_FILTER === 'llamacpp') {
                         if (agent.is_cloud || agent.provider !== 'llamacpp') return;
+                    } else if (ACTIVE_FILTER === 'unsloth') {
+                        if (agent.is_cloud || (agent.provider !== 'unsloth' && agent.id !== 'nemosloth' && (!agent.source || !agent.source.toLowerCase().includes('unsloth')))) return;
                     } else if (agent.group !== ACTIVE_FILTER) {
                         return;
                     }
@@ -3431,13 +3493,15 @@
                 const isNvidiaCard = (agent.provider === 'nvidia' || (agent.source && agent.source.includes('NVIDIA')) || ['deepseek', 'drago', 'nomotron', 'nemotron', 'mistral'].includes(agent.id));
                 const isOpenRouterCard = (agent.provider === 'openrouter' || (agent.source && agent.source.includes('OpenRouter')) || agent.id === 'inkling' || agent.id === 'laguna');
                 const isNousCard = ((agent.provider === 'nous' || (agent.source && agent.source.includes('Nous')) || agent.id === 'longcat' || agent.id === 'beamu') && agent.id !== 'vision7b' && agent.id !== 'vision');
-                const isOllamaLocal = (!agent.is_cloud && (agent.provider === 'ollama' || (agent.source && agent.source.includes('Ollama')) || ['gynbot1', 'gemmo', 'nemohouse', 'hacker', 'vision7b'].includes(agent.id)));
-                const isLlamaCppLocal = (!agent.is_cloud && !isOllamaLocal && (agent.provider === 'llamacpp' || (agent.source && agent.source.includes('llama.cpp')) || ['ceh', 'ceh-qwen'].includes(agent.id)));
+                const isUnslothCard = (!agent.is_cloud && (agent.provider === 'unsloth' || (agent.source && agent.source.toLowerCase().includes('unsloth')) || agent.id === 'nemosloth' || (agent.base_url && agent.base_url.includes('8888'))));
+                const isOllamaLocal = (!agent.is_cloud && !isUnslothCard && (agent.provider === 'ollama' || (agent.source && agent.source.includes('Ollama')) || ['gynbot1', 'gemmo', 'nemohouse', 'hacker', 'vision7b'].includes(agent.id)));
+                const isLlamaCppLocal = (!agent.is_cloud && !isOllamaLocal && !isUnslothCard && (agent.provider === 'llamacpp' || (agent.source && agent.source.includes('llama.cpp')) || ['ceh', 'ceh-qwen'].includes(agent.id)));
                 if (isGoogleCard) cardClass += ' card-cloud card-google';
                 else if (isOrcaCard) cardClass += ' card-cloud card-orcarouter';
                 else if (isOpenRouterCard) cardClass += ' card-cloud card-openrouter';
                 else if (isNousCard) cardClass += ' card-cloud card-nous';
                 else if (isNvidiaCard) cardClass += ' card-cloud card-nvidia';
+                else if (isUnslothCard) cardClass += ' card-unsloth';
                 else if (agent.is_cloud || agent.id === 'beam') cardClass += ' card-cloud';
                 if (hs === 'INFERMERIA') cardClass += ' card-infermeria';
                 else if (hs === 'CIMITERO') cardClass += ' card-cimitero';
@@ -3457,6 +3521,8 @@
                     spriteUrl = API_BASE + '/sprites_agents/Longcat.png';
                 } else if (agent.id === 'vision7b' || agent.id === 'vision') {
                     spriteUrl = API_BASE + '/sprites_agents/VISION.png';
+                } else if (agent.id === 'nemosloth') {
+                    spriteUrl = API_BASE + '/sprites_agents/NEMOSLOTH.png';
                 }
 
                 const roomStateLabel = (agent.room === 'ufficio') ? '⚡ IN LAVORO (UFFICIO)' : '💤 A RIPOSO (CASETTA)';
@@ -3476,6 +3542,8 @@
                     badgeHtml = `<span class="status-badge" style="background:#1e1b4b; color:#818cf8; border-color:#818cf8; box-shadow:0 0 8px rgba(129,140,248,0.35);">[ ✨ NOUS RESEARCH • ${roomStateLabel} ]</span>`;
                 } else if (isNvidiaCard) {
                     badgeHtml = `<span class="status-badge" style="background:#081a0e; color:#76b900; border-color:#76b900; box-shadow:0 0 8px rgba(118,185,0,0.35);">[ ⚡ NVIDIA NIM • ${roomStateLabel} ]</span>`;
+                } else if (isUnslothCard) {
+                    badgeHtml = `<span class="status-badge" style="background:#0f1c08; color:#a3e635; border-color:#84cc16; box-shadow:0 0 8px rgba(163,230,53,0.35);">[ 🦥 UNSLOTH LOCALE :8888 • ${roomStateLabel} ]</span>`;
                 } else if (agent.is_cloud || agent.id === 'beam') {
                     badgeHtml = `<span class="status-badge status-cloud">[ ☁ OLLAMA CLOUD • ${roomStateLabel} ]</span>`;
                 } else {
@@ -3498,6 +3566,8 @@
                     groupTagHtml = `<span class="group-tag" style="background:#022c22; color:#34d399; border:1px solid #059669; font-size:9px; padding:2px 5px; box-shadow:0 0 6px rgba(16,185,129,0.3);">⚡ ORCAROUTER CLOUD</span>`;
                 } else if (agent.group === 'TEAM OPENROUTER CLOUD' || agent.provider === 'openrouter' || (agent.source && agent.source.includes('OpenRouter')) || agent.id === 'inkling' || agent.id === 'laguna') {
                     groupTagHtml = `<span class="group-tag" style="background:#190b2e; color:#c084fc; border:1px solid #a855f7; font-size:9px; padding:2px 5px; box-shadow:0 0 6px rgba(168,85,247,0.3);">🌌 OPENROUTER CLOUD</span>`;
+                } else if (isUnslothCard || agent.group === 'TEAM UNSLOTH LOCALE') {
+                    groupTagHtml = `<span class="group-tag" style="background:#0f1c08; color:#a3e635; border:1px solid #84cc16; font-size:9px; padding:2px 5px; box-shadow:0 0 6px rgba(163,230,53,0.3);">🦥 UNSLOTH STUDIO</span>`;
                 } else if (agent.group === 'TEAM SVILUPPO') {
                     groupTagHtml = `<span class="group-tag tag-sviluppo">⚒ TEAM SVILUPPO</span>`;
                 } else if (agent.group === 'TEAM MARKETING') {
@@ -3611,13 +3681,29 @@
                         </div>
                         <div style="font-size: 9px; color: #7dd3fc; margin-top: 2px;">CARICO: <b>0 MB VRAM Locale</b> • Speed: <b style="color: #38bdf8;">${agent.estimated_speed_tps || 'Cloud'}</b> • DB: <b>${agent.db_size_mb || 0} MB</b></div>
                     `;
-                } else {
+                } else if (isUnslothCard) {
                     modelInfoHtml = `
-                        <div style="font-size: 10px; color: ${isOllamaLocal ? '#34d399' : '#7aa2f7'}; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                        <div style="font-size: 10px; color: #a3e635; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
                             MODELLO: <b>${agent.model}</b>
-                            <span style="font-size: 8px; color: ${isOllamaLocal ? '#34d399' : '#60a5fa'}; background: ${isOllamaLocal ? '#041f15' : '#0e172a'}; border: 1px solid ${isOllamaLocal ? '#10b981' : '#3b82f6'}; padding: 1px 4px; border-radius: 2px; font-weight: bold; box-shadow: 0 0 6px ${isOllamaLocal ? 'rgba(16,185,129,0.3)' : 'rgba(59,130,246,0.3)'};">[ ${isOllamaLocal ? '🦙 OLLAMA LOCALE (C:)' : '🦙 LLAMA.CPP DISCO D:'} ]</span>
+                            <span style="font-size: 8px; color: #a3e635; background: #0f1c08; border: 1px solid #84cc16; padding: 1px 4px; border-radius: 2px; font-weight: bold; box-shadow: 0 0 6px rgba(163,230,53,0.35);">[ 🦥 UNSLOTH STUDIO :8888 ]</span>
                         </div>
-                        <div style="font-size: 9px; color: ${isOllamaLocal ? '#6ee7b7' : '#94a3b8'}; margin-top: 2px;">VRAM: <b>${agent.vram_mb || 0} MB</b> • DB: <b>${agent.db_size_mb || 0} MB</b> • SESS: <b>${agent.lifetime_sessions || agent.total_sessions || 0}</b></div>
+                        <div style="font-size: 9px; color: #bef264; margin-top: 2px;">VRAM: <b>${agent.vram_mb || 4200} MB (Zero-Swap)</b> • Speed: <b style="color: #a3e635;">${agent.estimated_speed_tps || '~68 tok/s'}</b> • DB: <b>${agent.db_size_mb || 0} MB</b></div>
+                    `;
+                } else {
+                    const isGenericGateway = !isOllamaLocal && !isLlamaCppLocal && !agent.is_cloud;
+                    const provBadgeLabel = isGenericGateway 
+                        ? `⚡ ${(agent.source || agent.provider || 'GATEWAY LOCALE').toUpperCase()}` 
+                        : (isOllamaLocal ? '🦙 OLLAMA LOCALE (C:)' : '🦙 LLAMA.CPP DISCO D:');
+                    const provBadgeColor = isGenericGateway ? (agent.color || '#38bdf8') : (isOllamaLocal ? '#34d399' : '#60a5fa');
+                    const provBadgeBg = isGenericGateway ? '#081f33' : (isOllamaLocal ? '#041f15' : '#0e172a');
+                    const provBadgeBorder = isGenericGateway ? (agent.color || '#0284c7') : (isOllamaLocal ? '#10b981' : '#3b82f6');
+
+                    modelInfoHtml = `
+                        <div style="font-size: 10px; color: ${provBadgeColor}; display: flex; align-items: center; gap: 4px; flex-wrap: wrap;">
+                            MODELLO: <b>${agent.model}</b>
+                            <span style="font-size: 8px; color: ${provBadgeColor}; background: ${provBadgeBg}; border: 1px solid ${provBadgeBorder}; padding: 1px 4px; border-radius: 2px; font-weight: bold; box-shadow: 0 0 6px ${provBadgeBorder}55;">[ ${provBadgeLabel} ]</span>
+                        </div>
+                        <div style="font-size: 9px; color: var(--text-muted); margin-top: 2px;">VRAM: <b>${agent.vram_mb || 0} MB</b> • DB: <b>${agent.db_size_mb || 0} MB</b> • SESS: <b>${agent.lifetime_sessions || agent.total_sessions || 0}</b></div>
                     `;
                 }
 
@@ -5893,7 +5979,7 @@
             if (pOrSub) pOrSub.textContent = (openrouterActive.map(a => `${a.name} ${(a.parameters || '').split(' ')[0]}`).join(' + ') || 'NESSUN AGENTE') + ' • 0 VRAM';
 
             // =============================================================
-            // STATISTICAI v2.9.1: Auto-Hide Vortici Quantici non utilizzati
+            // STATISTICAI v3.0: Auto-Hide Vortici Quantici non utilizzati
             // =============================================================
             // 1. OpenRouter (nascondi se 0 agenti)
             const orHdr = document.getElementById('hud-subheader-openrouter');
@@ -6144,7 +6230,7 @@
 
         
         // =============================================================
-        // STATISTICHEAI v2.9: Gestione Visibilità e Miniaturizzazione Box
+        // STATISTICAI v3.0: Gestione Visibilità e Miniaturizzazione Box
         // =============================================================
         const BOX_NAMES = {
             'box-hud-metrics': '1. HUD TELEMETRIA & CLOUD PORTALS',
@@ -6299,7 +6385,7 @@
         }
 
                 // =============================================================
-        // STATISTICAI v2.9.1: Gestione Visibilità & Riduzione Schede Agenti
+        // STATISTICAI v3.0: Gestione Visibilità & Riduzione Schede Agenti
         // =============================================================
         function getCardsCollapsedState() {
             try {

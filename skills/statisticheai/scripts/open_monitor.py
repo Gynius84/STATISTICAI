@@ -1,5 +1,5 @@
 """
-STATISTICHEAI v2.9 - Native Desktop App & Hermes Bridge Launcher
+STATISTICAI v3.0 - Native Desktop App & Hermes Bridge Launcher
 Avvia il server in background (se non attivo) e apre la dashboard in modalità
 finestra "App Nativa" standalone (frameless, zero barre browser, stile desktop app).
 """
@@ -39,7 +39,7 @@ def is_server_online(timeout=0.8):
 def start_server_daemon():
     online, count = is_server_online(timeout=0.5)
     if online:
-        return True, count, "Server v2.9 gia' online su porta 8787"
+        return True, count, "Server v3.0 gia' online su porta 8787"
 
     py_exe = HERMES_PYTHONW if os.path.exists(HERMES_PYTHONW) else (
         HERMES_PYTHON if os.path.exists(HERMES_PYTHON) else sys.executable
@@ -68,7 +68,7 @@ def start_server_daemon():
         time.sleep(0.3)
         online, count = is_server_online(timeout=0.5)
         if online:
-            return True, count, "Server v2.9 avviato con successo in background (porta 8787)"
+            return True, count, "Server v3.0 avviato con successo in background (porta 8787)"
 
     return False, 0, "Timeout durante l'avvio del server"
 
@@ -120,11 +120,11 @@ def main():
     app_ok, app_msg = launch_native_window()
     result = {
         "ok": True,
-        "version": "2.9.1",
+        "version": "3.0",
         "agents_monitored": count,
         "mode": "native_app" if "App Nativa" in app_msg else "browser",
         "url": URL,
-        "message": f"STATISTICAI v2.9.1 attivo. {app_msg}. {count} agenti monitorati (5 Locali Ollama C: + 8 Titani Cloud)."
+        "message": f"STATISTICAI v3.0 attivo. {app_msg}. {count} agenti monitorati (6 Locali: 5 Ollama + 1 Unsloth + 8 Titani Cloud)."
     }
     print(json.dumps(result, indent=2))
     return 0

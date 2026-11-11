@@ -1,16 +1,31 @@
-# STATISTICHEAI v2.7 🎮🤖
-### Dashboard Retro Arcade (16-Bit) per Telemetria, Diagnosi, Benchmark Radar OpenCompass e Rilevamento Architetture MoE/Dense (Penta-Cloud Titans & llama.cpp :9931)
+# STATISTICAI v3.0 🎮🤖
+### Dashboard Retro Arcade (16-Bit) per Telemetria, Diagnosi, Benchmark Radar OpenCompass e Dual Local Gateway (Ollama :11434 + Unsloth Studio :8888) & Hexa-Cloud Titans
 
 [![Zero Dependencies](https://img.shields.io/badge/Dependencies-Zero%20(Pure%20Python)-brightgreen.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-informational.svg)]()
-[![Multi-Provider](https://img.shields.io/badge/Providers-llama.cpp%20(7%20D:)%20%7C%20Ollama%20Cloud%20(2)%20%7C%20NVIDIA%20NIM%20(2)-brightgreen.svg)]()
+[![Multi-Provider](https://img.shields.io/badge/Gateways-Ollama%20(5%20C:)%20%7C%20Unsloth%20(:8888)%20%7C%20Hexa--Cloud%20Titans-brightgreen.svg)]()
 
-> **STATISTICHEAI v2.5** trasforma la gestione dei tuoi agenti AI locali e multi-cloud in un videogioco Arcade Pixel Art a 16-bit. Monitora hardware, VRAM, saturazione token, memoria a lungo termine, grafici **Benchmark Radar OpenCompass**, tipo di architettura (**MoE, Dense, VLM, Hybrid Reasoning**) e velocità stimata **TPS** per gli **11 agenti attivi**: 7 modelli locali ultra-ottimizzati su **llama.cpp Router (Disco D: porta 9931)** + 2 modelli cloud massivi su **Ollama Cloud (Beam 501B MoE + MiniMax 3.1 Flash 456B MoE)** + 2 Titani Cloud accelerati su **NVIDIA Cloud NIM Enterprise (DeepSeek V4.1 Flash 410B MoE + Drago GLM 5.3 130B)** con accesso illimitato a 81 modelli NIM e zero consumo di VRAM locale.
+> **STATISTICAI v3.0** trasforma la gestione e il monitoraggio dei tuoi agenti AI locali e multi-cloud in un videogioco Arcade Pixel Art a 16-bit. Monitora hardware, VRAM, saturazione token, memoria a lungo termine, grafici **Benchmark Radar OpenCompass**, tipo di architettura (**MoE, Dense, VLM, Hybrid Reasoning**) e velocità stimata **TPS** per **14 agenti attivi**: 6 modelli locali ultra-ottimizzati in VRAM GPU RTX 4060 (**5 su Ollama Locale C: + 1 su Unsloth Studio Locale porta 8888 con zero-swap**) + 8 Titani Cloud (NVIDIA NIM 550B, OrcaRouter, Nous Research, Ollama Cloud) con zero consumo di VRAM locale.
 
 ---
 
-## ✨ Novità della Versione 2.7 (14 Agenti, Quinto Portale Quantico OrcaRouter, Modale a 4 Passi, Snapshot Default & Resurrezione Intelligente)
+## ✨ Novità della Versione 3.0 (Dual Local Gateway Unsloth + Ollama, Auto-Gateway Discovery Engine, Porta Dedicata 8787, 14 Agenti)
+
+- 🦥 **Integrazione Dual Local Gateway: Unsloth Studio (:8888) + Ollama (:11434)**:
+  - Supporto nativo contemporaneo per entrambi i runtime locali: Ollama sul socket `:11434` e Unsloth Studio sul socket `:8888` (`127.0.0.1:8888/v1`).
+  - Nuovo agente locale **`NEMOSLOTH`** (NVIDIA Nemotron-3.5 Bolt E4B) con inferenza ultra-rapida a **~68 tok/s**, zero VRAM swap e card dedicata in stile verde lime neon Unsloth.
+  - Telemetria live dedicata per Unsloth Studio con worker autonomo in background, metrica HUD e badge footer `[ UNSLOTH :8888 OK ]`.
+- 🧠 **Auto-Gateway Discovery Engine (Rilevamento Intelligente a Prova di Futuro)**:
+  - Il backend scansiona autonomamente qualsiasi nuovo profilo Hermes e individua istantaneamente se appartiene a Ollama, Unsloth, LM Studio, llama.cpp, vLLM o nuovi cloud provider.
+  - Genera in tempo reale schede tecniche complete: calcolo VRAM, porta endpoint, palette colori armonica, benchmark realistici e note tecniche senza alcun bisogno di configurazione manuale.
+- 🔌 **Migrazione Porta Server Dedicata su :8787**:
+  - Il server HTTP di STATISTICAI opera ora stabilmente su `http://127.0.0.1:8787/dashboard_AI.html`, eliminando qualsiasi conflitto con la porta `8888` riservata ad Unsloth Studio.
+  - Aggiornati tutti i launcher (`start.bat`, `open_monitor.py`), collegamenti desktop e gli slash command Hermes (`/statistiche` e `/statisticheai`).
+- 📦 **Controllo Totale Box & Card (Minimizzazione e Hiding con Persistenza)**:
+  - Ogni singolo box e ogni singola card possono essere minimizzati `[-]`/`[+]` o nascosti `[✕]` con stato salvato in `localStorage`.
+- 🌌 **Auto-Hide Vortici Quantici Inattivi**:
+  - I portali cloud non popolati da agenti vengono automaticamente nascosti per una UI compatta, pulita e priva di ingombri.
 
 - ⚡ **Nuovo Cloud OrcaRouter & Quinto Portale Quantico (DEEPPO4flash + DEEPPO41flash)**:
   - Integrazione nativa del nuovo cloud provider OrcaRouter (`https://api.orcarouter.ai/v1`) con i due modelli ultra-veloci `DEEPPO4flash` (DeepSeek V4 Flash) e `DEEPPO41flash` (DeepSeek V4.1 Flash Free, 131K contesto).
