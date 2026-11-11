@@ -9,14 +9,18 @@ echo ========================================================
 echo.
 
 set "DEST_DIR=%LocalAppData%\hermes\skills\statistiche"
+set "DEST_AI_DIR=%LocalAppData%\hermes\skills\statisticheai"
 set "BIN_DIR=%LocalAppData%\hermes\bin"
 
-echo [1/3] Creazione directory skill in %DEST_DIR%...
+echo [1/3] Creazione directory skill in %DEST_DIR% e %DEST_AI_DIR%...
 if not exist "%DEST_DIR%\scripts" mkdir "%DEST_DIR%\scripts"
+if not exist "%DEST_AI_DIR%\scripts" mkdir "%DEST_AI_DIR%\scripts"
 
 echo [2/3] Copia file di definizione SKILL.md e launcher...
 copy /Y "skills\statistiche\SKILL.md" "%DEST_DIR%\SKILL.md" >nul
 copy /Y "skills\statistiche\scripts\open_monitor.py" "%DEST_DIR%\scripts\open_monitor.py" >nul
+copy /Y "skills\statisticheai\SKILL.md" "%DEST_AI_DIR%\SKILL.md" >nul
+copy /Y "skills\statisticheai\scripts\open_monitor.py" "%DEST_AI_DIR%\scripts\open_monitor.py" >nul
 
 echo [3/3] Registrazione comandi veloci in Hermes bin...
 if exist "%BIN_DIR%" (
@@ -27,6 +31,10 @@ if exist "%BIN_DIR%" (
     (
         echo @echo off
         echo python "%~dp0open_monitor.py" %%*
+    ) > "%BIN_DIR%\statisticheai.cmd"
+    (
+        echo @echo off
+        echo python "%~dp0open_monitor.py" %%*
     ) > "%BIN_DIR%\monitor.cmd"
 )
 
@@ -34,8 +42,8 @@ echo.
 echo ========================================================
 echo  Installazione completata con successo!
 echo  Ora puoi usare:
-echo   - /statistiche o /monitor in chat con qualsiasi agente
-echo   - Il comando "statistiche" da qualsiasi terminale
+echo   - /statistiche o /statisticheai in chat con qualsiasi agente Hermes
+echo   - Il comando "statistiche" o "statisticheai" da qualsiasi terminale
 echo ========================================================
 echo.
 pause

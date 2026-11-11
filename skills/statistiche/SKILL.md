@@ -8,11 +8,14 @@ platforms: [windows]
 metadata:
   hermes:
     tags: [monitoring, dashboard, retro, agent-telemetry, ollama, nvidia-nim, orcarouter, nous-research, radar-benchmark, moe, hexa-cloud, agent-doctor, golden-snapshot, box-minimization]
+    commands: [statistiche, statisticheai]
 ---
 
 # STATISTICAI Monitor Skill (v2.9.1)
 
-Opens and controls the **STATISTICAI v2.9.1** 16-bit retro arcade AI monitoring dashboard for all **13 Hermes agents** across local Ollama (:11434) & cloud engines in a dedicated native desktop application window (`http://127.0.0.1:8888/dashboard_AI.html`).
+Opens and controls the **STATISTICAI v2.9.1** 16-bit retro arcade AI monitoring dashboard for all **13 Hermes agents** across local Ollama (:11434) & cloud engines in a dedicated native desktop application window (`http://127.0.0.1:8787/dashboard_AI.html`).
+
+Invokable in Hermes via `/statistiche` or `/statisticheai`.
 
 ### Architectural Overview (v2.9.1):
 - **13 Total AI Agents (100% Operational & Verified)**:

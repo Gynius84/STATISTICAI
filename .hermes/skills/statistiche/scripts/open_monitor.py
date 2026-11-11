@@ -1,35 +1,134 @@
 """
-Hermes Skill Bridge - STATISTICHEAI
-Launcher dinamico cross-path per apertura dashboard in modalita' App Nativa.
+STATISTICHEAI v2.9 - Native Desktop App & Hermes Bridge Launcher
+Avvia il server in background (se non attivo) e apre la dashboard in modalità
+finestra "App Nativa" standalone (frameless, zero barre browser, stile desktop app).
 """
-import sys
-import os
-import subprocess
 
-CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-CANDIDATE_PATHS = [
-    os.path.abspath(os.path.join(CURRENT_DIR, "..", "..", "..", "open_monitor.py")),
-    os.path.abspath(os.path.join(CURRENT_DIR, "..", "..", "open_monitor.py")),
-    r"C:\Users\Gyniu\Desktop\progetti ai\STATISTICHEAI\VERSIONE2.0\open_monitor.py",
-]
+import os
+import sys
+import time
+import json
+import urllib.request
+import urllib.error
+import subprocess
+import webbrowser
+
+V2_DIR = os.path.dirname(os.path.abspath(__file__))
+if not os.path.exists(os.path.join(V2_DIR, "run_server.py")):
+    V2_DIR = r"C:\Users\Gyniu\OneDrive\Desktop\STATISTICAI"
+SERVER_SCRIPT = os.path.join(V2_DIR, "run_server.py")
+URL = "http://127.0.0.1:8787/dashboard_AI.html"
+HEALTH_URL = "http://127.0.0.1:8787/health"
+
+HERMES_PYTHON = r"C:\Users\Gyniu\AppData\Local\hermes\tools\python-3.14.7+20260901-win32-x64\python.exe"
+HERMES_PYTHONW = r"C:\Users\Gyniu\AppData\Local\hermes\tools\python-3.14.7+20260901-win32-x64\pythonw.exe"
+
+
+def is_server_online(timeout=0.8):
+    try:
+        req = urllib.request.Request(HEALTH_URL, headers={"User-Agent": "Launcher-Probe"})
+        with urllib.request.urlopen(req, timeout=timeout) as res:
+            if res.status == 200:
+                data = json.loads(res.read().decode("utf-8"))
+                return True, data.get("agents_count", 0)
+    except Exception:
+        pass
+    return False, 0
+
+
+def start_server_daemon():
+    online, count = is_server_online(timeout=0.5)
+    if online:
+        return True, count, "Server v2.9 gia' online su porta 8787"
+
+    py_exe = HERMES_PYTHONW if os.path.exists(HERMES_PYTHONW) else (
+        HERMES_PYTHON if os.path.exists(HERMES_PYTHON) else sys.executable
+    )
+
+    DETACHED_PROCESS = 0x00000008
+    CREATE_NEW_PROCESS_GROUP = 0x00000200
+    CREATE_NO_WINDOW = 0x08000000
+    flags = DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP | CREATE_NO_WINDOW
+
+    try:
+        subprocess.Popen(
+            [py_exe, SERVER_SCRIPT],
+            cwd=V2_DIR,
+            creationflags=flags,
+            close_fds=True
+        )
+    except Exception:
+        try:
+            subprocess.Popen([py_exe, SERVER_SCRIPT], cwd=V2_DIR)
+        except Exception as e2:
+            return False, 0, f"Errore avvio server: {e2}"
+
+    t0 = time.time()
+    while time.time() - t0 < 5.0:
+        time.sleep(0.3)
+        online, count = is_server_online(timeout=0.5)
+        if online:
+            return True, count, "Server v2.9 avviato con successo in background (porta 8787)"
+
+    return False, 0, "Timeout durante l'avvio del server"
+
+
+def find_native_browser():
+    candidates = [
+        r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe",
+        r"C:\Program Files\Microsoft\Edge\Application\msedge.exe",
+        r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+        r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+        r"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe",
+        os.path.expandvars(r"%LocalAppData%\Google\Chrome\Application\chrome.exe"),
+        os.path.expandvars(r"%LocalAppData%\Microsoft\Edge\Application\msedge.exe"),
+    ]
+    for c in candidates:
+        if os.path.exists(c):
+            return c
+    return None
+
+
+def launch_native_window():
+    browser = find_native_browser()
+    if browser:
+        args = [
+            browser,
+            f"--app={URL}",
+            "--window-size=1520,940",
+            "--window-position=100,45",
+            "--disable-features=Translate"
+        ]
+        try:
+            DETACHED_PROCESS = 0x00000008
+            CREATE_NO_WINDOW = 0x08000000
+            subprocess.Popen(args, creationflags=DETACHED_PROCESS | CREATE_NO_WINDOW)
+            return True, f"Aperto in modalita' App Nativa via {os.path.basename(browser)}"
+        except Exception:
+            pass
+
+    webbrowser.open(URL)
+    return True, "Aperto nel browser predefinito di sistema"
+
 
 def main():
-    target = None
-    for p in CANDIDATE_PATHS:
-        if os.path.exists(p):
-            target = p
-            break
+    ok, count, msg = start_server_daemon()
+    if not ok:
+        print(f"[ERRORE] Impossibile avviare il monitoraggio: {msg}")
+        sys.exit(1)
 
-    if target:
-        res = subprocess.run([sys.executable, target] + sys.argv[1:], capture_output=True, text=True)
-        if res.stdout:
-            print(res.stdout.strip())
-        if res.stderr:
-            print(res.stderr.strip(), file=sys.stderr)
-        return res.returncode
-    else:
-        print("[ERRORE] File open_monitor.py master non trovato.", file=sys.stderr)
-        return 1
+    app_ok, app_msg = launch_native_window()
+    result = {
+        "ok": True,
+        "version": "2.9.1",
+        "agents_monitored": count,
+        "mode": "native_app" if "App Nativa" in app_msg else "browser",
+        "url": URL,
+        "message": f"STATISTICAI v2.9.1 attivo. {app_msg}. {count} agenti monitorati (5 Locali Ollama C: + 8 Titani Cloud)."
+    }
+    print(json.dumps(result, indent=2))
+    return 0
+
 
 if __name__ == "__main__":
     sys.exit(main())

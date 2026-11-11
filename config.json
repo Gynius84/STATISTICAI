@@ -1,7 +1,7 @@
 {
   "server": {
     "host": "127.0.0.1",
-    "port": 8888,
+    "port": 8787,
     "actions_enabled": true,
     "cache_ttl_seconds": 2
   },
@@ -172,7 +172,7 @@
       "base_model": "deepseek-v4-flash-free",
       "context_limit": 131072,
       "compress_threshold": 0.85,
-      "sprite": "sprites_agents/DEEPPO4flash.png",
+      "sprite": "sprites_agents/deeppo4flash.png",
       "is_cloud": true,
       "source": "Cloud Lightning Cluster",
       "parameters": "410B MoE Orca",
@@ -228,7 +228,8 @@
       "architecture": "Ollama Local",
       "modality": "Text + Tools",
       "thinking_level": "Standard",
-      "active_parameters": "4.0B (100% VRAM GPU RTX 4060)"
+      "active_parameters": "4.0B (100% VRAM GPU RTX 4060)",
+      "section_name": "LOCALI"
     },
     {
       "id": "hacker",
@@ -243,7 +244,7 @@
       "base_model": "hackerqwen",
       "context_limit": 65536,
       "compress_threshold": 0.85,
-      "sprite": "sprites_agents/HACKER.png",
+      "sprite": "sprites_agents/hacker.png",
       "is_cloud": false,
       "source": "Ollama (Locale C:)",
       "parameters": "Standard",
@@ -260,10 +261,11 @@
         "throughput": 70
       },
       "model_notes": "Modello Dense Transformer ottimizzato per esecuzione autonoma Hermes.",
-      "architecture": "GGUF Ollama (Locale C:)",
+      "architecture": "Ollama Local",
       "modality": "Text + Tools",
       "thinking_level": "Standard",
-      "active_parameters": "N/D"
+      "active_parameters": "N/D",
+      "section_name": "LOCALI"
     },
     {
       "id": "longcat",
@@ -278,7 +280,7 @@
       "base_model": "longcat-2.5",
       "context_limit": 131072,
       "compress_threshold": 0.85,
-      "sprite": "sprites_agents/longcat.png",
+      "sprite": "sprites_agents/LONGCAT.png",
       "is_cloud": true,
       "source": "Nous Research Cloud",
       "parameters": "Standard",
@@ -314,7 +316,7 @@
       "base_model": "mistral-large-4-1t-a52b",
       "context_limit": 262144,
       "compress_threshold": 0.85,
-      "sprite": "sprites_agents/mistral.png",
+      "sprite": "sprites_agents/MISTRAL.png",
       "is_cloud": true,
       "source": "NVIDIA NIM Cloud",
       "parameters": "Standard",
@@ -334,7 +336,8 @@
       "architecture": "NVIDIA NIM Cloud Enterprise",
       "modality": "Text + Tools",
       "thinking_level": "Standard",
-      "active_parameters": "N/D"
+      "active_parameters": "N/D",
+      "section_name": ""
     },
     {
       "id": "nemo",
@@ -381,11 +384,11 @@
       "color": "#ec4899",
       "provider": "ollama",
       "base_url": "http://127.0.0.1:11434/v1",
-      "model": "nemotronbolt",
+      "model": "nemotronbolt:latest",
       "base_model": "nemotronbolt",
       "context_limit": 65536,
       "compress_threshold": 0.85,
-      "sprite": "sprites_agents/NEMOHOUSE.png",
+      "sprite": "sprites_agents/nemohouse.png",
       "is_cloud": false,
       "source": "Ollama (Locale C:)",
       "parameters": "4.0B GGUF",
@@ -407,6 +410,42 @@
       "thinking_level": "Standard",
       "active_parameters": "4.0B (100% VRAM GPU RTX 4060)",
       "section_name": "LOCALI"
+    },
+    {
+      "id": "nemosloth",
+      "profile": "nemosloth",
+      "name": "NEMOSLOTH",
+      "title": "Agente Hermes",
+      "group": "TEAM CLOUD TITANS",
+      "color": "#10b981",
+      "provider": "nvidia",
+      "base_url": "http://127.0.0.1:8888/v1",
+      "model": "nvidia/NVIDIA-Nemotron-3.5-Bolt-E4B-4GB",
+      "base_model": "NVIDIA-Nemotron-3.5-Bolt-E4B-4GB",
+      "context_limit": 131072,
+      "compress_threshold": 0.85,
+      "sprite": "sprites_agents/nemosloth.png",
+      "is_cloud": true,
+      "source": "NVIDIA NIM Cloud",
+      "section_name": "LOCALI",
+      "parameters": "4.0B GGUF",
+      "architecture_type": "Bolt Dense Transformer (4.0B GGUF Q4_K_M)",
+      "architecture_tag": "dense",
+      "estimated_speed_tps": "~52 tok/s (100% VRAM GPU Zero-Swap)",
+      "tps_value": 52,
+      "benchmarks": {
+        "coding": 88,
+        "reasoning": 90,
+        "knowledge": 88,
+        "agentic": 94,
+        "vision": 20,
+        "throughput": 96
+      },
+      "model_notes": "NVIDIA Nemotron-3.5 Bolt E4B: ultra-veloce, 100% in VRAM GPU (0 swap) su porta 9931 (llama.cpp router), ottimizzato per function calling e workflow autonomi.",
+      "architecture": "NVIDIA NIM Cloud Enterprise",
+      "modality": "Text + Tools",
+      "thinking_level": "Standard",
+      "active_parameters": "4.0B (100% VRAM GPU RTX 4060)"
     },
     {
       "id": "nomotron",

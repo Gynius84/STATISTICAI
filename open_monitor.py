@@ -17,8 +17,8 @@ V2_DIR = os.path.dirname(os.path.abspath(__file__))
 if not os.path.exists(os.path.join(V2_DIR, "run_server.py")):
     V2_DIR = r"C:\Users\Gyniu\OneDrive\Desktop\STATISTICAI"
 SERVER_SCRIPT = os.path.join(V2_DIR, "run_server.py")
-URL = "http://127.0.0.1:8888/dashboard_AI.html"
-HEALTH_URL = "http://127.0.0.1:8888/health"
+URL = "http://127.0.0.1:8787/dashboard_AI.html"
+HEALTH_URL = "http://127.0.0.1:8787/health"
 
 HERMES_PYTHON = r"C:\Users\Gyniu\AppData\Local\hermes\tools\python-3.14.7+20260901-win32-x64\python.exe"
 HERMES_PYTHONW = r"C:\Users\Gyniu\AppData\Local\hermes\tools\python-3.14.7+20260901-win32-x64\pythonw.exe"
@@ -39,7 +39,7 @@ def is_server_online(timeout=0.8):
 def start_server_daemon():
     online, count = is_server_online(timeout=0.5)
     if online:
-        return True, count, "Server v2.9 gia' online su porta 8888"
+        return True, count, "Server v2.9 gia' online su porta 8787"
 
     py_exe = HERMES_PYTHONW if os.path.exists(HERMES_PYTHONW) else (
         HERMES_PYTHON if os.path.exists(HERMES_PYTHON) else sys.executable
@@ -68,7 +68,7 @@ def start_server_daemon():
         time.sleep(0.3)
         online, count = is_server_online(timeout=0.5)
         if online:
-            return True, count, "Server v2.9 avviato con successo in background (porta 8888)"
+            return True, count, "Server v2.9 avviato con successo in background (porta 8787)"
 
     return False, 0, "Timeout durante l'avvio del server"
 

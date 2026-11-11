@@ -1,60 +1,42 @@
 ---
 name: statistiche
-description: Open native STATISTICHEAI 16-bit dashboard monitor.
-version: 2.0.1
+description: Open native STATISTICAI 16-bit dashboard monitor (v2.9.1, 13 active Hermes agents: 5 local Ollama C: + 8 Cloud Titans across Ollama Cloud, NVIDIA NIM, OrcaRouter, and Nous Research, Quantum Vortices with Auto-Hide, Real-Time 4-Room Routing Casetta/Ufficio/Infermeria/Cimitero, Box & Card Minimization & Hiding, Standby Ollama Cloud 429 Cemetery routing, Golden Snapshot & 1-Click Healing Engine).
+version: 2.9.1
 author: Gyniu, Hermes Agent
 license: MIT
 platforms: [windows]
 metadata:
   hermes:
-    tags: [monitoring, dashboard, retro, agent-telemetry, ollama]
+    tags: [monitoring, dashboard, retro, agent-telemetry, ollama, nvidia-nim, orcarouter, nous-research, radar-benchmark, moe, hexa-cloud, agent-doctor, golden-snapshot, box-minimization]
+    commands: [statistiche, statisticheai]
 ---
 
-# STATISTICHEAI Monitor Skill
+# STATISTICAI Monitor Skill (v2.9.1)
 
-Opens and controls the STATISTICHEAI 16-bit retro arcade AI monitoring dashboard for Hermes agents and Ollama (local + cloud models) in a dedicated native desktop application window.
+Opens and controls the **STATISTICAI v2.9.1** 16-bit retro arcade AI monitoring dashboard for all **13 Hermes agents** across local Ollama (:11434) & cloud engines in a dedicated native desktop application window (`http://127.0.0.1:8787/dashboard_AI.html`).
 
-## When to Use
+Invokable in Hermes via `/statistiche` or `/statisticheai`.
 
-- User asks to "open monitor", "show dashboard", "apri statistiche", "mostra monitoraggio", or check agent health/telemetry.
-- Triggered by slash command `/statistiche` or `/monitor`.
-- User wants to view real-time VRAM, tokens, session memory, or agent status without leaving Hermes.
+### Architectural Overview (v2.9.1):
+- **13 Total AI Agents (100% Operational & Verified)**:
+  - **5 Local Engines (Ollama :11434, Disco C:, RTX 4060 GPU VRAM)**:
+    - `GynBot1`: Nemotronbolt (4.0B GGUF) • Team Sviluppo
+    - `GEMMO`: Gemma:latest • Team Sviluppo
+    - `NEMOHOUSE`: Nemotronbolt • Team Sviluppo
+    - `HACKER`: HackerQwen • Team Sviluppo
+    - `VISION`: Vision7b:latest • Team Visual Audit
+  - **8 Cloud Titans (0 MB VRAM Overhead)**:
+    - `DEEPPO4flash`: DeepSeek V4 Flash • OrcaRouter Cloud (131K Context)
+    - `DEEPPO41flash`: DeepSeek V4.1 Flash • OrcaRouter Cloud (131K Context)
+    - `LONGCAT`: Meituan Longcat 2.5 Free • Nous Research Cloud (131K Context)
+    - `NEMOTRON`: Nemotron-3 Ultra 550B • NVIDIA NIM Cloud
+    - `MISTRAL`: Mistral Large 4 1T • NVIDIA NIM Cloud
+    - `BEAM`: 501B MoE Cloud • Ollama Cloud (In STANDBY / Cimitero per Quota 429)
+    - `BEAMO`: 501B MoE Cloud • Ollama Cloud (In STANDBY / Cimitero per Quota 429)
+    - `NEMO`: Nemotron-3 Ultra 550B • Ollama Cloud (In STANDBY / Cimitero per Quota 429)
 
-## How to Run
-
-Execute the launcher script through Python:
-
-```bash
-python scripts/open_monitor.py
-```
-
-Or invoke via command shortcut:
-```bash
-statistiche
-```
-
-## Quick Reference
-
-| Action | Command |
-|---|---|
-| Open Native App | `python scripts/open_monitor.py` |
-| Fast CLI | `statistiche` |
-| Direct URL | `http://127.0.0.1:8888/dashboard_AI.html` |
-| Health Check | `http://127.0.0.1:8888/health` |
-
-## Procedure
-
-1. Run `python scripts/open_monitor.py`.
-2. The launcher automatically verifies if the background server daemon on port 8888 is active.
-3. If not active, it launches `run_server.py` silently in the background with BelowNormal priority.
-4. It launches the frameless native app window (Microsoft Edge or Google Chrome standalone mode) with 1480x920 dimensions.
-5. Report to the user that the dashboard is open and state how many agents are currently monitored.
-
-## Pitfalls
-
-- Does not interfere with existing browser sessions: `http://127.0.0.1:8888/dashboard_AI.html` remains accessible simultaneously in any web browser.
-- Operates under Zero-Touch rule: pure observer, never modifies model weights, prompt context, or system configurations.
-
-## Verification
-
-Run the script and check that JSON output confirms `"ok": true` and `"mode": "native_app"`.
+### Key Features (v2.9.1):
+1. **Box & Card Level Minimization & Hiding**: Every box and individual agent card can be moved, minimized (`[-]`/`[+]`), or hidden (`[✕]`) with full persistence in `localStorage`.
+2. **Auto-Hide Empty Quantum Vortices**: Quantum cloud portals with 0 active agents (e.g. OpenRouter, Google AI) are automatically hidden, while active clouds (Nous Research, OrcaRouter, NVIDIA NIM, Ollama Cloud) are displayed with real-time particle animations.
+3. **Standby Detection & Cemetery**: Agents in Hermes STANDBY category or with 429 quota exhaustion are placed in the Cemetery room with 0 HP and 1-click resurrection checks.
+4. **Autonomous Avatar Discovery**: Sprites are dynamically mapped from Hermes profiles assets.

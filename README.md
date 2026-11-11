@@ -207,7 +207,7 @@ Fai doppio clic sul file:
 start.bat
 ```
 Lo script avvia il server in background a priorità `BelowNormal` (consumo CPU < 1%) e apre automaticamente la dashboard nel tuo browser predefinito su:
-👉 **`http://127.0.0.1:8888/dashboard_AI.html`**
+👉 **`http://127.0.0.1:8787/dashboard_AI.html`**
 
 Per arrestare il server:
 ```cmd
@@ -220,7 +220,7 @@ python run_server.py
 ```
 Quindi apri nel browser:
 ```
-http://127.0.0.1:8888/dashboard_AI.html
+http://127.0.0.1:8787/dashboard_AI.html
 ```
 
 ---
@@ -310,7 +310,7 @@ VERSIONE2.0/
 ├── guard_engine.py      # Guardiano di integrità con baseline hashing SHA-256
 ├── cleanup_backups.py   # Modulo di pulizia e rotazione automatica snapshot (3 giorni)
 ├── install_skill.bat    # Script di installazione automatica della Skill in Hermes
-├── start.bat            # Script di avvio rapido Windows (porta 8888 / App Nativa)
+├── start.bat            # Script di avvio rapido Windows (porta 8787 / App Nativa)
 ├── stop.bat             # Script di arresto pulito tramite PID
 ├── skills/              # Definizione ufficiale della skill Hermes per il catalogo
 ├── .hermes/             # Configurazione project-local per rilevamento automatico

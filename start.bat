@@ -22,6 +22,6 @@ echo [1/2] Verifica server v2.9 e avvio in modalita' App Nativa...
 "%PYTHON_EXE%" open_monitor.py
 
 echo.
-echo Server STATISTICHEAI v2.9 attivo in background su http://127.0.0.1:8888.
+echo Server STATISTICHEAI v2.9.1 attivo in background su http://127.0.0.1:8787.
 echo Per arrestare il server, eseguire stop.bat.
 echo.
